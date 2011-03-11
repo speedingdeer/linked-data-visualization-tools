@@ -67,7 +67,7 @@ public class DbPediaDaoImpl implements GeoLinkedDataDao {
 	private final String endpointUri;
 
 	@Inject
-	public DbPediaDaoImpl(@Named(ParameterNames.ENDPOINT_URI) String endpointUri) {
+	public DbPediaDaoImpl(@Named(ParameterNames.ENDPOINT_URL) String endpointUri) {
 		this.endpointUri = endpointUri;
 	}
 

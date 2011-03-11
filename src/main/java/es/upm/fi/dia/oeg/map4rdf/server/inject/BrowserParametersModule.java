@@ -44,8 +44,8 @@ public class BrowserParametersModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		bindConstant().annotatedWith(Names.named(ParameterNames.ENDPOINT_URI)).to(
-				config.getConfigurationParamValue(ParameterNames.ENDPOINT_URI));
+		bindConstant().annotatedWith(Names.named(ParameterNames.ENDPOINT_URL)).to(
+				config.getConfigurationParamValue(ParameterNames.ENDPOINT_URL));
 
 		bindConstant().annotatedWith(Names.named(ParameterNames.GEOMETRY_MODEL)).to(
 				Constants.GeometryModel.valueOf(config.getConfigurationParamValue(ParameterNames.GEOMETRY_MODEL)));

@@ -45,7 +45,7 @@ public class BrowserModule extends AbstractModule {
 
 	@Provides
 	GeoLinkedDataDao provideDao(@Named(ParameterNames.GEOMETRY_MODEL) Constants.GeometryModel model,
-			@Named(ParameterNames.ENDPOINT_URI) String endpointUri) {
+			@Named(ParameterNames.ENDPOINT_URL) String endpointUri) {
 		switch (model) {
 		case OEG:
 			return new GeoLinkedDataDaoImpl(endpointUri);

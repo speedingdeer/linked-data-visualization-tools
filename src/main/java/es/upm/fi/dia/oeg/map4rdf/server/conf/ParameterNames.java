@@ -29,7 +29,7 @@ package es.upm.fi.dia.oeg.map4rdf.server.conf;
  */
 public class ParameterNames {
 
-	public static final String ENDPOINT_URI = "endpoint.uri";
+	public static final String ENDPOINT_URL = "endpoint.url";
 
 	public static final String GEOMETRY_MODEL = "geometry.model";
 

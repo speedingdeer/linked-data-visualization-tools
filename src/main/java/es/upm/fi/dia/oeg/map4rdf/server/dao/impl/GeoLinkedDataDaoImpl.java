@@ -76,7 +76,7 @@ public class GeoLinkedDataDaoImpl implements GeoLinkedDataDao {
 
 	@Inject
 	public GeoLinkedDataDaoImpl(
-			@Named(ParameterNames.ENDPOINT_URI) String endpointUri) {
+			@Named(ParameterNames.ENDPOINT_URL) String endpointUri) {
 		this.endpointUri = endpointUri;
 	}
 
