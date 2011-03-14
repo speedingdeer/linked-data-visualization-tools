@@ -25,6 +25,7 @@
 package es.upm.fi.dia.oeg.map4rdf.share;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -32,6 +33,8 @@ import java.util.Set;
  * @author Alexander De Leon
  */
 public class Resource implements HasUri, Serializable {
+
+	private static Set<String> EMPTY_SET = Collections.emptySet();
 
 	private String uri;
 	private HashMap<String, String> labels;
@@ -84,6 +87,13 @@ public class Resource implements HasUri, Serializable {
 		type = new Resource(typeUri);
 	}
 
+	public Set<String> getLangs() {
+		if (labels == null) {
+			return EMPTY_SET;
+		}
+		return labels.keySet();
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -112,10 +122,6 @@ public class Resource implements HasUri, Serializable {
 			return false;
 		}
 		return true;
-	}
-	
-	public Set<String> getLangs(){
-		return labels.keySet();	
 	}
 
 }

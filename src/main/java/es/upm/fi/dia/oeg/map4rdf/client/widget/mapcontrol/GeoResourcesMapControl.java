@@ -44,10 +44,10 @@ import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
 import es.upm.fi.dia.oeg.map4rdf.client.util.LocaleUtil;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.Geometry;
+import es.upm.fi.dia.oeg.map4rdf.share.Geometry.Type;
 import es.upm.fi.dia.oeg.map4rdf.share.GoogleMapsAdapters;
 import es.upm.fi.dia.oeg.map4rdf.share.Point;
 import es.upm.fi.dia.oeg.map4rdf.share.PolyLine;
-import es.upm.fi.dia.oeg.map4rdf.share.Geometry.Type;
 
 /**
  * @author Alexander De Leon
@@ -55,85 +55,90 @@ import es.upm.fi.dia.oeg.map4rdf.share.Geometry.Type;
 public class GeoResourcesMapControl extends LayerControl {
 
 	private LatLng latLong;
-	
+
 	public void drawGeoResouces(List<GeoResource> resources, final BrowserMessages geoMessages) {
 		for (final GeoResource resource : resources) {
 			for (Geometry geometry : resource.getGeometries()) {
 				drawGeometry(geometry, new ClickHandler() {
 
-					/*@Override
-					public void onClick(ClickEvent event) {
-						Window.open(resource.getUri(), resource.getUri(), null);
-
-					}*/
+					/*
+					 * @Override public void onClick(ClickEvent event) {
+					 * Window.open(resource.getUri(), resource.getUri(), null);
+					 * 
+					 * }
+					 */
 					@Override
 					public void onClick(ClickEvent event) {
-						//Window.open(resource.getUri(), resource.getUri(), null);
+						// Window.open(resource.getUri(), resource.getUri(),
+						// null);
 						InfoWindowContent iwc;
 						String labelText = "";
 						Set<String> langs = resource.getLangs();
 						Set<String> usedLangs = new HashSet<String>();
-						String userLang = LocaleUtil.getClientLanguage();						
-						
+						String userLang = LocaleUtil.getClientLanguage();
+
 						int count = 0;
-						if (langs.contains(userLang)){
-							labelText = "<b>"+resource.getLabel(userLang)+" ("+userLang+")</b><br>";
+						if (langs.contains(userLang)) {
+							labelText = "<b>" + resource.getLabel(userLang) + " (" + userLang + ")</b><br>";
 							usedLangs.add(userLang);
 							count++;
 						}
-						
-						if (userLang!="es" && langs.contains("es") && !usedLangs.contains("es")){
-							labelText = labelText+"<b>"+resource.getLabel("es")+" (es)</b><br>";
+
+						if (userLang != "es" && langs.contains("es") && !usedLangs.contains("es")) {
+							labelText = labelText + "<b>" + resource.getLabel("es") + " (es)</b><br>";
 							usedLangs.add("es");
 							count++;
 						}
-						
-						if (userLang!="en" && langs.contains("en") && !usedLangs.contains("en")){
-							labelText = labelText+"<b>"+resource.getLabel("en")+" (en)</b><br>";
+
+						if (userLang != "en" && langs.contains("en") && !usedLangs.contains("en")) {
+							labelText = labelText + "<b>" + resource.getLabel("en") + " (en)</b><br>";
 							usedLangs.add("en");
 							count++;
 						}
-						
-						if (count<3 && langs.size()!=0){
-							if (count<3 && langs.size()!=0){
+
+						if (count < 3 && langs.size() != 0) {
+							if (count < 3 && langs.size() != 0) {
 								Iterator<String> iterator = langs.iterator();
-								while (iterator.hasNext()){
+								while (iterator.hasNext()) {
 									String newLang = iterator.next();
-									if (!usedLangs.contains(newLang)){
-										if (newLang!="" && newLang.length()>0)
-											labelText = labelText+"<b>"+resource.getLabel(newLang)+" ("+newLang+")</b><br>";
-										else
-											labelText = labelText+"<b>"+resource.getLabel(newLang)+"</b><br>";
-										
+									if (!usedLangs.contains(newLang)) {
+										if (newLang != "" && newLang.length() > 0) {
+											labelText = labelText + "<b>" + resource.getLabel(newLang) + " (" + newLang
+													+ ")</b><br>";
+										} else {
+											labelText = labelText + "<b>" + resource.getLabel(newLang) + "</b><br>";
+										}
+
 										usedLangs.add(newLang);
 										count++;
-										if (count==3)
+										if (count == 3) {
 											break;
+										}
 									}
 								}
 							}
 						}
-						/*String label = resource.getLabel(LocaleUtil.getClientLanguage());
-						
-						if (label==null)
-							label=resource.getLabel("es");
-						if (label==null)
-							label=resource.getLabel("ca");
-						if (label==null)
-							label=resource.getLabel("gl");
-						if (label==null)
-							label=resource.getLabel("eu");*/
+						/*
+						 * String label =
+						 * resource.getLabel(LocaleUtil.getClientLanguage());
+						 * 
+						 * if (label==null) label=resource.getLabel("es"); if
+						 * (label==null) label=resource.getLabel("ca"); if
+						 * (label==null) label=resource.getLabel("gl"); if
+						 * (label==null) label=resource.getLabel("eu");
+						 */
 
 						String uri = resource.getUri();
-						String text = labelText+"<br>";
-						if (resource.getFirstGeometry().getType()== Type.POINT){
+						String text = (labelText.length() == 0 ? uri : labelText) + "<br>";
+						if (resource.getFirstGeometry().getType() == Type.POINT) {
 							String latPoint = String.valueOf(latLong.getLatitude());
 							String longPoint = String.valueOf(latLong.getLongitude());
-							
-							text = text + "<b>"+geoMessages.latitude()+"</b>" + latPoint+"<br>";
-							text = text + "<b>"+geoMessages.longitude()+"</b>" + longPoint+"<br>";
+
+							text = text + "<b>" + geoMessages.latitude() + "</b>" + latPoint + "<br>";
+							text = text + "<b>" + geoMessages.longitude() + "</b>" + longPoint + "<br>";
 						}
-						iwc = new InfoWindowContent(text+"<br>"+geoMessages.information()+" <a href='"+resource.getUri()+"' target='_blank'>"+geoMessages.here()+"</a>");
+						iwc = new InfoWindowContent(text + "<br>" + geoMessages.information() + " <a href='"
+								+ resource.getUri() + "' target='_blank'>" + geoMessages.here() + "</a>");
 						getWindow().open(latLong, iwc);
 					}
 				});
@@ -157,8 +162,10 @@ public class GeoResourcesMapControl extends LayerControl {
 			});
 			addOverlay(marker);
 			break;
-		case POLYLINE://84002E rojo FF5B00 naranja
-			//Polyline line = new Polyline(GoogleMapsAdapters.getLatLngs(((PolyLine) geometry).getPoints()), "#0000ff", 2);
+		case POLYLINE:// 84002E rojo FF5B00 naranja
+			// Polyline line = new
+			// Polyline(GoogleMapsAdapters.getLatLngs(((PolyLine)
+			// geometry).getPoints()), "#0000ff", 2);
 			Polyline line = new Polyline(GoogleMapsAdapters.getLatLngs(((PolyLine) geometry).getPoints()), "#FF5B00", 3);
 			line.addPolylineClickHandler(new PolylineClickHandler() {
 				@Override
@@ -170,8 +177,8 @@ public class GeoResourcesMapControl extends LayerControl {
 			addOverlay(line);
 			break;
 		case POLYGON:
-			Polygon polygon = new Polygon(GoogleMapsAdapters
-					.getLatLngs(((es.upm.fi.dia.oeg.map4rdf.share.Polygon) geometry).getPoints()));
+			Polygon polygon = new Polygon(
+					GoogleMapsAdapters.getLatLngs(((es.upm.fi.dia.oeg.map4rdf.share.Polygon) geometry).getPoints()));
 			polygon.addPolygonClickHandler(new PolygonClickHandler() {
 				@Override
 				public void onClick(PolygonClickEvent event) {
