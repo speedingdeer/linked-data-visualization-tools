@@ -48,4 +48,8 @@ public class Configuration {
 		return properties.getProperty(param);
 	}
 
+	public boolean containsConfigurationParam(String param) {
+		return properties.containsKey(param);
+	}
+
 }

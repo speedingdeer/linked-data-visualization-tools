@@ -33,7 +33,7 @@ import com.google.inject.Inject;
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResource;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.DaoException;
-import es.upm.fi.dia.oeg.map4rdf.server.dao.GeoLinkedDataDao;
+import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 
 /**
@@ -41,10 +41,10 @@ import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
  */
 public class GetGeoResourceHandler implements ActionHandler<GetGeoResource, SingletonResult<GeoResource>> {
 
-	private final GeoLinkedDataDao dao;
+	private final Map4rdfDao dao;
 
 	@Inject
-	public GetGeoResourceHandler(GeoLinkedDataDao dao) {
+	public GetGeoResourceHandler(Map4rdfDao dao) {
 		this.dao = dao;
 	}
 

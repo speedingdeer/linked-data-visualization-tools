@@ -13,9 +13,10 @@ import com.google.inject.servlet.GuiceServletContextListener;
 
 import es.upm.fi.dia.oeg.map4rdf.server.conf.Configuration;
 import es.upm.fi.dia.oeg.map4rdf.server.conf.Constants;
+import es.upm.fi.dia.oeg.map4rdf.server.conf.FacetedBrowserConfiguration;
 import es.upm.fi.dia.oeg.map4rdf.server.inject.BrowserActionHandlerModule;
+import es.upm.fi.dia.oeg.map4rdf.server.inject.BrowserConfigModule;
 import es.upm.fi.dia.oeg.map4rdf.server.inject.BrowserModule;
-import es.upm.fi.dia.oeg.map4rdf.server.inject.BrowserParametersModule;
 import es.upm.fi.dia.oeg.map4rdf.server.inject.BrowserServletModule;
 
 /**
@@ -26,6 +27,7 @@ public class Bootstrapper extends GuiceServletContextListener {
 	private static final Logger LOG = Logger.getLogger(Bootstrapper.class.getName());
 
 	private Configuration config;
+	private FacetedBrowserConfiguration facetedBrowserConfiguration;
 
 	@Override
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
@@ -36,6 +38,15 @@ public class Bootstrapper extends GuiceServletContextListener {
 			servletContextEvent.getServletContext().setAttribute(Configuration.class.getName(), config);
 		} catch (IOException e) {
 			LOG.log(Level.SEVERE, "Unable to load configuration file", e);
+			throw new RuntimeException(e);
+		}
+
+		InputStream facetConfigIn = servletContextEvent.getServletContext().getResourceAsStream(
+				Constants.FACET_CONFIGURATION_FILE);
+		try {
+			facetedBrowserConfiguration = new FacetedBrowserConfiguration(facetConfigIn);
+		} catch (Exception e) {
+			LOG.log(Level.SEVERE, "Unable to load faceted broser configuration file", e);
 			throw new RuntimeException(e);
 		}
 		super.contextInitialized(servletContextEvent);
@@ -49,7 +60,7 @@ public class Bootstrapper extends GuiceServletContextListener {
 	@Override
 	protected Injector getInjector() {
 
-		return Guice.createInjector(new BrowserModule(), new BrowserParametersModule(config),
+		return Guice.createInjector(new BrowserModule(), new BrowserConfigModule(config, facetedBrowserConfiguration),
 				new BrowserServletModule(), new BrowserActionHandlerModule());
 	}
 

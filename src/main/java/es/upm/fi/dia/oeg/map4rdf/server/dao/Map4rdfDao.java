@@ -22,44 +22,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.share;
+package es.upm.fi.dia.oeg.map4rdf.server.dao;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
+import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
+import es.upm.fi.dia.oeg.map4rdf.share.Facet;
+import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
+import es.upm.fi.dia.oeg.map4rdf.share.GeoResourceOverlay;
+import es.upm.fi.dia.oeg.map4rdf.share.Resource;
+import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
+import es.upm.fi.dia.oeg.map4rdf.share.Year;
 
 /**
  * @author Alexander De Leon
  */
-public class FacetDefinition implements Serializable {
+public interface Map4rdfDao {
 
-	Facet facet;
-	ArrayList<FacetValue> allowedValues;
+	List<GeoResource> getGeoResources(BoundingBox boundingBox)
+			throws DaoException;
 
-	FacetDefinition() {
-		// for serialization
-		allowedValues = new ArrayList<FacetValue>();
-	}
+	GeoResource getGeoResource(String uri) throws DaoException;
 
-	public FacetDefinition(Facet facet) {
-		this();
-		this.facet = facet;
-	}
+	List<GeoResource> getGeoResources(BoundingBox boundingBox,
+			Set<FacetConstraint> constraints) throws DaoException;
 
-	public Facet getFacet() {
-		return facet;
-	}
+	List<GeoResource> getGeoResources(BoundingBox boundingBox,
+			Set<FacetConstraint> constraints, int max) throws DaoException;
 
-	public List<FacetValue> getAllowedValues() {
-		return allowedValues;
-	}
+	List<GeoResourceOverlay> getGeoResourceOverlays(
+			StatisticDefinition statisticDefinition, BoundingBox boundingBox,
+			Set<FacetConstraint> constraints) throws DaoException;
 
-	public void addAllowedValue(FacetValue value) {
-		allowedValues.add(value);
-	}
+	List<Facet> getFacets(String predicateUri, BoundingBox boundingBox)
+			throws DaoException;
 
-	public void removeAllowedValues(FacetValue value) {
-		allowedValues.remove(value);
-	}
+	List<Year> getYears(String datasetUri) throws DaoException;
 
+	List<Resource> getStatisticDatasets() throws DaoException;
 }

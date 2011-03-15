@@ -25,34 +25,45 @@
 package es.upm.fi.dia.oeg.map4rdf.server.inject;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Provides;
-import com.google.inject.name.Named;
+import com.google.inject.name.Names;
 
+import es.upm.fi.dia.oeg.map4rdf.server.conf.Configuration;
 import es.upm.fi.dia.oeg.map4rdf.server.conf.Constants;
+import es.upm.fi.dia.oeg.map4rdf.server.conf.FacetedBrowserConfiguration;
+import es.upm.fi.dia.oeg.map4rdf.server.conf.ParameterDefaults;
 import es.upm.fi.dia.oeg.map4rdf.server.conf.ParameterNames;
-import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
-import es.upm.fi.dia.oeg.map4rdf.server.dao.impl.DbPediaDaoImpl;
-import es.upm.fi.dia.oeg.map4rdf.server.dao.impl.GeoLinkedDataDaoImpl;
 
 /**
  * @author Alexander De Leon
  */
-public class BrowserModule extends AbstractModule {
+public class BrowserConfigModule extends AbstractModule {
+
+	private final Configuration config;
+	private final FacetedBrowserConfiguration facetedBrowserConfiguration;
+
+	public BrowserConfigModule(Configuration config, FacetedBrowserConfiguration facetedBrowserConfiguration) {
+		this.config = config;
+		this.facetedBrowserConfiguration = facetedBrowserConfiguration;
+	}
 
 	@Override
 	protected void configure() {
-	};
+		bind(Configuration.class).toInstance(config);
+		bind(FacetedBrowserConfiguration.class).toInstance(facetedBrowserConfiguration);
 
-	@Provides
-	Map4rdfDao provideDao(@Named(ParameterNames.GEOMETRY_MODEL) Constants.GeometryModel model,
-			@Named(ParameterNames.ENDPOINT_URL) String endpointUri) {
-		switch (model) {
-		case OEG:
-			return new GeoLinkedDataDaoImpl(endpointUri);
-		case DBPEDIA:
-			return new DbPediaDaoImpl(endpointUri);
+		bindConstant().annotatedWith(Names.named(ParameterNames.ENDPOINT_URL)).to(
+				config.getConfigurationParamValue(ParameterNames.ENDPOINT_URL));
+
+		bindConstant().annotatedWith(Names.named(ParameterNames.GEOMETRY_MODEL)).to(
+				Constants.GeometryModel.valueOf(config.getConfigurationParamValue(ParameterNames.GEOMETRY_MODEL)));
+
+		if (config.containsConfigurationParam(ParameterNames.FACETS_AUTO)) {
+			bindConstant().annotatedWith(Names.named(ParameterNames.FACETS_AUTO)).to(
+					Boolean.parseBoolean(config.getConfigurationParamValue(ParameterNames.FACETS_AUTO)));
+		} else {
+			bindConstant().annotatedWith(Names.named(ParameterNames.FACETS_AUTO)).to(
+					ParameterDefaults.FACETS_AUTO_DEFAULT);
 		}
-		// make compiler happy
-		return null;
+
 	}
 }

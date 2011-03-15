@@ -37,8 +37,8 @@ import es.upm.fi.dia.oeg.map4rdf.client.util.LocaleUtil;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.FacetWidget;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.event.FacetValueSelectionChangedEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.event.FacetValueSelectionChangedHandler;
-import es.upm.fi.dia.oeg.map4rdf.share.FacetDefinition;
-import es.upm.fi.dia.oeg.map4rdf.share.FacetValue;
+import es.upm.fi.dia.oeg.map4rdf.share.Facet;
+import es.upm.fi.dia.oeg.map4rdf.share.FacetGroup;
 
 /**
  * @author Alexander De Leon
@@ -57,17 +57,20 @@ public class FacetView extends Composite implements FacetPresenter.Display {
 	}
 
 	@Override
-	public void setFacets(List<FacetDefinition> facets) {
-		for (final FacetDefinition facetDefinition : facets) {
+	public void setFacets(List<FacetGroup> facets) {
+		for (final FacetGroup facetDefinition : facets) {
 			FacetWidget facet = new FacetWidget(resources.css());
-			facet.setLabel(facetDefinition.getFacet().getLabel());
-			for (FacetValue facetValue : facetDefinition.getAllowedValues()) {
+			facet.setLabel(facetDefinition.getLabel(LocaleUtil.getClientLanguage()));
+			for (Facet facetValue : facetDefinition.getFacets()) {
 				String label = facetValue.getLabel(LocaleUtil.getClientLanguage());
-				// TODO: This should only be temporary until we have all labels
-				// translated to english
-				if (label != null && label.length() > 0) {
-					facet.addFacetSelectionOption(facetValue.getId(), label);
+				if (label == null) {
+					label = facetValue.getDefaultLabel();
 				}
+				if (label == null) {
+					label = facetValue.getUri();
+				}
+				facet.addFacetSelectionOption(facetValue.getUri(), label);
+
 			}
 			facet.sort();
 
@@ -75,8 +78,8 @@ public class FacetView extends Composite implements FacetPresenter.Display {
 				@Override
 				public void onSelectionChanged(FacetValueSelectionChangedEvent event) {
 					if (handler != null) {
-						handler.onFacetSelectionChanged(facetDefinition.getFacet().getId(),
-								event.getSelectionOptionId(), event.getSelectionValue());
+						handler.onFacetSelectionChanged(facetDefinition.getUri(), event.getSelectionOptionId(),
+								event.getSelectionValue());
 					}
 				}
 			});

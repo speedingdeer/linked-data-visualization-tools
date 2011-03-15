@@ -37,4 +37,6 @@ public class ParameterNames {
 
 	public static final String LOGO_IMG_SRC = "ui.logo_src";
 
+	public static final String FACETS_AUTO = "facets.automactic";
+
 }

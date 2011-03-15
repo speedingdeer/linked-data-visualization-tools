@@ -35,7 +35,7 @@ import com.google.inject.Inject;
 
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResources;
 import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
-import es.upm.fi.dia.oeg.map4rdf.server.dao.GeoLinkedDataDao;
+import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 
 /**
@@ -46,10 +46,10 @@ public class GetGeoResourcesHandler implements
 
 	private static final List<GeoResource> EMPTY_RESULT = Collections
 			.emptyList();
-	private final GeoLinkedDataDao dao;
+	private final Map4rdfDao dao;
 
 	@Inject
-	public GetGeoResourcesHandler(GeoLinkedDataDao dao) {
+	public GetGeoResourcesHandler(Map4rdfDao dao) {
 		this.dao = dao;
 	}
 

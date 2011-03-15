@@ -22,30 +22,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.client.action;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import net.customware.gwt.dispatch.shared.Result;
-import es.upm.fi.dia.oeg.map4rdf.share.FacetGroup;
+package es.upm.fi.dia.oeg.map4rdf.server.conf;
 
 /**
  * @author Alexander De Leon
  */
-public class GetFacetDefinitionsResult implements Result {
+public class ConfigurationException extends Exception {
 
-	ArrayList<FacetGroup> facetDefintions = new ArrayList<FacetGroup>();
-
-	GetFacetDefinitionsResult() {
-		// for serialization
+	public ConfigurationException(String message, Throwable cause) {
+		super(message, cause);
 	}
 
-	public GetFacetDefinitionsResult(List<FacetGroup> definitions) {
-		facetDefintions.addAll(definitions);
+	public ConfigurationException(String message) {
+		super(message);
 	}
 
-	public List<FacetGroup> getFacetDefinitions() {
-		return facetDefintions;
+	public ConfigurationException(Throwable cause) {
+		super(cause);
 	}
+
 }

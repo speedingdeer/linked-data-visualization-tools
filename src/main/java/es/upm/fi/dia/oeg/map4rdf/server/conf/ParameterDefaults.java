@@ -22,33 +22,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.server.inject;
-
-import com.google.inject.AbstractModule;
-import com.google.inject.name.Names;
-
-import es.upm.fi.dia.oeg.map4rdf.server.conf.Configuration;
-import es.upm.fi.dia.oeg.map4rdf.server.conf.Constants;
-import es.upm.fi.dia.oeg.map4rdf.server.conf.ParameterNames;
+package es.upm.fi.dia.oeg.map4rdf.server.conf;
 
 /**
  * @author Alexander De Leon
  */
-public class BrowserParametersModule extends AbstractModule {
+public class ParameterDefaults {
 
-	private final Configuration config;
+	public static final boolean FACETS_AUTO_DEFAULT = true;
 
-	public BrowserParametersModule(Configuration config) {
-		this.config = config;
-	}
-
-	@Override
-	protected void configure() {
-		bindConstant().annotatedWith(Names.named(ParameterNames.ENDPOINT_URL)).to(
-				config.getConfigurationParamValue(ParameterNames.ENDPOINT_URL));
-
-		bindConstant().annotatedWith(Names.named(ParameterNames.GEOMETRY_MODEL)).to(
-				Constants.GeometryModel.valueOf(config.getConfigurationParamValue(ParameterNames.GEOMETRY_MODEL)));
-
-	}
 }

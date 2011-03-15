@@ -46,7 +46,7 @@ import de.micromata.opengis.kml.v_2_2_0.LineString;
 import de.micromata.opengis.kml.v_2_2_0.MultiGeometry;
 import de.micromata.opengis.kml.v_2_2_0.Placemark;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.DaoException;
-import es.upm.fi.dia.oeg.map4rdf.server.dao.GeoLinkedDataDao;
+import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
 import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.Geometry;
@@ -60,10 +60,10 @@ import es.upm.fi.dia.oeg.map4rdf.share.Polygon;
 @Singleton
 public class KmlService extends HttpServlet {
 
-	private final GeoLinkedDataDao dao;
+	private final Map4rdfDao dao;
 
 	@Inject
-	public KmlService(GeoLinkedDataDao dao) {
+	public KmlService(Map4rdfDao dao) {
 		this.dao = dao;
 	}
 

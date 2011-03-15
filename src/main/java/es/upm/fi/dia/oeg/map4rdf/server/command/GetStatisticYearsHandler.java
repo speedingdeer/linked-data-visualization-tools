@@ -34,7 +34,7 @@ import com.google.inject.Inject;
 
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetStatisticYears;
 import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
-import es.upm.fi.dia.oeg.map4rdf.server.dao.GeoLinkedDataDao;
+import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
 import es.upm.fi.dia.oeg.map4rdf.share.Year;
 
 /**
@@ -42,10 +42,10 @@ import es.upm.fi.dia.oeg.map4rdf.share.Year;
  */
 public class GetStatisticYearsHandler implements ActionHandler<GetStatisticYears, ListResult<Year>> {
 
-	private final GeoLinkedDataDao dao;
+	private final Map4rdfDao dao;
 
 	@Inject
-	public GetStatisticYearsHandler(GeoLinkedDataDao dao) {
+	public GetStatisticYearsHandler(Map4rdfDao dao) {
 		this.dao = dao;
 	}
 

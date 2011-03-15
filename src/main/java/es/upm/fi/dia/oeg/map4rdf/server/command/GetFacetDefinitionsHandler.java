@@ -32,48 +32,60 @@ import net.customware.gwt.dispatch.server.ExecutionContext;
 import net.customware.gwt.dispatch.shared.ActionException;
 
 import com.google.inject.Inject;
-import com.hp.hpl.jena.vocabulary.RDF;
+import com.google.inject.name.Named;
 
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetFacetDefinitions;
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetFacetDefinitionsResult;
+import es.upm.fi.dia.oeg.map4rdf.server.conf.ConfigurationException;
+import es.upm.fi.dia.oeg.map4rdf.server.conf.FacetedBrowserConfiguration;
+import es.upm.fi.dia.oeg.map4rdf.server.conf.ParameterNames;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.DaoException;
-import es.upm.fi.dia.oeg.map4rdf.server.dao.GeoLinkedDataDao;
+import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
+import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.Facet;
-import es.upm.fi.dia.oeg.map4rdf.share.FacetDefinition;
-import es.upm.fi.dia.oeg.map4rdf.share.FacetValue;
+import es.upm.fi.dia.oeg.map4rdf.share.FacetGroup;
 
 /**
  * @author Alexander De Leon
  */
 public class GetFacetDefinitionsHandler implements ActionHandler<GetFacetDefinitions, GetFacetDefinitionsResult> {
 
-	private final GeoLinkedDataDao dao;
+	private final Map4rdfDao dao;
+	private final FacetedBrowserConfiguration facetedBrowserConfiguration;
+	private final boolean automaticFacets;
 
 	@Inject
-	public GetFacetDefinitionsHandler(GeoLinkedDataDao dao) {
+	public GetFacetDefinitionsHandler(Map4rdfDao dao, FacetedBrowserConfiguration facetedBrowserConfiguration,
+			@Named(ParameterNames.FACETS_AUTO) boolean automaticFacets) {
 		this.dao = dao;
+		this.facetedBrowserConfiguration = facetedBrowserConfiguration;
+		this.automaticFacets = automaticFacets;
 	}
 
 	@Override
 	public GetFacetDefinitionsResult execute(GetFacetDefinitions action, ExecutionContext context)
 			throws ActionException {
-		// TODO Do the real thing
-		List<FacetDefinition> definitions = new ArrayList<FacetDefinition>();
 
-		// rdf:type Facet
-		Facet typeFacet = new Facet(RDF.type.getURI());
-		typeFacet.setLabel("Type");
-
-		FacetDefinition typeFacetDef = new FacetDefinition(typeFacet);
+		List<FacetGroup> groups;
 		try {
-			for (FacetValue value : dao.getGeoResourceTypeFacetValues(action.getBoundingBox())) {
-				typeFacetDef.addAllowedValue(value);
-			}
-		} catch (DaoException e) {
+			groups = facetedBrowserConfiguration.getFacetGroups();
+		} catch (ConfigurationException e) {
 			throw new ActionException(e);
 		}
-		definitions.add(typeFacetDef);
-		return new GetFacetDefinitionsResult(definitions);
+
+		if (automaticFacets) {
+			for (FacetGroup group : groups) {
+				try {
+					for (Facet value : dao.getFacets(group.getUri(), action.getBoundingBox())) {
+						group.addFacet(value);
+					}
+				} catch (DaoException e) {
+					throw new ActionException(e);
+				}
+			}
+		}
+
+		return new GetFacetDefinitionsResult(groups);
 	}
 
 	@Override
@@ -85,7 +97,20 @@ public class GetFacetDefinitionsHandler implements ActionHandler<GetFacetDefinit
 	public void rollback(GetFacetDefinitions action, GetFacetDefinitionsResult result, ExecutionContext context)
 			throws ActionException {
 		// nothing to do
-
 	}
 
+	/* ----------------------- helper methods -- */
+	private List<FacetGroup> populateFacetGroupsAutomatic(List<FacetGroup> facets, BoundingBox boundingBox)
+			throws DaoException {
+		List<FacetGroup> groups = new ArrayList<FacetGroup>();
+
+		for (FacetGroup facetGroup : facets) {
+			for (Facet value : dao.getFacets(null, boundingBox)) {
+				facetGroup.addFacet(value);
+			}
+
+			groups.add(facetGroup);
+		}
+		return groups;
+	}
 }

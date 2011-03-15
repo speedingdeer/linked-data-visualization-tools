@@ -22,76 +22,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.share;
+package es.upm.fi.dia.oeg.map4rdf.server.vocabulary;
 
-import java.io.Serializable;
-import java.util.HashMap;
+import com.hp.hpl.jena.rdf.model.Property;
+import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.ResourceFactory;
 
 /**
  * @author Alexander De Leon
  */
-public class FacetValue implements Serializable {
-	private String id;
-	private HashMap<String, String> labels;
+public class Map4rdfVocabulary {
 
-	FacetValue() {
-		// for serialization
+	protected static final String uri = "http://code.google.com/p/map4rdf/wiki/ontology#";
+
+	protected static final Resource resource(String local) {
+		return ResourceFactory.createResource(uri + local);
 	}
 
-	public FacetValue(String id) {
-		this.id = id;
+	protected static final Property property(String local) {
+		return ResourceFactory.createProperty(uri, local);
 	}
 
-	public String getId() {
-		return id;
+	public static String getURI() {
+		return uri;
 	}
 
-	public String getLabel(String language) {
-		String label = null;
-		if (labels != null) {
-			label = labels.get(language);
-		}
-		if (label == null) {
-			return getId();
-		}
-		return label;
-	}
+	// Classes
+	public static final Resource FacetGroup = resource("FacetGroup");
 
-	public void addLabel(String language, String label) {
-		if (labels == null) {
-			labels = new HashMap<String, String>();
-		}
-		labels.put(language, label);
-	}
+	// Object properties
+	public static final Property facetPredicate = property("facetPredicate");
+	public static final Property facet = property("facet");
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		FacetValue other = (FacetValue) obj;
-		if (id == null) {
-			if (other.id != null) {
-				return false;
-			}
-		} else if (!id.equals(other.id)) {
-			return false;
-		}
-		return true;
-	}
+	// Data properties
+	public static final Property orden = property("orden");
 
 }

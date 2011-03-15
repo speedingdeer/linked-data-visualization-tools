@@ -31,6 +31,8 @@ public class Constants {
 
 	public static final String CONFIGURATION_FILE = "/WEB-INF/configuration.properties";
 
+	public static final String FACET_CONFIGURATION_FILE = "/WEB-INF/facets.ttl";
+
 	public static enum GeometryModel {
 		/**
 		 * OEG models geometries explicitly. The resource and its geometries are

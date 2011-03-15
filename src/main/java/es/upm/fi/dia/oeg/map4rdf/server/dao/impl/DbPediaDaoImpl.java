@@ -40,16 +40,15 @@ import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Literal;
-import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
 import es.upm.fi.dia.oeg.map4rdf.server.conf.ParameterNames;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.DaoException;
-import es.upm.fi.dia.oeg.map4rdf.server.dao.GeoLinkedDataDao;
+import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Geo;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
+import es.upm.fi.dia.oeg.map4rdf.share.Facet;
 import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
-import es.upm.fi.dia.oeg.map4rdf.share.FacetValue;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResourceOverlay;
 import es.upm.fi.dia.oeg.map4rdf.share.PointBean;
@@ -60,7 +59,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.Year;
 /**
  * @author Alexander De Leon
  */
-public class DbPediaDaoImpl implements GeoLinkedDataDao {
+public class DbPediaDaoImpl implements Map4rdfDao {
 
 	private static final Logger LOG = Logger.getLogger(DbPediaDaoImpl.class);
 
@@ -72,15 +71,13 @@ public class DbPediaDaoImpl implements GeoLinkedDataDao {
 	}
 
 	@Override
-	public List<GeoResource> getGeoResources(BoundingBox boundingBox)
-			throws DaoException {
+	public List<GeoResource> getGeoResources(BoundingBox boundingBox) throws DaoException {
 		return getGeoResources(boundingBox, null);
 	}
 
 	@Override
 	public GeoResource getGeoResource(String uri) throws DaoException {
-		QueryExecution execution = QueryExecutionFactory.sparqlService(
-				endpointUri, createGetResourceQuery(uri));
+		QueryExecution execution = QueryExecutionFactory.sparqlService(endpointUri, createGetResourceQuery(uri));
 
 		try {
 			ResultSet queryResult = execution.execSelect();
@@ -92,17 +89,14 @@ public class DbPediaDaoImpl implements GeoLinkedDataDao {
 					double lng = solution.getLiteral("lng").getDouble();
 
 					if (resource == null) {
-						resource = new GeoResource(uri, new PointBean(uri, lng,
-								lat));
+						resource = new GeoResource(uri, new PointBean(uri, lng, lat));
 					}
 					if (solution.contains("label")) {
 						Literal labelLiteral = solution.getLiteral("label");
-						resource.addLabel(labelLiteral.getLanguage(),
-								labelLiteral.getString());
+						resource.addLabel(labelLiteral.getLanguage(), labelLiteral.getString());
 					}
 				} catch (NumberFormatException e) {
-					LOG.warn("Invalid Latitud or Longitud value: "
-							+ e.getMessage());
+					LOG.warn("Invalid Latitud or Longitud value: " + e.getMessage());
 				}
 			}
 			return resource;
@@ -114,50 +108,47 @@ public class DbPediaDaoImpl implements GeoLinkedDataDao {
 	}
 
 	@Override
-	public List<GeoResource> getGeoResources(BoundingBox boundingBox,
-			Set<FacetConstraint> constraints) throws DaoException {
+	public List<GeoResource> getGeoResources(BoundingBox boundingBox, Set<FacetConstraint> constraints)
+			throws DaoException {
 		return getGeoResources(boundingBox, constraints, null);
 	}
 
 	@Override
-	public List<GeoResource> getGeoResources(BoundingBox boundingBox,
-			Set<FacetConstraint> constraints, int max) throws DaoException {
+	public List<GeoResource> getGeoResources(BoundingBox boundingBox, Set<FacetConstraint> constraints, int max)
+			throws DaoException {
 		return getGeoResources(boundingBox, constraints, new Integer(max));
 	}
 
 	@Override
-	public List<GeoResourceOverlay> getGeoResourceOverlays(
-			StatisticDefinition statisticDefinition, BoundingBox boundingBox,
-			Set<FacetConstraint> constraints) throws DaoException {
+	public List<GeoResourceOverlay> getGeoResourceOverlays(StatisticDefinition statisticDefinition,
+			BoundingBox boundingBox, Set<FacetConstraint> constraints) throws DaoException {
 		// TODO What can be done here?
 		return Collections.emptyList();
 	}
 
 	@Override
-	public List<FacetValue> getGeoResourceTypeFacetValues(
-			BoundingBox boundingBox) throws DaoException {
-		Map<String, FacetValue> result = new HashMap<String, FacetValue>();
+	public List<Facet> getFacets(String predicateUri, BoundingBox boundingBox) throws DaoException {
+		Map<String, Facet> result = new HashMap<String, Facet>();
 
 		StringBuilder queryBuffer = new StringBuilder();
 		queryBuffer.append("select distinct ?class ?label where { ");
 		queryBuffer.append("?x <" + Geo.lat + "> _:lat. ");
 		queryBuffer.append("?x <" + Geo.lng + "> _:lng. ");
-		queryBuffer.append("?x <" + RDF.type + "> ?class . ");
+		queryBuffer.append("?x <" + predicateUri + "> ?class . ");
 		queryBuffer.append("optional {?class <" + RDFS.label + "> ?label . }}");
 
-		QueryExecution execution = QueryExecutionFactory.sparqlService(
-				endpointUri, queryBuffer.toString());
+		QueryExecution execution = QueryExecutionFactory.sparqlService(endpointUri, queryBuffer.toString());
 
 		try {
 			ResultSet queryResult = execution.execSelect();
 			while (queryResult.hasNext()) {
 				QuerySolution solution = queryResult.next();
 				String uri = solution.getResource("class").getURI();
-				FacetValue value = null;
+				Facet value = null;
 				if (result.containsKey(uri)) {
 					value = result.get(uri);
 				} else {
-					value = new FacetValue(uri);
+					value = new Facet(uri);
 					result.put(uri, value);
 				}
 				if (solution.contains("label")) {
@@ -165,7 +156,7 @@ public class DbPediaDaoImpl implements GeoLinkedDataDao {
 					value.addLabel(label.getLanguage(), label.getString());
 				}
 			}
-			return new ArrayList<FacetValue>(result.values());
+			return new ArrayList<Facet>(result.values());
 		} catch (Exception e) {
 			throw new DaoException("Unable to execute SPARQL query", e);
 		} finally {
@@ -187,15 +178,14 @@ public class DbPediaDaoImpl implements GeoLinkedDataDao {
 
 	/* --------------------- helper methods --- */
 
-	private List<GeoResource> getGeoResources(BoundingBox boundingBox,
-			Set<FacetConstraint> constraints, Integer max) throws DaoException {
+	private List<GeoResource> getGeoResources(BoundingBox boundingBox, Set<FacetConstraint> constraints, Integer max)
+			throws DaoException {
 		// TODO: use location to restrict the query to the specifies geographic
 		// area.
 
 		HashMap<String, GeoResource> result = new HashMap<String, GeoResource>();
 
-		QueryExecution execution = QueryExecutionFactory.sparqlService(
-				endpointUri,
+		QueryExecution execution = QueryExecutionFactory.sparqlService(endpointUri,
 				createGetResourcesQuery(boundingBox, constraints, max));
 
 		try {
@@ -209,18 +199,15 @@ public class DbPediaDaoImpl implements GeoLinkedDataDao {
 
 					GeoResource resource = result.get(uri);
 					if (resource == null) {
-						resource = new GeoResource(uri, new PointBean(uri, lng,
-								lat));
+						resource = new GeoResource(uri, new PointBean(uri, lng, lat));
 						result.put(uri, resource);
 					}
 					if (solution.contains("label")) {
 						Literal labelLiteral = solution.getLiteral("label");
-						resource.addLabel(labelLiteral.getLanguage(),
-								labelLiteral.getString());
+						resource.addLabel(labelLiteral.getLanguage(), labelLiteral.getString());
 					}
 				} catch (NumberFormatException e) {
-					LOG.warn("Invalid Latitud or Longitud value: "
-							+ e.getMessage());
+					LOG.warn("Invalid Latitud or Longitud value: " + e.getMessage());
 				}
 			}
 
@@ -238,18 +225,15 @@ public class DbPediaDaoImpl implements GeoLinkedDataDao {
 	 * @param max
 	 * @return
 	 */
-	private String createGetResourcesQuery(BoundingBox boundingBox,
-			Set<FacetConstraint> constraints, Integer limit) {
-		StringBuilder query = new StringBuilder(
-				"SELECT distinct ?r ?lat ?lng ?label ");
+	private String createGetResourcesQuery(BoundingBox boundingBox, Set<FacetConstraint> constraints, Integer limit) {
+		StringBuilder query = new StringBuilder("SELECT distinct ?r ?lat ?lng ?label ");
 		query.append("WHERE { ");
 		query.append("?r <" + Geo.lat + "> ?lat. ");
 		query.append("?r <" + Geo.lng + "> ?lng . ");
 		query.append("OPTIONAL { ?r <" + RDFS.label + "> ?label } .");
 		if (constraints != null) {
 			for (FacetConstraint constraint : constraints) {
-				query.append("{ ?r <" + constraint.getFacetId() + "> <"
-						+ constraint.getFacetValueId() + ">. } UNION");
+				query.append("{ ?r <" + constraint.getFacetId() + "> <" + constraint.getFacetValueId() + ">. } UNION");
 			}
 			query.delete(query.length() - 5, query.length());
 		}
@@ -261,8 +245,7 @@ public class DbPediaDaoImpl implements GeoLinkedDataDao {
 	}
 
 	private String createGetResourceQuery(String uri) {
-		StringBuilder query = new StringBuilder(
-				"SELECT distinct ?lat ?lng ?label ");
+		StringBuilder query = new StringBuilder("SELECT distinct ?lat ?lng ?label ");
 		query.append("WHERE { ");
 		query.append("<" + uri + "> <" + Geo.lat + "> ?lat. ");
 		query.append("<" + uri + "> <" + Geo.lng + "> ?lng . ");

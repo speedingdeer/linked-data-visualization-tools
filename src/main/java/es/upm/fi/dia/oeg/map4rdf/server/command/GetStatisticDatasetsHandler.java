@@ -34,7 +34,7 @@ import com.google.inject.Inject;
 
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetStatisticDatasets;
 import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
-import es.upm.fi.dia.oeg.map4rdf.server.dao.GeoLinkedDataDao;
+import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
 import es.upm.fi.dia.oeg.map4rdf.share.Resource;
 
 /**
@@ -42,10 +42,10 @@ import es.upm.fi.dia.oeg.map4rdf.share.Resource;
  */
 public class GetStatisticDatasetsHandler implements ActionHandler<GetStatisticDatasets, ListResult<Resource>> {
 
-	private final GeoLinkedDataDao dao;
+	private final Map4rdfDao dao;
 
 	@Inject
-	public GetStatisticDatasetsHandler(GeoLinkedDataDao dao) {
+	public GetStatisticDatasetsHandler(Map4rdfDao dao) {
 		this.dao = dao;
 	}
 

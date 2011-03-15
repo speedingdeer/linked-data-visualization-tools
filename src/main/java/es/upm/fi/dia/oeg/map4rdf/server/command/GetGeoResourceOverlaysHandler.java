@@ -34,7 +34,7 @@ import com.google.inject.Inject;
 
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResourceOverlays;
 import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
-import es.upm.fi.dia.oeg.map4rdf.server.dao.GeoLinkedDataDao;
+import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResourceOverlay;
 
 /**
@@ -43,10 +43,10 @@ import es.upm.fi.dia.oeg.map4rdf.share.GeoResourceOverlay;
 public class GetGeoResourceOverlaysHandler implements
 		ActionHandler<GetGeoResourceOverlays, ListResult<GeoResourceOverlay>> {
 
-	private final GeoLinkedDataDao dao;
+	private final Map4rdfDao dao;
 
 	@Inject
-	public GetGeoResourceOverlaysHandler(GeoLinkedDataDao dao) {
+	public GetGeoResourceOverlaysHandler(Map4rdfDao dao) {
 		this.dao = dao;
 	}
 

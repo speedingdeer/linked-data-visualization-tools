@@ -42,7 +42,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.action.GetFacetDefinitionsResult;
 import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.FacetPresenter.Display.FacetSelectionHandler;
 import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
-import es.upm.fi.dia.oeg.map4rdf.share.FacetDefinition;
+import es.upm.fi.dia.oeg.map4rdf.share.FacetGroup;
 
 /**
  * @author Alexander De Leon
@@ -56,8 +56,8 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 			void onFacetSelectionChanged(String facetId, String facetValueId, boolean selected);
 		}
 
-		// TODO this should be decoupled fom the model
-		void setFacets(List<FacetDefinition> facets);
+		// TODO this should be decoupled from the model
+		void setFacets(List<FacetGroup> facets);
 
 		void setFacetSelectionChangedHandler(FacetSelectionHandler handler);
 	}

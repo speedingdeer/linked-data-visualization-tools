@@ -22,44 +22,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.server.dao;
+package es.upm.fi.dia.oeg.map4rdf.share;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
-import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
-import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
-import es.upm.fi.dia.oeg.map4rdf.share.FacetValue;
-import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
-import es.upm.fi.dia.oeg.map4rdf.share.GeoResourceOverlay;
-import es.upm.fi.dia.oeg.map4rdf.share.Resource;
-import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
-import es.upm.fi.dia.oeg.map4rdf.share.Year;
 
 /**
  * @author Alexander De Leon
  */
-public interface GeoLinkedDataDao {
+public class FacetGroup extends Resource {
 
-	List<GeoResource> getGeoResources(BoundingBox boundingBox)
-			throws DaoException;
+	private int order;
+	private ArrayList<Facet> facets;
 
-	GeoResource getGeoResource(String uri) throws DaoException;
+	public FacetGroup(String uri) {
+		super(uri);
+		facets = new ArrayList<Facet>();
+	}
 
-	List<GeoResource> getGeoResources(BoundingBox boundingBox,
-			Set<FacetConstraint> constraints) throws DaoException;
+	FacetGroup() {
+		// for serialization
+	}
 
-	List<GeoResource> getGeoResources(BoundingBox boundingBox,
-			Set<FacetConstraint> constraints, int max) throws DaoException;
+	public int getOrder() {
+		return order;
+	}
 
-	List<GeoResourceOverlay> getGeoResourceOverlays(
-			StatisticDefinition statisticDefinition, BoundingBox boundingBox,
-			Set<FacetConstraint> constraints) throws DaoException;
+	public void setOrder(int order) {
+		this.order = order;
+	}
 
-	List<FacetValue> getGeoResourceTypeFacetValues(BoundingBox boundingBox)
-			throws DaoException;
+	public List<Facet> getFacets() {
+		return facets;
+	}
 
-	List<Year> getYears(String datasetUri) throws DaoException;
+	public void addFacet(Facet value) {
+		if (!facets.contains(value)) {
+			facets.add(value);
+		}
+	}
 
-	List<Resource> getStatisticDatasets() throws DaoException;
+	public void removeFacet(Facet value) {
+		facets.remove(value);
+	}
+
 }
