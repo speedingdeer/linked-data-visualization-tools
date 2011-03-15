@@ -9,14 +9,14 @@
 	
 	<groupId>es.upm.fi.dia.oeg.geolinkeddata</groupId>
 	<artifactId>map4rdf</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Map4RDF</name>
 
 	<scm>
-		<connection>scm:svn:http://map4rdf.googlecode.com/svn/tags/map4rdf-0.0.2</connection>
-		<developerConnection>scm:svn:https://map4rdf.googlecode.com/svn/tags/map4rdf-0.0.2</developerConnection>
-		<url>https://map4rdf.googlecode.com/svn/tags/map4rdf-0.0.2</url>
+		<connection>scm:svn:http://map4rdf.googlecode.com/svn/trunk</connection>
+		<developerConnection>scm:svn:https://map4rdf.googlecode.com/svn/trunk/</developerConnection>
+		<url>https://map4rdf.googlecode.com/svn/trunk/</url>
 	</scm>
 	
 	<issueManagement>
