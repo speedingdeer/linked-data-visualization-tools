@@ -127,7 +127,7 @@
 				<version>1.2</version>
 				<configuration>
 					<modules>
-						<module>es.upm.fi.dia.oeg.map4rdf.map4rdf</module>
+						<module>es.upm.oeg.map4rdf.map4rdf</module>
 					</modules>
 					<!--  <buildOutputDirectory>${project.build.directory}/war</buildOutputDirectory>  -->
 				</configuration>

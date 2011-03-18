@@ -1,5 +1,5 @@
-<%@ page import="es.upm.fi.dia.oeg.map4rdf.server.conf.Configuration"%>
-<%@ page import="es.upm.fi.dia.oeg.map4rdf.server.conf.ParameterNames"%>
+<%@ page import="es.upm.oeg.map4rdf.server.conf.Configuration"%>
+<%@ page import="es.upm.oeg.map4rdf.server.conf.ParameterNames"%>
 <%
     Configuration conf = (Configuration) pageContext.getServletContext().getAttribute(Configuration.class.getName());
     String googleMapsKey = conf.getConfigurationParamValue(ParameterNames.GOOGLE_MAPS_API_KEY);
