@@ -54,7 +54,6 @@ import es.upm.fi.dia.oeg.map4rdf.share.Facet;
 import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResourceOverlay;
-import es.upm.fi.dia.oeg.map4rdf.share.Point;
 import es.upm.fi.dia.oeg.map4rdf.share.PointBean;
 import es.upm.fi.dia.oeg.map4rdf.share.Resource;
 import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
@@ -107,13 +106,22 @@ public class VCardDaoImpl implements Map4rdfDao {
 				QuerySolution solution = queryResult.next();
 				try {
 					String uri = solution.getResource("r").getURI();
-					String geoUri = solution.getResource("geo").getURI();
+					com.hp.hpl.jena.rdf.model.Resource geo = solution.getResource("geo");
+					String geoUri = "";
+					if (geo.isAnon()) {
+						geoUri = uri + "_geo" + geo.getId();
+					} else {
+						geoUri = geo.getURI();
+					}
+
+					double lat = solution.getLiteral("lat").getDouble();
+					double lng = solution.getLiteral("lng").getDouble();
 					GeoResource resource = result.get(uri);
 					if (resource == null) {
-						resource = new GeoResource(uri, getPoint(geoUri));
+						resource = new GeoResource(uri, new PointBean(geoUri, lng, lat));
 						result.put(uri, resource);
 					} else if (!resource.hasGeometry(geoUri)) {
-						resource.addGeometry(getPoint(geoUri));
+						resource.addGeometry(new PointBean(geoUri, lng, lat));
 					}
 					if (solution.contains("label")) {
 						Literal labelLiteral = solution.getLiteral("label");
@@ -141,11 +149,19 @@ public class VCardDaoImpl implements Map4rdfDao {
 			while (queryResult.hasNext()) {
 				QuerySolution solution = queryResult.next();
 				try {
-					String geoUri = solution.getResource("geo").getURI();
+					com.hp.hpl.jena.rdf.model.Resource geo = solution.getResource("geo");
+					String geoUri = "";
+					if (geo.isAnon()) {
+						geoUri = uri + "_geo" + geo.getId();
+					} else {
+						geoUri = geo.getURI();
+					}
+					double lat = solution.getLiteral("lat").getDouble();
+					double lng = solution.getLiteral("lng").getDouble();
 					if (resource == null) {
-						resource = new GeoResource(uri, getPoint(geoUri));
+						resource = new GeoResource(uri, new PointBean(geoUri, lng, lat));
 					} else if (!resource.hasGeometry(geoUri)) {
-						resource.addGeometry(getPoint(geoUri));
+						resource.addGeometry(new PointBean(geoUri, lng, lat));
 					}
 					if (solution.contains("label")) {
 						Literal labelLiteral = solution.getLiteral("label");
@@ -228,28 +244,6 @@ public class VCardDaoImpl implements Map4rdfDao {
 		}
 	}
 
-	public Point getPoint(String uri) throws DaoException {
-		QueryExecution execution = QueryExecutionFactory.sparqlService(endpointUri, createGetPointQuery(uri));
-		try {
-			ResultSet queryResult = execution.execSelect();
-			while (queryResult.hasNext()) {
-				QuerySolution solution = queryResult.next();
-				try {
-					double lat = solution.getLiteral("lat").getDouble();
-					double lng = solution.getLiteral("lng").getDouble();
-					return new PointBean(uri, lng, lat);
-				} catch (NumberFormatException e) {
-					LOG.warn("Invalid Latitud or Longitud value: " + e.getMessage());
-				}
-			}
-		} catch (Exception e) {
-			throw new DaoException("Unable to execute SPARQL query", e);
-		} finally {
-			execution.close();
-		}
-		return null;
-	}
-
 	@Override
 	public List<Year> getYears(String datasetUri) throws DaoException {
 		List<Year> years = new ArrayList<Year>();
@@ -321,18 +315,12 @@ public class VCardDaoImpl implements Map4rdfDao {
 		return query.toString();
 	}
 
-	private String createGetPointQuery(String uri) {
-		StringBuilder query = new StringBuilder("SELECT ?lat ?lng WHERE { ");
-		query.append("<" + uri + "> <" + VCard.latitude + ">  ?lat ; ");
-		query.append("<" + VCard.longitude + "> ?lng . ");
-		query.append("}");
-		return query.toString();
-	}
-
 	private String createGetResourcesQuery(BoundingBox boundingBox, Set<FacetConstraint> constraints, Integer limit) {
-		StringBuilder query = new StringBuilder("SELECT distinct ?r ?label ?geo");
+		StringBuilder query = new StringBuilder("SELECT distinct ?r ?label ?geo ?lat ?lng ");
 		query.append("WHERE { ");
 		query.append("?r <" + VCard.geo + ">  ?geo. ");
+		query.append("?geo <" + VCard.latitude + ">  ?lat . ");
+		query.append("?geo <" + VCard.longitude + "> ?lng . ");
 		query.append("OPTIONAL { ?r <" + RDFS.label + "> ?label } .");
 		if (constraints != null) {
 			for (FacetConstraint constraint : constraints) {
@@ -363,9 +351,11 @@ public class VCardDaoImpl implements Map4rdfDao {
 	}
 
 	private String createGetResourceQuery(String uri) {
-		StringBuilder query = new StringBuilder("SELECT ?label ?geo");
+		StringBuilder query = new StringBuilder("SELECT ?label ?geo ?lat ?lng");
 		query.append("WHERE { ");
 		query.append("<" + uri + "> <" + VCard.geo + ">  ?geo. ");
+		query.append("?geo <" + VCard.latitude + ">  ?lat . ");
+		query.append("?geo <" + VCard.longitude + "> ?lng . ");
 		query.append("OPTIONAL { <" + uri + "> <" + RDFS.label + "> ?label } .");
 		query.append("}");
 		return query.toString();
