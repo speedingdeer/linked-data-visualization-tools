@@ -22,40 +22,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.server.inject;
+package es.upm.fi.dia.oeg.map4rdf.server.vocabulary;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Provides;
-import com.google.inject.name.Named;
-import com.hp.hpl.jena.vocabulary.VCARD;
-
-import es.upm.fi.dia.oeg.map4rdf.server.conf.Constants;
-import es.upm.fi.dia.oeg.map4rdf.server.conf.ParameterNames;
-import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
-import es.upm.fi.dia.oeg.map4rdf.server.dao.impl.DbPediaDaoImpl;
-import es.upm.fi.dia.oeg.map4rdf.server.dao.impl.GeoLinkedDataDaoImpl;
-import es.upm.fi.dia.oeg.map4rdf.server.dao.impl.VCardDaoImpl;
+import com.hp.hpl.jena.rdf.model.Property;
+import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.ResourceFactory;
 
 /**
  * @author Alexander De Leon
  */
-public class BrowserModule extends AbstractModule {
+public class VCard {
 
-	@Override
-	protected void configure() {
-	};
+	protected static final String uri = "http://www.w3.org/2006/vcard/ns#";
 
-	@Provides
-	Map4rdfDao provideDao(@Named(ParameterNames.GEOMETRY_MODEL) Constants.GeometryModel model,
-			@Named(ParameterNames.ENDPOINT_URL) String endpointUri) {
-		switch (model) {
-		case OEG:
-			return new GeoLinkedDataDaoImpl(endpointUri);
-		case DBPEDIA:
-			return new DbPediaDaoImpl(endpointUri);
-		case VCARD:
-			return new VCardDaoImpl(endpointUri);
-		// make compiler happy
-		return null;
+	protected static final Resource resource(String local) {
+		return ResourceFactory.createResource(uri + local);
 	}
+
+	protected static final Property property(String local) {
+		return ResourceFactory.createProperty(uri, local);
+	}
+
+	// Classes
+
+	// Object Property
+	public static final Property geo = property("geo");
+
+	// Data properties
+	public static final Property latitude = property("latitude");
+	public static final Property longitude = property("longitude");
+
 }
