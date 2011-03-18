@@ -10,7 +10,7 @@
 	<groupId>es.upm.oeg.geolinkeddata</groupId>
 	<artifactId>map4rdf</artifactId>
 	<version>0.0.3-SNAPSHOT</version>
-	<packaging>ear</packaging>
+	<packaging>war</packaging>
 	<name>Map4RDF</name>
 
 	<scm>
@@ -127,7 +127,7 @@
 				<version>1.2</version>
 				<configuration>
 					<modules>
-						<module>es.upm.oeg.map4rdf.map4rdf</module>
+						<module>es.upm.fi.dia.oeg.map4rdf.map4rdf</module>
 					</modules>
 					<!--  <buildOutputDirectory>${project.build.directory}/war</buildOutputDirectory>  -->
 				</configuration>
@@ -142,13 +142,12 @@
 		</plugins>
 	</build>
 	
-    <repositories>
+	<repositories>
 		<repository>
 			<id>oeg-maven</id>
 			<name>OEG Maven Repository</name>
 			<url>http://oegdev.dia.fi.upm.es/maven/public/</url>
 		</repository>
 	</repositories>
-	
 
 </project>
