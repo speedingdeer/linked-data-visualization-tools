@@ -27,7 +27,6 @@ package es.upm.fi.dia.oeg.map4rdf.server.inject;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.name.Named;
-import com.hp.hpl.jena.vocabulary.VCARD;
 
 import es.upm.fi.dia.oeg.map4rdf.server.conf.Constants;
 import es.upm.fi.dia.oeg.map4rdf.server.conf.ParameterNames;
@@ -55,7 +54,9 @@ public class BrowserModule extends AbstractModule {
 			return new DbPediaDaoImpl(endpointUri);
 		case VCARD:
 			return new VCardDaoImpl(endpointUri);
+		}
 		// make compiler happy
 		return null;
+
 	}
 }
