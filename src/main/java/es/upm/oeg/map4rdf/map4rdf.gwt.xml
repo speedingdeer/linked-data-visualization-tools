@@ -18,7 +18,7 @@
 	<source path="share" />
 	<public path="public" />
 	
-	<entry-point class="es.upm.fi.dia.oeg.map4rdf.client.Browser"></entry-point>
+	<entry-point class="es.upm.oeg.map4rdf.client.Browser"></entry-point>
 	
 	<extend-property name="locale" values="es"/>
 	<extend-property name="locale" values="en"/>

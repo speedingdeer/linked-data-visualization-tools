@@ -67,7 +67,7 @@ public class DispatchServiceServlet extends net.customware.gwt.dispatch.server.s
 
 		SerializationPolicy serializationPolicy = null;
 
-		String contextRelativePath = "/es.upm.fi.dia.oeg.map4rdf.map4rdf/";
+		String contextRelativePath = "/es.upm.oeg.map4rdf.map4rdf/";
 
 		String serializationPolicyFilePath = SerializationPolicyLoader
 				.getSerializationPolicyFileName(contextRelativePath + strongName);

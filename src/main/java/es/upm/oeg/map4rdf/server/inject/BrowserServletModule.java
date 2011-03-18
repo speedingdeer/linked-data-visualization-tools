@@ -36,8 +36,8 @@ public class BrowserServletModule extends ServletModule {
 
 	@Override
 	protected void configureServlets() {
-		serve("/es.upm.fi.dia.oeg.map4rdf.map4rdf/dispatch").with(DispatchServiceServlet.class);
-		serve("/es.upm.fi.dia.oeg.map4rdf.map4rdf/kml").with(KmlService.class);
+		serve("/es.upm.oeg.map4rdf.map4rdf/dispatch").with(DispatchServiceServlet.class);
+		serve("/es.upm.oeg.map4rdf.map4rdf/kml").with(KmlService.class);
 	}
 
 }
