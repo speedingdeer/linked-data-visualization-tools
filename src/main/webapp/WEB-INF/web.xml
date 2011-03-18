@@ -18,7 +18,7 @@
 
    <!-- Bootstrapping -->
     <listener>
-  		<listener-class>es.upm.fi.dia.oeg.map4rdf.server.bootstrap.Bootstrapper</listener-class>
+  		<listener-class>es.upm.oeg.map4rdf.server.bootstrap.Bootstrapper</listener-class>
 	</listener>
   
 </web-app>
