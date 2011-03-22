@@ -1,0 +1,834 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY TR "http://www.w3.org/TR/" >
+    <!ENTITY time "http://www.w3.org/2006/time#" >
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY timezone "http://www.w3.org/2006/timezone#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.w3.org/2006/time#"
+     xml:base="http://www.w3.org/2006/time"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:time="http://www.w3.org/2006/time#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:timezone="http://www.w3.org/2006/timezone#"
+     xmlns:TR="http://www.w3.org/TR/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#">
+    <owl:Ontology rdf:about="">
+        <rdfs:comment
+            >An OWL Ontology of Time (OWL-Time).</rdfs:comment>
+        <rdfs:seeAlso rdf:resource="&TR;owl-time"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.w3.org/2006/time#after -->
+
+    <owl:ObjectProperty rdf:about="#after">
+        <owl:inverseOf rdf:resource="#before"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#before -->
+
+    <owl:ObjectProperty rdf:about="#before">
+        <rdf:type rdf:resource="&owl;TransitiveProperty"/>
+        <rdfs:range rdf:resource="#TemporalEntity"/>
+        <rdfs:domain rdf:resource="#TemporalEntity"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#dayOfWeek -->
+
+    <owl:ObjectProperty rdf:about="#dayOfWeek">
+        <rdfs:domain rdf:resource="#DateTimeDescription"/>
+        <rdfs:range rdf:resource="#DayOfWeek"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#hasBeginning -->
+
+    <owl:ObjectProperty rdf:about="#hasBeginning">
+        <rdfs:range rdf:resource="#Instant"/>
+        <rdfs:domain rdf:resource="#TemporalEntity"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#hasDateTimeDescription -->
+
+    <owl:ObjectProperty rdf:about="#hasDateTimeDescription">
+        <rdfs:range rdf:resource="#DateTimeDescription"/>
+        <rdfs:domain rdf:resource="#DateTimeInterval"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#hasDurationDescription -->
+
+    <owl:ObjectProperty rdf:about="#hasDurationDescription">
+        <rdfs:range rdf:resource="#DurationDescription"/>
+        <rdfs:domain rdf:resource="#TemporalEntity"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#hasEnd -->
+
+    <owl:ObjectProperty rdf:about="#hasEnd">
+        <rdfs:range rdf:resource="#Instant"/>
+        <rdfs:domain rdf:resource="#TemporalEntity"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#inDateTime -->
+
+    <owl:ObjectProperty rdf:about="#inDateTime">
+        <rdfs:range rdf:resource="#DateTimeDescription"/>
+        <rdfs:domain rdf:resource="#Instant"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#inside -->
+
+    <owl:ObjectProperty rdf:about="#inside">
+        <rdfs:range rdf:resource="#Instant"/>
+        <rdfs:domain rdf:resource="#Interval"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#intervalAfter -->
+
+    <owl:ObjectProperty rdf:about="#intervalAfter">
+        <owl:inverseOf rdf:resource="#intervalBefore"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#intervalBefore -->
+
+    <owl:ObjectProperty rdf:about="#intervalBefore">
+        <rdfs:range rdf:resource="#ProperInterval"/>
+        <rdfs:domain rdf:resource="#ProperInterval"/>
+        <rdfs:subPropertyOf rdf:resource="#before"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#intervalContains -->
+
+    <owl:ObjectProperty rdf:about="#intervalContains">
+        <owl:inverseOf rdf:resource="#intervalDuring"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#intervalDuring -->
+
+    <owl:ObjectProperty rdf:about="#intervalDuring">
+        <rdfs:range rdf:resource="#ProperInterval"/>
+        <rdfs:domain rdf:resource="#ProperInterval"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#intervalEquals -->
+
+    <owl:ObjectProperty rdf:about="#intervalEquals">
+        <rdfs:domain rdf:resource="#ProperInterval"/>
+        <rdfs:range rdf:resource="#ProperInterval"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#intervalFinishedBy -->
+
+    <owl:ObjectProperty rdf:about="#intervalFinishedBy">
+        <owl:inverseOf rdf:resource="#intervalFinishes"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#intervalFinishes -->
+
+    <owl:ObjectProperty rdf:about="#intervalFinishes">
+        <rdfs:range rdf:resource="#ProperInterval"/>
+        <rdfs:domain rdf:resource="#ProperInterval"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#intervalMeets -->
+
+    <owl:ObjectProperty rdf:about="#intervalMeets">
+        <rdfs:domain rdf:resource="#ProperInterval"/>
+        <rdfs:range rdf:resource="#ProperInterval"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#intervalMetBy -->
+
+    <owl:ObjectProperty rdf:about="#intervalMetBy">
+        <owl:inverseOf rdf:resource="#intervalMeets"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#intervalOverlappedBy -->
+
+    <owl:ObjectProperty rdf:about="#intervalOverlappedBy">
+        <owl:inverseOf rdf:resource="#intervalOverlaps"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#intervalOverlaps -->
+
+    <owl:ObjectProperty rdf:about="#intervalOverlaps">
+        <rdfs:range rdf:resource="#ProperInterval"/>
+        <rdfs:domain rdf:resource="#ProperInterval"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#intervalStartedBy -->
+
+    <owl:ObjectProperty rdf:about="#intervalStartedBy">
+        <owl:inverseOf rdf:resource="#intervalStarts"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#intervalStarts -->
+
+    <owl:ObjectProperty rdf:about="#intervalStarts">
+        <rdfs:domain rdf:resource="#ProperInterval"/>
+        <rdfs:range rdf:resource="#ProperInterval"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#timeZone -->
+
+    <owl:ObjectProperty rdf:about="#timeZone">
+        <rdfs:domain rdf:resource="#DateTimeDescription"/>
+        <rdfs:range rdf:resource="zone#TimeZone"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#unitType -->
+
+    <owl:ObjectProperty rdf:about="#unitType">
+        <rdfs:domain rdf:resource="#DateTimeDescription"/>
+        <rdfs:range rdf:resource="#TemporalUnit"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.w3.org/2006/time#day -->
+
+    <owl:DatatypeProperty rdf:about="#day">
+        <rdfs:range rdf:resource="&xsd;gDay"/>
+        <rdfs:domain rdf:resource="#DateTimeDescription"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#dayOfYear -->
+
+    <owl:DatatypeProperty rdf:about="#dayOfYear">
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+        <rdfs:domain rdf:resource="#DateTimeDescription"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#days -->
+
+    <owl:DatatypeProperty rdf:about="#days">
+        <rdfs:range rdf:resource="&xsd;decimal"/>
+        <rdfs:domain rdf:resource="#DurationDescription"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#hour -->
+
+    <owl:DatatypeProperty rdf:about="#hour">
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+        <rdfs:domain rdf:resource="#DateTimeDescription"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#hours -->
+
+    <owl:DatatypeProperty rdf:about="#hours">
+        <rdfs:range rdf:resource="&xsd;decimal"/>
+        <rdfs:domain rdf:resource="#DurationDescription"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#inXSDDateTime -->
+
+    <owl:DatatypeProperty rdf:about="#inXSDDateTime">
+        <rdfs:range rdf:resource="&xsd;dateTime"/>
+        <rdfs:domain rdf:resource="#Instant"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#minute -->
+
+    <owl:DatatypeProperty rdf:about="#minute">
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+        <rdfs:domain rdf:resource="#DateTimeDescription"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#minutes -->
+
+    <owl:DatatypeProperty rdf:about="#minutes">
+        <rdfs:range rdf:resource="&xsd;decimal"/>
+        <rdfs:domain rdf:resource="#DurationDescription"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#month -->
+
+    <owl:DatatypeProperty rdf:about="#month">
+        <rdfs:range rdf:resource="&xsd;gMonth"/>
+        <rdfs:domain rdf:resource="#DateTimeDescription"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#months -->
+
+    <owl:DatatypeProperty rdf:about="#months">
+        <rdfs:range rdf:resource="&xsd;decimal"/>
+        <rdfs:domain rdf:resource="#DurationDescription"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#second -->
+
+    <owl:DatatypeProperty rdf:about="#second">
+        <rdfs:range rdf:resource="&xsd;decimal"/>
+        <rdfs:domain rdf:resource="#DateTimeDescription"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#seconds -->
+
+    <owl:DatatypeProperty rdf:about="#seconds">
+        <rdfs:range rdf:resource="&xsd;decimal"/>
+        <rdfs:domain rdf:resource="#DurationDescription"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#week -->
+
+    <owl:DatatypeProperty rdf:about="#week">
+        <rdfs:range rdf:resource="&xsd;nonNegativeInteger"/>
+        <rdfs:domain rdf:resource="#DateTimeDescription"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#weeks -->
+
+    <owl:DatatypeProperty rdf:about="#weeks">
+        <rdfs:range rdf:resource="&xsd;decimal"/>
+        <rdfs:domain rdf:resource="#DurationDescription"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#xsdDateTime -->
+
+    <owl:DatatypeProperty rdf:about="#xsdDateTime">
+        <rdfs:range rdf:resource="&xsd;dateTime"/>
+        <rdfs:domain rdf:resource="#DateTimeInterval"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#year -->
+
+    <owl:DatatypeProperty rdf:about="#year">
+        <rdfs:range rdf:resource="&xsd;gYear"/>
+        <rdfs:domain rdf:resource="#DateTimeDescription"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.w3.org/2006/time#years -->
+
+    <owl:DatatypeProperty rdf:about="#years">
+        <rdfs:range rdf:resource="&xsd;decimal"/>
+        <rdfs:domain rdf:resource="#DurationDescription"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
+    
+
+
+    <!-- http://www.w3.org/2006/time#DateTimeDescription -->
+
+    <owl:Class rdf:about="#DateTimeDescription">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#dayOfYear"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hour"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#day"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#second"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#year"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#dayOfWeek"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#unitType"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#month"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#minute"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#week"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#timeZone"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/time#DateTimeInterval -->
+
+    <owl:Class rdf:about="#DateTimeInterval">
+        <rdfs:subClassOf rdf:resource="#ProperInterval"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/time#DayOfWeek -->
+
+    <owl:Class rdf:about="#DayOfWeek">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="#Wednesday"/>
+                    <rdf:Description rdf:about="#Tuesday"/>
+                    <rdf:Description rdf:about="#Friday"/>
+                    <rdf:Description rdf:about="#Monday"/>
+                    <rdf:Description rdf:about="#Saturday"/>
+                    <rdf:Description rdf:about="#Thursday"/>
+                    <rdf:Description rdf:about="#Sunday"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/time#DurationDescription -->
+
+    <owl:Class rdf:about="#DurationDescription">
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#months"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#days"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#years"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hours"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#minutes"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#weeks"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#seconds"/>
+                <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Instant -->
+
+    <owl:Class rdf:about="#Instant">
+        <rdfs:subClassOf rdf:resource="#TemporalEntity"/>
+        <owl:disjointWith rdf:resource="#ProperInterval"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Interval -->
+
+    <owl:Class rdf:about="#Interval">
+        <rdfs:subClassOf rdf:resource="#TemporalEntity"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/time#ProperInterval -->
+
+    <owl:Class rdf:about="#ProperInterval">
+        <rdfs:subClassOf rdf:resource="#Interval"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/time#TemporalEntity -->
+
+    <owl:Class rdf:about="#TemporalEntity">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:unionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="#Instant"/>
+                    <rdf:Description rdf:about="#Interval"/>
+                </owl:unionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/time#TemporalUnit -->
+
+    <owl:Class rdf:about="#TemporalUnit">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:oneOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="#unitDay"/>
+                    <rdf:Description rdf:about="#unitYear"/>
+                    <rdf:Description rdf:about="#unitMonth"/>
+                    <rdf:Description rdf:about="#unitMinute"/>
+                    <rdf:Description rdf:about="#unitWeek"/>
+                    <rdf:Description rdf:about="#unitSecond"/>
+                    <rdf:Description rdf:about="#unitHour"/>
+                </owl:oneOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Year -->
+
+    <owl:Class rdf:about="#Year">
+        <rdfs:subClassOf rdf:resource="#DurationDescription"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#days"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#months"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#seconds"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#years"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hours"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#weeks"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#minutes"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2006/timezone#TimeZone -->
+
+    <owl:Class rdf:about="zone#TimeZone"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.w3.org/2006/time#Friday -->
+
+    <DayOfWeek rdf:about="#Friday">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </DayOfWeek>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Monday -->
+
+    <DayOfWeek rdf:about="#Monday">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </DayOfWeek>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Saturday -->
+
+    <DayOfWeek rdf:about="#Saturday">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </DayOfWeek>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Sunday -->
+
+    <DayOfWeek rdf:about="#Sunday">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </DayOfWeek>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Thursday -->
+
+    <DayOfWeek rdf:about="#Thursday">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </DayOfWeek>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Tuesday -->
+
+    <owl:Thing rdf:about="#Tuesday">
+        <rdf:type rdf:resource="#DayOfWeek"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.w3.org/2006/time#Wednesday -->
+
+    <DayOfWeek rdf:about="#Wednesday">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </DayOfWeek>
+    
+
+
+    <!-- http://www.w3.org/2006/time#unitDay -->
+
+    <TemporalUnit rdf:about="#unitDay">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </TemporalUnit>
+    
+
+
+    <!-- http://www.w3.org/2006/time#unitHour -->
+
+    <owl:Thing rdf:about="#unitHour">
+        <rdf:type rdf:resource="#TemporalUnit"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.w3.org/2006/time#unitMinute -->
+
+    <owl:Thing rdf:about="#unitMinute">
+        <rdf:type rdf:resource="#TemporalUnit"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.w3.org/2006/time#unitMonth -->
+
+    <owl:Thing rdf:about="#unitMonth">
+        <rdf:type rdf:resource="#TemporalUnit"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.w3.org/2006/time#unitSecond -->
+
+    <owl:Thing rdf:about="#unitSecond">
+        <rdf:type rdf:resource="#TemporalUnit"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.w3.org/2006/time#unitWeek -->
+
+    <TemporalUnit rdf:about="#unitWeek">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </TemporalUnit>
+    
+
+
+    <!-- http://www.w3.org/2006/time#unitYear -->
+
+    <TemporalUnit rdf:about="#unitYear">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </TemporalUnit>
+    
+
+
+    <!-- http://www.w3.org/TR/owl-time -->
+
+    <owl:Thing rdf:about="&TR;owl-time"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.1138) http://owlapi.sourceforge.net -->
+

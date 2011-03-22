@@ -1,0 +1,1930 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY oil "http://www.daml.org/2001/03/daml+oil#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY WeatherAgent "http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/" >
+    <!ENTITY weather-ont "http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#" >
+]>
+
+
+<rdf:RDF xmlns="&WeatherAgent;weather-ont.daml#"
+     xml:base="&WeatherAgent;weather-ont.daml"
+     xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+     xmlns:weather-ont="&WeatherAgent;weather-ont.daml#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:oil="http://www.daml.org/2001/03/daml+oil#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:WeatherAgent="http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/"
+     xmlns:owl="http://www.w3.org/2002/07/owl#">
+    <owl:Ontology rdf:about="">
+        <owl:versionInfo
+            >$Id: metar1.1.daml,v 1.12 2002/01/23 16:11:17 ggrimnes Exp $</owl:versionInfo>
+        <rdfs:comment
+            >An ontology for use in converting METAR and TAF reports to DAML</rdfs:comment>
+        <owl:versionInfo
+            >An ontology for use in converting METAR and TAF reports to DAML</owl:versionInfo>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#celsiusTemperature -->
+
+    <owl:ObjectProperty rdf:about="#celsiusTemperature">
+        <rdfs:label>degrees Celsius</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="#temperatureMeasurement"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#fahrenheitTemperature -->
+
+    <owl:ObjectProperty rdf:about="#fahrenheitTemperature">
+        <rdfs:label
+            >degrees Fahrenheit</rdfs:label>
+        <rdfs:subPropertyOf rdf:resource="#temperatureMeasurement"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#hasPressureEvent -->
+
+    <owl:ObjectProperty rdf:about="#hasPressureEvent">
+        <rdfs:comment
+            >Has pressure-valued or derived event</rdfs:comment>
+        <rdfs:range rdf:resource="#PressureEvent"/>
+        <rdfs:domain rdf:resource="#WeatherReport"/>
+        <rdfs:subPropertyOf rdf:resource="#hasWeatherEvent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#hasReportDate -->
+
+    <owl:ObjectProperty rdf:about="#hasReportDate">
+        <rdfs:label
+            >day of the month report was made</rdfs:label>
+        <rdfs:comment
+            >Every weather report must have a timestamp</rdfs:comment>
+        <rdfs:domain rdf:resource="#WeatherReport"/>
+        <rdfs:subPropertyOf rdf:resource="#hasWeatherDate"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#hasReportModifier -->
+
+    <owl:ObjectProperty rdf:about="#hasReportModifier">
+        <rdfs:label
+            >has report modifier</rdfs:label>
+        <rdfs:domain rdf:resource="#MetarReport"/>
+        <rdfs:range rdf:resource="#ReportModifier"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#hasReportTime -->
+
+    <owl:ObjectProperty rdf:about="#hasReportTime">
+        <rdfs:label
+            >report was made at time</rdfs:label>
+        <rdfs:comment
+            >Every weather report must have a timestamp</rdfs:comment>
+        <rdfs:domain rdf:resource="#WeatherReport"/>
+        <rdfs:subPropertyOf rdf:resource="#hasWeatherTime"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#hasStationID -->
+
+    <owl:ObjectProperty rdf:about="#hasStationID">
+        <rdfs:label>has station ID</rdfs:label>
+        <rdfs:comment
+            >Every weather report must have a station ID</rdfs:comment>
+        <rdfs:domain rdf:resource="#WeatherReport"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#hasTemperatureEvent -->
+
+    <owl:ObjectProperty rdf:about="#hasTemperatureEvent">
+        <rdfs:comment
+            >Has temperature-valued or derived event</rdfs:comment>
+        <rdfs:range rdf:resource="#TemperatureEvent"/>
+        <rdfs:domain rdf:resource="#WeatherReport"/>
+        <rdfs:subPropertyOf rdf:resource="#hasWeatherEvent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#hasVisibilityEvent -->
+
+    <owl:ObjectProperty rdf:about="#hasVisibilityEvent">
+        <rdfs:comment>Wind report</rdfs:comment>
+        <rdfs:range rdf:resource="#VisibilityEvent"/>
+        <rdfs:domain rdf:resource="#WeatherReport"/>
+        <rdfs:subPropertyOf rdf:resource="#hasWeatherEvent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#hasWeatherDate -->
+
+    <owl:ObjectProperty rdf:about="#hasWeatherDate">
+        <rdfs:label>has date</rdfs:label>
+        <rdfs:comment
+            >Probably a day of the month. METAR is bizzare like that.</rdfs:comment>
+        <rdfs:domain rdf:resource="#DatedWeatherEvent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#hasWeatherEvent -->
+
+    <owl:ObjectProperty rdf:about="#hasWeatherEvent">
+        <rdfs:comment
+            >Weather reports contain information about weather events.</rdfs:comment>
+        <rdfs:range rdf:resource="#WeatherEvent"/>
+        <rdfs:domain rdf:resource="#WeatherReport"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#hasWeatherEventBeginTime -->
+
+    <owl:ObjectProperty rdf:about="#hasWeatherEventBeginTime">
+        <rdfs:label
+            >has beginning time</rdfs:label>
+        <rdfs:domain rdf:resource="&WeatherAgent;TimeRangeWeatherEvent"/>
+        <rdfs:subPropertyOf rdf:resource="#hasWeatherTime"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#hasWeatherEventEndTime -->
+
+    <owl:ObjectProperty rdf:about="#hasWeatherEventEndTime">
+        <rdfs:label>has ending time</rdfs:label>
+        <rdfs:domain rdf:resource="&WeatherAgent;TimeRangeWeatherEvent"/>
+        <rdfs:subPropertyOf rdf:resource="#hasWeatherTime"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#hasWeatherQualifier -->
+
+    <owl:ObjectProperty rdf:about="#hasWeatherQualifier">
+        <rdfs:label
+            >event is qualified by</rdfs:label>
+        <rdfs:domain rdf:resource="#WeatherEvent"/>
+        <rdfs:range rdf:resource="#WeatherQualifier"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#hasWeatherTime -->
+
+    <owl:ObjectProperty rdf:about="#hasWeatherTime">
+        <rdfs:label>has time</rdfs:label>
+        <rdfs:comment
+            >Minutes past the hour, or hour and minutes, when some event occurred.</rdfs:comment>
+        <rdfs:domain rdf:resource="#TimedWeatherEvent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#hasWindEvent -->
+
+    <owl:ObjectProperty rdf:about="#hasWindEvent">
+        <rdfs:comment>Wind report</rdfs:comment>
+        <rdfs:domain rdf:resource="#WeatherReport"/>
+        <rdfs:range rdf:resource="#WindEvent"/>
+        <rdfs:subPropertyOf rdf:resource="#hasWeatherEvent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#humidityPercent -->
+
+    <owl:ObjectProperty rdf:about="#humidityPercent">
+        <rdfs:label
+            >relative humidity (percentage)</rdfs:label>
+        <rdfs:comment
+            >Percentage of the saturation vapor pressure that the current vapor pressure is.</rdfs:comment>
+        <rdfs:domain rdf:resource="#RelativeHumidity"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#inchesOfMercury -->
+
+    <owl:ObjectProperty rdf:about="#inchesOfMercury">
+        <rdfs:label>inHg</rdfs:label>
+        <rdfs:comment
+            >Pressure measurement in inHg</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="#pressureMeasurement"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#knotsSpeed -->
+
+    <owl:ObjectProperty rdf:about="#knotsSpeed">
+        <rdfs:label
+            >Speed of something, in knots</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#millimetersOfMercury -->
+
+    <owl:ObjectProperty rdf:about="#millimetersOfMercury">
+        <rdfs:label>mmHg</rdfs:label>
+        <rdfs:comment
+            >Pressure measurement in mmHg</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="#pressureMeasurement"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#mphSpeed -->
+
+    <owl:ObjectProperty rdf:about="#mphSpeed">
+        <rdfs:label
+            >Speed of something, in MPH</rdfs:label>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#pressureMeasurement -->
+
+    <owl:ObjectProperty rdf:about="#pressureMeasurement">
+        <rdfs:label
+            >Pressure Measurement</rdfs:label>
+        <rdfs:comment
+            >Pressure measurement or reading - no implied units</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#temperatureMeasurement -->
+
+    <owl:ObjectProperty rdf:about="#temperatureMeasurement">
+        <rdfs:comment
+            >Measurement of a temperature value. Subproperties have units.</rdfs:comment>
+        <rdfs:domain rdf:resource="#TemperatureEvent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#visibilityDistance -->
+
+    <owl:ObjectProperty rdf:about="#visibilityDistance">
+        <rdfs:label
+            >visibility distance</rdfs:label>
+        <rdfs:comment
+            >A distance for visibility. Subclasses have some unit of distance attached.</rdfs:comment>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#visibilityFeet -->
+
+    <owl:ObjectProperty rdf:about="#visibilityFeet">
+        <rdfs:comment
+            >Visibility in feet, for runway visual range reports</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="#visibilityDistance"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#visibilityMeters -->
+
+    <owl:ObjectProperty rdf:about="#visibilityMeters">
+        <rdfs:comment
+            >Visibility in meters, for surface visibility reports</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="#visibilityDistance"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#visibilityStatuteMiles -->
+
+    <owl:ObjectProperty rdf:about="#visibilityStatuteMiles">
+        <rdfs:comment
+            >Visibility in statue miles, for surface visibility reports</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="#visibilityDistance"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#windDirection -->
+
+    <owl:ObjectProperty rdf:about="#windDirection">
+        <rdfs:label>Wind direction</rdfs:label>
+        <rdfs:domain rdf:resource="#WindEvent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#windDirectionDegrees -->
+
+    <owl:ObjectProperty rdf:about="#windDirectionDegrees">
+        <rdfs:label
+            >Wind direction (degrees)</rdfs:label>
+        <rdfs:comment
+            >Direction of wind, in degrees</rdfs:comment>
+        <rdfs:subPropertyOf rdf:resource="#windDirection"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#windDirectionEnglish -->
+
+    <owl:ObjectProperty rdf:about="#windDirectionEnglish">
+        <rdfs:label
+            >Wind direction (degrees)</rdfs:label>
+        <rdfs:comment
+            >Direction of wind, in English</rdfs:comment>
+        <rdfs:domain rdf:resource="#WindEvent"/>
+        <rdfs:subPropertyOf rdf:resource="#windDirection"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#windGustKnots -->
+
+    <owl:ObjectProperty rdf:about="#windGustKnots">
+        <rdfs:subPropertyOf rdf:resource="#knotsSpeed"/>
+        <rdfs:subPropertyOf rdf:resource="#windGustSpeed"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#windGustMPH -->
+
+    <owl:ObjectProperty rdf:about="#windGustMPH">
+        <rdfs:subPropertyOf rdf:resource="#mphSpeed"/>
+        <rdfs:subPropertyOf rdf:resource="#windGustSpeed"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#windGustSpeed -->
+
+    <owl:ObjectProperty rdf:about="#windGustSpeed">
+        <rdfs:subPropertyOf rdf:resource="#windSpeed"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#windSpeed -->
+
+    <owl:ObjectProperty rdf:about="#windSpeed">
+        <rdfs:label>Wind speed</rdfs:label>
+        <rdfs:domain rdf:resource="#WindEvent"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#windSpeedKnots -->
+
+    <owl:ObjectProperty rdf:about="#windSpeedKnots">
+        <rdfs:subPropertyOf rdf:resource="#knotsSpeed"/>
+        <rdfs:subPropertyOf rdf:resource="#windSpeed"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#windSpeedMPH -->
+
+    <owl:ObjectProperty rdf:about="#windSpeedMPH">
+        <rdfs:subPropertyOf rdf:resource="#mphSpeed"/>
+        <rdfs:subPropertyOf rdf:resource="#windSpeed"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/hasUnitAbbreviation -->
+
+    <owl:DatatypeProperty rdf:about="&WeatherAgent;hasUnitAbbreviation"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/CloudType -->
+
+    <owl:Class rdf:about="&WeatherAgent;CloudType"/>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/PressureChangeEvent -->
+
+    <owl:Class rdf:about="&WeatherAgent;PressureChangeEvent"/>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/PressureTendencyCharacter -->
+
+    <owl:Class rdf:about="&WeatherAgent;PressureTendencyCharacter"/>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/ReportModifier -->
+
+    <owl:Class rdf:about="&WeatherAgent;ReportModifier"/>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/TimeRangeWeatherEvent -->
+
+    <owl:Class rdf:about="&WeatherAgent;TimeRangeWeatherEvent"/>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/UnitAbbreviation -->
+
+    <owl:Class rdf:about="&WeatherAgent;UnitAbbreviation">
+        <rdfs:label
+            >Unit Abbreviation</rdfs:label>
+        <rdfs:comment
+            >Mapping from unit abbreviations to things used in this ontology. Eventually this could grow into a &#39;units&#39; ontology and have mappings between various units.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/WeatherDescriptor -->
+
+    <owl:Class rdf:about="&WeatherAgent;WeatherDescriptor"/>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/WeatherIntensity -->
+
+    <owl:Class rdf:about="&WeatherAgent;WeatherIntensity"/>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/WeatherProximity -->
+
+    <owl:Class rdf:about="&WeatherAgent;WeatherProximity"/>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#AltimeterSetting -->
+
+    <owl:Class rdf:about="#AltimeterSetting">
+        <rdfs:label
+            >Altimeter Setting</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#PressureEvent"/>
+        <rdfs:comment
+            >The pressure value to which an aircraft altimeter scale is set so that it will indicate the altitude above mean sea level of an aircraft on the ground at the location for which the value was determined.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#BrokenCloudLayer -->
+
+    <owl:Class rdf:about="#BrokenCloudLayer">
+        <rdfs:label>Broken Sky</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#CloudLayer"/>
+        <rdfs:comment
+            >Cloud layers covering 5/8 - 7/8 of the sky. Coded with &#39;BKN&#39;</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#CanadaMetarReport -->
+
+    <owl:Class rdf:about="#CanadaMetarReport">
+        <rdfs:label
+            >Canada METAR report</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#MetarReport"/>
+        <rdfs:comment
+            >Canada&#39;s METAR format is similar to the US, but with a few subtle differences.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#ClearSkies -->
+
+    <owl:Class rdf:about="#ClearSkies">
+        <rdfs:label>Clear</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#SkyCondition"/>
+        <rdfs:comment
+            >Clear skies shall be coded in the format, SKC or CLR, where SKC is the abbreviation used by manual stations to indicate no layers are present and CLR is the abbreviation used by automated stations to indicate no layers are detected at or below 12,000 feet.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#ClearSkiesCLR -->
+
+    <owl:Class rdf:about="#ClearSkiesCLR">
+        <rdfs:label>Clear</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#ClearSkies"/>
+        <rdfs:comment
+            >CLR is the abbreviation used by automated stations to indicate no layers are detected at or below 12,000 feet.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#ClearSkiesSKC -->
+
+    <owl:Class rdf:about="#ClearSkiesSKC">
+        <rdfs:label>Clear</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#ClearSkies"/>
+        <rdfs:comment
+            >SKC is the abbreviation used by manual stations to indicate no layers are present</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#CloudLayer -->
+
+    <owl:Class rdf:about="#CloudLayer">
+        <rdfs:label>Cloud Layer</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#SkyCondition"/>
+        <rdfs:comment
+            >The sky cover for each layer reported shall be coded by using the appropriate reportable contraction from Table A-16. The abbreviations FEW, SCT, BKN, and OVC shall be followed without a space, by the height of the layer.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#CloudType -->
+
+    <owl:Class rdf:about="#CloudType">
+        <rdfs:label>Cloud Type</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#WeatherQualifier"/>
+        <rdfs:comment
+            >At manual stations, cumulonimbus (CB) or towering cumulus (TCU) shall be appended to the associated layer.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#CumulativeEvent -->
+
+    <owl:Class rdf:about="#CumulativeEvent">
+        <rdfs:label
+            >Cumulative Event</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#WeatherEvent"/>
+        <rdfs:comment
+            >Superclass for all events or measurements that are an average, maximum, or minimum over a period of time more than that covered by one METAR report</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#CurrentDewPoint -->
+
+    <owl:Class rdf:about="#CurrentDewPoint">
+        <rdfs:label>Dew point</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#TemperatureEvent"/>
+        <rdfs:comment
+            >The temperature to which a given parcel of air must be cooled at constant pressure and constant water-vapor content in order for saturation to occur.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#CurrentTemperature -->
+
+    <owl:Class rdf:about="#CurrentTemperature">
+        <rdfs:label>Temperature</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#TemperatureEvent"/>
+        <rdfs:comment
+            >In general, the degree of hotness or coldness of the ambient air as indicated on some definite scale as measured by any suitable instrument.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#CurrentWeatherEvent -->
+
+    <owl:Class rdf:about="#CurrentWeatherEvent">
+        <rdfs:label
+            >Current weather conditions</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#WeatherEvent"/>
+        <rdfs:comment
+            >Superclass for everything reported in the Current Weather Condition group.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#DatedWeatherEvent -->
+
+    <owl:Class rdf:about="#DatedWeatherEvent">
+        <rdfs:label
+            >Timed and dated weather event</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#TimedWeatherEvent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#DerivedTemperature -->
+
+    <owl:Class rdf:about="#DerivedTemperature">
+        <rdfs:subClassOf rdf:resource="#TemperatureEvent"/>
+        <rdfs:comment
+            >Superclass for temperature-related measurements derived from given information, e.g. heat index, wind chill, relative humidity</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Drizzle -->
+
+    <owl:Class rdf:about="#Drizzle">
+        <rdfs:label>Drizzle</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#LiquidPrecipitationEvent"/>
+        <rdfs:comment
+            >Fairly uniform precipitation composed exclusively of fine drops with diameters of less than 0.02 inch (0.5 mm) very close together. Drizzle appears to float while following air currents, although unlike fog droplets, it falls to the ground.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#DustOrSandWhirl -->
+
+    <owl:Class rdf:about="#DustOrSandWhirl">
+        <rdfs:label
+            >Well-developed dust/sand whirl</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OtherWeatherPhenomena"/>
+        <rdfs:comment
+            >An ensemble of particles of dust or sand, sometimes accompanied by small liter, raised from the ground in the form of a whirling column of varying height with a small diameter and an approximately vertical vertical axis.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Duststorm -->
+
+    <owl:Class rdf:about="#Duststorm">
+        <rdfs:label>Duststorm</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OtherWeatherPhenomena"/>
+        <rdfs:comment
+            >A severe weather condition characterized by strong winds and dust-filled air over an extensive area.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#FewCloudLayer -->
+
+    <owl:Class rdf:about="#FewCloudLayer">
+        <rdfs:label>Few Clouds</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#CloudLayer"/>
+        <rdfs:comment
+            >Cloud layers covering 1/8 - 2/8 of the sky</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Fog -->
+
+    <owl:Class rdf:about="#Fog">
+        <rdfs:label>Fog</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#ObscurationEvent"/>
+        <rdfs:comment
+            >A visible aggregate of minute water particles (droplets) which are based at the Earth&#39;s surface and reduces horizontal visibility to less than 5/8 statute mile and, unlike drizzle, it does not fall to the ground.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#FunnelCloud -->
+
+    <owl:Class rdf:about="#FunnelCloud">
+        <rdfs:label>Funnel cloud</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#TornadicActivity"/>
+        <rdfs:comment
+            >A violent, rotating column of air which does not touch the surface.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#GustingWindEvent -->
+
+    <owl:Class rdf:about="#GustingWindEvent">
+        <rdfs:label>gusting wind</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#WindEvent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Hail -->
+
+    <owl:Class rdf:about="#Hail">
+        <rdfs:label>Hail</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#SolidPrecipitationEvent"/>
+        <rdfs:comment
+            >Precipitation in the form of small balls or other pieces of ice falling separately or frozen together in irregular lumps.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Haze -->
+
+    <owl:Class rdf:about="#Haze">
+        <rdfs:label>Haze</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#ObscurationEvent"/>
+        <rdfs:comment
+            >A suspension in the air of extremely small, dry particles invisible to the naked eye and sufficiently numerous to give the air an opalescent appearance.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#HeatIndex -->
+
+    <owl:Class rdf:about="#HeatIndex">
+        <rdfs:label>Heat Index</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#DerivedTemperature"/>
+        <rdfs:comment
+            >Given the temperature and the dewpoint, the heat index can be derived.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#HighVariableWindEvent -->
+
+    <owl:Class rdf:about="#HighVariableWindEvent">
+        <rdfs:subClassOf rdf:resource="#VariableWindEvent"/>
+        <rdfs:comment
+            >variable direction wind (more than 6 knots)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#IceCrystals -->
+
+    <owl:Class rdf:about="#IceCrystals">
+        <rdfs:label>Ice Crystals</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#SolidPrecipitationEvent"/>
+        <rdfs:comment
+            >A fall of unbranched (snow crystals are branched) ice crystals in the form of needles, columns, or plates.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#IcePellets -->
+
+    <owl:Class rdf:about="#IcePellets">
+        <rdfs:label>Ice Pellets</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#SolidPrecipitationEvent"/>
+        <rdfs:comment
+            >Precipitation of transparent or translucent pellets of ice, which are round or irregular, rarely conical, and which have a diameter of 0.2 inch (5 mm), or less. There are two main types: 1) Hard grains of ice consisting of frozen raindrops, or largely melted and refrozen snowflakes; 2) Pellets of snow encased in a thin layer of ice which have formed from the freezing, either of droplets intercepted by the pellets, or of water resulting from the partial melting of the pellets.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#IntlMetarReport -->
+
+    <owl:Class rdf:about="#IntlMetarReport">
+        <rdfs:label
+            >International METAR report</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#WeatherReport"/>
+        <rdfs:comment
+            >METAR report that adheres to the actual international METAR standard.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#IntlRunwayVisualRange -->
+
+    <owl:Class rdf:about="#IntlRunwayVisualRange">
+        <rdfs:subClassOf rdf:resource="#RunwayVisualRange"/>
+        <rdfs:comment
+            >international-format runway visual range (uses meters)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#IntlSurfaceVisibility -->
+
+    <owl:Class rdf:about="#IntlSurfaceVisibility">
+        <rdfs:subClassOf rdf:resource="#SurfaceVisibility"/>
+        <rdfs:comment
+            >international-format surface visibility (d{4} in meters or CAVOK (ceiling and visibility OK</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#LiquidPrecipitationEvent -->
+
+    <owl:Class rdf:about="#LiquidPrecipitationEvent">
+        <rdfs:subClassOf rdf:resource="#PrecipitationEvent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#LowVariableWindEvent -->
+
+    <owl:Class rdf:about="#LowVariableWindEvent">
+        <rdfs:subClassOf rdf:resource="#VariableWindEvent"/>
+        <rdfs:comment
+            >variable direction wind (less than 6 knots)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#MaximumTemperature -->
+
+    <owl:Class rdf:about="#MaximumTemperature">
+        <rdfs:label
+            >Maximum Temperature</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#CumulativeEvent"/>
+        <rdfs:subClassOf rdf:resource="#TemperatureEvent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#MetarReport -->
+
+    <owl:Class rdf:about="#MetarReport">
+        <rdfs:label>METAR report</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#WeatherReport"/>
+        <rdfs:comment
+            >Superclass for all METAR-format reports</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#MinimumTemperature -->
+
+    <owl:Class rdf:about="#MinimumTemperature">
+        <rdfs:label
+            >Minimum Temperature</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#CumulativeEvent"/>
+        <rdfs:subClassOf rdf:resource="#TemperatureEvent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Mist -->
+
+    <owl:Class rdf:about="#Mist">
+        <rdfs:label>Mist</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#ObscurationEvent"/>
+        <rdfs:comment
+            >A visible aggregate of minute water particles suspended in the atmosphere that reduces visibility to less than 7 statute miles but greater than or equal to 5/8 statute mile.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#ObscurationEvent -->
+
+    <owl:Class rdf:about="#ObscurationEvent">
+        <rdfs:label>Obscuration</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#CurrentWeatherEvent"/>
+        <rdfs:comment
+            >Any phenomenon in the atmosphere, other than precipitation, that reduces the horizontal visibility.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#OtherWeatherPhenomena -->
+
+    <owl:Class rdf:about="#OtherWeatherPhenomena">
+        <rdfs:label
+            >Other Weather Phenomena</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#CurrentWeatherEvent"/>
+        <rdfs:comment
+            >Current weather phenomena that do not fit into either the obscuration or precipitation categories</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#OvercastCloudLayer -->
+
+    <owl:Class rdf:about="#OvercastCloudLayer">
+        <rdfs:label>Overcast</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#CloudLayer"/>
+        <rdfs:comment
+            >Cloud layers covering 8/8 of the sky. Coded with &#39;OVC&#39;</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#PeakWindEvent -->
+
+    <owl:Class rdf:about="#PeakWindEvent">
+        <rdfs:label
+            >peak wind velocity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#WindEvent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#PrecipitationEvent -->
+
+    <owl:Class rdf:about="#PrecipitationEvent">
+        <rdfs:label>Precipitation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#CurrentWeatherEvent"/>
+        <rdfs:comment
+            >Precipitation is any of the forms of water particles, whether liquid or solid, that fall from the atmosphere and reach the ground.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#PressureChangeEvent -->
+
+    <owl:Class rdf:about="#PressureChangeEvent">
+        <rdfs:label>Pressure Change</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#PressureEvent"/>
+        <rdfs:comment
+            >At designated stations, the pressure calculated for each report shall be examined to determine if a pressure change is occurring. If the pressure is rising or falling at a rate of at least 0.06 inch per hour and the pressure change totals 0.02 inch or more at the time of the observation, a pressure change remark shall be reported.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#PressureEvent -->
+
+    <owl:Class rdf:about="#PressureEvent">
+        <rdfs:label>Pressure Event</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#WeatherEvent"/>
+        <rdfs:comment
+            >Superclass for all events dealing with pressure</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#PressureTendencyCharacter -->
+
+    <owl:Class rdf:about="#PressureTendencyCharacter">
+        <rdfs:subClassOf rdf:resource="#PressureEvent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Rain -->
+
+    <owl:Class rdf:about="#Rain">
+        <rdfs:label>Rain</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#LiquidPrecipitationEvent"/>
+        <rdfs:comment
+            >Precipitation, either in the form of drops larger than 0.02 inch (0.5 mm), or smaller drops which, in contrast to drizzle, are widely separated.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#RelativeHumidity -->
+
+    <owl:Class rdf:about="#RelativeHumidity">
+        <rdfs:label
+            >Relative Humidity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#DerivedTemperature"/>
+        <rdfs:comment
+            >Relative humidity is the current vapor pressure (saturation vapor pressure of the dewpoint) over the saturation vapor pressure of the current temperature)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#ReportModifier -->
+
+    <owl:Class rdf:about="#ReportModifier">
+        <rdfs:label>Report modifier</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#WeatherQualifier"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#RunwayVisualRange -->
+
+    <owl:Class rdf:about="#RunwayVisualRange">
+        <rdfs:label
+            >Runway visual range</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#VisibilityEvent"/>
+        <rdfs:comment
+            >Runway visual range group - rarely used. Should probably break this into USA and international format RVR</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Sand -->
+
+    <owl:Class rdf:about="#Sand">
+        <rdfs:label>Sand</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#ObscurationEvent"/>
+        <rdfs:comment
+            >Sand particles raised by the wind to a height sufficient to reduce visibility.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Sandstorm -->
+
+    <owl:Class rdf:about="#Sandstorm">
+        <rdfs:label>Sandstorm</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OtherWeatherPhenomena"/>
+        <rdfs:comment
+            >Particles of sand carried aloft by a strong wind. The sand particles are mostly confined to the lowest ten feet, and rarely rise more than fifty feet above the ground.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#ScatteredCloudLayer -->
+
+    <owl:Class rdf:about="#ScatteredCloudLayer">
+        <rdfs:label
+            >Scattered Clouds</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#CloudLayer"/>
+        <rdfs:comment
+            >Cloud layers covering 3/8 - 4/8 of the sky. Coded with &#39;SCT&#39;</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#SeaLevelPressure -->
+
+    <owl:Class rdf:about="#SeaLevelPressure">
+        <rdfs:label
+            >Sea-level pressure</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#PressureEvent"/>
+        <rdfs:comment
+            >A pressure value obtained by the theoretical reduction of barometric pressure to sea level. Where the Earth&#39;s surface is above sea level, it is assumed that the atmosphere extends to sea level below the station and that the properties of that hypothetical atmosphere are related to conditions observed at the station.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#SixHourCumulativeEvent -->
+
+    <owl:Class rdf:about="#SixHourCumulativeEvent">
+        <rdfs:label
+            >6 Hour Cumulative Event</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#CumulativeEvent"/>
+        <rdfs:comment
+            >An event that is an average, maximum, or minimum over a period of 6 hours</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#SixHourMaximumTemp -->
+
+    <owl:Class rdf:about="#SixHourMaximumTemp">
+        <rdfs:label
+            >6-hour maximum temperature</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#MaximumTemperature"/>
+        <rdfs:subClassOf rdf:resource="#SixHourCumulativeEvent"/>
+        <rdfs:comment
+            >At designated stations, maximum and minimum temperatures that occurred in the previous 6 hours shall be determined to the nearest tenth of a degree Celsius for the 0000, 0600, 1200, and 1800 UTC observations</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#SixHourMinimumTemp -->
+
+    <owl:Class rdf:about="#SixHourMinimumTemp">
+        <rdfs:label
+            >6-hour maximum temperature</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#MinimumTemperature"/>
+        <rdfs:subClassOf rdf:resource="#SixHourCumulativeEvent"/>
+        <rdfs:comment
+            >At designated stations, maximum and minimum temperatures that occurred in the previous 6 hours shall be determined to the nearest tenth of a degree Celsius for the 0000, 0600, 1200, and 1800 UTC observations</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#SkyCondition -->
+
+    <owl:Class rdf:about="#SkyCondition">
+        <rdfs:label>Sky Condition</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#VisibilityEvent"/>
+        <rdfs:comment
+            >Sky condition is a description of the appearance of the sky. Sky condition may be evaluated either automatically by instrument or manually with or without instruments.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#SmallHail -->
+
+    <owl:Class rdf:about="#SmallHail">
+        <rdfs:label
+            >Small Hail and/or Snow Pellets</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#SolidPrecipitationEvent"/>
+        <rdfs:comment
+            >Precipitation of white, opaque grains of ice. The grains are round or sometimes conical. Diameters range from about 0.08 to 0.2 inch (2 to 5 mm).</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Smoke -->
+
+    <owl:Class rdf:about="#Smoke">
+        <rdfs:label>Smoke</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#ObscurationEvent"/>
+        <rdfs:comment
+            >A suspension in the air of small particles produced by combustion. A transition to haze may occur when smoke particles have traveled great distances (25 to 100 miles or more) and when the larger particles have settled out and the remaining particles have become widely scattered through the atmosphere.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Snow -->
+
+    <owl:Class rdf:about="#Snow">
+        <rdfs:label>Snow</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#SolidPrecipitationEvent"/>
+        <rdfs:comment
+            >Precipitation of snow crystals, mostly branched in the form of six-pointed stars.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#SnowGrains -->
+
+    <owl:Class rdf:about="#SnowGrains">
+        <rdfs:label>Snow Grains</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#SolidPrecipitationEvent"/>
+        <rdfs:comment
+            >Precipitation of very small, white, and opaque grains of ice.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#SolidPrecipitationEvent -->
+
+    <owl:Class rdf:about="#SolidPrecipitationEvent">
+        <rdfs:subClassOf rdf:resource="#PrecipitationEvent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#SpeciReport -->
+
+    <owl:Class rdf:about="#SpeciReport">
+        <rdfs:label>SPECI report</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#MetarReport"/>
+        <rdfs:comment
+            >SPECI special information METAR-format report</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Spray -->
+
+    <owl:Class rdf:about="#Spray">
+        <rdfs:label>Spray</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#ObscurationEvent"/>
+        <rdfs:comment
+            >An ensemble of water droplets torn by the wind from the surface of an extensive body of water, generally from the crests of waves, and carried up a short distance into the air.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Squall -->
+
+    <owl:Class rdf:about="#Squall">
+        <rdfs:label>Squall</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OtherWeatherPhenomena"/>
+        <rdfs:comment
+            >A strong wind characterized by a sudden onset in which the wind speed increases at least 16 knots and is sustained at 22 knots or more for at least one minute.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#SurfaceVisibility -->
+
+    <owl:Class rdf:about="#SurfaceVisibility">
+        <rdfs:label
+            >surface visibility</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#VisibilityEvent"/>
+        <rdfs:comment
+            >Surface visibility</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#TafReport -->
+
+    <owl:Class rdf:about="#TafReport">
+        <rdfs:label>TAF report</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#WeatherReport"/>
+        <rdfs:comment
+            >TAF (Terminal Aerodrome Forecast) report. Unknown at this time whether this is a US-only or international standard, and if the conventions used are different.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#TemperatureEvent -->
+
+    <owl:Class rdf:about="#TemperatureEvent">
+        <rdfs:subClassOf rdf:resource="#WeatherEvent"/>
+        <rdfs:comment
+            >Superclass for events measuring a temperature, or quantities derived from a temperature.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#ThreeHourCumulativeEvent -->
+
+    <owl:Class rdf:about="#ThreeHourCumulativeEvent">
+        <rdfs:label
+            >3 Hour Cumulative Event</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#CumulativeEvent"/>
+        <rdfs:comment
+            >An event that is an average, maximum, or minimum over a period of 3 hours</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#ThreeHourPressureTendency -->
+
+    <owl:Class rdf:about="#ThreeHourPressureTendency">
+        <rdfs:label
+            >3-Hourly Pressure Tendency</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#PressureEvent"/>
+        <rdfs:subClassOf rdf:resource="#ThreeHourCumulativeEvent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#TimeRangeWeatherEvent -->
+
+    <owl:Class rdf:about="#TimeRangeWeatherEvent">
+        <rdfs:label
+            >Weather Event Time Range</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#TimedWeatherEvent"/>
+        <rdfs:comment
+            >Weather event with possibly a beginning and possibly an ending</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#TimedWeatherEvent -->
+
+    <owl:Class rdf:about="#TimedWeatherEvent">
+        <rdfs:label
+            >Timed weather event</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#WeatherEvent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#TornadicActivity -->
+
+    <owl:Class rdf:about="#TornadicActivity">
+        <rdfs:label
+            >Funnel cloud / Tornadic Activity</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#OtherWeatherPhenomena"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Tornado -->
+
+    <owl:Class rdf:about="#Tornado">
+        <rdfs:label>Tornado</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#TornadicActivity"/>
+        <rdfs:comment
+            >A violent, rotating column of air touching the ground.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#TwentyFourHourCumulativeEvent -->
+
+    <owl:Class rdf:about="#TwentyFourHourCumulativeEvent">
+        <rdfs:label
+            >24 Hour Cumulative Event</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#CumulativeEvent"/>
+        <rdfs:comment
+            >An event that is an average, maximum, or minimum over a period of 24 hours</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#TwentyFourHourMaximumTemp -->
+
+    <owl:Class rdf:about="#TwentyFourHourMaximumTemp">
+        <rdfs:label
+            >24-hour maximum temperature</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#MaximumTemperature"/>
+        <rdfs:subClassOf rdf:resource="#TwentyFourHourCumulativeEvent"/>
+        <rdfs:comment
+            >The maximum and minimum temperatures for the previous 24 hours shall be determined to the nearest tenth of a degree Celsius for the 0000 LST observation.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#TwentyFourHourMinimumTemp -->
+
+    <owl:Class rdf:about="#TwentyFourHourMinimumTemp">
+        <rdfs:label
+            >24-hour maximum temperature</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#MinimumTemperature"/>
+        <rdfs:subClassOf rdf:resource="#TwentyFourHourCumulativeEvent"/>
+        <rdfs:comment
+            >The maximum and minimum temperatures for the previous 24 hours shall be determined to the nearest tenth of a degree Celsius for the 0000 LST observation.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#UnknownPrecipitation -->
+
+    <owl:Class rdf:about="#UnknownPrecipitation">
+        <rdfs:label
+            >Unknown precipitation</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#PrecipitationEvent"/>
+        <rdfs:comment
+            >Unknown precipitation shall only be reported by automated stations to indicate precipitation of unknown type when the automated system cannot identify the precipitation with any greater precision.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#UsaMetarReport -->
+
+    <owl:Class rdf:about="#UsaMetarReport">
+        <rdfs:label>US METAR report</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#MetarReport"/>
+        <rdfs:comment
+            >The US does everything differently, so it has its own wacky format for doing metar that&#39;s a bit different from everybody else&#39;s.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#UsaRunwayVisualRange -->
+
+    <owl:Class rdf:about="#UsaRunwayVisualRange">
+        <rdfs:subClassOf rdf:resource="#RunwayVisualRange"/>
+        <rdfs:comment
+            >usa-format runway visual range (garbage with feet rather than meters)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#UsaSurfaceVisibility -->
+
+    <owl:Class rdf:about="#UsaSurfaceVisibility">
+        <rdfs:subClassOf rdf:resource="#SurfaceVisibility"/>
+        <rdfs:comment
+            >usa/canada-format surface visibility (garbage with fractions and statute miles)</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#VariableWindEvent -->
+
+    <owl:Class rdf:about="#VariableWindEvent">
+        <rdfs:label
+            >variable direction wind</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#WindEvent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#VerticalVisibility -->
+
+    <owl:Class rdf:about="#VerticalVisibility">
+        <rdfs:label
+            >VerticalVisibility</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#SkyCondition"/>
+        <rdfs:comment
+            >Vertical visibility shall be coded in the format, VVhs hshs, where VV identifies an indefinite ceiling and hshshs is the vertical visibility into the indefinite ceiling. There shall be no space between the VV identifier and the vertical visibility.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#VisibilityEvent -->
+
+    <owl:Class rdf:about="#VisibilityEvent">
+        <rdfs:label>visibility</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#WeatherEvent"/>
+        <rdfs:comment
+            >Superclass for everything dealing with visibility</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#VolcanicAsh -->
+
+    <owl:Class rdf:about="#VolcanicAsh">
+        <rdfs:label>Volcanic Ash</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#ObscurationEvent"/>
+        <rdfs:comment
+            >Fine particles of rock powder that originate from a volcano and that may remain suspended in the atmosphere for long periods.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Waterspout -->
+
+    <owl:Class rdf:about="#Waterspout">
+        <rdfs:label>Waterspout</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#TornadicActivity"/>
+        <rdfs:comment
+            >A violent, rotating column of air that forms over a body of water, and touches the water surface.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#WeatherDescriptor -->
+
+    <owl:Class rdf:about="#WeatherDescriptor">
+        <rdfs:label
+            >Weather Descriptor</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#WeatherQualifier"/>
+        <rdfs:comment
+            >Qualifiers/ descriptors of weather events</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#WeatherEvent -->
+
+    <owl:Class rdf:about="#WeatherEvent">
+        <rdfs:label>Weather event</rdfs:label>
+        <rdfs:comment
+            >Superclass for all weather events</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#WeatherIntensity -->
+
+    <owl:Class rdf:about="#WeatherIntensity">
+        <rdfs:label
+            >Weather Intensity Descriptor</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#WeatherQualifier"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#WeatherProximity -->
+
+    <owl:Class rdf:about="#WeatherProximity">
+        <rdfs:label
+            >Weather Proximity Descriptor</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#WeatherQualifier"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#WeatherQualifier -->
+
+    <owl:Class rdf:about="#WeatherQualifier">
+        <rdfs:label
+            >Current Weather Qualifier</rdfs:label>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#WeatherReport -->
+
+    <owl:Class rdf:about="#WeatherReport">
+        <rdfs:label>weather report</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#DatedWeatherEvent"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasReportTime"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasWeatherEvent"/>
+                <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:minCardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasStationID"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="#hasReportDate"/>
+                <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:comment
+            >Superclass for all handled weather reports</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#WidespreadDust -->
+
+    <owl:Class rdf:about="#WidespreadDust">
+        <rdfs:label>Widespread Dust</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#ObscurationEvent"/>
+        <rdfs:comment
+            >Fine particles of earth or other matter raised or suspended in the air by the wind that may have occurred at or far away from the station which may restrict horizontal visibility.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#WindChill -->
+
+    <owl:Class rdf:about="#WindChill">
+        <rdfs:label>Wind Chill</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#DerivedTemperature"/>
+        <rdfs:comment
+            >Given the temperature and the air speed velocity of an unladen swallow, the wind chill can be derived.</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#WindEvent -->
+
+    <owl:Class rdf:about="#WindEvent">
+        <rdfs:label>Wind event</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#WeatherEvent"/>
+        <rdfs:comment
+            >Superclass for all events dealing with wind</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#WindShiftEvent -->
+
+    <owl:Class rdf:about="#WindShiftEvent">
+        <rdfs:label
+            >wind shift event</rdfs:label>
+        <rdfs:subClassOf rdf:resource="#TimedWeatherEvent"/>
+        <rdfs:subClassOf rdf:resource="#WindEvent"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#Thing -->
+
+    <owl:Class rdf:about="&owl;Thing"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Automatic -->
+
+    <owl:Thing rdf:about="#Automatic">
+        <rdf:type rdf:resource="&WeatherAgent;ReportModifier"/>
+        <rdfs:label>Automatic</rdfs:label>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Blowing -->
+
+    <WeatherAgent:WeatherDescriptor rdf:about="#Blowing">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <rdfs:label>Blowing</rdfs:label>
+        <rdfs:comment
+            >When dust, sand, snow, and/or spray is raised by the wind to a height of 6 feet or more, &#39;blowing&#39; shall be used to further describe the weather phenomenon.</rdfs:comment>
+    </WeatherAgent:WeatherDescriptor>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Corrected -->
+
+    <WeatherAgent:ReportModifier rdf:about="#Corrected">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <rdfs:label>Corrected</rdfs:label>
+    </WeatherAgent:ReportModifier>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Cumulonimbus -->
+
+    <WeatherAgent:CloudType rdf:about="#Cumulonimbus">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <rdfs:label>Cumulonimbus</rdfs:label>
+        <rdfs:comment>Coded with &#39;CB&#39;</rdfs:comment>
+    </WeatherAgent:CloudType>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Freezing -->
+
+    <WeatherAgent:WeatherDescriptor rdf:about="#Freezing">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <rdfs:label>Freezing</rdfs:label>
+        <rdfs:comment
+            >When fog is occurring and the temperature is below 0oC, &#39;freezing&#39; shall be used to further describe the phenomenon. When drizzle and/or rain freezes upon impact and forms a glaze on the ground or other exposed objects, &#39;freezing&#39; shall be used to further describe the phenomenon.</rdfs:comment>
+    </WeatherAgent:WeatherDescriptor>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Heavy -->
+
+    <WeatherAgent:WeatherIntensity rdf:about="#Heavy">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <rdfs:label>Heavy Intensity</rdfs:label>
+    </WeatherAgent:WeatherIntensity>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Light -->
+
+    <owl:Thing rdf:about="#Light">
+        <rdf:type rdf:resource="&WeatherAgent;WeatherIntensity"/>
+        <rdfs:label>Light Intensity</rdfs:label>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Medium -->
+
+    <owl:Thing rdf:about="#Medium">
+        <rdf:type rdf:resource="&WeatherAgent;WeatherIntensity"/>
+        <rdfs:label
+            >Medium Intensity</rdfs:label>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Partial -->
+
+    <WeatherAgent:WeatherDescriptor rdf:about="#Partial">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <rdfs:label>Partial</rdfs:label>
+        <rdfs:label>Patches</rdfs:label>
+        <rdfs:comment
+            >The descriptor partial and patches shall only be used to further describe fog that has little vertical extent (normally greater than or equal to 6 feet but less than 20 feet), and reduces horizontal visibility, but to a lesser extent vertically. The stars may often be seen by night and the sun by day.</rdfs:comment>
+    </WeatherAgent:WeatherDescriptor>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Patches -->
+
+    <WeatherAgent:WeatherDescriptor rdf:about="#Patches">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </WeatherAgent:WeatherDescriptor>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#PressureFallingRapidly -->
+
+    <owl:Thing rdf:about="#PressureFallingRapidly">
+        <rdf:type rdf:resource="&WeatherAgent;PressureChangeEvent"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#PressureRisingRapidly -->
+
+    <owl:Thing rdf:about="#PressureRisingRapidly">
+        <rdf:type rdf:resource="&WeatherAgent;PressureChangeEvent"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#PressureTendencyCode0 -->
+
+    <owl:Thing rdf:about="#PressureTendencyCode0">
+        <rdf:type rdf:resource="&WeatherAgent;PressureTendencyCharacter"/>
+        <rdfs:label
+            >Increasing, then decreasing</rdfs:label>
+        <rdfs:comment
+            >Applicable for &#39;Atmospheric pressure now higher than 3 hours ago&#39; and &#39;Atmospheric pressure now same as 3 hours ago.&#39;</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#PressureTendencyCode1 -->
+
+    <WeatherAgent:PressureTendencyCharacter rdf:about="#PressureTendencyCode1">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <rdfs:label
+            >Increasing, then then steady, or increasing then increasing more slowly.</rdfs:label>
+        <rdfs:comment
+            >Applicable for &#39;Atmospheric pressure now higher than 3 hours ago&#39;</rdfs:comment>
+    </WeatherAgent:PressureTendencyCharacter>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#PressureTendencyCode2 -->
+
+    <owl:Thing rdf:about="#PressureTendencyCode2">
+        <rdf:type rdf:resource="&WeatherAgent;PressureTendencyCharacter"/>
+        <rdfs:label
+            >Increasing steadily or unsteadily</rdfs:label>
+        <rdfs:comment
+            >Applicable for &#39;Atmospheric pressure now higher than 3 hours ago&#39;</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#PressureTendencyCode3 -->
+
+    <owl:Thing rdf:about="#PressureTendencyCode3">
+        <rdf:type rdf:resource="&WeatherAgent;PressureTendencyCharacter"/>
+        <rdfs:label
+            >Decreasing or steady, then increasing; or increasing, then increasing more rapidly.</rdfs:label>
+        <rdfs:comment
+            >Applicable for &#39;Atmospheric pressure now higher than 3 hours ago&#39;</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#PressureTendencyCode4 -->
+
+    <WeatherAgent:PressureTendencyCharacter rdf:about="#PressureTendencyCode4">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <rdfs:label>Steady</rdfs:label>
+        <rdfs:comment
+            >Applicable for &#39;Atmospheric pressure now same as 3 hours ago&#39;</rdfs:comment>
+    </WeatherAgent:PressureTendencyCharacter>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#PressureTendencyCode5 -->
+
+    <owl:Thing rdf:about="#PressureTendencyCode5">
+        <rdf:type rdf:resource="&WeatherAgent;PressureTendencyCharacter"/>
+        <rdfs:label
+            >Decreasing, then increasing</rdfs:label>
+        <rdfs:comment
+            >Applicable for &#39;Atmospheric pressure now same as 3 hours ago&#39; and &#39;Atmospheric pressure now lower than 3 hours ago.&#39;</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#PressureTendencyCode6 -->
+
+    <WeatherAgent:PressureTendencyCharacter rdf:about="#PressureTendencyCode6">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <rdfs:label
+            >Decreasing then steady; or decreasing then decreasing more slowly.</rdfs:label>
+        <rdfs:comment
+            >Applicable for &#39;Atmospheric pressure now lower than 3 hours ago&#39;</rdfs:comment>
+    </WeatherAgent:PressureTendencyCharacter>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#PressureTendencyCode7 -->
+
+    <owl:Thing rdf:about="#PressureTendencyCode7">
+        <rdf:type rdf:resource="&WeatherAgent;PressureTendencyCharacter"/>
+        <rdfs:label
+            >Decreasing steadily or unsteadily.</rdfs:label>
+        <rdfs:comment
+            >Applicable for &#39;Atmospheric pressure now lower than 3 hours ago&#39;</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#PressureTendencyCode8 -->
+
+    <owl:Thing rdf:about="#PressureTendencyCode8">
+        <rdf:type rdf:resource="&WeatherAgent;PressureTendencyCharacter"/>
+        <rdfs:label
+            >Steady or increasing, then decreasing; or decreasing then decreasing moe rapidly.</rdfs:label>
+        <rdfs:comment
+            >Applicable for &#39;Atmospheric pressure now lower than 3 hours ago&#39;</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Shallow -->
+
+    <owl:Thing rdf:about="#Shallow">
+        <rdf:type rdf:resource="&WeatherAgent;WeatherDescriptor"/>
+        <rdfs:label>Shallow</rdfs:label>
+        <rdfs:comment
+            >The descriptor shallow shall only be used to further describe fog that has little vertical extent (less than 6 feet).</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Showers -->
+
+    <WeatherAgent:WeatherDescriptor rdf:about="#Showers">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <rdfs:label>Showers</rdfs:label>
+        <rdfs:comment
+            >Precipitation characterized by the suddenness with which they start and stop, by the rapid changes of intensity, and usually by rapid changes in the appearance of the sky.</rdfs:comment>
+    </WeatherAgent:WeatherDescriptor>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Thunderstorm -->
+
+    <owl:Thing rdf:about="#Thunderstorm">
+        <rdf:type rdf:resource="&WeatherAgent;WeatherDescriptor"/>
+        <rdfs:label>Thunderstorm</rdfs:label>
+        <rdfs:comment
+            >A local storm produced by a cumulonimbus cloud that is accompanied by lightning and/or thunder.</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#ToweringCumulus -->
+
+    <WeatherAgent:CloudType rdf:about="#ToweringCumulus">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <rdfs:label
+            >Towering Cumulus</rdfs:label>
+        <rdfs:comment
+            >Coded with &#39;TCU&#39;</rdfs:comment>
+    </WeatherAgent:CloudType>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#Vicinity -->
+
+    <WeatherAgent:WeatherProximity rdf:about="#Vicinity">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <rdfs:label>In the vicinity</rdfs:label>
+        <rdfs:comment
+            >Unless otherwise directed elsewhere in this handbook, weather phenomena occurring beyond the point of observation (between 5 and 10 statute miles) shall be reported as (in the) vicinity.</rdfs:comment>
+    </WeatherAgent:WeatherProximity>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#celsiusMap -->
+
+    <owl:Thing rdf:about="#celsiusMap">
+        <rdf:type rdf:resource="&WeatherAgent;UnitAbbreviation"/>
+        <WeatherAgent:hasUnitAbbreviation>C</WeatherAgent:hasUnitAbbreviation>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#fahrenheitMap -->
+
+    <WeatherAgent:UnitAbbreviation rdf:about="#fahrenheitMap">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <WeatherAgent:hasUnitAbbreviation>F</WeatherAgent:hasUnitAbbreviation>
+    </WeatherAgent:UnitAbbreviation>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#inHgMap -->
+
+    <owl:Thing rdf:about="#inHgMap">
+        <rdf:type rdf:resource="&WeatherAgent;UnitAbbreviation"/>
+        <WeatherAgent:hasUnitAbbreviation>inHg</WeatherAgent:hasUnitAbbreviation>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#knotsMap -->
+
+    <owl:Thing rdf:about="#knotsMap">
+        <rdf:type rdf:resource="&WeatherAgent;UnitAbbreviation"/>
+        <WeatherAgent:hasUnitAbbreviation>Kts</WeatherAgent:hasUnitAbbreviation>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#mmHgMap -->
+
+    <owl:Thing rdf:about="#mmHgMap">
+        <rdf:type rdf:resource="&WeatherAgent;UnitAbbreviation"/>
+        <WeatherAgent:hasUnitAbbreviation>mmHg</WeatherAgent:hasUnitAbbreviation>
+    </owl:Thing>
+    
+
+
+    <!-- http://www.csd.abdn.ac.uk/research/AgentCities/WeatherAgent/weather-ont.daml#windMphMap -->
+
+    <WeatherAgent:UnitAbbreviation rdf:about="#windMphMap">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <WeatherAgent:hasUnitAbbreviation>MPH</WeatherAgent:hasUnitAbbreviation>
+    </WeatherAgent:UnitAbbreviation>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 2.2.1.1138) http://owlapi.sourceforge.net -->
+
