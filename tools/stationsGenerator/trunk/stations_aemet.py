@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+
+"""* Copyright (c) ONTOLOGY ENGINEERING GROUP: UNIVERSIDAD POLITÉCNICA DE MADRID, 2011
+* Todos los derechos reservados.
+* Título: Generate AEMET Stations
+* Autor: José Mora López"""
+
 from urllib.parse import quote
 
 prefixes =('@base <http://aemet.linkeddata.es/ontology/> .\n' +

@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 
+"""* Copyright (c) ONTOLOGY ENGINEERING GROUP: UNIVERSIDAD POLITÉCNICA DE MADRID, 2011
+* Todos los derechos reservados.
+* Título: AEMET FTP CSV2RDF(N3) Conversor
+* Autor: José Mora López"""
+
 from ftplib import FTP
 from pickle import dump, load
 import os, time, gzip
