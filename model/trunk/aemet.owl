@@ -175,6 +175,12 @@
     
 
 
+    <!-- http://purl.oclc.org/NET/ssnx/ssn#hasProperty -->
+
+    <owl:ObjectProperty rdf:about="&ssn;hasProperty"/>
+    
+
+
     <!-- http://www.w3.org/2003/01/geo/wgs84_pos#location -->
 
     <owl:ObjectProperty rdf:about="&wgs84_pos;location"/>
@@ -803,6 +809,16 @@
     
 
 
+    <!-- http://aemet.linkeddata.es/aemet.owl#PropiedadAmbiental -->
+
+    <owl:Class rdf:about="#PropiedadAmbiental">
+        <rdfs:label xml:lang="es"
+            >PropiedadAmbiental</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ssn;Property"/>
+    </owl:Class>
+    
+
+
     <!-- http://aemet.linkeddata.es/aemet.owl#Sensor -->
 
     <owl:Class rdf:about="#Sensor">
@@ -872,6 +888,12 @@
     
 
 
+    <!-- http://purl.oclc.org/NET/ssnx/ssn#FeatureOfInterest -->
+
+    <owl:Class rdf:about="&ssn;FeatureOfInterest"/>
+    
+
+
     <!-- http://purl.oclc.org/NET/ssnx/ssn#Observation -->
 
     <owl:Class rdf:about="&ssn;Observation"/>
@@ -881,6 +903,12 @@
     <!-- http://purl.oclc.org/NET/ssnx/ssn#Platform -->
 
     <owl:Class rdf:about="&ssn;Platform"/>
+    
+
+
+    <!-- http://purl.oclc.org/NET/ssnx/ssn#Property -->
+
+    <owl:Class rdf:about="&ssn;Property"/>
     
 
 
@@ -911,6 +939,155 @@
     <!-- http://www.w3.org/2006/time#Instant -->
 
     <owl:Class rdf:about="&time;Instant"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://aemet.linkeddata.es/aemet.owl#estadoAtmosfera -->
+
+    <owl:Thing rdf:about="#estadoAtmosfera">
+        <rdf:type rdf:resource="&ssn;FeatureOfInterest"/>
+        <rdfs:label xml:lang="es"
+            >Estado atm&#243;sfera</rdfs:label>
+        <rdfs:label xml:lang="es">estadoAtmosfera</rdfs:label>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/aemet.owl#estadoBaterias -->
+
+    <owl:Thing rdf:about="#estadoBaterias">
+        <rdf:type rdf:resource="&ssn;FeatureOfInterest"/>
+        <rdfs:label xml:lang="es">Estado baterias</rdfs:label>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/aemet.owl#humedad -->
+
+    <ssn:FeatureOfInterest rdf:about="#humedad">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <rdfs:label xml:lang="es">Humedad</rdfs:label>
+    </ssn:FeatureOfInterest>
+    
+
+
+    <!-- http://aemet.linkeddata.es/aemet.owl#precipitacion -->
+
+    <owl:Thing rdf:about="#precipitacion">
+        <rdf:type rdf:resource="&ssn;FeatureOfInterest"/>
+        <rdfs:label xml:lang="es">Precipitaci&#243;n</rdfs:label>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/aemet.owl#presion -->
+
+    <ssn:FeatureOfInterest rdf:about="#presion">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <rdfs:label xml:lang="es">Presi&#243;n</rdfs:label>
+        <ssn:hasProperty rdf:resource="#presionAmbiental"/>
+        <ssn:hasProperty rdf:resource="#presionReducidaAlNivelDelMar"/>
+        <ssn:hasProperty rdf:resource="#reduccionDeLaPresionAalturaDelDelGeopotencial700"/>
+        <ssn:hasProperty rdf:resource="#reduccionDeLaPresionAalturaDelDelGeopotencial850"/>
+        <ssn:hasProperty rdf:resource="#reduccionDeLaPresionAalturaDelDelGeopotencial925"/>
+    </ssn:FeatureOfInterest>
+    
+
+
+    <!-- http://aemet.linkeddata.es/aemet.owl#presionAmbiental -->
+
+    <owl:Thing rdf:about="#presionAmbiental">
+        <rdf:type rdf:resource="#PropiedadAmbiental"/>
+        <rdfs:label xml:lang="es"
+            >presionAmbiental</rdfs:label>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/aemet.owl#presionReducidaAlNivelDelMar -->
+
+    <owl:Thing rdf:about="#presionReducidaAlNivelDelMar">
+        <rdf:type rdf:resource="#PropiedadAmbiental"/>
+        <rdfs:label xml:lang="es"
+            >presionReducidaAlNivelDelMar</rdfs:label>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/aemet.owl#radiacion -->
+
+    <owl:Thing rdf:about="#radiacion">
+        <rdf:type rdf:resource="&ssn;FeatureOfInterest"/>
+        <rdfs:label xml:lang="es">Radiaci&#243;n</rdfs:label>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/aemet.owl#reduccionDeLaPresionAalturaDelDelGeopotencial700 -->
+
+    <owl:Thing rdf:about="#reduccionDeLaPresionAalturaDelDelGeopotencial700">
+        <rdf:type rdf:resource="#PropiedadAmbiental"/>
+        <rdfs:label xml:lang="es"
+            >reduccionDeLaPresionAalturaDelDelGeopotencial700</rdfs:label>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/aemet.owl#reduccionDeLaPresionAalturaDelDelGeopotencial850 -->
+
+    <owl:Thing rdf:about="#reduccionDeLaPresionAalturaDelDelGeopotencial850">
+        <rdf:type rdf:resource="#PropiedadAmbiental"/>
+        <rdfs:label xml:lang="es"
+            >reduccionDeLaPresionAalturaDelDelGeopotencial850</rdfs:label>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/aemet.owl#reduccionDeLaPresionAalturaDelDelGeopotencial925 -->
+
+    <owl:Thing rdf:about="#reduccionDeLaPresionAalturaDelDelGeopotencial925">
+        <rdf:type rdf:resource="#PropiedadAmbiental"/>
+        <rdfs:label xml:lang="es"
+            >reduccionDeLaPresionAalturaDelDelGeopotencial925</rdfs:label>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/aemet.owl#temperatura -->
+
+    <owl:Thing rdf:about="#temperatura">
+        <rdf:type rdf:resource="&ssn;FeatureOfInterest"/>
+        <rdfs:label xml:lang="es">Temperatura</rdfs:label>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/aemet.owl#tiempo -->
+
+    <owl:Thing rdf:about="#tiempo">
+        <rdf:type rdf:resource="&ssn;FeatureOfInterest"/>
+        <rdfs:label xml:lang="es">Tiempo</rdfs:label>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/aemet.owl#viento -->
+
+    <ssn:FeatureOfInterest rdf:about="#viento">
+        <rdf:type rdf:resource="&owl;Thing"/>
+        <rdfs:label xml:lang="es">Viento</rdfs:label>
+    </ssn:FeatureOfInterest>
 </rdf:RDF>
 
 
