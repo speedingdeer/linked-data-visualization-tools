@@ -3,8 +3,8 @@
 
 <!DOCTYPE rdf:RDF [
     <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
-    <!ENTITY owl2 "http://www.w3.org/2006/12/owl2#" >
     <!ENTITY swrl "http://www.w3.org/2003/11/swrl#" >
+    <!ENTITY owl2 "http://www.w3.org/2006/12/owl2#" >
     <!ENTITY swrlb "http://www.w3.org/2003/11/swrlb#" >
     <!ENTITY swrlx "http://www.w3.org/2003/11/swrlx#" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
@@ -13,6 +13,7 @@
     <!ENTITY describevar "http://aemet.linkdata.es/describevar#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
     <!ENTITY describevar2 "http://aemet.linkeddata.es/describevar.owl#" >
+    <!ENTITY describevar4 "http://aemet.linkdata.es/ontology/describevar/" >
     <!ENTITY describevar3 "http://aemet.linkdata.es/ontology/describevar#" >
 ]>
 
@@ -28,6 +29,7 @@
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:swrlx="http://www.w3.org/2003/11/swrlx#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:describevar4="http://aemet.linkdata.es/ontology/describevar/"
      xmlns:describevar3="http://aemet.linkdata.es/ontology/describevar#"
      xmlns:swrl="http://www.w3.org/2003/11/swrl#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
@@ -79,9 +81,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#BAT -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/BAT -->
 
-    <owl:Thing rdf:about="&describevar3;BAT">
+    <owl:Thing rdf:about="&describevar4;BAT">
         <rdfs:label xml:lang="es">BAT</rdfs:label>
         <rdfs:label xml:lang="es">Carga bater&#237;as</rdfs:label>
         <rdfs:comment xml:lang="es">Unidad en V</rdfs:comment>
@@ -89,9 +91,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#BATH -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/BATH -->
 
-    <owl:Thing rdf:about="&describevar3;BATH">
+    <owl:Thing rdf:about="&describevar4;BATH">
         <rdfs:label xml:lang="es">BATH</rdfs:label>
         <rdfs:label xml:lang="es"
             >Carga bater&#237;as horaria</rdfs:label>
@@ -100,9 +102,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#DMAX10m -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/DMAX10m -->
 
-    <owl:Thing rdf:about="&describevar3;DMAX10m">
+    <owl:Thing rdf:about="&describevar4;DMAX10m">
         <rdfs:label xml:lang="es">DMAX10m</rdfs:label>
         <rdfs:label xml:lang="es"
             >Direcci&#243;n de la velocidad m&#225;xima del viento</rdfs:label>
@@ -112,9 +114,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#DV10m -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/DV10m -->
 
-    <owl:Thing rdf:about="&describevar3;DV10m">
+    <owl:Thing rdf:about="&describevar4;DV10m">
         <rdfs:label xml:lang="es">DV10m</rdfs:label>
         <rdfs:label xml:lang="es"
             >Direcci&#243;n media del viento</rdfs:label>
@@ -124,9 +126,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#GEO700 -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/GEO700 -->
 
-    <owl:Thing rdf:about="&describevar3;GEO700">
+    <owl:Thing rdf:about="&describevar4;GEO700">
         <rdfs:label xml:lang="es">GEO700</rdfs:label>
         <rdfs:label xml:lang="es"
             >Reducci&#243;n de la presi&#243;n a la altura de 700 hPa</rdfs:label>
@@ -136,9 +138,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#GEO850 -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/GEO850 -->
 
-    <owl:Thing rdf:about="&describevar3;GEO850">
+    <owl:Thing rdf:about="&describevar4;GEO850">
         <rdfs:label xml:lang="es">GEO850</rdfs:label>
         <rdfs:label xml:lang="es"
             >Reducci&#243;nr de la presi&#243;n a la altura de 850 hPa.</rdfs:label>
@@ -148,9 +150,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#GEO925 -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/GEO925 -->
 
-    <owl:Thing rdf:about="&describevar3;GEO925">
+    <owl:Thing rdf:about="&describevar4;GEO925">
         <rdfs:label xml:lang="es">GEO925</rdfs:label>
         <rdfs:label xml:lang="es"
             >Reducci&#243;n de la presi&#243;n a altura de unos 925m</rdfs:label>
@@ -160,9 +162,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#HR -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/HR -->
 
-    <owl:Thing rdf:about="&describevar3;HR">
+    <owl:Thing rdf:about="&describevar4;HR">
         <rdfs:label xml:lang="es">HR</rdfs:label>
         <rdfs:label xml:lang="es"
             >Humedad relativa</rdfs:label>
@@ -172,9 +174,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#HTAMAX1h -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/HTAMAX1h -->
 
-    <owl:Thing rdf:about="&describevar3;HTAMAX1h">
+    <owl:Thing rdf:about="&describevar4;HTAMAX1h">
         <rdfs:label xml:lang="es">HTAMAX1h</rdfs:label>
         <rdfs:label xml:lang="es"
             >Hora y minuto de la temperatura m&#225;xima en 1 hora</rdfs:label>
@@ -184,9 +186,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#HTAMIN1h -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/HTAMIN1h -->
 
-    <owl:Thing rdf:about="&describevar3;HTAMIN1h">
+    <owl:Thing rdf:about="&describevar4;HTAMIN1h">
         <rdfs:label xml:lang="es">HTAMIN1h</rdfs:label>
         <rdfs:label xml:lang="es"
             >Hora y minuto de la temperatura m&#237;nima en 1 hora</rdfs:label>
@@ -196,9 +198,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#INSO -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/INSO -->
 
-    <owl:Thing rdf:about="&describevar3;INSO">
+    <owl:Thing rdf:about="&describevar4;INSO">
         <rdfs:label xml:lang="es">INSO</rdfs:label>
         <rdfs:label xml:lang="es">Insolaci&#243;n</rdfs:label>
         <rdfs:comment xml:lang="es">Unidad en min.</rdfs:comment>
@@ -206,9 +208,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#NIEVE -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/NIEVE -->
 
-    <owl:Thing rdf:about="&describevar3;NIEVE">
+    <owl:Thing rdf:about="&describevar4;NIEVE">
         <rdfs:label xml:lang="es">Capa de nieve</rdfs:label>
         <rdfs:label xml:lang="es">NIEVE</rdfs:label>
         <rdfs:comment xml:lang="es">Unidad en cm</rdfs:comment>
@@ -216,9 +218,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#PLIQTP -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/PLIQTP -->
 
-    <owl:Thing rdf:about="&describevar3;PLIQTP">
+    <owl:Thing rdf:about="&describevar4;PLIQTP">
         <rdfs:label xml:lang="es">PLIQTP</rdfs:label>
         <rdfs:label xml:lang="es"
             >Precipitaci&#243;n acumulada l&#237;quida</rdfs:label>
@@ -227,9 +229,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#PREC -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/PREC -->
 
-    <owl:Thing rdf:about="&describevar3;PREC">
+    <owl:Thing rdf:about="&describevar4;PREC">
         <rdfs:label xml:lang="es">PREC</rdfs:label>
         <rdfs:label xml:lang="es">Precipitaci&#243;n</rdfs:label>
         <rdfs:comment xml:lang="es">Unidad en mm</rdfs:comment>
@@ -237,9 +239,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#PRES -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/PRES -->
 
-    <owl:Thing rdf:about="&describevar3;PRES">
+    <owl:Thing rdf:about="&describevar4;PRES">
         <rdfs:label xml:lang="es">PRES</rdfs:label>
         <rdfs:label xml:lang="es">Presi&#243;n</rdfs:label>
         <rdfs:comment xml:lang="es">Unidad en hPa</rdfs:comment>
@@ -247,9 +249,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#PRES_nmar -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/PRES_nmar -->
 
-    <owl:Thing rdf:about="&describevar3;PRES_nmar">
+    <owl:Thing rdf:about="&describevar4;PRES_nmar">
         <rdfs:label xml:lang="es">PRES_nmar</rdfs:label>
         <rdfs:label xml:lang="es"
             >Presi&#243;n reducida al nivel del mar</rdfs:label>
@@ -258,9 +260,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#PSOLTP -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/PSOLTP -->
 
-    <owl:Thing rdf:about="&describevar3;PSOLTP">
+    <owl:Thing rdf:about="&describevar4;PSOLTP">
         <rdfs:label xml:lang="es">PSOLTP</rdfs:label>
         <rdfs:label xml:lang="es"
             >Precipitaci&#243;n acumulada s&#243;lida</rdfs:label>
@@ -269,536 +271,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#QBAT -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/RAGLOB -->
 
-    <owl:Thing rdf:about="&describevar3;QBAT">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: BAT</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Carga bater&#237;as</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QBATH -->
-
-    <owl:Thing rdf:about="&describevar3;QBATH">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: BATH</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Carga bater&#237;as horaria</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QDMAX10m -->
-
-    <owl:Thing rdf:about="&describevar3;QDMAX10m">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: DMAX10m</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Direcci&#243;n de la velocidad m&#225;xima del viento</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QDV10m -->
-
-    <owl:Thing rdf:about="&describevar3;QDV10m">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: DV10m</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Direcci&#243;n media del viento</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QGEO700 -->
-
-    <owl:Thing rdf:about="&describevar3;QGEO700">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: GEO700</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Reducci&#243;n de la presi&#243;n a la altura de 700 hPa</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QGEO850 -->
-
-    <owl:Thing rdf:about="&describevar3;QGEO850">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: GEO850</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Reducci&#243;nr de la presi&#243;n a la altura de 850 hPa.</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QGEO925 -->
-
-    <owl:Thing rdf:about="&describevar3;QGEO925">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: GEO925</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Reducci&#243;n de la presi&#243;n a altura de unos 925m</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QHR -->
-
-    <owl:Thing rdf:about="&describevar3;QHR">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: HR</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Humedad relativa</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QHTAMAX1h -->
-
-    <owl:Thing rdf:about="&describevar3;QHTAMAX1h">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: HTAMAX1h</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Hora y minuto de la temperatura m&#225;xima en 1 hora</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QHTAMIN1h -->
-
-    <owl:Thing rdf:about="&describevar3;QHTAMIN1h">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: HTAMIN1h</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Hora y minuto de la temperatura m&#237;nima en 1 hora</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QINSO -->
-
-    <owl:Thing rdf:about="&describevar3;QINSO">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: INSO</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Insolaci&#243;n</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QNIEVE -->
-
-    <owl:Thing rdf:about="&describevar3;QNIEVE">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Capa de nieve</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: NIEVE</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QPLIQTP -->
-
-    <owl:Thing rdf:about="&describevar3;QPLIQTP">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: PLIQTP</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Precipitaci&#243;n acumulada l&#237;quida</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QPREC -->
-
-    <owl:Thing rdf:about="&describevar3;QPREC">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: PREC</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Precipitaci&#243;n</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QPRES -->
-
-    <owl:Thing rdf:about="&describevar3;QPRES">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: PRES</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Presi&#243;n</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QPRES_nmar -->
-
-    <owl:Thing rdf:about="&describevar3;QPRES_nmar">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: PRES_nmar</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Presi&#243;n reducida al nivel del mar</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QPSOLTP -->
-
-    <owl:Thing rdf:about="&describevar3;QPSOLTP">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: PSOLTP</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Precipitaci&#243;n acumulada s&#243;lida</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QRAGLOB -->
-
-    <owl:Thing rdf:about="&describevar3;QRAGLOB">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: RAGLOB</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Radiaci&#243;n global</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QRVIENTO -->
-
-    <owl:Thing rdf:about="&describevar3;QRVIENTO">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: RVIENTO</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Recorrido del viento</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QTA -->
-
-    <owl:Thing rdf:about="&describevar3;QTA">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: TA</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Temperatura del aire</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QTAMAX10m -->
-
-    <owl:Thing rdf:about="&describevar3;QTAMAX10m">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: TAMAX10m</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Temperatura m&#225;xima en 10 min</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QTAMAX1h -->
-
-    <owl:Thing rdf:about="&describevar3;QTAMAX1h">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: TAMAX1h</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Temperatura m&#225;xima en 1 hora</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QTAMIN10m -->
-
-    <owl:Thing rdf:about="&describevar3;QTAMIN10m">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: TAMIN10m</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Temperatura m&#237;nima en 10 minutos</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QTAMIN1h -->
-
-    <owl:Thing rdf:about="&describevar3;QTAMIN1h">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: TAMIN1h</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Temperatura m&#237;nima en 1 hora</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QTPR -->
-
-    <owl:Thing rdf:about="&describevar3;QTPR">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: TPR</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Temperatura del punto de roc&#237;o</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QTPRE -->
-
-    <owl:Thing rdf:about="&describevar3;QTPRE">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: TPRE</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Tiempo presente</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QTS -->
-
-    <owl:Thing rdf:about="&describevar3;QTS">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: TS</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Temperatura suelo</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QTSS5cm -->
-
-    <owl:Thing rdf:about="&describevar3;QTSS5cm">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: TSS5cm</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Temperatura subsuelo 5cm</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QVIS -->
-
-    <owl:Thing rdf:about="&describevar3;QVIS">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: VIS</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Visibilidad</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QVMAX10m -->
-
-    <owl:Thing rdf:about="&describevar3;QVMAX10m">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: VMAX10m</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Velocidad m&#225;xima del viento</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#QVV10m -->
-
-    <owl:Thing rdf:about="&describevar3;QVV10m">
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: VV10m</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Calidad del valor del dato: Velocidad media del viento</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Se utilizan los siguiente valores para la calidad:
-
-   0: Pasa todos los filtros.
-   2: El dato se considera sospechoso.
-   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#RAGLOB -->
-
-    <owl:Thing rdf:about="&describevar3;RAGLOB">
+    <owl:Thing rdf:about="&describevar4;RAGLOB">
         <rdfs:label xml:lang="es">RAGLOB</rdfs:label>
         <rdfs:label xml:lang="es"
             >Radiaci&#243;n global</rdfs:label>
@@ -807,9 +282,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#RVIENTO -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/RVIENTO -->
 
-    <owl:Thing rdf:about="&describevar3;RVIENTO">
+    <owl:Thing rdf:about="&describevar4;RVIENTO">
         <rdfs:label xml:lang="es">RVIENTO</rdfs:label>
         <rdfs:label xml:lang="es"
             >Recorrido del viento</rdfs:label>
@@ -818,9 +293,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#TA -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/TA -->
 
-    <owl:Thing rdf:about="&describevar3;TA">
+    <owl:Thing rdf:about="&describevar4;TA">
         <rdfs:label xml:lang="es">TA</rdfs:label>
         <rdfs:label xml:lang="es"
             >Temperatura del aire</rdfs:label>
@@ -829,9 +304,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#TAMAX10m -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/TAMAX10m -->
 
-    <owl:Thing rdf:about="&describevar3;TAMAX10m">
+    <owl:Thing rdf:about="&describevar4;TAMAX10m">
         <rdfs:label xml:lang="es">TAMAX10m</rdfs:label>
         <rdfs:label xml:lang="es"
             >Temperatura m&#225;xima en 10 min</rdfs:label>
@@ -840,9 +315,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#TAMAX1h -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/TAMAX1h -->
 
-    <owl:Thing rdf:about="&describevar3;TAMAX1h">
+    <owl:Thing rdf:about="&describevar4;TAMAX1h">
         <rdfs:label xml:lang="es">TAMAX1h</rdfs:label>
         <rdfs:label xml:lang="es"
             >Temperatura m&#225;xima en 1 hora</rdfs:label>
@@ -851,9 +326,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#TAMIN10m -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/TAMIN10m -->
 
-    <owl:Thing rdf:about="&describevar3;TAMIN10m">
+    <owl:Thing rdf:about="&describevar4;TAMIN10m">
         <rdfs:label xml:lang="es">TAMIN10m</rdfs:label>
         <rdfs:label xml:lang="es"
             >Temperatura m&#237;nima en 10 minutos</rdfs:label>
@@ -862,9 +337,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#TAMIN1h -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/TAMIN1h -->
 
-    <owl:Thing rdf:about="&describevar3;TAMIN1h">
+    <owl:Thing rdf:about="&describevar4;TAMIN1h">
         <rdfs:label xml:lang="es">TAMIN1h</rdfs:label>
         <rdfs:label xml:lang="es"
             >Temperatura m&#237;nima en 1 hora</rdfs:label>
@@ -873,9 +348,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#TPR -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/TPR -->
 
-    <owl:Thing rdf:about="&describevar3;TPR">
+    <owl:Thing rdf:about="&describevar4;TPR">
         <rdfs:label xml:lang="es">TPR</rdfs:label>
         <rdfs:label xml:lang="es"
             >Temperatura del punto de roc&#237;o</rdfs:label>
@@ -884,9 +359,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#TPRE -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/TPRE -->
 
-    <owl:Thing rdf:about="&describevar3;TPRE">
+    <owl:Thing rdf:about="&describevar4;TPRE">
         <rdfs:label xml:lang="es">TPRE</rdfs:label>
         <rdfs:label xml:lang="es">Tiempo presente</rdfs:label>
         <rdfs:comment xml:lang="es">Ver Tabla 4680</rdfs:comment>
@@ -894,9 +369,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#TS -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/TS -->
 
-    <owl:Thing rdf:about="&describevar3;TS">
+    <owl:Thing rdf:about="&describevar4;TS">
         <rdfs:label xml:lang="es">TS</rdfs:label>
         <rdfs:label xml:lang="es"
             >Temperatura suelo</rdfs:label>
@@ -905,9 +380,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#TSS5cm -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/TSS5cm -->
 
-    <owl:Thing rdf:about="&describevar3;TSS5cm">
+    <owl:Thing rdf:about="&describevar4;TSS5cm">
         <rdfs:label xml:lang="es">TSS5cm</rdfs:label>
         <rdfs:label xml:lang="es"
             >Temperatura subsuelo 5cm</rdfs:label>
@@ -916,9 +391,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#VIS -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/VIS -->
 
-    <owl:Thing rdf:about="&describevar3;VIS">
+    <owl:Thing rdf:about="&describevar4;VIS">
         <rdfs:label xml:lang="es">VIS</rdfs:label>
         <rdfs:label xml:lang="es">Visibilidad</rdfs:label>
         <rdfs:comment xml:lang="es">Unidad en Km</rdfs:comment>
@@ -926,9 +401,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#VMAX10m -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/VMAX10m -->
 
-    <owl:Thing rdf:about="&describevar3;VMAX10m">
+    <owl:Thing rdf:about="&describevar4;VMAX10m">
         <rdfs:label xml:lang="es">VMAX10m</rdfs:label>
         <rdfs:label xml:lang="es"
             >Velocidad m&#225;xima del viento</rdfs:label>
@@ -937,9 +412,9 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#VV10m -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/VV10m -->
 
-    <owl:Thing rdf:about="&describevar3;VV10m">
+    <owl:Thing rdf:about="&describevar4;VV10m">
         <rdfs:label xml:lang="es">VV10m</rdfs:label>
         <rdfs:label xml:lang="es"
             >Velocidad media del viento</rdfs:label>

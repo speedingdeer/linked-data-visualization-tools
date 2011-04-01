@@ -9,6 +9,7 @@
     <!ENTITY geografica "http://dia.fi.upm.es/geografica.owl#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY geografica2 "http://aemet.linkeddata.es/ontology/geografica/" >
     <!ENTITY ogc-gml "http://loki.cae.drexel.edu/~wbs/ontology/2004/09/ogc-gml#" >
 ]>
 
@@ -19,6 +20,7 @@
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:geografica="http://dia.fi.upm.es/geografica.owl#"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:geografica2="http://aemet.linkeddata.es/ontology/geografica/"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:ogc-gml="http://loki.cae.drexel.edu/~wbs/ontology/2004/09/ogc-gml#"
@@ -55,44 +57,44 @@
     
 
 
-    <!-- http://dia.fi.upm.es/geografica.owl#hasGeo -->
+    <!-- http://aemet.linkeddata.es/ontology/geografica/formadoPorLimiteAdministrativo -->
 
-    <owl:ObjectProperty rdf:about="#hasGeo">
+    <owl:ObjectProperty rdf:about="&geografica2;formadoPorLimiteAdministrativo">
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
-        <rdfs:range rdf:resource="#LimiteAdministrativo"/>
-        <rdfs:domain rdf:resource="#LimiteAdministrativo"/>
+        <rdfs:domain rdf:resource="&geografica2;LimiteAdministrativo"/>
+        <rdfs:range rdf:resource="&geografica2;LimiteAdministrativo"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://dia.fi.upm.es/geografica.owl#hasGeoDirect -->
+    <!-- http://aemet.linkeddata.es/ontology/geografica/formadoDirectamentePorLimiteAdministrativo -->
 
-    <owl:ObjectProperty rdf:about="#hasGeoDirect">
-        <rdfs:domain rdf:resource="#LimiteAdministrativo"/>
-        <rdfs:range rdf:resource="#LimiteAdministrativo"/>
-        <rdfs:subPropertyOf rdf:resource="#hasGeo"/>
+    <owl:ObjectProperty rdf:about="&geografica2;formadoDirectamentePorLimiteAdministrativo">
+        <rdfs:domain rdf:resource="&geografica2;LimiteAdministrativo"/>
+        <rdfs:range rdf:resource="&geografica2;LimiteAdministrativo"/>
+        <rdfs:subPropertyOf rdf:resource="&geografica2;formadoPorLimiteAdministrativo"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://dia.fi.upm.es/geografica.owl#isPartOfGeo -->
+    <!-- http://aemet.linkeddata.es/ontology/geografica/formaLimiteAdministrativo -->
 
-    <owl:ObjectProperty rdf:about="#isPartOfGeo">
+    <owl:ObjectProperty rdf:about="&geografica2;formaLimiteAdministrativo">
         <rdf:type rdf:resource="&owl;TransitiveProperty"/>
-        <rdfs:domain rdf:resource="#LimiteAdministrativo"/>
-        <rdfs:range rdf:resource="#LimiteAdministrativo"/>
-        <owl:inverseOf rdf:resource="#hasGeo"/>
+        <rdfs:domain rdf:resource="&geografica2;LimiteAdministrativo"/>
+        <rdfs:range rdf:resource="&geografica2;LimiteAdministrativo"/>
+        <owl:inverseOf rdf:resource="&geografica2;formadoPorLimiteAdministrativo"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://dia.fi.upm.es/geografica.owl#isPartOfGeoDirect -->
+    <!-- http://aemet.linkeddata.es/ontology/geografica/formaLimiteAdministrativoDirectamente -->
 
-    <owl:ObjectProperty rdf:about="#isPartOfGeoDirect">
-        <rdfs:range rdf:resource="#LimiteAdministrativo"/>
-        <rdfs:domain rdf:resource="#LimiteAdministrativo"/>
-        <owl:inverseOf rdf:resource="#hasGeoDirect"/>
-        <rdfs:subPropertyOf rdf:resource="#isPartOfGeo"/>
+    <owl:ObjectProperty rdf:about="&geografica2;formaLimiteAdministrativoDirectamente">
+        <rdfs:domain rdf:resource="&geografica2;LimiteAdministrativo"/>
+        <rdfs:range rdf:resource="&geografica2;LimiteAdministrativo"/>
+        <owl:inverseOf rdf:resource="&geografica2;formadoDirectamentePorLimiteAdministrativo"/>
+        <rdfs:subPropertyOf rdf:resource="&geografica2;formaLimiteAdministrativo"/>
     </owl:ObjectProperty>
     
 
@@ -108,47 +110,47 @@
     
 
 
-    <!-- http://dia.fi.upm.es/geografica.owl#Ciudad -->
+    <!-- http://aemet.linkeddata.es/ontology/geografica/Ciudad -->
 
-    <owl:Class rdf:about="#Ciudad">
+    <owl:Class rdf:about="&geografica2;Ciudad">
         <rdfs:label xml:lang="en">City</rdfs:label>
         <rdfs:label xml:lang="es">Ciudad</rdfs:label>
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="#LimiteAdministrativo"/>
+                    <rdf:Description rdf:about="&geografica2;LimiteAdministrativo"/>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="#hasGeoDirect"/>
-                        <owl:someValuesFrom rdf:resource="#DistritoPostal"/>
+                        <owl:onProperty rdf:resource="&geografica2;formadoDirectamentePorLimiteAdministrativo"/>
+                        <owl:someValuesFrom rdf:resource="&geografica2;DistritoPostal"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="#isPartOfGeoDirect"/>
-                        <owl:someValuesFrom rdf:resource="#Provincia"/>
+                        <owl:onProperty rdf:resource="&geografica2;formaLimiteAdministrativoDirectamente"/>
+                        <owl:someValuesFrom rdf:resource="&geografica2;Provincia"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="#isPartOfGeoDirect"/>
-                        <owl:allValuesFrom rdf:resource="#Provincia"/>
+                        <owl:onProperty rdf:resource="&geografica2;formaLimiteAdministrativoDirectamente"/>
+                        <owl:allValuesFrom rdf:resource="&geografica2;Provincia"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="#isPartOfGeoDirect"/>
+                        <owl:onProperty rdf:resource="&geografica2;formaLimiteAdministrativoDirectamente"/>
                         <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
-        <owl:disjointWith rdf:resource="#ComunidadAutonoma"/>
-        <owl:disjointWith rdf:resource="#DistritoPostal"/>
-        <owl:disjointWith rdf:resource="#Pais"/>
-        <owl:disjointWith rdf:resource="#Provincia"/>
+        <owl:disjointWith rdf:resource="&geografica2;ComunidadAutonoma"/>
+        <owl:disjointWith rdf:resource="&geografica2;DistritoPostal"/>
+        <owl:disjointWith rdf:resource="&geografica2;Pais"/>
+        <owl:disjointWith rdf:resource="&geografica2;Provincia"/>
         <rdfs:comment
             >Una ciudad es un objeto geopol&#237;tico que es parte de una o varias provincias (existen ciudades lim&#237;trofes que se encuentran entre dos provincias) y contiene uno o m&#225;s distritos postales.</rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://dia.fi.upm.es/geografica.owl#ComunidadAutonoma -->
+    <!-- http://aemet.linkeddata.es/ontology/geografica/ComunidadAutonoma -->
 
-    <owl:Class rdf:about="#ComunidadAutonoma">
+    <owl:Class rdf:about="&geografica2;ComunidadAutonoma">
         <rdfs:label xml:lang="en"
             >Autonomous region</rdfs:label>
         <rdfs:label xml:lang="es"
@@ -156,70 +158,70 @@
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="#LimiteAdministrativo"/>
+                    <rdf:Description rdf:about="&geografica2;LimiteAdministrativo"/>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="#hasGeoDirect"/>
-                        <owl:someValuesFrom rdf:resource="#Provincia"/>
+                        <owl:onProperty rdf:resource="&geografica2;formadoDirectamentePorLimiteAdministrativo"/>
+                        <owl:someValuesFrom rdf:resource="&geografica2;Provincia"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="#isPartOfGeoDirect"/>
-                        <owl:someValuesFrom rdf:resource="#Pais"/>
+                        <owl:onProperty rdf:resource="&geografica2;formaLimiteAdministrativoDirectamente"/>
+                        <owl:someValuesFrom rdf:resource="&geografica2;Pais"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="#isPartOfGeoDirect"/>
-                        <owl:allValuesFrom rdf:resource="#Pais"/>
+                        <owl:onProperty rdf:resource="&geografica2;formaLimiteAdministrativoDirectamente"/>
+                        <owl:allValuesFrom rdf:resource="&geografica2;Pais"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="#isPartOfGeoDirect"/>
+                        <owl:onProperty rdf:resource="&geografica2;formaLimiteAdministrativoDirectamente"/>
                         <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
-        <owl:disjointWith rdf:resource="#DistritoPostal"/>
-        <owl:disjointWith rdf:resource="#Pais"/>
-        <owl:disjointWith rdf:resource="#Provincia"/>
+        <owl:disjointWith rdf:resource="&geografica2;DistritoPostal"/>
+        <owl:disjointWith rdf:resource="&geografica2;Pais"/>
+        <owl:disjointWith rdf:resource="&geografica2;Provincia"/>
         <rdfs:comment
             >Comunidad aut&#243;noma es un objeto geopol&#237;tico que es parte de un solo pa&#237;s y tiene una o varias provincias.</rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://dia.fi.upm.es/geografica.owl#DistritoPostal -->
+    <!-- http://aemet.linkeddata.es/ontology/geografica/DistritoPostal -->
 
-    <owl:Class rdf:about="#DistritoPostal">
+    <owl:Class rdf:about="&geografica2;DistritoPostal">
         <rdfs:label xml:lang="en">Postal district</rdfs:label>
         <rdfs:label xml:lang="es">Distrito postal</rdfs:label>
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="#LimiteAdministrativo"/>
+                    <rdf:Description rdf:about="&geografica2;LimiteAdministrativo"/>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="#isPartOfGeoDirect"/>
-                        <owl:someValuesFrom rdf:resource="#Ciudad"/>
+                        <owl:onProperty rdf:resource="&geografica2;formaLimiteAdministrativoDirectamente"/>
+                        <owl:someValuesFrom rdf:resource="&geografica2;Ciudad"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="#isPartOfGeoDirect"/>
-                        <owl:allValuesFrom rdf:resource="#Ciudad"/>
+                        <owl:onProperty rdf:resource="&geografica2;formaLimiteAdministrativoDirectamente"/>
+                        <owl:allValuesFrom rdf:resource="&geografica2;Ciudad"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="#isPartOfGeoDirect"/>
+                        <owl:onProperty rdf:resource="&geografica2;formaLimiteAdministrativoDirectamente"/>
                         <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
-        <owl:disjointWith rdf:resource="#Pais"/>
-        <owl:disjointWith rdf:resource="#Provincia"/>
+        <owl:disjointWith rdf:resource="&geografica2;Pais"/>
+        <owl:disjointWith rdf:resource="&geografica2;Provincia"/>
         <rdfs:comment
             >Un distrito postal es un objeto geopol&#237;tico que forma parte de una y s&#243;lo una ciudad.</rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://dia.fi.upm.es/geografica.owl#LimiteAdministrativo -->
+    <!-- http://aemet.linkeddata.es/ontology/geografica/LimiteAdministrativo -->
 
-    <owl:Class rdf:about="#LimiteAdministrativo">
+    <owl:Class rdf:about="&geografica2;LimiteAdministrativo">
         <rdfs:label xml:lang="en"
             >Administrative area</rdfs:label>
         <rdfs:label xml:lang="es"
@@ -227,11 +229,11 @@
         <owl:equivalentClass>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="#Ciudad"/>
-                    <rdf:Description rdf:about="#ComunidadAutonoma"/>
-                    <rdf:Description rdf:about="#DistritoPostal"/>
-                    <rdf:Description rdf:about="#Pais"/>
-                    <rdf:Description rdf:about="#Provincia"/>
+                    <rdf:Description rdf:about="&geografica2;Ciudad"/>
+                    <rdf:Description rdf:about="&geografica2;ComunidadAutonoma"/>
+                    <rdf:Description rdf:about="&geografica2;DistritoPostal"/>
+                    <rdf:Description rdf:about="&geografica2;Pais"/>
+                    <rdf:Description rdf:about="&geografica2;Provincia"/>
                 </owl:unionOf>
             </owl:Class>
         </owl:equivalentClass>
@@ -241,52 +243,52 @@
     
 
 
-    <!-- http://dia.fi.upm.es/geografica.owl#Pais -->
+    <!-- http://aemet.linkeddata.es/ontology/geografica/Pais -->
 
-    <owl:Class rdf:about="#Pais">
+    <owl:Class rdf:about="&geografica2;Pais">
         <rdfs:label xml:lang="en">Country</rdfs:label>
         <rdfs:label xml:lang="es">Pa&#237;s</rdfs:label>
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="#LimiteAdministrativo"/>
+                    <rdf:Description rdf:about="&geografica2;LimiteAdministrativo"/>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="#hasGeoDirect"/>
-                        <owl:someValuesFrom rdf:resource="#ComunidadAutonoma"/>
+                        <owl:onProperty rdf:resource="&geografica2;formadoDirectamentePorLimiteAdministrativo"/>
+                        <owl:someValuesFrom rdf:resource="&geografica2;ComunidadAutonoma"/>
                     </owl:Restriction>
                 </owl:intersectionOf>
             </owl:Class>
         </owl:equivalentClass>
-        <owl:disjointWith rdf:resource="#Provincia"/>
+        <owl:disjointWith rdf:resource="&geografica2;Provincia"/>
         <rdfs:comment
             >Un pa&#237;s es un conjunto de comunidades aut&#243;nomas.</rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://dia.fi.upm.es/geografica.owl#Provincia -->
+    <!-- http://aemet.linkeddata.es/ontology/geografica/Provincia -->
 
-    <owl:Class rdf:about="#Provincia">
+    <owl:Class rdf:about="&geografica2;Provincia">
         <rdfs:label xml:lang="en">Province</rdfs:label>
         <rdfs:label xml:lang="es">Provincia</rdfs:label>
         <owl:equivalentClass>
             <owl:Class>
                 <owl:intersectionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="#LimiteAdministrativo"/>
+                    <rdf:Description rdf:about="&geografica2;LimiteAdministrativo"/>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="#hasGeoDirect"/>
-                        <owl:someValuesFrom rdf:resource="#Ciudad"/>
+                        <owl:onProperty rdf:resource="&geografica2;formadoDirectamentePorLimiteAdministrativo"/>
+                        <owl:someValuesFrom rdf:resource="&geografica2;Ciudad"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="#isPartOfGeoDirect"/>
-                        <owl:someValuesFrom rdf:resource="#ComunidadAutonoma"/>
+                        <owl:onProperty rdf:resource="&geografica2;formaLimiteAdministrativoDirectamente"/>
+                        <owl:someValuesFrom rdf:resource="&geografica2;ComunidadAutonoma"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="#isPartOfGeoDirect"/>
-                        <owl:allValuesFrom rdf:resource="#ComunidadAutonoma"/>
+                        <owl:onProperty rdf:resource="&geografica2;formaLimiteAdministrativoDirectamente"/>
+                        <owl:allValuesFrom rdf:resource="&geografica2;ComunidadAutonoma"/>
                     </owl:Restriction>
                     <owl:Restriction>
-                        <owl:onProperty rdf:resource="#isPartOfGeoDirect"/>
+                        <owl:onProperty rdf:resource="&geografica2;formaLimiteAdministrativoDirectamente"/>
                         <owl:maxCardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:maxCardinality>
                     </owl:Restriction>
                 </owl:intersectionOf>

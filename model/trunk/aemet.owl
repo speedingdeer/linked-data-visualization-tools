@@ -8,19 +8,23 @@
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
     <!ENTITY ssn "http://purl.oclc.org/NET/ssnx/ssn#" >
     <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+    <!ENTITY ontology "http://aemet.linkeddata.es/ontology/" >
     <!ENTITY geografica "http://dia.fi.upm.es/geografica.owl#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY describevar "http://aemet.linkdata.es/describevar#" >
     <!ENTITY wgs84_pos "http://www.w3.org/2003/01/geo/wgs84_pos#" >
     <!ENTITY DUL "http://www.loa-cnr.it/ontologies/DUL.owl#" >
+    <!ENTITY aemet2 "http://aemet.linkeddata.es/ontology/aemet/" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY describevar3 "http://aemet.linkdata.es/ontology/describevar/" >
     <!ENTITY describevar2 "http://aemet.linkdata.es/ontology/describevar#" >
     <!ENTITY aemet "http://aemet.linkeddata.es/ontology/aemet.owl#" >
+    <!ENTITY geografica2 "http://aemet.linkeddata.es/ontology/geografica/" >
 ]>
 
 
-<rdf:RDF xmlns="http://aemet.linkeddata.es/ontology/aemet.owl#"
-     xml:base="http://aemet.linkeddata.es/ontology/aemet.owl"
+<rdf:RDF xmlns="&ontology;aemet.owl#"
+     xml:base="&ontology;aemet.owl"
      xmlns:ssn="http://purl.oclc.org/NET/ssnx/ssn#"
      xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
      xmlns:describevar2="http://aemet.linkdata.es/ontology/describevar#"
@@ -28,9 +32,13 @@
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:geografica="http://dia.fi.upm.es/geografica.owl#"
      xmlns:describevar="http://aemet.linkdata.es/describevar#"
+     xmlns:aemet2="&ontology;aemet/"
+     xmlns:geografica2="&ontology;geografica/"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
-     xmlns:aemet="http://aemet.linkeddata.es/ontology/aemet.owl#"
+     xmlns:ontology="http://aemet.linkeddata.es/ontology/"
+     xmlns:aemet="&ontology;aemet.owl#"
+     xmlns:describevar3="http://aemet.linkdata.es/ontology/describevar/"
      xmlns:wgs84_pos="http://www.w3.org/2003/01/geo/wgs84_pos#"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:DUL="http://www.loa-cnr.it/ontologies/DUL.owl#"
@@ -41,7 +49,7 @@
         <rdfs:comment xml:lang="es"
             >Red de ontolog&#237;as para el proyecto AEMET</rdfs:comment>
         <owl:imports rdf:resource="http://aemet.linkeddata.es/localizacion.owl"/>
-        <owl:imports rdf:resource="http://aemet.linkeddata.es/ontology/describevar.owl"/>
+        <owl:imports rdf:resource="&ontology;describevar.owl"/>
         <owl:imports rdf:resource="http://purl.oclc.org/NET/ssnx/ssn"/>
         <owl:imports rdf:resource="http://www.w3.org/2006/time"/>
     </owl:Ontology>
@@ -72,49 +80,49 @@
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#captura -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/captura -->
 
-    <owl:ObjectProperty rdf:about="#captura">
+    <owl:ObjectProperty rdf:about="&ontology;aemet/captura">
         <rdfs:label xml:lang="es">captura</rdfs:label>
-        <rdfs:domain rdf:resource="#EstacionMeteorologica"/>
-        <rdfs:range rdf:resource="#Observacion"/>
+        <rdfs:domain rdf:resource="&ontology;aemet/EstacionMeteorologica"/>
+        <rdfs:range rdf:resource="&ontology;aemet/Observacion"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#esCapturadaPor -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/esCapturadaPor -->
 
-    <owl:ObjectProperty rdf:about="#esCapturadaPor">
+    <owl:ObjectProperty rdf:about="&ontology;aemet/esCapturadaPor">
         <rdfs:label xml:lang="es">esCapturadaPor</rdfs:label>
-        <rdfs:range rdf:resource="#EstacionMeteorologica"/>
-        <rdfs:domain rdf:resource="#Observacion"/>
-        <owl:inverseOf rdf:resource="#captura"/>
+        <rdfs:range rdf:resource="&ontology;aemet/EstacionMeteorologica"/>
+        <rdfs:domain rdf:resource="&ontology;aemet/Observacion"/>
+        <owl:inverseOf rdf:resource="&ontology;aemet/captura"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#localizacionCoordenadas -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/localizacionCoordenadas -->
 
-    <owl:ObjectProperty rdf:about="#localizacionCoordenadas">
+    <owl:ObjectProperty rdf:about="&ontology;aemet/localizacionCoordenadas">
         <rdfs:label xml:lang="es"
             >localizacionCoordenadas</rdfs:label>
-        <rdfs:domain rdf:resource="#Sensor"/>
-        <rdfs:subPropertyOf rdf:resource="#localizadoEn"/>
+        <rdfs:domain rdf:resource="&ontology;aemet/Sensor"/>
+        <rdfs:subPropertyOf rdf:resource="&ontology;aemet/localizadoEn"/>
         <rdfs:range rdf:resource="&wgs84_pos;SpatialThing"/>
         <rdfs:subPropertyOf rdf:resource="&wgs84_pos;location"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#localizadoEn -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/localizadoEn -->
 
-    <owl:ObjectProperty rdf:about="#localizadoEn">
+    <owl:ObjectProperty rdf:about="&ontology;aemet/localizadoEn">
         <rdfs:label xml:lang="es">localizado en</rdfs:label>
-        <rdfs:domain rdf:resource="#Sensor"/>
+        <rdfs:domain rdf:resource="&ontology;aemet/Sensor"/>
         <rdfs:range>
             <owl:Class>
                 <owl:unionOf rdf:parseType="Collection">
-                    <rdf:Description rdf:about="&geografica;LimiteAdministrativo"/>
+                    <rdf:Description rdf:about="&ontology;geografica/LimiteAdministrativo"/>
                     <rdf:Description rdf:about="&wgs84_pos;SpatialThing"/>
                 </owl:unionOf>
             </owl:Class>
@@ -123,36 +131,36 @@
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#localizadoEnProvincia -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/localizadoEnProvincia -->
 
-    <owl:ObjectProperty rdf:about="#localizadoEnProvincia">
+    <owl:ObjectProperty rdf:about="&ontology;aemet/localizadoEnProvincia">
         <rdfs:label xml:lang="es"
             >localizado en provincia</rdfs:label>
         <dc:source>maestro.csv</dc:source>
-        <rdfs:domain rdf:resource="#Sensor"/>
-        <rdfs:subPropertyOf rdf:resource="#localizadoEn"/>
-        <rdfs:range rdf:resource="&geografica;Provincia"/>
+        <rdfs:domain rdf:resource="&ontology;aemet/Sensor"/>
+        <rdfs:subPropertyOf rdf:resource="&ontology;aemet/localizadoEn"/>
+        <rdfs:range rdf:resource="&ontology;geografica/Provincia"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#tieneHoraDeInicioDeLaAcumulacion -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/tieneHoraDeInicioDeLaAcumulacion -->
 
-    <owl:ObjectProperty rdf:about="#tieneHoraDeInicioDeLaAcumulacion">
+    <owl:ObjectProperty rdf:about="&ontology;aemet/tieneHoraDeInicioDeLaAcumulacion">
         <rdfs:label xml:lang="es"
             >tiene hora de inicio de la acumulaci&#243;n</rdfs:label>
-        <rdfs:domain rdf:resource="#Observacion"/>
+        <rdfs:domain rdf:resource="&ontology;aemet/Observacion"/>
         <rdfs:range rdf:resource="&time;Instant"/>
     </owl:ObjectProperty>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#tieneHoraDeObservacion -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/tieneHoraDeObservacion -->
 
-    <owl:ObjectProperty rdf:about="#tieneHoraDeObservacion">
+    <owl:ObjectProperty rdf:about="&ontology;aemet/tieneHoraDeObservacion">
         <rdfs:label xml:lang="es"
             >tiene hora de observaci&#243;n</rdfs:label>
-        <rdfs:domain rdf:resource="#Observacion"/>
+        <rdfs:domain rdf:resource="&ontology;aemet/Observacion"/>
         <rdfs:range rdf:resource="&time;Instant"/>
     </owl:ObjectProperty>
     
@@ -189,32 +197,64 @@
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#indclim -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/calidadDelDatoObservado -->
 
-    <owl:DatatypeProperty rdf:about="#indclim">
+    <owl:DatatypeProperty rdf:about="&ontology;aemet/calidadDelDatoObservado">
+        <rdfs:label xml:lang="es"
+            >calidadDelDatoObservado</rdfs:label>
+        <rdfs:comment
+            >Se utilizan los siguiente valores para la calidad:
+
+   0: Pasa todos los filtros.
+   2: El dato se considera sospechoso.
+   3: El dato podr&#237;a ser err&#243;neo.</rdfs:comment>
+        <rdfs:domain rdf:resource="&ssn;SensorOutput"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://aemet.linkeddata.es/ontology/aemet/indclim -->
+
+    <owl:DatatypeProperty rdf:about="&ontology;aemet/indclim">
         <rdfs:label xml:lang="es">indclim</rdfs:label>
         <dc:source>maestro.csv</dc:source>
-        <rdfs:domain rdf:resource="#EstacionMeteorologica"/>
+        <rdfs:domain rdf:resource="&ontology;aemet/EstacionMeteorologica"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
     </owl:DatatypeProperty>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#indsinop -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/indsinop -->
 
-    <owl:DatatypeProperty rdf:about="#indsinop">
+    <owl:DatatypeProperty rdf:about="&ontology;aemet/indsinop">
         <rdfs:label xml:lang="es">indsinop</rdfs:label>
         <dc:source>maestro.csv</dc:source>
-        <rdfs:domain rdf:resource="#EstacionMeteorologica"/>
+        <rdfs:domain rdf:resource="&ontology;aemet/EstacionMeteorologica"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
     </owl:DatatypeProperty>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#nombreEstacion -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/nombreEstacion -->
 
-    <owl:DatatypeProperty rdf:about="#nombreEstacion">
+    <owl:DatatypeProperty rdf:about="&ontology;aemet/nombreEstacion">
         <rdfs:label xml:lang="es">nombre estaci&#243;n</rdfs:label>
-        <rdfs:domain rdf:resource="#EstacionMeteorologica"/>
+        <rdfs:domain rdf:resource="&ontology;aemet/EstacionMeteorologica"/>
         <rdfs:range rdf:resource="&xsd;string"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://aemet.linkeddata.es/ontology/aemet/valorDelDatoObservado -->
+
+    <owl:DatatypeProperty rdf:about="&ontology;aemet/valorDelDatoObservado">
+        <rdfs:label xml:lang="es"
+            >valorDelDatoObservado</rdfs:label>
+        <rdfs:comment
+            >En esta versi&#243;n el tiempo presente (tabla 4680) se representa con literales. En la siguiente versi&#243;n se refinar&#225; el modelado de esta parte.</rdfs:comment>
+        <rdfs:domain rdf:resource="&ssn;SensorOutput"/>
+        <rdfs:range rdf:resource="&rdfs;Literal"/>
     </owl:DatatypeProperty>
     
 
@@ -230,31 +270,31 @@
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#Anemometro -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/Anemometro -->
 
-    <owl:Class rdf:about="#Anemometro">
+    <owl:Class rdf:about="&ontology;aemet/Anemometro">
         <rdfs:label xml:lang="es">Anem&#243;metro</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#Sensor"/>
+        <rdfs:subClassOf rdf:resource="&ontology;aemet/Sensor"/>
         <rdfs:comment xml:lang="es"
             >Mide la intensidad [0&#186;-360&#186;] y la intensidad (m/s) del viento</rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#Barometro -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/Barometro -->
 
-    <owl:Class rdf:about="#Barometro">
+    <owl:Class rdf:about="&ontology;aemet/Barometro">
         <rdfs:label xml:lang="es">Bar&#243;metro</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#Sensor"/>
+        <rdfs:subClassOf rdf:resource="&ontology;aemet/Sensor"/>
         <rdfs:comment xml:lang="es"
             >Mide la presi&#243;n en hPa</rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#EstacionMeteorologica -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/EstacionMeteorologica -->
 
-    <owl:Class rdf:about="#EstacionMeteorologica">
+    <owl:Class rdf:about="&ontology;aemet/EstacionMeteorologica">
         <rdfs:label xml:lang="es"
             >Estaci&#243;n meteorol&#243;gica</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ssn;Platform"/>
@@ -263,31 +303,31 @@
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#Heliografo -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/Heliografo -->
 
-    <owl:Class rdf:about="#Heliografo">
+    <owl:Class rdf:about="&ontology;aemet/Heliografo">
         <rdfs:label xml:lang="es">Heli&#243;grafo</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#Sensor"/>
+        <rdfs:subClassOf rdf:resource="&ontology;aemet/Sensor"/>
         <rdfs:comment xml:lang="es"
             >Mide la duraci&#243;n de la insolaci&#243;n en horas</rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#Higrometro -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/Higrometro -->
 
-    <owl:Class rdf:about="#Higrometro">
+    <owl:Class rdf:about="&ontology;aemet/Higrometro">
         <rdfs:label xml:lang="es">Higr&#243;metro</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#Sensor"/>
+        <rdfs:subClassOf rdf:resource="&ontology;aemet/Sensor"/>
         <rdfs:comment xml:lang="es"
             >Mide la humedad relativa en %</rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#Observacion -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/Observacion -->
 
-    <owl:Class rdf:about="#Observacion">
+    <owl:Class rdf:about="&ontology;aemet/Observacion">
         <rdfs:label xml:lang="es">Observaci&#243;n</rdfs:label>
         <owl:equivalentClass rdf:resource="&ssn;Observation"/>
         <rdfs:subClassOf rdf:resource="&owl;Thing"/>
@@ -295,20 +335,20 @@
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#Pluviometro -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/Pluviometro -->
 
-    <owl:Class rdf:about="#Pluviometro">
+    <owl:Class rdf:about="&ontology;aemet/Pluviometro">
         <rdfs:label xml:lang="es">Pluvi&#243;metro</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#Sensor"/>
+        <rdfs:subClassOf rdf:resource="&ontology;aemet/Sensor"/>
         <rdfs:comment xml:lang="es"
             >Mide la precipitaci&#243;n en mm = l/m^2</rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#PropiedadAmbiental -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/PropiedadAmbiental -->
 
-    <owl:Class rdf:about="#PropiedadAmbiental">
+    <owl:Class rdf:about="&ontology;aemet/PropiedadAmbiental">
         <rdfs:label xml:lang="es"
             >PropiedadAmbiental</rdfs:label>
         <rdfs:subClassOf rdf:resource="&ssn;Property"/>
@@ -316,69 +356,80 @@
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#PropiedadAmbientalSobreHumedad -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/PropiedadAmbientalSobreHumedad -->
 
-    <owl:Class rdf:about="#PropiedadAmbientalSobreHumedad">
+    <owl:Class rdf:about="&ontology;aemet/PropiedadAmbientalSobreHumedad">
         <rdfs:label xml:lang="es"
             >PropiedadAmbientalSobreHumedad</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#PropiedadAmbiental"/>
+        <rdfs:subClassOf rdf:resource="&ontology;aemet/PropiedadAmbiental"/>
     </owl:Class>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#PropiedadAmbientalSobrePrecipitacion -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/PropiedadAmbientalSobrePrecipitacion -->
 
-    <owl:Class rdf:about="#PropiedadAmbientalSobrePrecipitacion">
+    <owl:Class rdf:about="&ontology;aemet/PropiedadAmbientalSobrePrecipitacion">
         <rdfs:label xml:lang="es"
             >PropiedadAmbientalSobrePrecipitacion</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#PropiedadAmbiental"/>
+        <rdfs:subClassOf rdf:resource="&ontology;aemet/PropiedadAmbiental"/>
     </owl:Class>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#PropiedadAmbientalSobrePresion -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/PropiedadAmbientalSobrePresion -->
 
-    <owl:Class rdf:about="#PropiedadAmbientalSobrePresion">
+    <owl:Class rdf:about="&ontology;aemet/PropiedadAmbientalSobrePresion">
         <rdfs:label xml:lang="es"
             >PropiedadAmbientalSobrePresion</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#PropiedadAmbiental"/>
+        <rdfs:subClassOf rdf:resource="&ontology;aemet/PropiedadAmbiental"/>
     </owl:Class>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#PropiedadAmbientalSobreRadiacion -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/PropiedadAmbientalSobreRadiacion -->
 
-    <owl:Class rdf:about="#PropiedadAmbientalSobreRadiacion">
+    <owl:Class rdf:about="&ontology;aemet/PropiedadAmbientalSobreRadiacion">
         <rdfs:label xml:lang="es"
             >PropiedadAmbientalSobreRadiacion</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#PropiedadAmbiental"/>
+        <rdfs:subClassOf rdf:resource="&ontology;aemet/PropiedadAmbiental"/>
     </owl:Class>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#PropiedadAmbientalSobreTemperatura -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/PropiedadAmbientalSobreTemperatura -->
 
-    <owl:Class rdf:about="#PropiedadAmbientalSobreTemperatura">
+    <owl:Class rdf:about="&ontology;aemet/PropiedadAmbientalSobreTemperatura">
         <rdfs:label xml:lang="es"
             >PropiedadAmbientalSobreTemperatura</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#PropiedadAmbiental"/>
+        <rdfs:subClassOf rdf:resource="&ontology;aemet/PropiedadAmbiental"/>
     </owl:Class>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#PropiedadAmbientalSobreViento -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/PropiedadAmbientalSobreViento -->
 
-    <owl:Class rdf:about="#PropiedadAmbientalSobreViento">
+    <owl:Class rdf:about="&ontology;aemet/PropiedadAmbientalSobreViento">
         <rdfs:label xml:lang="es"
             >PropiedadAmbientalSobreViento</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#PropiedadAmbiental"/>
+        <rdfs:subClassOf rdf:resource="&ontology;aemet/PropiedadAmbiental"/>
     </owl:Class>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#Sensor -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/Reloj -->
 
-    <owl:Class rdf:about="#Sensor">
+    <owl:Class rdf:about="&ontology;aemet/Reloj">
+        <rdfs:label xml:lang="es">Reloj</rdfs:label>
+        <rdfs:subClassOf rdf:resource="&ontology;aemet/Sensor"/>
+        <rdfs:comment
+            >Mide el tiempo en UTC</rdfs:comment>
+    </owl:Class>
+    
+
+
+    <!-- http://aemet.linkeddata.es/ontology/aemet/Sensor -->
+
+    <owl:Class rdf:about="&ontology;aemet/Sensor">
         <rdfs:label xml:lang="es">Sensor</rdfs:label>
         <owl:equivalentClass rdf:resource="&ssn;Sensor"/>
         <rdfs:subClassOf rdf:resource="&DUL;Object"/>
@@ -388,60 +439,49 @@
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#SensorDeTiempo -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/Termometro -->
 
-    <owl:Class rdf:about="#SensorDeTiempo">
-        <rdfs:label xml:lang="es">SensorDeTiempo</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#Sensor"/>
-        <rdfs:comment xml:lang="es"
-            >Mide el tiempo en UTC</rdfs:comment>
-    </owl:Class>
-    
-
-
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#Termometro -->
-
-    <owl:Class rdf:about="#Termometro">
+    <owl:Class rdf:about="&ontology;aemet/Termometro">
         <rdfs:label xml:lang="es">Term&#243;metro</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#Sensor"/>
+        <rdfs:subClassOf rdf:resource="&ontology;aemet/Sensor"/>
         <rdfs:comment xml:lang="es"
             >Mide la temperatura en grados Celsius</rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#TermometroHumedo -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/TermometroHumedo -->
 
-    <owl:Class rdf:about="#TermometroHumedo">
+    <owl:Class rdf:about="&ontology;aemet/TermometroHumedo">
         <rdfs:label xml:lang="es"
             >Term&#243;metro humedo</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#Termometro"/>
+        <rdfs:subClassOf rdf:resource="&ontology;aemet/Termometro"/>
         <rdfs:comment xml:lang="es"
             >Mide la temperatura en grados Celsius. Mide la temperatura que varia cuando la humedad del aire varia.</rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#TermometroSeco -->
+    <!-- http://aemet.linkeddata.es/ontology/aemet/TermometroSeco -->
 
-    <owl:Class rdf:about="#TermometroSeco">
+    <owl:Class rdf:about="&ontology;aemet/TermometroSeco">
         <rdfs:label xml:lang="es">Termometro seco</rdfs:label>
-        <rdfs:subClassOf rdf:resource="#Termometro"/>
+        <rdfs:subClassOf rdf:resource="&ontology;aemet/Termometro"/>
         <rdfs:comment
             >Mide la temperatura en grados Celsius. Mide la temperatura del aire.</rdfs:comment>
     </owl:Class>
     
 
 
-    <!-- http://dia.fi.upm.es/geografica.owl#LimiteAdministrativo -->
+    <!-- http://aemet.linkeddata.es/ontology/geografica/LimiteAdministrativo -->
 
-    <owl:Class rdf:about="&geografica;LimiteAdministrativo"/>
+    <owl:Class rdf:about="&ontology;geografica/LimiteAdministrativo"/>
     
 
 
-    <!-- http://dia.fi.upm.es/geografica.owl#Provincia -->
+    <!-- http://aemet.linkeddata.es/ontology/geografica/Provincia -->
 
-    <owl:Class rdf:about="&geografica;Provincia"/>
+    <owl:Class rdf:about="&ontology;geografica/Provincia"/>
     
 
 
@@ -472,6 +512,12 @@
     <!-- http://purl.oclc.org/NET/ssnx/ssn#Sensor -->
 
     <owl:Class rdf:about="&ssn;Sensor"/>
+    
+
+
+    <!-- http://purl.oclc.org/NET/ssnx/ssn#SensorOutput -->
+
+    <owl:Class rdf:about="&ssn;SensorOutput"/>
     
 
 
@@ -510,257 +556,257 @@
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#BAT -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/BAT -->
 
-    <owl:Thing rdf:about="&describevar2;BAT">
-        <rdf:type rdf:resource="&ssn;Property"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#BATH -->
-
-    <owl:Thing rdf:about="&describevar2;BATH">
-        <rdf:type rdf:resource="&ssn;Property"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#DMAX10m -->
-
-    <owl:Thing rdf:about="&describevar2;DMAX10m">
-        <rdf:type rdf:resource="#PropiedadAmbientalSobreViento"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#DV10m -->
-
-    <owl:Thing rdf:about="&describevar2;DV10m">
-        <rdf:type rdf:resource="#PropiedadAmbientalSobreViento"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#GEO700 -->
-
-    <owl:Thing rdf:about="&describevar2;GEO700">
-        <rdf:type rdf:resource="#PropiedadAmbientalSobrePresion"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#GEO850 -->
-
-    <owl:Thing rdf:about="&describevar2;GEO850">
-        <rdf:type rdf:resource="#PropiedadAmbientalSobrePresion"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#GEO925 -->
-
-    <owl:Thing rdf:about="&describevar2;GEO925">
-        <rdf:type rdf:resource="#PropiedadAmbientalSobrePresion"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#HR -->
-
-    <owl:Thing rdf:about="&describevar2;HR">
-        <rdf:type rdf:resource="#PropiedadAmbientalSobreHumedad"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#HTAMAX1h -->
-
-    <owl:Thing rdf:about="&describevar2;HTAMAX1h">
-        <rdf:type rdf:resource="#PropiedadAmbientalSobreTemperatura"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#HTAMIN1h -->
-
-    <owl:Thing rdf:about="&describevar2;HTAMIN1h">
-        <rdf:type rdf:resource="#PropiedadAmbientalSobreTemperatura"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#INSO -->
-
-    <owl:Thing rdf:about="&describevar2;INSO">
-        <rdf:type rdf:resource="#PropiedadAmbientalSobreRadiacion"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#NIEVE -->
-
-    <PropiedadAmbientalSobrePrecipitacion rdf:about="&describevar2;NIEVE">
+    <ssn:Property rdf:about="&describevar3;BAT">
         <rdf:type rdf:resource="&owl;Thing"/>
-    </PropiedadAmbientalSobrePrecipitacion>
+    </ssn:Property>
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#PLIQTP -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/BATH -->
 
-    <owl:Thing rdf:about="&describevar2;PLIQTP">
-        <rdf:type rdf:resource="#PropiedadAmbientalSobrePrecipitacion"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#PREC -->
-
-    <owl:Thing rdf:about="&describevar2;PREC">
-        <rdf:type rdf:resource="#PropiedadAmbientalSobrePrecipitacion"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#PRES -->
-
-    <PropiedadAmbientalSobrePresion rdf:about="&describevar2;PRES">
+    <ssn:Property rdf:about="&describevar3;BATH">
         <rdf:type rdf:resource="&owl;Thing"/>
-    </PropiedadAmbientalSobrePresion>
+    </ssn:Property>
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#PRES_nmar -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/DMAX10m -->
 
-    <owl:Thing rdf:about="&describevar2;PRES_nmar">
-        <rdf:type rdf:resource="#PropiedadAmbientalSobrePresion"/>
+    <owl:Thing rdf:about="&describevar3;DMAX10m">
+        <rdf:type rdf:resource="&ontology;aemet/PropiedadAmbientalSobreViento"/>
     </owl:Thing>
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#PSOLTP -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/DV10m -->
 
-    <PropiedadAmbientalSobrePresion rdf:about="&describevar2;PSOLTP">
+    <aemet2:PropiedadAmbientalSobreViento rdf:about="&describevar3;DV10m">
         <rdf:type rdf:resource="&owl;Thing"/>
-    </PropiedadAmbientalSobrePresion>
+    </aemet2:PropiedadAmbientalSobreViento>
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#RAGLOB -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/GEO700 -->
 
-    <PropiedadAmbientalSobreRadiacion rdf:about="&describevar2;RAGLOB">
+    <aemet2:PropiedadAmbientalSobrePresion rdf:about="&describevar3;GEO700">
         <rdf:type rdf:resource="&owl;Thing"/>
-    </PropiedadAmbientalSobreRadiacion>
+    </aemet2:PropiedadAmbientalSobrePresion>
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#RVIENTO -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/GEO850 -->
 
-    <PropiedadAmbientalSobreViento rdf:about="&describevar2;RVIENTO">
+    <owl:Thing rdf:about="&describevar3;GEO850">
+        <rdf:type rdf:resource="&ontology;aemet/PropiedadAmbientalSobrePresion"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkdata.es/ontology/describevar/GEO925 -->
+
+    <aemet2:PropiedadAmbientalSobrePresion rdf:about="&describevar3;GEO925">
         <rdf:type rdf:resource="&owl;Thing"/>
-    </PropiedadAmbientalSobreViento>
+    </aemet2:PropiedadAmbientalSobrePresion>
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#TA -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/HR -->
 
-    <PropiedadAmbientalSobreTemperatura rdf:about="&describevar2;TA">
+    <owl:Thing rdf:about="&describevar3;HR">
+        <rdf:type rdf:resource="&ontology;aemet/PropiedadAmbientalSobreHumedad"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkdata.es/ontology/describevar/HTAMAX1h -->
+
+    <owl:Thing rdf:about="&describevar3;HTAMAX1h">
+        <rdf:type rdf:resource="&ontology;aemet/PropiedadAmbientalSobreTemperatura"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkdata.es/ontology/describevar/HTAMIN1h -->
+
+    <owl:Thing rdf:about="&describevar3;HTAMIN1h">
+        <rdf:type rdf:resource="&ontology;aemet/PropiedadAmbientalSobreTemperatura"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkdata.es/ontology/describevar/INSO -->
+
+    <owl:Thing rdf:about="&describevar3;INSO">
+        <rdf:type rdf:resource="&ontology;aemet/PropiedadAmbientalSobreRadiacion"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkdata.es/ontology/describevar/NIEVE -->
+
+    <aemet2:PropiedadAmbientalSobrePrecipitacion rdf:about="&describevar3;NIEVE">
         <rdf:type rdf:resource="&owl;Thing"/>
-    </PropiedadAmbientalSobreTemperatura>
+    </aemet2:PropiedadAmbientalSobrePrecipitacion>
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#TAMAX10m -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/PLIQTP -->
 
-    <owl:Thing rdf:about="&describevar2;TAMAX10m">
-        <rdf:type rdf:resource="#PropiedadAmbientalSobreTemperatura"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#TAMAX1h -->
-
-    <PropiedadAmbientalSobreTemperatura rdf:about="&describevar2;TAMAX1h">
+    <aemet2:PropiedadAmbientalSobrePrecipitacion rdf:about="&describevar3;PLIQTP">
         <rdf:type rdf:resource="&owl;Thing"/>
-    </PropiedadAmbientalSobreTemperatura>
+    </aemet2:PropiedadAmbientalSobrePrecipitacion>
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#TAMIN10m -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/PREC -->
 
-    <owl:Thing rdf:about="&describevar2;TAMIN10m">
-        <rdf:type rdf:resource="#PropiedadAmbientalSobreTemperatura"/>
+    <owl:Thing rdf:about="&describevar3;PREC">
+        <rdf:type rdf:resource="&ontology;aemet/PropiedadAmbientalSobrePrecipitacion"/>
     </owl:Thing>
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#TAMIN1h -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/PRES -->
 
-    <owl:Thing rdf:about="&describevar2;TAMIN1h">
-        <rdf:type rdf:resource="#PropiedadAmbientalSobreTemperatura"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#TPR -->
-
-    <owl:Thing rdf:about="&describevar2;TPR">
-        <rdf:type rdf:resource="#PropiedadAmbientalSobreHumedad"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#TPRE -->
-
-    <owl:Thing rdf:about="&describevar2;TPRE">
-        <rdf:type rdf:resource="#PropiedadAmbiental"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkdata.es/ontology/describevar#TS -->
-
-    <PropiedadAmbientalSobreTemperatura rdf:about="&describevar2;TS">
+    <aemet2:PropiedadAmbientalSobrePresion rdf:about="&describevar3;PRES">
         <rdf:type rdf:resource="&owl;Thing"/>
-    </PropiedadAmbientalSobreTemperatura>
+    </aemet2:PropiedadAmbientalSobrePresion>
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#TSS5cm -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/PRES_nmar -->
 
-    <owl:Thing rdf:about="&describevar2;TSS5cm">
-        <rdf:type rdf:resource="#PropiedadAmbientalSobreTemperatura"/>
+    <owl:Thing rdf:about="&describevar3;PRES_nmar">
+        <rdf:type rdf:resource="&ontology;aemet/PropiedadAmbientalSobrePresion"/>
     </owl:Thing>
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#VIS -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/PSOLTP -->
 
-    <PropiedadAmbiental rdf:about="&describevar2;VIS">
+    <aemet2:PropiedadAmbientalSobrePresion rdf:about="&describevar3;PSOLTP">
         <rdf:type rdf:resource="&owl;Thing"/>
-    </PropiedadAmbiental>
+    </aemet2:PropiedadAmbientalSobrePresion>
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#VMAX10m -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/RAGLOB -->
 
-    <owl:Thing rdf:about="&describevar2;VMAX10m">
-        <rdf:type rdf:resource="#PropiedadAmbientalSobreViento"/>
+    <aemet2:PropiedadAmbientalSobreRadiacion rdf:about="&describevar3;RAGLOB">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </aemet2:PropiedadAmbientalSobreRadiacion>
+    
+
+
+    <!-- http://aemet.linkdata.es/ontology/describevar/RVIENTO -->
+
+    <owl:Thing rdf:about="&describevar3;RVIENTO">
+        <rdf:type rdf:resource="&ontology;aemet/PropiedadAmbientalSobreViento"/>
     </owl:Thing>
     
 
 
-    <!-- http://aemet.linkdata.es/ontology/describevar#VV10m -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/TA -->
 
-    <owl:Thing rdf:about="&describevar2;VV10m">
-        <rdf:type rdf:resource="#PropiedadAmbientalSobreViento"/>
+    <owl:Thing rdf:about="&describevar3;TA">
+        <rdf:type rdf:resource="&ontology;aemet/PropiedadAmbientalSobreTemperatura"/>
     </owl:Thing>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/aemet.owl#condicionMeteorologica -->
+    <!-- http://aemet.linkdata.es/ontology/describevar/TAMAX10m -->
 
-    <owl:Thing rdf:about="#condicionMeteorologica">
+    <owl:Thing rdf:about="&describevar3;TAMAX10m">
+        <rdf:type rdf:resource="&ontology;aemet/PropiedadAmbientalSobreTemperatura"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkdata.es/ontology/describevar/TAMAX1h -->
+
+    <aemet2:PropiedadAmbientalSobreTemperatura rdf:about="&describevar3;TAMAX1h">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </aemet2:PropiedadAmbientalSobreTemperatura>
+    
+
+
+    <!-- http://aemet.linkdata.es/ontology/describevar/TAMIN10m -->
+
+    <aemet2:PropiedadAmbientalSobreTemperatura rdf:about="&describevar3;TAMIN10m">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </aemet2:PropiedadAmbientalSobreTemperatura>
+    
+
+
+    <!-- http://aemet.linkdata.es/ontology/describevar/TAMIN1h -->
+
+    <owl:Thing rdf:about="&describevar3;TAMIN1h">
+        <rdf:type rdf:resource="&ontology;aemet/PropiedadAmbientalSobreTemperatura"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkdata.es/ontology/describevar/TPR -->
+
+    <owl:Thing rdf:about="&describevar3;TPR">
+        <rdf:type rdf:resource="&ontology;aemet/PropiedadAmbientalSobreHumedad"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkdata.es/ontology/describevar/TPRE -->
+
+    <aemet2:PropiedadAmbiental rdf:about="&describevar3;TPRE">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </aemet2:PropiedadAmbiental>
+    
+
+
+    <!-- http://aemet.linkdata.es/ontology/describevar/TS -->
+
+    <aemet2:PropiedadAmbientalSobreTemperatura rdf:about="&describevar3;TS">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </aemet2:PropiedadAmbientalSobreTemperatura>
+    
+
+
+    <!-- http://aemet.linkdata.es/ontology/describevar/TSS5cm -->
+
+    <owl:Thing rdf:about="&describevar3;TSS5cm">
+        <rdf:type rdf:resource="&ontology;aemet/PropiedadAmbientalSobreTemperatura"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkdata.es/ontology/describevar/VIS -->
+
+    <aemet2:PropiedadAmbiental rdf:about="&describevar3;VIS">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </aemet2:PropiedadAmbiental>
+    
+
+
+    <!-- http://aemet.linkdata.es/ontology/describevar/VMAX10m -->
+
+    <owl:Thing rdf:about="&describevar3;VMAX10m">
+        <rdf:type rdf:resource="&ontology;aemet/PropiedadAmbientalSobreViento"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkdata.es/ontology/describevar/VV10m -->
+
+    <owl:Thing rdf:about="&describevar3;VV10m">
+        <rdf:type rdf:resource="&ontology;aemet/PropiedadAmbientalSobreViento"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/ontology/aemet/condicionMeteorologica -->
+
+    <owl:Thing rdf:about="&ontology;aemet/condicionMeteorologica">
         <rdf:type rdf:resource="&ssn;FeatureOfInterest"/>
         <rdfs:label xml:lang="es"
             >condicionMeteorologica</rdfs:label>
