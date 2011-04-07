@@ -166,7 +166,7 @@ public class GeoResourcesMapControl extends LayerControl {
 			// Polyline line = new
 			// Polyline(GoogleMapsAdapters.getLatLngs(((PolyLine)
 			// geometry).getPoints()), "#0000ff", 2);
-			Polyline line = new Polyline(GoogleMapsAdapters.getLatLngs(((PolyLine) geometry).getPoints()), "#FF5B00", 3);
+			Polyline line = new Polyline(GoogleMapsAdapters.getLatLngs(((PolyLine) geometry).getPoints()), "#0000ff", 3);
 			line.addPolylineClickHandler(new PolylineClickHandler() {
 				@Override
 				public void onClick(PolylineClickEvent event) {
