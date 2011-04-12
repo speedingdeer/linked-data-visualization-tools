@@ -9,7 +9,7 @@
 estacion:Estacion_08001 a aemet:Estacion;
 	prop:indclim "1387";
 	prop:indsinop "08001";
-	prop:nombreEstacion "A%20CORU%C3%91A";
+	prop:nombreEstacion "A CORUÑA";
 	geo:location punto:GeoPos_08001;
 	.
 
@@ -22,7 +22,7 @@ punto:GeoPos_08001 a aemet:Punto;
 estacion:Estacion_08002 a aemet:Estacion;
 	prop:indclim "1387E";
 	prop:indsinop "08002";
-	prop:nombreEstacion "A%20CORU%C3%91A/ALVEDRO";
+	prop:nombreEstacion "A CORUÑA/ALVEDRO";
 	geo:location punto:GeoPos_08002;
 	.
 
@@ -35,7 +35,7 @@ punto:GeoPos_08002 a aemet:Punto;
 estacion:Estacion_08042 a aemet:Estacion;
 	prop:indclim "1428";
 	prop:indsinop "08042";
-	prop:nombreEstacion "SANTIAGO%20DE%20COMPOSTELA/LABACOLLA";
+	prop:nombreEstacion "SANTIAGO DE COMPOSTELA/LABACOLLA";
 	geo:location punto:GeoPos_08042;
 	.
 
@@ -61,7 +61,7 @@ punto:GeoPos_08080 a aemet:Punto;
 estacion:Estacion_08279 a aemet:Estacion;
 	prop:indclim "8178D";
 	prop:indsinop "08279";
-	prop:nombreEstacion "ALBACETE%2COBS.";
+	prop:nombreEstacion "ALBACETE,OBS.";
 	geo:location punto:GeoPos_08279;
 	.
 
@@ -74,7 +74,7 @@ punto:GeoPos_08279 a aemet:Punto;
 estacion:Estacion_08280 a aemet:Estacion;
 	prop:indclim "8175";
 	prop:indsinop "08280";
-	prop:nombreEstacion "ALBACETE/LOS%20LLANOS";
+	prop:nombreEstacion "ALBACETE/LOS LLANOS";
 	geo:location punto:GeoPos_08280;
 	.
 
@@ -100,7 +100,7 @@ punto:GeoPos_08359 a aemet:Punto;
 estacion:Estacion_08360 a aemet:Estacion;
 	prop:indclim "8019";
 	prop:indsinop "08360";
-	prop:nombreEstacion "ALICANTE/EL%20ALTET";
+	prop:nombreEstacion "ALICANTE/EL ALTET";
 	geo:location punto:GeoPos_08360;
 	.
 
@@ -113,7 +113,7 @@ punto:GeoPos_08360 a aemet:Punto;
 estacion:Estacion_08487 a aemet:Estacion;
 	prop:indclim "6325O";
 	prop:indsinop "08487";
-	prop:nombreEstacion "ALMER%C3%8DA/AEROPUERTO";
+	prop:nombreEstacion "ALMERÍA/AEROPUERTO";
 	geo:location punto:GeoPos_08487;
 	.
 
@@ -126,7 +126,7 @@ punto:GeoPos_08487 a aemet:Punto;
 estacion:Estacion_08011 a aemet:Estacion;
 	prop:indclim "1212E";
 	prop:indsinop "08011";
-	prop:nombreEstacion "ASTURIAS/AVIL%C3%89S";
+	prop:nombreEstacion "ASTURIAS/AVILÉS";
 	geo:location punto:GeoPos_08011;
 	.
 
@@ -139,7 +139,7 @@ punto:GeoPos_08011 a aemet:Punto;
 estacion:Estacion_08014 a aemet:Estacion;
 	prop:indclim "1208H";
 	prop:indsinop "08014";
-	prop:nombreEstacion "GIJ%C3%93N%2C%20MUSEL";
+	prop:nombreEstacion "GIJÓN, MUSEL";
 	geo:location punto:GeoPos_08014;
 	.
 
@@ -165,7 +165,7 @@ punto:GeoPos_08015 a aemet:Punto;
 estacion:Estacion_08210 a aemet:Estacion;
 	prop:indclim "2444";
 	prop:indsinop "08210";
-	prop:nombreEstacion "%C3%81VILA";
+	prop:nombreEstacion "ÁVILA";
 	geo:location punto:GeoPos_08210;
 	.
 
@@ -178,7 +178,7 @@ punto:GeoPos_08210 a aemet:Punto;
 estacion:Estacion_08330 a aemet:Estacion;
 	prop:indclim "4452";
 	prop:indsinop "08330";
-	prop:nombreEstacion "BADAJOZ/TALAVERA%20LA%20REAL";
+	prop:nombreEstacion "BADAJOZ/TALAVERA LA REAL";
 	geo:location punto:GeoPos_08330;
 	.
 
@@ -191,7 +191,7 @@ punto:GeoPos_08330 a aemet:Punto;
 estacion:Estacion_08373 a aemet:Estacion;
 	prop:indclim "B954";
 	prop:indsinop "08373";
-	prop:nombreEstacion "IBIZA/ES%20CODOLA";
+	prop:nombreEstacion "IBIZA/ES CODOLA";
 	geo:location punto:GeoPos_08373;
 	.
 
@@ -204,7 +204,7 @@ punto:GeoPos_08373 a aemet:Punto;
 estacion:Estacion_08314 a aemet:Estacion;
 	prop:indclim "B893";
 	prop:indsinop "08314";
-	prop:nombreEstacion "MENORCA/MA%C3%93";
+	prop:nombreEstacion "MENORCA/MAÓ";
 	geo:location punto:GeoPos_08314;
 	.
 
@@ -217,7 +217,7 @@ punto:GeoPos_08314 a aemet:Punto;
 estacion:Estacion_08301 a aemet:Estacion;
 	prop:indclim "B228";
 	prop:indsinop "08301";
-	prop:nombreEstacion "PALMA%20DE%20MALLORCA%2C%20CMT";
+	prop:nombreEstacion "PALMA DE MALLORCA, CMT";
 	geo:location punto:GeoPos_08301;
 	.
 
@@ -230,7 +230,7 @@ punto:GeoPos_08301 a aemet:Punto;
 estacion:Estacion_08306 a aemet:Estacion;
 	prop:indclim "B278";
 	prop:indsinop "08306";
-	prop:nombreEstacion "PALMA%20DE%20MALLORCA/SON%20SAN%20JUAN";
+	prop:nombreEstacion "PALMA DE MALLORCA/SON SAN JUAN";
 	geo:location punto:GeoPos_08306;
 	.
 
@@ -256,7 +256,7 @@ punto:GeoPos_08181 a aemet:Punto;
 estacion:Estacion_08075 a aemet:Estacion;
 	prop:indclim "2331";
 	prop:indsinop "08075";
-	prop:nombreEstacion "BURGOS/VILLAFR%C3%8DA";
+	prop:nombreEstacion "BURGOS/VILLAFRÍA";
 	geo:location punto:GeoPos_08075;
 	.
 
@@ -269,7 +269,7 @@ punto:GeoPos_08075 a aemet:Punto;
 estacion:Estacion_08261 a aemet:Estacion;
 	prop:indclim "3469A";
 	prop:indsinop "08261";
-	prop:nombreEstacion "C%C3%81CERES";
+	prop:nombreEstacion "CÁCERES";
 	geo:location punto:GeoPos_08261;
 	.
 
@@ -295,7 +295,7 @@ punto:GeoPos_08452 a aemet:Punto;
 estacion:Estacion_08451 a aemet:Estacion;
 	prop:indclim "5960";
 	prop:indsinop "08451";
-	prop:nombreEstacion "JEREZ%20DE%20LA%20FRONTERA/AEROPUERTO";
+	prop:nombreEstacion "JEREZ DE LA FRONTERA/AEROPUERTO";
 	geo:location punto:GeoPos_08451;
 	.
 
@@ -334,7 +334,7 @@ punto:GeoPos_08458 a aemet:Punto;
 estacion:Estacion_08023 a aemet:Estacion;
 	prop:indclim "1111";
 	prop:indsinop "08023";
-	prop:nombreEstacion "SANTANDER%2CCMT";
+	prop:nombreEstacion "SANTANDER,CMT";
 	geo:location punto:GeoPos_08023;
 	.
 
@@ -360,7 +360,7 @@ punto:GeoPos_08021 a aemet:Punto;
 estacion:Estacion_08286 a aemet:Estacion;
 	prop:indclim "8500A";
 	prop:indsinop "08286";
-	prop:nombreEstacion "CASTELL%C3%93N";
+	prop:nombreEstacion "CASTELLÓN";
 	geo:location punto:GeoPos_08286;
 	.
 
@@ -386,7 +386,7 @@ punto:GeoPos_60320 a aemet:Punto;
 estacion:Estacion_08348 a aemet:Estacion;
 	prop:indclim "4121";
 	prop:indsinop "08348";
-	prop:nombreEstacion "CIUDAD%20REAL";
+	prop:nombreEstacion "CIUDAD REAL";
 	geo:location punto:GeoPos_08348;
 	.
 
@@ -399,7 +399,7 @@ punto:GeoPos_08348 a aemet:Punto;
 estacion:Estacion_08410 a aemet:Estacion;
 	prop:indclim "5402";
 	prop:indsinop "08410";
-	prop:nombreEstacion "C%C3%93RDOBA/AEROPUERTO";
+	prop:nombreEstacion "CÓRDOBA/AEROPUERTO";
 	geo:location punto:GeoPos_08410;
 	.
 
@@ -425,7 +425,7 @@ punto:GeoPos_08231 a aemet:Punto;
 estacion:Estacion_08184 a aemet:Estacion;
 	prop:indclim "0367";
 	prop:indsinop "08184";
-	prop:nombreEstacion "GIRONA/COSTA%20BRAVA";
+	prop:nombreEstacion "GIRONA/COSTA BRAVA";
 	geo:location punto:GeoPos_08184;
 	.
 
@@ -464,7 +464,7 @@ punto:GeoPos_08226 a aemet:Punto;
 estacion:Estacion_08232 a aemet:Estacion;
 	prop:indclim "3013";
 	prop:indsinop "08232";
-	prop:nombreEstacion "MOLINA%20DE%20ARAG%C3%93N";
+	prop:nombreEstacion "MOLINA DE ARAGÓN";
 	geo:location punto:GeoPos_08232;
 	.
 
@@ -477,7 +477,7 @@ punto:GeoPos_08232 a aemet:Punto;
 estacion:Estacion_08029 a aemet:Estacion;
 	prop:indclim "1014";
 	prop:indsinop "08029";
-	prop:nombreEstacion "SAN%20SEBASTI%C3%81N/FUENTERRABIA";
+	prop:nombreEstacion "SAN SEBASTIÁN/FUENTERRABIA";
 	geo:location punto:GeoPos_08029;
 	.
 
@@ -516,7 +516,7 @@ punto:GeoPos_08094 a aemet:Punto;
 estacion:Estacion_08417 a aemet:Estacion;
 	prop:indclim "5270B";
 	prop:indsinop "08417";
-	prop:nombreEstacion "JA%C3%89N";
+	prop:nombreEstacion "JAÉN";
 	geo:location punto:GeoPos_08417;
 	.
 
@@ -529,7 +529,7 @@ punto:GeoPos_08417 a aemet:Punto;
 estacion:Estacion_08084 a aemet:Estacion;
 	prop:indclim "9170";
 	prop:indsinop "08084";
-	prop:nombreEstacion "LOGRO%C3%91O/AGONCILLO";
+	prop:nombreEstacion "LOGROÑO/AGONCILLO";
 	geo:location punto:GeoPos_08084;
 	.
 
@@ -568,7 +568,7 @@ punto:GeoPos_60040 a aemet:Punto;
 estacion:Estacion_60030 a aemet:Estacion;
 	prop:indclim "C649I";
 	prop:indsinop "60030";
-	prop:nombreEstacion "LAS%20PALMAS%20DE%20GRAN%20CANARIA/GANDO";
+	prop:nombreEstacion "LAS PALMAS DE GRAN CANARIA/GANDO";
 	geo:location punto:GeoPos_60030;
 	.
 
@@ -581,7 +581,7 @@ punto:GeoPos_60030 a aemet:Punto;
 estacion:Estacion_08055 a aemet:Estacion;
 	prop:indclim "2661";
 	prop:indsinop "08055";
-	prop:nombreEstacion "LE%C3%93N/VIRGEN%20DEL%20CAMINO";
+	prop:nombreEstacion "LEÓN/VIRGEN DEL CAMINO";
 	geo:location punto:GeoPos_08055;
 	.
 
@@ -633,7 +633,7 @@ punto:GeoPos_08008 a aemet:Punto;
 estacion:Estacion_08219 a aemet:Estacion;
 	prop:indclim "3191E";
 	prop:indsinop "08219";
-	prop:nombreEstacion "COLMENAR%20VIEJO/FAMET";
+	prop:nombreEstacion "COLMENAR VIEJO/FAMET";
 	geo:location punto:GeoPos_08219;
 	.
 
@@ -646,7 +646,7 @@ punto:GeoPos_08219 a aemet:Punto;
 estacion:Estacion_08222 a aemet:Estacion;
 	prop:indclim "3195";
 	prop:indsinop "08222";
-	prop:nombreEstacion "MADRID%2CRETIRO";
+	prop:nombreEstacion "MADRID,RETIRO";
 	geo:location punto:GeoPos_08222;
 	.
 
@@ -672,7 +672,7 @@ punto:GeoPos_08221 a aemet:Punto;
 estacion:Estacion_08223 a aemet:Estacion;
 	prop:indclim "3196";
 	prop:indsinop "08223";
-	prop:nombreEstacion "MADRID/CUATRO%20VIENTOS";
+	prop:nombreEstacion "MADRID/CUATRO VIENTOS";
 	geo:location punto:GeoPos_08223;
 	.
 
@@ -698,7 +698,7 @@ punto:GeoPos_08224 a aemet:Punto;
 estacion:Estacion_08227 a aemet:Estacion;
 	prop:indclim "3175";
 	prop:indsinop "08227";
-	prop:nombreEstacion "MADRID/TORREJ%C3%93N";
+	prop:nombreEstacion "MADRID/TORREJÓN";
 	geo:location punto:GeoPos_08227;
 	.
 
@@ -711,7 +711,7 @@ punto:GeoPos_08227 a aemet:Punto;
 estacion:Estacion_08215 a aemet:Estacion;
 	prop:indclim "2462";
 	prop:indsinop "08215";
-	prop:nombreEstacion "NAVACERRADA%2CPUERTO";
+	prop:nombreEstacion "NAVACERRADA,PUERTO";
 	geo:location punto:GeoPos_08215;
 	.
 
@@ -724,7 +724,7 @@ punto:GeoPos_08215 a aemet:Punto;
 estacion:Estacion_08482 a aemet:Estacion;
 	prop:indclim "6155A";
 	prop:indsinop "08482";
-	prop:nombreEstacion "M%C3%81LAGA/AEROPUERTO";
+	prop:nombreEstacion "MÁLAGA/AEROPUERTO";
 	geo:location punto:GeoPos_08482;
 	.
 
@@ -776,7 +776,7 @@ punto:GeoPos_08429 a aemet:Punto;
 estacion:Estacion_08433 a aemet:Estacion;
 	prop:indclim "7031";
 	prop:indsinop "08433";
-	prop:nombreEstacion "MURCIA/SAN%20JAVIER";
+	prop:nombreEstacion "MURCIA/SAN JAVIER";
 	geo:location punto:GeoPos_08433;
 	.
 
@@ -841,7 +841,7 @@ punto:GeoPos_08045 a aemet:Punto;
 estacion:Estacion_08201 a aemet:Estacion;
 	prop:indclim "2870";
 	prop:indsinop "08201";
-	prop:nombreEstacion "SALAMANCA%2COBS.";
+	prop:nombreEstacion "SALAMANCA,OBS.";
 	geo:location punto:GeoPos_08201;
 	.
 
@@ -880,7 +880,7 @@ punto:GeoPos_60001 a aemet:Punto;
 estacion:Estacion_60010 a aemet:Estacion;
 	prop:indclim "C430E";
 	prop:indsinop "60010";
-	prop:nombreEstacion "IZA%C3%91A";
+	prop:nombreEstacion "IZAÑA";
 	geo:location punto:GeoPos_60010;
 	.
 
@@ -893,7 +893,7 @@ punto:GeoPos_60010 a aemet:Punto;
 estacion:Estacion_60005 a aemet:Estacion;
 	prop:indclim "C139E";
 	prop:indsinop "60005";
-	prop:nombreEstacion "LA%20PALMA/AEROPUERTO";
+	prop:nombreEstacion "LA PALMA/AEROPUERTO";
 	geo:location punto:GeoPos_60005;
 	.
 
@@ -906,7 +906,7 @@ punto:GeoPos_60005 a aemet:Punto;
 estacion:Estacion_60020 a aemet:Estacion;
 	prop:indclim "C449C";
 	prop:indsinop "60020";
-	prop:nombreEstacion "STA.CRUZ%20DE%20TENERIFE";
+	prop:nombreEstacion "STA.CRUZ DE TENERIFE";
 	geo:location punto:GeoPos_60020;
 	.
 
@@ -919,7 +919,7 @@ punto:GeoPos_60020 a aemet:Punto;
 estacion:Estacion_60015 a aemet:Estacion;
 	prop:indclim "C447A";
 	prop:indsinop "60015";
-	prop:nombreEstacion "TENERIFE/LOS%20RODEOS";
+	prop:nombreEstacion "TENERIFE/LOS RODEOS";
 	geo:location punto:GeoPos_60015;
 	.
 
@@ -958,7 +958,7 @@ punto:GeoPos_08213 a aemet:Punto;
 estacion:Estacion_08397 a aemet:Estacion;
 	prop:indclim "5796";
 	prop:indsinop "08397";
-	prop:nombreEstacion "MOR%C3%93N%20DE%20LA%20FRONTERA";
+	prop:nombreEstacion "MORÓN DE LA FRONTERA";
 	geo:location punto:GeoPos_08397;
 	.
 
@@ -971,7 +971,7 @@ punto:GeoPos_08397 a aemet:Punto;
 estacion:Estacion_08391 a aemet:Estacion;
 	prop:indclim "5783";
 	prop:indsinop "08391";
-	prop:nombreEstacion "SEVILLA/SAN%20PABLO";
+	prop:nombreEstacion "SEVILLA/SAN PABLO";
 	geo:location punto:GeoPos_08391;
 	.
 
@@ -1101,7 +1101,7 @@ punto:GeoPos_08141 a aemet:Punto;
 estacion:Estacion_08140 a aemet:Estacion;
 	prop:indclim "2539";
 	prop:indsinop "08140";
-	prop:nombreEstacion "VALLADOLID%20%28VILLANUBLA%29";
+	prop:nombreEstacion "VALLADOLID (VILLANUBLA)";
 	geo:location punto:GeoPos_08140;
 	.
 
@@ -1153,7 +1153,7 @@ punto:GeoPos_08157 a aemet:Punto;
 estacion:Estacion_08160 a aemet:Estacion;
 	prop:indclim "9434";
 	prop:indsinop "08160";
-	prop:nombreEstacion "ZARAGOZA%20%28AEROPUERTO%29";
+	prop:nombreEstacion "ZARAGOZA (AEROPUERTO)";
 	geo:location punto:GeoPos_08160;
 	.
 
@@ -1161,5 +1161,18 @@ punto:GeoPos_08160 a aemet:Punto;
 	geo:long "-1.00805555556";
 	geo:lat "41.6619444444";
 	geo:alt "247";
+	.
+
+estacion:Estacion_08072 a aemet:Estacion;
+	prop:indclim "0000";
+	prop:indsinop "08072";
+	prop:nombreEstacion "PALENCIA-AUTILLA PINO";
+	geo:location punto:GeoPos_08072;
+	.
+
+punto:GeoPos_08072 a aemet:Punto;
+	geo:long "-4.60138888889";
+	geo:lat "41.9969444444";
+	geo:alt "874";
 	.
 

@@ -36,6 +36,6 @@ with open('stations.rdf', 'w') as outf:
     for l in inf:
       e = l[:-1].split(';')
       if len(e) >= 7 and len(e[6]) > 0:
-        outf.write(stationTemplate%(e[6], e[0], e[6], quote(e[1]), e[6]))
+        outf.write(stationTemplate%(e[6], e[0], e[6], e[1], e[6]))
         outf.write(geoposTemplate%(e[6], cc(e[5]), cc(e[4]), e[3]))
 
