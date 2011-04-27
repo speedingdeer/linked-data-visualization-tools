@@ -51,7 +51,10 @@ import es.upm.fi.dia.oeg.map4rdf.client.widget.LoadingWidget;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.mapcontrol.GeoResourcesMapControl;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.mapcontrol.MapControl;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.mapcontrol.StatisticsMapControl;
+import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
+import es.upm.fi.dia.oeg.map4rdf.share.GoogleMapsAdapters;
+import es.upm.fi.dia.oeg.map4rdf.share.TwoDimentionalCoordinate;
 
 /**
  * @author Alexander De Leon
@@ -86,9 +89,26 @@ public class MapView extends Composite implements MapPresenter.Display {
 		addMapControl(geoResourcesMapControl);
 	}
 
-	@Override
 	public MapWidget getMap() {
 		return map;
+	}
+
+	@Override
+	public TwoDimentionalCoordinate getCurrentCenter() {
+		LatLng googleLatLng = getMap().getCenter();
+		return GoogleMapsAdapters.getTwoDimentionalCoordinate(googleLatLng);
+	}
+
+	@Override
+	public BoundingBox getVisibleBox() {
+		return GoogleMapsAdapters.getBoundingBox(getMap().getBounds());
+	}
+
+	@Override
+	public void setVisibleBox(BoundingBox boundingBox) {
+		int zoomLevel = getMap().getBoundsZoomLevel(GoogleMapsAdapters.getLatLngBounds(boundingBox));
+		getMap().setCenter(GoogleMapsAdapters.getLatLng(boundingBox.getCenter()));
+		getMap().setZoomLevel(zoomLevel);
 	}
 
 	@Override

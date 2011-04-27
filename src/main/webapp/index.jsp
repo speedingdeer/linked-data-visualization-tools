@@ -12,6 +12,7 @@
     <title>Map4RDF</title>
     
     <script type="text/javascript" language="javascript" src="http://maps.google.com/maps?gwt=1&amp;file=api&amp;v=2&amp;sensor=true&amp;key=<%=googleMapsKey%>" ></script>
+    <script src="http://openlayers.org/api/2.9/OpenLayers.js"></script>
     <script type="text/javascript" language="javascript" src="es.upm.fi.dia.oeg.map4rdf.map4rdf/es.upm.fi.dia.oeg.map4rdf.map4rdf.nocache.js"></script>
   </head>
 

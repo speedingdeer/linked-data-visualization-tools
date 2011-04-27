@@ -35,7 +35,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.presenter.ResultsPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.view.DashboardView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.FacetView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.MapOverlaysView;
-import es.upm.fi.dia.oeg.map4rdf.client.view.MapView;
+import es.upm.fi.dia.oeg.map4rdf.client.view.OpenLayersMapView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.ResultsView;
 
 /**
@@ -52,7 +52,7 @@ public class InjectorModule extends AbstractPresenterModule {
 		// MVP
 		bindDisplay(DashboardPresenter.Display.class, DashboardView.class);
 		bindDisplay(FacetPresenter.Display.class, FacetView.class);
-		bindDisplay(MapPresenter.Display.class, MapView.class);
+		bindDisplay(MapPresenter.Display.class, OpenLayersMapView.class);
 		bindDisplay(ResultsPresenter.Display.class, ResultsView.class);
 		bindDisplay(MapOverlaysPresenter.Display.class, MapOverlaysView.class);
 
