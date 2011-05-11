@@ -150,7 +150,7 @@
         <rdfs:label xml:lang="es"
             >tiene hora de inicio de la acumulaci&#243;n</rdfs:label>
         <rdfs:domain rdf:resource="&ontology;Observacion"/>
-        <rdfs:range rdf:resource="&time;Instant"/>
+        <rdfs:range rdf:resource="&time;DateTimeDescription"/>
     </owl:ObjectProperty>
     
 
@@ -161,7 +161,7 @@
         <rdfs:label xml:lang="es"
             >tiene hora de observaci&#243;n</rdfs:label>
         <rdfs:domain rdf:resource="&ontology;Observacion"/>
-        <rdfs:range rdf:resource="&time;Instant"/>
+        <rdfs:range rdf:resource="&time;DateTimeDescription"/>
     </owl:ObjectProperty>
     
 
@@ -539,9 +539,9 @@
     
 
 
-    <!-- http://www.w3.org/2006/time#Instant -->
+    <!-- http://www.w3.org/2006/time#DateTimeDescription -->
 
-    <owl:Class rdf:about="&time;Instant"/>
+    <owl:Class rdf:about="&time;DateTimeDescription"/>
     
 
 
