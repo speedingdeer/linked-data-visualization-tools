@@ -4,23 +4,25 @@
 * Autor: José Mora López"""
 
 from threading import Thread
-import gzip
+import gzip, datetime
 
-prefixes =('@base <http://aemet.linkeddata.es/estaciones-automaticas/ontology/> .\n' +
-           '@prefix aemet: <http://aemet.linkeddata.es/estaciones-automaticas/ontology/> .\n' +
-           '@prefix observacion: <http://aemet.linkeddata.es/estaciones-automaticas/resource/Observacion/> .\n' +
-           '@prefix prop: <http://aemet.linkeddata.es/estaciones-automaticas/ontology/> .\n' +
-           '@prefix estacion: <http://aemet.linkeddata.es/estaciones-automaticas/resource/Estacion/> .\n'+
+prefixes =('@base <http://aemet.linkeddata.es/AutomaticStation/ontology/> .\n' +
+           '@prefix aemet: <http://aemet.linkeddata.es/AutomaticStation/ontology/> .\n' +
+           '@prefix observacion: <http://aemet.linkeddata.es/AutomaticStation/resource/Observacion/> .\n' +
+           '@prefix prop: <http://aemet.linkeddata.es/AutomaticStation/ontology/> .\n' +
+           '@prefix estacion: <http://aemet.linkeddata.es/AutomaticStation/resource/Estacion/> .\n'+
+           '@prefix intervalo: <http://aemet.linkeddata.es/AutomaticStation/resource/Intervalo/> .\n'+
            '@prefix ssn: <http://purl.oclc.org/NET/ssnx/ssn#> .\n'+
            '@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n' +
-           '@prefix propiedadAmbientalSobreViento: <http://aemet.linkeddata.es/estaciones-automaticas/ontology/PropiedadAmbientalSobreViento/> .\n' +
-           '@prefix propiedadAmbientalSobreRadiacion: <http://aemet.linkeddata.es/estaciones-automaticas/ontology/PropiedadAmbientalSobreRadiacion/> .\n' +
-           '@prefix propiedadAmbientalSobreTemperatura: <http://aemet.linkeddata.es/estaciones-automaticas/ontology/PropiedadAmbientalSobreTemperatura/> .\n' +
-           '@prefix propiedadAmbientalSobrePrecipitacion: <http://aemet.linkeddata.es/estaciones-automaticas/ontology/PropiedadAmbientalSobrePrecipitacion/> .\n' +
-           '@prefix propiedadAmbientalSobreHumedad: <http://aemet.linkeddata.es/estaciones-automaticas/ontology/PropiedadAmbientalSobreHumedad/> .\n' +
-           '@prefix propiedadAmbiental: <http://aemet.linkeddata.es/estaciones-automaticas/ontology/PropiedadAmbiental/> .\n' +
-           '@prefix propiedadAmbientalSobrePresion: <http://aemet.linkeddata.es/estaciones-automaticas/ontology/PropiedadAmbientalSobrePresion/> .\n' +
-           '@prefix property: <http://aemet.linkeddata.es/estaciones-automaticas/ontology/Property/> .\n' +
+           '@prefix propiedadAmbientalSobreViento: <http://aemet.linkeddata.es/AutomaticStation/ontology/PropiedadAmbientalSobreViento/> .\n' +
+           '@prefix propiedadAmbientalSobreRadiacion: <http://aemet.linkeddata.es/AutomaticStation/ontology/PropiedadAmbientalSobreRadiacion/> .\n' +
+           '@prefix propiedadAmbientalSobreTemperatura: <http://aemet.linkeddata.es/AutomaticStation/ontology/PropiedadAmbientalSobreTemperatura/> .\n' +
+           '@prefix propiedadAmbientalSobrePrecipitacion: <http://aemet.linkeddata.es/AutomaticStation/ontology/PropiedadAmbientalSobrePrecipitacion/> .\n' +
+           '@prefix propiedadAmbientalSobreHumedad: <http://aemet.linkeddata.es/AutomaticStation/ontology/PropiedadAmbientalSobreHumedad/> .\n' +
+           '@prefix propiedadAmbiental: <http://aemet.linkeddata.es/AutomaticStation/ontology/PropiedadAmbiental/> .\n' +
+           '@prefix propiedadAmbientalSobrePresion: <http://aemet.linkeddata.es/AutomaticStation/ontology/PropiedadAmbientalSobrePresion/> .\n' +
+           '@prefix property: <http://aemet.linkeddata.es/AutomaticStation/ontology/Property/> .\n' +
+           '@prefix time: <http://www.w3.org/2006/time#> .\n' +
            '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n\n')
 
 obsP = ('observacion:Observacion_en_%s_de_%s_sobre_%s a aemet:Observacion ;\n' +
@@ -30,7 +32,27 @@ obsP = ('observacion:Observacion_en_%s_de_%s_sobre_%s a aemet:Observacion ;\n' +
         '\tssn:observedProperty %s:%s ;\n' +
         '\tssn:featureOfInterest aemet:condicionMeteorologica ;\n' +
         '\tssn:observedBy estacion:Estacion_%s ;\n' +
+        '\tprop:observadaEnIntervalo intervalo:Diezminutal_desde_%s ;\n' +
         '\t.\n\n')
+        
+timeP = ('intervalo:Diezminutal_desde_%s a time:Interval ;\n' +
+         '\ttime:hasBeginning <http://aemet.linkeddata.es/AutomaticStation/resource/Instante/Instante_%s> ;\n' +
+         '\ttime:hasDurationDescription <http://aemet.linkeddata.es/AutomaticStation/resource/Duracion/Diezminutal> ; \n' + 
+         '\t.\n\n' +
+         '<http://aemet.linkeddata.es/AutomaticStation/resource/Duracion/Diezminutal> a time:DurationDescription ;\n' +
+         '\ttime:minutes 10 ;\n' +
+         '\t.\n\n' +
+         '<http://aemet.linkeddata.es/AutomaticStation/resource/Instante/Instante_%s> a time:Instant ; \n' +
+         '\ttime:inDateTime <http://aemet.linkeddata.es/AutomaticStation/resource/TiempoFecha/TiempoFecha_%s> ;\n' +
+         '\t.\n\n' +
+         '<http://aemet.linkeddata.es/AutomaticStation/resource/TiempoFecha/TiempoFecha_%s> a time:DateTimeDescription ;\n' +
+         '\ttime:unitType time:unitMinute ;\n'+
+         '\ttime:minute %d ;\n' +
+         '\ttime:hour %d ;\n' +
+         '\ttime:day %d ;\n' +
+         '\ttime:month %d ;\n' +
+         '\ttime:year %d ;\n' +
+         '\t.\n\n')
 
 p = {'RVIENTO' : 'propiedadAmbientalSobreViento', 'DV10m' : 'propiedadAmbientalSobreViento', 'DMAX10m' : 'propiedadAmbientalSobreViento',
      'VV10m' : 'propiedadAmbientalSobreViento', 'VMAX10m' : 'propiedadAmbientalSobreViento', 'INSO' : 'propiedadAmbientalSobreRadiacion',
@@ -61,4 +83,6 @@ class FileProcessor(Thread):
           e = (l.decode('mbcs'))[:-1].split(',')
           for i in range(7, len(e), 2):
             ei = e[i].split('=')
-            rdffile.write(obsP%(e[4], e[0], ei[0], e[4], e[0], ei[0], ei[1], e[i+1].split('=')[1], p[ei[0]], ei[0], e[0]))
+            rdffile.write(obsP%(e[4], e[0], ei[0], e[4], e[0], ei[0], ei[1], e[i+1].split('=')[1], p[ei[0]], ei[0], e[0], e[4]))
+        st = datetime.datetime.fromtimestamp(int(e[4])/1000)
+        rdffile.write(timeP%(e[4], e[4], e[4], e[4], e[4], st.minute, st.hour, st.day, st.month, st.year))

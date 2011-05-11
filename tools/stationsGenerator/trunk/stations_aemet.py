@@ -7,12 +7,12 @@
 
 from urllib.parse import quote
 
-prefixes =('@base <http://aemet.linkeddata.es/estaciones-automaticas/ontology/> .\n' +
-           '@prefix aemet: <http://aemet.linkeddata.es/estaciones-automaticas/ontology/> .\n' +
+prefixes =('@base <http://aemet.linkeddata.es/AutomaticStation/ontology/> .\n' +
+           '@prefix aemet: <http://aemet.linkeddata.es/AutomaticStation/ontology/> .\n' +
            '@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .\n' +
-           '@prefix estacion: <http://aemet.linkeddata.es/estaciones-automaticas/resource/Estacion/> .\n' +
-           '@prefix punto: <http://aemet.linkeddata.es/estaciones-automaticas/resource/Punto/> .\n' +
-           '@prefix prop: <http://aemet.linkeddata.es/estaciones-automaticas/ontology/> .\n\n\n')
+           '@prefix estacion: <http://aemet.linkeddata.es/AutomaticStation/resource/Estacion/> .\n' +
+           '@prefix punto: <http://aemet.linkeddata.es/AutomaticStation/resource/Punto/> .\n' +
+           '@prefix prop: <http://aemet.linkeddata.es/AutomaticStation/ontology/> .\n\n\n')
 
 stationTemplate = ('estacion:Estacion_%s a aemet:Estacion;\n' +
                    '\tprop:indclim "%s";\n' +
