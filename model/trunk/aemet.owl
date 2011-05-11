@@ -144,22 +144,11 @@
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/tieneHoraDeInicioDeLaAcumulacion -->
+    <!-- http://aemet.linkeddata.es/ontology/observadaEnIntervalo -->
 
-    <owl:ObjectProperty rdf:about="&ontology;tieneHoraDeInicioDeLaAcumulacion">
+    <owl:ObjectProperty rdf:about="&ontology;observadaEnIntervalo">
         <rdfs:label xml:lang="es"
-            >tiene hora de inicio de la acumulaci&#243;n</rdfs:label>
-        <rdfs:domain rdf:resource="&ontology;Observacion"/>
-        <rdfs:range rdf:resource="&time;DateTimeDescription"/>
-    </owl:ObjectProperty>
-    
-
-
-    <!-- http://aemet.linkeddata.es/ontology/tieneHoraDeObservacion -->
-
-    <owl:ObjectProperty rdf:about="&ontology;tieneHoraDeObservacion">
-        <rdfs:label xml:lang="es"
-            >tiene hora de observaci&#243;n</rdfs:label>
+            >observada en intervalo</rdfs:label>
         <rdfs:domain rdf:resource="&ontology;Observacion"/>
         <rdfs:range rdf:resource="&time;DateTimeDescription"/>
     </owl:ObjectProperty>
