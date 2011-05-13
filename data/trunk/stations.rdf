@@ -2,7 +2,7 @@
 @prefix aemet: <http://aemet.linkeddata.es/AutomaticStation/ontology/> .
 @prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
 @prefix estacion: <http://aemet.linkeddata.es/AutomaticStation/resource/Estacion/> .
-@prefix punto: <http://aemet.linkeddata.es/AutomaticStation/resource/Punto/> .
+@prefix punto: <http://aemet.linkeddata.es/AutomaticStation/resource/Point/> .
 @prefix prop: <http://aemet.linkeddata.es/AutomaticStation/ontology/> .
 
 
