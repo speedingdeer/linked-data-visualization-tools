@@ -21,7 +21,7 @@ stationTemplate = ('estacion:Estacion_%s a aemet:Estacion;\n' +
                    '\tgeo:location punto:GeoPos_%s;\n' +
                    '\t.\n\n')
 
-geoposTemplate = ('punto:GeoPos_%s a aemet:Punto;\n' +
+geoposTemplate = ('punto:GeoPos_%s a geo:Point;\n' +
                   '\tgeo:long "%s";\n' +
                   '\tgeo:lat "%s";\n' +
                   '\tgeo:alt "%s";\n' +
