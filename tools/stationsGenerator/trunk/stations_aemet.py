@@ -7,12 +7,12 @@
 
 from urllib.parse import quote
 
-prefixes =('@base <http://aemet.linkeddata.es/AutomaticStation/ontology/> .\n' +
-           '@prefix aemet: <http://aemet.linkeddata.es/AutomaticStation/ontology/> .\n' +
+prefixes =('@base <http://aemet.linkeddata.es/ontology/> .\n' +
+           '@prefix aemet: <http://aemet.linkeddata.es/ontology/> .\n' +
            '@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .\n' +
-           '@prefix estacion: <http://aemet.linkeddata.es/AutomaticStation/resource/Estacion/> .\n' +
-           '@prefix punto: <http://aemet.linkeddata.es/AutomaticStation/resource/Point/> .\n' +
-           '@prefix prop: <http://aemet.linkeddata.es/AutomaticStation/ontology/> .\n\n\n')
+           '@prefix estacion: <http://aemet.linkeddata.es/resource/Estacion/> .\n' +
+           '@prefix punto: <http://aemet.linkeddata.es/resource/Point/> .\n' +
+           '@prefix prop: <http://aemet.linkeddata.es/ontology/> .\n\n\n')
 
 stationTemplate = ('estacion:Estacion_%s a aemet:Estacion;\n' +
                    '\tprop:indclim "%s";\n' +
@@ -30,7 +30,7 @@ geoposTemplate = ('punto:GeoPos_%s a geo:Point;\n' +
 cc = lambda n: str((-1 if n[6] in 'SW' else 1) * (int(n[:2]) + int(n[2:4])/60 + int(n[4:6])/3600))
 
 # 0Indicativo;1NOMBRE;2Provincia;3ALTITUD;4LATITUD;5LONGITUD;6INDSINOP
-with open('stations.rdf', 'w') as outf:
+with open('stations.rdf', 'w', encoding='utf8') as outf:
   with open('maestro.csv', 'r') as inf:
     outf.write(prefixes)
     for l in inf:

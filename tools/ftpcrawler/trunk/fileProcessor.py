@@ -6,22 +6,22 @@
 from threading import Thread
 import gzip, datetime
 
-prefixes =('@base <http://aemet.linkeddata.es/AutomaticStation/ontology/> .\n' +
-           '@prefix aemet: <http://aemet.linkeddata.es/AutomaticStation/ontology/> .\n' +
-           '@prefix observacion: <http://aemet.linkeddata.es/AutomaticStation/resource/Observacion/> .\n' +
-           '@prefix prop: <http://aemet.linkeddata.es/AutomaticStation/ontology/> .\n' +
-           '@prefix estacion: <http://aemet.linkeddata.es/AutomaticStation/resource/Estacion/> .\n'+
-           '@prefix intervalo: <http://aemet.linkeddata.es/AutomaticStation/resource/Intervalo/> .\n'+
+prefixes =('@base <http://aemet.linkeddata.es/ontology/> .\n' +
+           '@prefix aemet: <http://aemet.linkeddata.es/ontology/> .\n' +
+           '@prefix observacion: <http://aemet.linkeddata.es/resource/Observacion/> .\n' +
+           '@prefix prop: <http://aemet.linkeddata.es/ontology/> .\n' +
+           '@prefix estacion: <http://aemet.linkeddata.es/resource/Estacion/> .\n'+
+           '@prefix intervalo: <http://aemet.linkeddata.es/resource/Intervalo/> .\n'+
            '@prefix ssn: <http://purl.oclc.org/NET/ssnx/ssn#> .\n'+
            '@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n' +
-           '@prefix propiedadAmbientalSobreViento: <http://aemet.linkeddata.es/AutomaticStation/ontology/PropiedadAmbientalSobreViento/> .\n' +
-           '@prefix propiedadAmbientalSobreRadiacion: <http://aemet.linkeddata.es/AutomaticStation/ontology/PropiedadAmbientalSobreRadiacion/> .\n' +
-           '@prefix propiedadAmbientalSobreTemperatura: <http://aemet.linkeddata.es/AutomaticStation/ontology/PropiedadAmbientalSobreTemperatura/> .\n' +
-           '@prefix propiedadAmbientalSobrePrecipitacion: <http://aemet.linkeddata.es/AutomaticStation/ontology/PropiedadAmbientalSobrePrecipitacion/> .\n' +
-           '@prefix propiedadAmbientalSobreHumedad: <http://aemet.linkeddata.es/AutomaticStation/ontology/PropiedadAmbientalSobreHumedad/> .\n' +
-           '@prefix propiedadAmbiental: <http://aemet.linkeddata.es/AutomaticStation/ontology/PropiedadAmbiental/> .\n' +
-           '@prefix propiedadAmbientalSobrePresion: <http://aemet.linkeddata.es/AutomaticStation/ontology/PropiedadAmbientalSobrePresion/> .\n' +
-           '@prefix property: <http://aemet.linkeddata.es/AutomaticStation/ontology/Property/> .\n' +
+           '@prefix propiedadAmbientalSobreViento: <http://aemet.linkeddata.es/ontology/PropiedadAmbientalSobreViento/> .\n' +
+           '@prefix propiedadAmbientalSobreRadiacion: <http://aemet.linkeddata.es/ontology/PropiedadAmbientalSobreRadiacion/> .\n' +
+           '@prefix propiedadAmbientalSobreTemperatura: <http://aemet.linkeddata.es/ontology/PropiedadAmbientalSobreTemperatura/> .\n' +
+           '@prefix propiedadAmbientalSobrePrecipitacion: <http://aemet.linkeddata.es/ontology/PropiedadAmbientalSobrePrecipitacion/> .\n' +
+           '@prefix propiedadAmbientalSobreHumedad: <http://aemet.linkeddata.es/ontology/PropiedadAmbientalSobreHumedad/> .\n' +
+           '@prefix propiedadAmbiental: <http://aemet.linkeddata.es/ontology/PropiedadAmbiental/> .\n' +
+           '@prefix propiedadAmbientalSobrePresion: <http://aemet.linkeddata.es/ontology/PropiedadAmbientalSobrePresion/> .\n' +
+           '@prefix property: <http://aemet.linkeddata.es/ontology/Property/> .\n' +
            '@prefix time: <http://www.w3.org/2006/time#> .\n' +
            '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n\n')
 
@@ -36,16 +36,16 @@ obsP = ('observacion:Observacion_en_%s_de_%s_sobre_%s a aemet:Observacion ;\n' +
         '\t.\n\n')
         
 timeP = ('intervalo:Diezminutal_desde_%s a time:Interval ;\n' +
-         '\ttime:hasBeginning <http://aemet.linkeddata.es/AutomaticStation/resource/Instante/Instante_%s> ;\n' +
-         '\ttime:hasDurationDescription <http://aemet.linkeddata.es/AutomaticStation/resource/Duracion/Diezminutal> ; \n' + 
+         '\ttime:hasBeginning <http://aemet.linkeddata.es/resource/Instante/Instante_%s> ;\n' +
+         '\ttime:hasDurationDescription <http://aemet.linkeddata.es/resource/Duracion/Diezminutal> ; \n' + 
          '\t.\n\n' +
-         '<http://aemet.linkeddata.es/AutomaticStation/resource/Duracion/Diezminutal> a time:DurationDescription ;\n' +
+         '<http://aemet.linkeddata.es/resource/Duracion/Diezminutal> a time:DurationDescription ;\n' +
          '\ttime:minutes 10 ;\n' +
          '\t.\n\n' +
-         '<http://aemet.linkeddata.es/AutomaticStation/resource/Instante/Instante_%s> a time:Instant ; \n' +
-         '\ttime:inDateTime <http://aemet.linkeddata.es/AutomaticStation/resource/TiempoFecha/TiempoFecha_%s> ;\n' +
+         '<http://aemet.linkeddata.es/resource/Instante/Instante_%s> a time:Instant ; \n' +
+         '\ttime:inDateTime <http://aemet.linkeddata.es/resource/TiempoFecha/TiempoFecha_%s> ;\n' +
          '\t.\n\n' +
-         '<http://aemet.linkeddata.es/AutomaticStation/resource/TiempoFecha/TiempoFecha_%s> a time:DateTimeDescription ;\n' +
+         '<http://aemet.linkeddata.es/resource/TiempoFecha/TiempoFecha_%s> a time:DateTimeDescription ;\n' +
          '\ttime:unitType time:unitMinute ;\n'+
          '\ttime:minute %d ;\n' +
          '\ttime:hour %d ;\n' +
