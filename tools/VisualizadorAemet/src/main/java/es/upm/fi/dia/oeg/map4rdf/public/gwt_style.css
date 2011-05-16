@@ -1,0 +1,12 @@
+.gwt-StackLayoutPanel .gwt-StackLayoutPanelContent {
+	border-color:#BBBBBB #BBBBBB -moz-use-text-color;
+	border-style:solid solid none;
+	border-width:1px 1px 0;
+	background: inherit;
+}
+
+.gwt-SplitLayoutPanel-HDragger{
+	background-image: url('bar_bg.gif');
+	background-repeat: repeat-y;
+	padding: 0;
+}

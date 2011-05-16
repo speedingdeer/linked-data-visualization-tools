@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-Build Dani</actionName>
+            <displayName>Build Dani</displayName>
+            <preAction>build-with-dependencies</preAction>
+            <goals>
+                <goal>install</goal>
+                
+            </goals>
+            <properties>
+                <DskipPermutations>true</DskipPermutations>
+            </properties>
+        </action>
+        
+    </actions>
