@@ -27,6 +27,10 @@ package es.upm.fi.dia.oeg.map4rdf.client.inject;
 import net.customware.gwt.presenter.client.DefaultEventBus;
 import net.customware.gwt.presenter.client.EventBus;
 import net.customware.gwt.presenter.client.gin.AbstractPresenterModule;
+import es.upm.fi.dia.oeg.map4rdf.client.maplet.Maplet;
+import es.upm.fi.dia.oeg.map4rdf.client.maplet.stats.StatisticsMaplet;
+import es.upm.fi.dia.oeg.map4rdf.client.maplet.stats.StatisticsPresenter;
+import es.upm.fi.dia.oeg.map4rdf.client.maplet.stats.StatisticsView;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.DashboardPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.FacetPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapOverlaysPresenter;
@@ -55,6 +59,9 @@ public class InjectorModule extends AbstractPresenterModule {
 		bindDisplay(MapPresenter.Display.class, OpenLayersMapView.class);
 		bindDisplay(ResultsPresenter.Display.class, ResultsView.class);
 		bindDisplay(MapOverlaysPresenter.Display.class, MapOverlaysView.class);
+		bindDisplay(StatisticsPresenter.Display.class, StatisticsView.class);
 
+		// Maplets
+		bind(Maplet.class).to(StatisticsMaplet.class).asEagerSingleton();
 	}
 }

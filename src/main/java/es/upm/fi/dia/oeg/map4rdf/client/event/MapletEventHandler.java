@@ -1,9 +1,5 @@
 /**
- * Copyright (c) 2011 Ontology Engineering Group, 
- * Departamento de Inteligencia Artificial,
- * Facultad de Informática, Universidad 
- * Politécnica de Madrid, Spain
- * 
+ * Copyright (c) 2011 Alexander De Leon Battista
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -22,15 +18,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.share;
+package es.upm.fi.dia.oeg.map4rdf.client.event;
 
-import java.util.Collection;
+import com.google.gwt.event.shared.EventHandler;
 
 /**
  * @author Alexander De Leon
  */
-public interface Geometry extends HasUri, MapShape {
+public interface MapletEventHandler extends EventHandler {
 
-	Collection<Point> getPoints();
+	void mapletActivated(MapletEvent event);
+
+	void mapletDeactivated(MapletEvent event);
 
 }

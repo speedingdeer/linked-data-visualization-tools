@@ -45,6 +45,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResourcesAsKmlUrl;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
 import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedHandler;
+import es.upm.fi.dia.oeg.map4rdf.client.view.v2.MapView;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
@@ -59,7 +60,7 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 	private Set<FacetConstraint> facetConstraints;
 	private final DispatchAsync dispatchAsync;
 
-	public interface Display extends WidgetDisplay {
+	public interface Display extends WidgetDisplay, MapView {
 
 		TwoDimentionalCoordinate getCurrentCenter();
 

@@ -1,9 +1,5 @@
 /**
- * Copyright (c) 2011 Ontology Engineering Group, 
- * Departamento de Inteligencia Artificial,
- * Facultad de Informática, Universidad 
- * Politécnica de Madrid, Spain
- * 
+ * Copyright (c) 2011 Alexander De Leon Battista
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -21,12 +17,33 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
-*/
-package es.upm.fi.dia.oeg.map4rdf.client.widget.mapcontrol;
+ */
+package es.upm.fi.dia.oeg.map4rdf.client.widget;
+
+import com.google.inject.Inject;
+
+import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
+import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 
 /**
- * @author Alexander De Leon 
+ * @author Alexander De Leon
  */
-public class MapControlManager {
+public class WidgetFactory {
 
+	private final BrowserMessages messages;
+	private final BrowserResources resources;
+
+	@Inject
+	public WidgetFactory(BrowserMessages messages, BrowserResources resources) {
+		this.messages = messages;
+		this.resources = resources;
+	}
+
+	public GeoResourceSummary createGeoResourceSummary() {
+		return new GeoResourceSummary(messages, resources);
+	}
+
+	public Timeline createTimeline() {
+		return new Timeline(resources.css());
+	}
 }

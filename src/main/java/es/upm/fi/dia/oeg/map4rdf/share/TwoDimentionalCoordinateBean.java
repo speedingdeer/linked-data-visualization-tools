@@ -38,6 +38,11 @@ public class TwoDimentionalCoordinateBean implements TwoDimentionalCoordinate, S
 		// for serialization
 	}
 
+	@Override
+	public Type getType() {
+		return Type.POINT;
+	}
+
 	public TwoDimentionalCoordinateBean(double x, double y) {
 		this.x = x;
 		this.y = y;

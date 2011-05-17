@@ -1,9 +1,5 @@
 /**
- * Copyright (c) 2011 Ontology Engineering Group, 
- * Departamento de Inteligencia Artificial,
- * Facultad de Informática, Universidad 
- * Politécnica de Madrid, Spain
- * 
+ * Copyright (c) 2011 Alexander De Leon Battista
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -22,19 +18,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.client.widget.mapcontrol;
+package es.upm.fi.dia.oeg.map4rdf.client.view.v2;
 
-import net.customware.gwt.presenter.client.Display;
+import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.user.client.ui.HasWidgets;
 
-import com.google.gwt.maps.client.control.Control.CustomControl;
+import es.upm.fi.dia.oeg.map4rdf.client.style.StyleMapShape;
+import es.upm.fi.dia.oeg.map4rdf.share.Circle;
+import es.upm.fi.dia.oeg.map4rdf.share.Point;
+import es.upm.fi.dia.oeg.map4rdf.share.PolyLine;
+import es.upm.fi.dia.oeg.map4rdf.share.Polygon;
 
 /**
  * @author Alexander De Leon
  */
-public interface MapControl {
+public interface MapLayer {
 
-	void setDisplay(Display display);
+	HasClickHandlers draw(Point point);
 
-	CustomControl getCustomControl();
+	HasClickHandlers drawPolygon(StyleMapShape<Polygon> polygon);
 
+	HasClickHandlers drawPolyline(StyleMapShape<PolyLine> polyline);
+
+	HasClickHandlers drawCircle(StyleMapShape<Circle> circle);
+
+	HasClickHandlers draw(String text, Point point);
+
+	PopupWindow createPopupWindow();
+
+	void clear();
+
+	MapView getMapView();
+
+	interface PopupWindow extends HasWidgets {
+
+		void open(Point location);
+
+		void close();
+
+	}
 }

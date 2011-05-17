@@ -38,13 +38,13 @@ public interface BrowserMessages extends Messages {
 	String select();
 
 	String type();
-	
+
 	String here();
-	
+
 	String latitude();
-	
+
 	String longitude();
-	
+
 	String information();
 
 }

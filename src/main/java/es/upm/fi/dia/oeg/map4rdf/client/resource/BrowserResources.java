@@ -34,6 +34,7 @@ import com.google.gwt.resources.client.ImageResource.RepeatStyle;
 
 import es.upm.fi.dia.oeg.map4rdf.client.widget.DataToolBar;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.FacetWidget;
+import es.upm.fi.dia.oeg.map4rdf.client.widget.GeoResourceSummary;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.Timeline;
 
 /**
@@ -42,7 +43,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.widget.Timeline;
 public interface BrowserResources extends ClientBundle {
 
 	interface BrowserCss extends ToggleButton.Stylesheet, FacetWidget.Stylesheet, DataToolBar.Stylesheet,
-			Timeline.Stylesheet, CssResource {
+			Timeline.Stylesheet, GeoResourceSummary.Stylesheet, CssResource {
 		String header();
 
 		String footer();

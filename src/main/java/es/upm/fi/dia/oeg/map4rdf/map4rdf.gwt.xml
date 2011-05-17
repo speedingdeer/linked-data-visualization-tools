@@ -9,9 +9,12 @@
 	<inherits name="com.google.gwt.gen2.picker.Picker"/>
 	<inherits name="org.gwtopenmaps.openlayers.OpenLayers"/>
 	
+	<stylesheet src="/map4rdf.css"/>
+	
 	<inherits name="com.google.gwt.user.theme.chrome.Chrome"/>
 
 	<stylesheet src="gwt_style.css"/>
+	
 	
 	
 	<source path="client" />

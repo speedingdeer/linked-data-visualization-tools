@@ -1,9 +1,5 @@
 /**
- * Copyright (c) 2011 Ontology Engineering Group, 
- * Departamento de Inteligencia Artificial,
- * Facultad de Informática, Universidad 
- * Politécnica de Madrid, Spain
- * 
+ * Copyright (c) 2011 Alexander De Leon Battista
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -24,13 +20,12 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.share;
 
-import java.util.Collection;
-
 /**
  * @author Alexander De Leon
  */
-public interface Geometry extends HasUri, MapShape {
+public interface Circle extends MapShape {
 
-	Collection<Point> getPoints();
+	double getRadius();
 
+	TwoDimentionalCoordinate getCenter();
 }

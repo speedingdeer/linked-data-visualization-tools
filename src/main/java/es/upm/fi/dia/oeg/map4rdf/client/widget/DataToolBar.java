@@ -28,13 +28,10 @@ import name.alexdeleon.lib.gwtblocks.client.event.ToggleEvent;
 import name.alexdeleon.lib.gwtblocks.client.event.ToggleHandler;
 import name.alexdeleon.lib.gwtblocks.client.widget.togglebutton.ToggleButton;
 import net.customware.gwt.dispatch.client.DispatchAsync;
+import net.customware.gwt.presenter.client.EventBus;
 
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -42,13 +39,12 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
-import es.upm.fi.dia.oeg.map4rdf.client.action.GetStatisticDatasets;
-import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
+import es.upm.fi.dia.oeg.map4rdf.client.event.MapletActivatedEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.event.MapletDeactivatedEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.maplet.stats.StatisticsMaplet;
+import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
-import es.upm.fi.dia.oeg.map4rdf.client.widget.mapcontrol.StatisticsMapControl;
-import es.upm.fi.dia.oeg.map4rdf.share.Resource;
-import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
 
 /**
  * @author Alexander De Leon
@@ -65,59 +61,42 @@ public class DataToolBar extends Composite {
 
 	private Image statsButton;
 	private final Stylesheet stylesheet;
-	private final StatisticsMapControl mapControl;
+	private final MapPresenter.Display mapView;
 	private final DispatchAsync dispatchAsync;
 	private final BrowserMessages messages;
+	private final EventBus eventBus;
 
 	@Inject
-	public DataToolBar(BrowserResources resources, StatisticsMapControl mapControl, DispatchAsync dispatchAsync, BrowserMessages messages) {		
-		this.mapControl = mapControl;
+	public DataToolBar(BrowserResources resources, MapPresenter.Display mapView, DispatchAsync dispatchAsync,
+			BrowserMessages messages, EventBus eventBus) {
+		this.eventBus = eventBus;
+		this.mapView = mapView;
 		this.dispatchAsync = dispatchAsync;
 		this.messages = messages;
 		stylesheet = resources.css();
 		initWidget(createUi(resources));
-		
+
 	}
 
 	private void showSelectionDialog() {
-		dispatchAsync.execute(new GetStatisticDatasets(), new AsyncCallback<ListResult<Resource>>() {
 
-			@Override
-			public void onSuccess(ListResult<Resource> result) {
-				StatisticsSelectionDialog selectionDialog = new StatisticsSelectionDialog(result.asList(), messages);
-				selectionDialog.addSelectionHandler(new SelectionHandler<StatisticDefinition>() {
-					@Override
-					public void onSelection(SelectionEvent<StatisticDefinition> event) {
-						StatisticDefinition stat = event.getSelectedItem();
-						mapControl.setStatistics(stat);
-					}
-				});
-				selectionDialog.center();
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert("Error loading statistics datasets");
-
-			}
-		});
 	}
 
 	private Widget createUi(BrowserResources resources) {
 		FlowPanel panel = new FlowPanel();
 		panel.setStyleName(stylesheet.toolbar());
 
-		panel.add(new DataToolBarButton(resources.statsButton(), this.messages.statistics(), resources.css(), new ToggleHandler() {
-			@Override
-			public void onToggle(ToggleEvent event) {
-				if (event.isPressed()) {
-
-					showSelectionDialog();
-				} else {
-					mapControl.disable();
-				}
-			}
-		}));
+		panel.add(new DataToolBarButton(resources.statsButton(), messages.statistics(), resources.css(),
+				new ToggleHandler() {
+					@Override
+					public void onToggle(ToggleEvent event) {
+						if (event.isPressed()) {
+							eventBus.fireEvent(new MapletActivatedEvent(StatisticsMaplet.getMapletId()));
+						} else {
+							eventBus.fireEvent(new MapletDeactivatedEvent(StatisticsMaplet.getMapletId()));
+						}
+					}
+				}));
 
 		return panel;
 	}

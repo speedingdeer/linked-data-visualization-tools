@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.client.widget;
+package es.upm.fi.dia.oeg.map4rdf.client.maplet.stats;
 
 import java.util.List;
 
@@ -38,8 +38,8 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.inject.Inject;
 
-import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
 import es.upm.fi.dia.oeg.map4rdf.client.util.LocaleUtil;
 import es.upm.fi.dia.oeg.map4rdf.share.Resource;
 import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
@@ -51,14 +51,25 @@ public class StatisticsSelectionDialog extends PrettyPopup implements HasSelecti
 
 	private final ListBox datasetList = new ListBox();
 	private final Button selectButton = new Button("Select");
-	private final BrowserMessages messages;
+	private final Messages messages;
 
-	public StatisticsSelectionDialog(List<Resource> datasets, BrowserMessages messages) {
+	@Inject
+	public StatisticsSelectionDialog(Messages messages) {
 		super(PrettyPopupStylesheetFactory.getDefaultStylesheet(), true);
 		this.messages = messages;
 		setModal(true);
-		initDatasetList(datasets);
 		createUi();
+	}
+
+	public void show(List<Resource> datasets) {
+		initDatasetList(datasets);
+		center();
+	}
+
+	@Override
+	public void hide() {
+		datasetList.clear();
+		super.hide();
 	}
 
 	@Override

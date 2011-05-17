@@ -1,9 +1,5 @@
 /**
- * Copyright (c) 2011 Ontology Engineering Group, 
- * Departamento de Inteligencia Artificial,
- * Facultad de Informática, Universidad 
- * Politécnica de Madrid, Spain
- * 
+ * Copyright (c) 2011 Alexander De Leon Battista
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -22,15 +18,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.share;
+package es.upm.fi.dia.oeg.map4rdf.client.view.v2;
 
-import java.util.Collection;
+import net.customware.gwt.presenter.client.widget.WidgetDisplay;
+
+import com.google.gwt.user.client.ui.AbsolutePanel;
+
+import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
+import es.upm.fi.dia.oeg.map4rdf.share.TwoDimentionalCoordinate;
 
 /**
  * @author Alexander De Leon
  */
-public interface Geometry extends HasUri, MapShape {
+public interface MapView extends WidgetDisplay {
 
-	Collection<Point> getPoints();
+	TwoDimentionalCoordinate getCurrentCenter();
+
+	BoundingBox getVisibleBox();
+
+	void setVisibleBox(BoundingBox boundingBox);
+
+	MapLayer getDefaultLayer();
+
+	MapLayer createLayer(String name);
+
+	AbsolutePanel getContainer();
 
 }

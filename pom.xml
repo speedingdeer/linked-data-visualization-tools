@@ -107,7 +107,6 @@
         	<artifactId>gwt-openlayers-client</artifactId>
         	<version>0.5</version>
 		</dependency>
-		
 	</dependencies>
 
 	<build>
