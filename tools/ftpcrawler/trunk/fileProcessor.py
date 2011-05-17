@@ -4,7 +4,7 @@
 * Autor: José Mora López"""
 
 from threading import Thread
-import gzip, datetime
+import gzip, time
 
 prefixes =('@base <http://aemet.linkeddata.es/ontology/> .\n' +
            '@prefix aemet: <http://aemet.linkeddata.es/ontology/> .\n' +
@@ -50,8 +50,12 @@ timeP = ('intervalo:Diezminutal_desde_%s a time:Interval ;\n' +
          '\ttime:minute %d ;\n' +
          '\ttime:hour %d ;\n' +
          '\ttime:day %d ;\n' +
+         '\ttime:dayOfWeek time:%s ;\n' +
+         '\ttime:dayOfYear %d ;\n' +
+         '\ttime:week %d ;\n' +
          '\ttime:month %d ;\n' +
          '\ttime:year %d ;\n' +
+         '\ttime:timeZone tz-world:TZT ;\n' +
          '\t.\n\n')
 
 p = {'RVIENTO' : 'propiedadAmbientalSobreViento', 'DV10m' : 'propiedadAmbientalSobreViento', 'DMAX10m' : 'propiedadAmbientalSobreViento',
@@ -68,6 +72,7 @@ p = {'RVIENTO' : 'propiedadAmbientalSobreViento', 'DV10m' : 'propiedadAmbientalS
      'GEO850' : 'propiedadAmbientalSobrePresion', 'PSOLTP' : 'propiedadAmbientalSobrePresion',
      'PRES_nmar' : 'propiedadAmbientalSobrePresion', 'BAT' : 'property', 'BATH' : 'property'}
 
+dow = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
      
 class FileProcessor(Thread):
 
@@ -84,5 +89,5 @@ class FileProcessor(Thread):
           for i in range(7, len(e), 2):
             ei = e[i].split('=')
             rdffile.write(obsP%(e[4], e[0], ei[0], e[4], e[0], ei[0], ei[1], e[i+1].split('=')[1], p[ei[0]], ei[0], e[0], e[4]))
-        st = datetime.datetime.fromtimestamp(int(e[4])/1000)
-        rdffile.write(timeP%(e[4], e[4], e[4], e[4], e[4], st.minute, st.hour, st.day, st.month, st.year))
+        st = time.gmtime(int(e[4])/1000)
+        rdffile.write(timeP%(e[4], e[4], e[4], e[4], e[4], st[4], st[3], st[2], dow[st[6]], st[7], st[7]//7, st[1], st[0]))
