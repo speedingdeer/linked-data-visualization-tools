@@ -14,14 +14,14 @@ prefixes =('@base <http://aemet.linkeddata.es/ontology/> .\n' +
            '@prefix intervalo: <http://aemet.linkeddata.es/resource/Intervalo/> .\n'+
            '@prefix ssn: <http://purl.oclc.org/NET/ssnx/ssn#> .\n'+
            '@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .\n' +
-           '@prefix propiedadAmbientalSobreViento: <http://aemet.linkeddata.es/ontology/PropiedadAmbientalSobreViento/> .\n' +
-           '@prefix propiedadAmbientalSobreRadiacion: <http://aemet.linkeddata.es/ontology/PropiedadAmbientalSobreRadiacion/> .\n' +
-           '@prefix propiedadAmbientalSobreTemperatura: <http://aemet.linkeddata.es/ontology/PropiedadAmbientalSobreTemperatura/> .\n' +
-           '@prefix propiedadAmbientalSobrePrecipitacion: <http://aemet.linkeddata.es/ontology/PropiedadAmbientalSobrePrecipitacion/> .\n' +
-           '@prefix propiedadAmbientalSobreHumedad: <http://aemet.linkeddata.es/ontology/PropiedadAmbientalSobreHumedad/> .\n' +
-           '@prefix propiedadAmbiental: <http://aemet.linkeddata.es/ontology/PropiedadAmbiental/> .\n' +
-           '@prefix propiedadAmbientalSobrePresion: <http://aemet.linkeddata.es/ontology/PropiedadAmbientalSobrePresion/> .\n' +
-           '@prefix property: <http://aemet.linkeddata.es/ontology/Property/> .\n' +
+           '@prefix propiedadAmbientalSobreViento: <http://aemet.linkeddata.es/resource/PropiedadAmbientalSobreViento/> .\n' +
+           '@prefix propiedadAmbientalSobreRadiacion: <http://aemet.linkeddata.es/resource/PropiedadAmbientalSobreRadiacion/> .\n' +
+           '@prefix propiedadAmbientalSobreTemperatura: <http://aemet.linkeddata.es/resource/PropiedadAmbientalSobreTemperatura/> .\n' +
+           '@prefix propiedadAmbientalSobrePrecipitacion: <http://aemet.linkeddata.es/resource/PropiedadAmbientalSobrePrecipitacion/> .\n' +
+           '@prefix propiedadAmbientalSobreHumedad: <http://aemet.linkeddata.es/resource/PropiedadAmbientalSobreHumedad/> .\n' +
+           '@prefix propiedadAmbiental: <http://aemet.linkeddata.es/resource/PropiedadAmbiental/> .\n' +
+           '@prefix propiedadAmbientalSobrePresion: <http://aemet.linkeddata.es/resource/PropiedadAmbientalSobrePresion/> .\n' +
+           '@prefix property: <http://aemet.linkeddata.es/resource/Property/> .\n' +
            '@prefix time: <http://www.w3.org/2006/time#> .\n' +
            '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n\n')
 
