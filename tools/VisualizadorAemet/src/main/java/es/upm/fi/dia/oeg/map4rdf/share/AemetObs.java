@@ -3,58 +3,57 @@ package es.upm.fi.dia.oeg.map4rdf.share;
 import java.io.Serializable;
 
 public class AemetObs implements Serializable {
-    
-	//private String idObs;
-        private String uriObs;
-        private String estacion;
-        private String valor;
-        private String calidad;
-        private String propiedad;
-        private String featureOfInterest;        
-        private Intervalo intervalo;
-        
-	
-	public AemetObs(){
-		
+
+	// private String idObs;
+	private String uriObs;
+	private Resource estacion;
+	private double valor;
+	private String calidad;
+	private Resource propiedad;
+	private String featureOfInterest;
+	private Intervalo intervalo;
+
+	public AemetObs() {
+
 	}
-	
-	public AemetObs(String uriObs,String est,String valor, String calidad, String prop,
-                String feature, Intervalo inter ){
-		
-                this.uriObs = uriObs;
-                this.estacion = est;
+
+	public AemetObs(String uriObs, Resource est, double valor, String calidad, Resource prop, String feature,
+			Intervalo inter) {
+
+		this.uriObs = uriObs;
+		estacion = est;
 		this.valor = valor;
-                this.calidad = calidad;
-                this.propiedad = prop;
-                this.featureOfInterest = feature;
-                this.intervalo = inter;
+		this.calidad = calidad;
+		propiedad = prop;
+		featureOfInterest = feature;
+		intervalo = inter;
 	}
 
-        public String getUriObs() {
-            return uriObs;
-        }
-        
-        public String getEstacion() {
-            return estacion;
-        }
+	public String getUriObs() {
+		return uriObs;
+	}
 
-        public String getCalidad() {
-            return calidad;
-        }
+	public Resource getEstacion() {
+		return estacion;
+	}
 
-        public String getFeatureOfInterest() {
-            return featureOfInterest;
-        }
+	public String getCalidad() {
+		return calidad;
+	}
 
-        public String getIntervalo() {
-            return intervalo.toString();
-        }
+	public String getFeatureOfInterest() {
+		return featureOfInterest;
+	}
 
-        public String getPropiedad() {
-            return propiedad;
-        }
+	public Intervalo getIntervalo() {
+		return intervalo;
+	}
 
-        public String getValor() {
-            return valor;
-        }     
+	public Resource getPropiedad() {
+		return propiedad;
+	}
+
+	public double getValor() {
+		return valor;
+	}
 }

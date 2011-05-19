@@ -57,7 +57,7 @@ public interface BrowserResources extends ClientBundle {
 	@Source("style.css")
 	BrowserCss css();
 
-	@Source("logo_map4rdf.png")
+	@Source("logo_map4rdfAemet.png")
 	ImageResource logo();
 
 	@Source("kml.png")
@@ -80,9 +80,9 @@ public interface BrowserResources extends ClientBundle {
 	@Source("stats.png")
 	ImageResource statsButton();
 
-        @Source("ViajeroFiltro.png")
+	@Source("ViajeroFiltro.png")
 	ImageResource viajeroFiltroButton();
 
-        @Source("RDF-mini.png")
-        ImageResource rdfMiniLabel();
+	@Source("RDF-mini.png")
+	ImageResource rdfMiniLabel();
 }

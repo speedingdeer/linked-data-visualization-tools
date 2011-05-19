@@ -39,9 +39,13 @@ public class GeoResource extends Resource implements Serializable {
 		// for serialization
 	}
 
-	public GeoResource(String uri, Geometry geometry) {
+	public GeoResource(String uri) {
 		super(uri);
 		geometries = new HashMap<String, Geometry>();
+	}
+
+	public GeoResource(String uri, Geometry geometry) {
+		this(uri);
 		addGeometry(geometry);
 	}
 

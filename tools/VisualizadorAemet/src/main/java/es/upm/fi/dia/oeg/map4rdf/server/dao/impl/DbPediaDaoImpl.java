@@ -24,7 +24,6 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.server.dao.impl;
 
-import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoItinerary;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,8 +33,6 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import com.ctc.wstx.io.EBCDICCodec;
-import com.google.gwt.user.client.Window;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.hp.hpl.jena.query.QueryExecution;
@@ -62,10 +59,10 @@ import es.upm.fi.dia.oeg.map4rdf.share.PolyLineBean;
 import es.upm.fi.dia.oeg.map4rdf.share.Resource;
 import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
 import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoGuide;
+import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoItinerary;
 import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoResourceContainer;
 import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoTrip;
 import es.upm.fi.dia.oeg.map4rdf.share.Year;
-import java.util.Date;
 
 /**
  * @author Alexander De Leon
@@ -142,14 +139,13 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		Map<String, Facet> result = new HashMap<String, Facet>();
 		StringBuilder queryBuffer = new StringBuilder();
 		queryBuffer.append("select distinct ?class ?label where { ");
-                //puntos
+		// puntos
 		queryBuffer.append("{?x <" + Geo.lat + "> _:lat. ");
 		queryBuffer.append("?x <" + Geo.lng + "> _:lng. ");
 		queryBuffer.append("?x <" + predicateUri + "> ?class . ");
-		queryBuffer.append("OPTIONAL {?class <" + RDFS.label + "> ?label . }}");               
-                
+		queryBuffer.append("OPTIONAL {?class <" + RDFS.label + "> ?label . }}");
 
-                queryBuffer.append("}");
+		queryBuffer.append("}");
 		QueryExecution execution = QueryExecutionFactory.sparqlService(endpointUri, queryBuffer.toString());
 
 		try {
@@ -191,15 +187,56 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 
 	/* --------------------- helper methods --- */
 
-	/**private List<GeoResource> getGeoResources(BoundingBox boundingBox, Set<FacetConstraint> constraints, Integer max)
+	/**
+	 * private List<GeoResource> getGeoResources(BoundingBox boundingBox,
+	 * Set<FacetConstraint> constraints, Integer max) throws DaoException { //
+	 * TODO: use location to restrict the query to the specifies geographic //
+	 * area.
+	 * 
+	 * HashMap<String, GeoResource> result = new HashMap<String, GeoResource>();
+	 * 
+	 * QueryExecution execution =
+	 * QueryExecutionFactory.sparqlService(endpointUri,
+	 * createGetResourcesQuery(boundingBox, constraints, max));
+	 * 
+	 * try { ResultSet queryResult = execution.execSelect(); while
+	 * (queryResult.hasNext()) { QuerySolution solution = queryResult.next();
+	 * try { String uri = solution.getResource("r").getURI(); double lat =
+	 * solution.getLiteral("lat").getDouble(); double lng =
+	 * solution.getLiteral("lng").getDouble();
+	 * 
+	 * GeoResource resource = result.get(uri); if (resource == null) { resource
+	 * = new GeoResource(uri, new PointBean(uri, lng, lat)); result.put(uri,
+	 * resource); } if (solution.contains("label")) { Literal labelLiteral =
+	 * solution.getLiteral("label");
+	 * resource.addLabel(labelLiteral.getLanguage(),
+	 * labelLiteral.getString()+"NANANA"); } } catch (NumberFormatException e) {
+	 * LOG.warn("Invalid Latitud or Longitud value: " + e.getMessage()); } }
+	 * 
+	 * return new ArrayList<GeoResource>(result.values()); } catch (Exception e)
+	 * { throw new DaoException("Unable to execute SPARQL query", e); } finally
+	 * { execution.close(); } }
+	 **/
+
+	/**
+	 * Metodo de prueba para llamar a mis GeoResources
+	 */
+	private List<GeoResource> getGeoResources(BoundingBox boundingBox, Set<FacetConstraint> constraints, Integer max)
 			throws DaoException {
 		// TODO: use location to restrict the query to the specifies geographic
 		// area.
+		// HACER: extender geoResource. Cambiar la query para anadir uri, title.
+		// dibujar todos los GeoResource nuevos.
 
 		HashMap<String, GeoResource> result = new HashMap<String, GeoResource>();
 
+		// ORIGINAL
+		// QueryExecution execution =
+		// QueryExecutionFactory.sparqlService(endpointUri,
+		// createGetResourcesQuery(boundingBox, constraints, max));
+		// PRUEBA
 		QueryExecution execution = QueryExecutionFactory.sparqlService(endpointUri,
-				createGetResourcesQuery(boundingBox, constraints, max));
+				createGetResourcesQueryAdaptedWebNMasUno(boundingBox, constraints, max));
 
 		try {
 			ResultSet queryResult = execution.execSelect();
@@ -209,93 +246,43 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 					String uri = solution.getResource("r").getURI();
 					double lat = solution.getLiteral("lat").getDouble();
 					double lng = solution.getLiteral("lng").getDouble();
-
-					GeoResource resource = result.get(uri);
-					if (resource == null) {
-						resource = new GeoResource(uri, new PointBean(uri, lng, lat));
-						result.put(uri, resource);
-					}
-					if (solution.contains("label")) {
-						Literal labelLiteral = solution.getLiteral("label");
-						resource.addLabel(labelLiteral.getLanguage(), labelLiteral.getString()+"NANANA");
-					}
-				} catch (NumberFormatException e) {
-					LOG.warn("Invalid Latitud or Longitud value: " + e.getMessage());
-				}
-			}
-
-			return new ArrayList<GeoResource>(result.values());
-		} catch (Exception e) {
-			throw new DaoException("Unable to execute SPARQL query", e);
-		} finally {
-			execution.close();
-		}
-	}**/
-	
-	/**
-	 * Metodo de prueba para llamar a mis GeoResources
-	 */
-	private List<GeoResource> getGeoResources(BoundingBox boundingBox, Set<FacetConstraint> constraints, Integer max)
-	throws DaoException {
-		// TODO: use location to restrict the query to the specifies geographic
-		// area.
-//		HACER: extender geoResource. Cambiar la query para anadir uri, title.
-//		dibujar todos los GeoResource nuevos.
-		
-		HashMap<String, GeoResource> result = new HashMap<String, GeoResource>();
-		
-//		ORIGINAL
-//                QueryExecution execution = QueryExecutionFactory.sparqlService(endpointUri,
-//				createGetResourcesQuery(boundingBox, constraints, max));
-                //PRUEBA
-                QueryExecution execution = QueryExecutionFactory.sparqlService(endpointUri,
-				createGetResourcesQueryAdaptedWebNMasUno(boundingBox, constraints, max));
-		
-		try {
-			ResultSet queryResult = execution.execSelect();
-			while (queryResult.hasNext()) {
-				QuerySolution solution = queryResult.next();
-				try {					
-					String uri = solution.getResource("r").getURI();					
-					double lat = solution.getLiteral("lat").getDouble();
-					double lng = solution.getLiteral("lng").getDouble();
 					GeoResource resource;
-					try{
-						resource = (WebNMasUnoResourceContainer) result.get(uri);
-					}catch(Exception e){
-						//No es un webNmasuno resource
-						//es un aemet resource?
-						try{
-							resource = (AemetResource) result.get(uri);
-						}catch(Exception e2){
-							//sino, es un resource normal
+					try {
+						resource = result.get(uri);
+					} catch (Exception e) {
+						// No es un webNmasuno resource
+						// es un aemet resource?
+						try {
+							resource = result.get(uri);
+						} catch (Exception e2) {
+							// sino, es un resource normal
 							resource = result.get(uri);
 						}
 					}
-//					
+					//
 					if (solution.contains("label")) {
 						Literal labelLiteral = solution.getLiteral("label");
 						resource.addLabel(labelLiteral.getLanguage(), labelLiteral.getString());
 					}
-					
-					
-					//prueba para AEMET
+
+					// prueba para AEMET
 					if (resource == null) {
 						resource = new AemetResource(uri, new PointBean(uri, lng, lat));
 						result.put(uri, resource);
 					}
 
-                                        //prueba WebNmasUno (habria que separar)
-//                                        if (resource == null) {
-//						resource = new WebNMasUnoResourceContainer(uri, new PointBean(uri, lng, lat));
-//						result.put(uri, resource);
-//					}
-					
+					// prueba WebNmasUno (habria que separar)
+					// if (resource == null) {
+					// resource = new WebNMasUnoResourceContainer(uri, new
+					// PointBean(uri, lng, lat));
+					// result.put(uri, resource);
+					// }
+
 				} catch (NumberFormatException e) {
 					LOG.warn("Invalid Latitud or Longitud value: " + e.getMessage());
 				}
 			}
-		
+
 			return new ArrayList<GeoResource>(result.values());
 		} catch (Exception e) {
 			throw new DaoException("Unable to execute SPARQL query", e);
@@ -303,8 +290,6 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 			execution.close();
 		}
 	}
-	
-	
 
 	/**
 	 * @param boundingBox
@@ -331,16 +316,19 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		return query.toString();
 	}
 
-        /**
+	/**
 	 * @param boundingBox
 	 * @param constraints
 	 * @param max
 	 * @return
 	 */
-        //igual que createGetResourcesQuery, pero en vez de recuperar todos los puntos,
-        //anadimos solo los puntos que cumplan que son de guias o de viajes (itinerarios)
-        //los facets constraints nos dicen cual es (guias/viaje)
-	private String createGetResourcesQueryAdaptedWebNMasUno(BoundingBox boundingBox, Set<FacetConstraint> constraints, Integer limit) {
+	// igual que createGetResourcesQuery, pero en vez de recuperar todos los
+	// puntos,
+	// anadimos solo los puntos que cumplan que son de guias o de viajes
+	// (itinerarios)
+	// los facets constraints nos dicen cual es (guias/viaje)
+	private String createGetResourcesQueryAdaptedWebNMasUno(BoundingBox boundingBox, Set<FacetConstraint> constraints,
+			Integer limit) {
 		StringBuilder query = new StringBuilder("SELECT distinct ?r ?lat ?lng ?label ");
 		query.append("WHERE { ");
 		query.append("?r <" + Geo.lat + "> ?lat. ");
@@ -348,22 +336,23 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		query.append("OPTIONAL { ?r <" + RDFS.label + "> ?label } .");
 		if (constraints != null) {
 			for (FacetConstraint constraint : constraints) {
-                            if(constraint.getFacetValueId().contains("Trip")){
-                                //tratamiento especial si es un viaje
-                                query.append("{ ?t <" + constraint.getFacetId() + "> <" + constraint.getFacetValueId() + ">.");
-                                query.append("?t <http://webenemasuno.linkeddata.es/ontology/OPMO/hasItinerary> ?it.");
-                                query.append("?it <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPart> ?pe.");
-                                query.append("?pe <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPoint> ?r. } UNION");
-                            }else{
-                                if(constraint.getFacetValueId().contains("Point")){
-                                    query.append("{ ?r <" + constraint.getFacetId() + "> <" + constraint.getFacetValueId() + ">. } UNION");
-                                }else{
-                                    //cualquier cosa con localizacion (guias, aristas)
-                                    query.append("{ ?g <" + constraint.getFacetId() + "> <" + constraint.getFacetValueId() + ">. ");
-                                    query.append("?g <http://www.w3.org/2003/01/geo/wgs84_pos#location> ?r. } UNION");
+				if (constraint.getFacetValueId().contains("Trip")) {
+					// tratamiento especial si es un viaje
+					query.append("{ ?t <" + constraint.getFacetId() + "> <" + constraint.getFacetValueId() + ">.");
+					query.append("?t <http://webenemasuno.linkeddata.es/ontology/OPMO/hasItinerary> ?it.");
+					query.append("?it <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPart> ?pe.");
+					query.append("?pe <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPoint> ?r. } UNION");
+				} else {
+					if (constraint.getFacetValueId().contains("Point")) {
+						query.append("{ ?r <" + constraint.getFacetId() + "> <" + constraint.getFacetValueId()
+								+ ">. } UNION");
+					} else {
+						// cualquier cosa con localizacion (guias, aristas)
+						query.append("{ ?g <" + constraint.getFacetId() + "> <" + constraint.getFacetValueId() + ">. ");
+						query.append("?g <http://www.w3.org/2003/01/geo/wgs84_pos#location> ?r. } UNION");
 
-                                }
-                            }                            
+					}
+				}
 			}
 			query.delete(query.length() - 5, query.length());
 		}
@@ -373,41 +362,44 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		}
 		return query.toString();
 	}
-	
-	/**
-	 * Variacion de la query de recuperacion de recursos original para que devuelva
-	 * Titulos de guias y viajes asociados a un recurso
-	 */
-	private String createGetGuidesTripsQuery(Integer limit,String uri) {
-		StringBuilder query = new StringBuilder("SELECT distinct ?noticia ?title ?url ?dateG ?trip ?tripTitle ?tripURL ?it ?dateV ");
-		query.append("WHERE { ");
-		query.append("{?noticia <http://www.w3.org/2003/01/geo/wgs84_pos#location> "+"<" + uri + "> . ");
-                query.append("?noticia a <http://webenemasuno.linkeddata.es/ontology/OPMO/Guide>.");
-		query.append("OPTIONAL {?noticia <http://rdfs.org/sioc/ns#title> ?title . }");
-                query.append("OPTIONAL {?noticia <http://rdfs.org/sioc/ns#created_at> ?dateG . }");
-		query.append("OPTIONAL {?noticia <http://openprovenance.org/model/opmo#pname> ?url . }}");
-                query.append("UNION");
-                //query.append("{?t a <http://webenemasuno.linkeddata.es/ontology/OPMO/Trip>.");
-                query.append("{?trip <http://webenemasuno.linkeddata.es/ontology/OPMO/hasItinerary> ?it. ");
-                query.append("?it <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPart> ?part. ");
-                query.append("?part <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPoint> "+"<" + uri + "> .");
-                query.append("OPTIONAL{?trip <http://openprovenance.org/model/opmo#pname> ?tripURL. }");
-                query.append("OPTIONAL {?trip <http://rdfs.org/sioc/ns#created_at> ?dateV . }");
-                query.append("OPTIONAL{?trip <http://purl.org/dc/terms/title> ?tripTitle. }}");
-                /**
-                 * select distinct ?t where {?t a <http://webenemasuno.linkeddata.es/ontology/OPMO/Trip>.
-                ?t <http://webenemasuno.linkeddata.es/ontology/OPMO/hasItinerary> ?it.
-                ?it <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPart> ?part.
-                ?part <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPoint> ?uriResource}
-                 * http://purl.org/dc/terms/title
-                 */
 
-//		if (constraints != null) {
-//			for (FacetConstraint constraint : constraints) {
-//				query.append("{ ?r <" + constraint.getFacetId() + "> <" + constraint.getFacetValueId() + ">. } UNION");
-//			}
-//			query.delete(query.length() - 5, query.length());
-//		}
+	/**
+	 * Variacion de la query de recuperacion de recursos original para que
+	 * devuelva Titulos de guias y viajes asociados a un recurso
+	 */
+	private String createGetGuidesTripsQuery(Integer limit, String uri) {
+		StringBuilder query = new StringBuilder(
+				"SELECT distinct ?noticia ?title ?url ?dateG ?trip ?tripTitle ?tripURL ?it ?dateV ");
+		query.append("WHERE { ");
+		query.append("{?noticia <http://www.w3.org/2003/01/geo/wgs84_pos#location> " + "<" + uri + "> . ");
+		query.append("?noticia a <http://webenemasuno.linkeddata.es/ontology/OPMO/Guide>.");
+		query.append("OPTIONAL {?noticia <http://rdfs.org/sioc/ns#title> ?title . }");
+		query.append("OPTIONAL {?noticia <http://rdfs.org/sioc/ns#created_at> ?dateG . }");
+		query.append("OPTIONAL {?noticia <http://openprovenance.org/model/opmo#pname> ?url . }}");
+		query.append("UNION");
+		// query.append("{?t a <http://webenemasuno.linkeddata.es/ontology/OPMO/Trip>.");
+		query.append("{?trip <http://webenemasuno.linkeddata.es/ontology/OPMO/hasItinerary> ?it. ");
+		query.append("?it <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPart> ?part. ");
+		query.append("?part <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPoint> " + "<" + uri + "> .");
+		query.append("OPTIONAL{?trip <http://openprovenance.org/model/opmo#pname> ?tripURL. }");
+		query.append("OPTIONAL {?trip <http://rdfs.org/sioc/ns#created_at> ?dateV . }");
+		query.append("OPTIONAL{?trip <http://purl.org/dc/terms/title> ?tripTitle. }}");
+		/**
+		 * select distinct ?t where {?t a
+		 * <http://webenemasuno.linkeddata.es/ontology/OPMO/Trip>. ?t
+		 * <http://webenemasuno.linkeddata.es/ontology/OPMO/hasItinerary> ?it.
+		 * ?it <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPart> ?part.
+		 * ?part <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPoint>
+		 * ?uriResource} http://purl.org/dc/terms/title
+		 */
+
+		// if (constraints != null) {
+		// for (FacetConstraint constraint : constraints) {
+		// query.append("{ ?r <" + constraint.getFacetId() + "> <" +
+		// constraint.getFacetValueId() + ">. } UNION");
+		// }
+		// query.delete(query.length() - 5, query.length());
+		// }
 		query.append("}");
 		if (limit != null) {
 			query.append(" LIMIT " + limit);
@@ -415,29 +407,52 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		return query.toString();
 	}
 
-        //quiza convenga separarlo en 2 queries (para no repetir nombre estacion e intervalo)
-	private String createGetObs(Integer limit,String uri) {
-		StringBuilder query = new StringBuilder("SELECT distinct ?obs ?est ?prop ?dato ?q ?h ?min ?dia ?mes ?anno ");
+	// quiza convenga separarlo en 2 queries (para no repetir nombre estacion e
+	// intervalo)
+	private String createGetObs(Integer limit, String uri) {
+		StringBuilder query = new StringBuilder(
+				"SELECT distinct ?estacion ?obs ?est ?prop ?dato ?q ?h ?min ?dia ?mes ?anno ");
 		query.append("WHERE { ");
-		query.append("?estacion <http://www.w3.org/2003/01/geo/wgs84_pos#location> "+"<" + uri + "> . ");
-                query.append("?estacion <http://aemet.linkeddata.es/AutomaticStation/ontology/nombreEstacion> ?est . ");
-                query.append("?obs <http://purl.oclc.org/NET/ssnx/ssn#observedBy> ?estacion . ");
-                query.append("?obs <http://purl.oclc.org/NET/ssnx/ssn#observedProperty> ?prop . ");
-                query.append("?obs <http://aemet.linkeddata.es/AutomaticStation/ontology/valorDelDatoObservado> ?dato . ");
-                query.append("?obs <http://aemet.linkeddata.es/AutomaticStation/ontology/calidadDelDatoObservado> ?q . ");                
-                query.append("?obs <http://aemet.linkeddata.es/AutomaticStation/ontology/observadaEnIntervalo> ?inter . ");
-                query.append("?inter <http://www.w3.org/2006/time#hasBeginning> ?instant . ");
-                query.append("?instant <http://www.w3.org/2006/time#inDateTime> ?tiempoFecha . ");
-                query.append("?tiempoFecha <http://www.w3.org/2006/time#hour> ?h . ");
-                query.append("?tiempoFecha <http://www.w3.org/2006/time#minute> ?min . ");
-                query.append("?tiempoFecha <http://www.w3.org/2006/time#day> ?dia . ");
-                query.append("?tiempoFecha <http://www.w3.org/2006/time#month> ?mes . ");
-                query.append("?tiempoFecha <http://www.w3.org/2006/time#year> ?anno . ");
+		query.append("?estacion <http://www.w3.org/2003/01/geo/wgs84_pos#location> " + "<" + uri + "> . ");
+		query.append("?estacion <http://aemet.linkeddata.es/ontology/nombreEstacion> ?est . ");
+		query.append("?obs <http://purl.oclc.org/NET/ssnx/ssn#observedBy> ?estacion . ");
+		query.append("?obs <http://purl.oclc.org/NET/ssnx/ssn#observedProperty> ?prop . ");
+		query.append("?obs <http://aemet.linkeddata.es/ontology/valorDelDatoObservado> ?dato . ");
+		query.append("?obs <http://aemet.linkeddata.es/ontology/calidadDelDatoObservado> ?q . ");
+		query.append("?obs <http://aemet.linkeddata.es/ontology/observadaEnIntervalo> ?inter . ");
+		query.append("?inter <http://www.w3.org/2006/time#hasBeginning> ?instant . ");
+		query.append("?instant <http://www.w3.org/2006/time#inDateTime> ?tiempoFecha . ");
+		query.append("?tiempoFecha <http://www.w3.org/2006/time#hour> ?h . ");
+		query.append("?tiempoFecha <http://www.w3.org/2006/time#minute> ?min . ");
+		query.append("?tiempoFecha <http://www.w3.org/2006/time#day> ?dia . ");
+		query.append("?tiempoFecha <http://www.w3.org/2006/time#month> ?mes . ");
+		query.append("?tiempoFecha <http://www.w3.org/2006/time#year> ?anno . ");
 		query.append("}");
 		if (limit != null) {
 			query.append(" LIMIT " + limit);
 		}
-                System.out.println(query.toString());
+		System.out.println(query.toString());
+		return query.toString();
+	}
+
+	private String createGetObsForProperty(String station, String property, Intervalo start, Intervalo end) {
+		StringBuilder query = new StringBuilder("SELECT distinct ?obs ?dato ?q ?h ?min ?dia ?mes ?anno ");
+		query.append("WHERE { ");
+		query.append("?obs <http://purl.oclc.org/NET/ssnx/ssn#observedBy> <" + station + ">. ");
+		query.append("?obs <http://purl.oclc.org/NET/ssnx/ssn#observedProperty> <" + property + "> . ");
+		query.append("?obs <http://aemet.linkeddata.es/ontology/valorDelDatoObservado> ?dato . ");
+		query.append("?obs <http://aemet.linkeddata.es/ontology/calidadDelDatoObservado> ?q . ");
+		query.append("?obs <http://aemet.linkeddata.es/ontology/observadaEnIntervalo> ?inter . ");
+		query.append("?inter <http://www.w3.org/2006/time#hasBeginning> ?instant . ");
+		query.append("?instant <http://www.w3.org/2006/time#inDateTime> ?tiempoFecha . ");
+		query.append("?tiempoFecha <http://www.w3.org/2006/time#hour> ?h . ");
+		query.append("?tiempoFecha <http://www.w3.org/2006/time#minute> ?min . ");
+		query.append("?tiempoFecha <http://www.w3.org/2006/time#day> ?dia . ");
+		query.append("?tiempoFecha <http://www.w3.org/2006/time#month> ?mes . ");
+		query.append("?tiempoFecha <http://www.w3.org/2006/time#year> ?anno . ");
+		query.append("}");
+
+		System.out.println(query.toString());
 		return query.toString();
 	}
 
@@ -451,164 +466,262 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		return query.toString();
 	}
 
-    @Override
-    public GeoResource getDatosObservacion(String uri) throws DaoException {
-        //throw new UnsupportedOperationException("Not supported yet.");
-        //Date d = new Date();
-        AemetResource aemetR = new AemetResource();
-        QueryExecution exec2 = QueryExecutionFactory.sparqlService(endpointUri,
-                        createGetObs(100,uri)); //cogemos las 1000 ultimas
-        ResultSet queryResult2 = exec2.execSelect();
-        while (queryResult2.hasNext()) {
-            /*String id,String uriObs,String estacion,String valor, String calidad, String prop,
-                String feature, String intervalo
-             * ?obs ?nombreEst ?prop ?dato ?q ?intervalo
-             */
-                QuerySolution solution2 = queryResult2.next();
-                String idObs = solution2.getResource("obs").getURI();
-                String nombreEstacion = solution2.getLiteral("est").getLexicalForm();
-                String prop = solution2.getResource("prop").getLocalName();
-                String dato = solution2.getLiteral("dato").getLexicalForm();
-                String q = "No disponible";                
-                if (solution2.contains("q")) {q = solution2.getLiteral("q").getLexicalForm();}                
-                String min,h,dia,mes,anno;
-                min = solution2.getLiteral("min").getLexicalForm();
-                h = solution2.getLiteral("h").getLexicalForm();
-                dia = solution2.getLiteral("dia").getLexicalForm();
-                mes = solution2.getLiteral("mes").getLexicalForm();
-                anno = solution2.getLiteral("anno").getLexicalForm();
-                Intervalo intervalo = new Intervalo(anno,mes,dia,h,min);
-                /*AemetObs observ = new AemetObs(idObs, nombreEstacion, dato, q, prop, "", intervalo);*/
-                AemetObs observ = new AemetObs(idObs, nombreEstacion, dato, q, prop, "", intervalo);
-                ((AemetResource)aemetR).addObs(observ);
-        }
+	@Override
+	public GeoResource getDatosObservacion(String uri) throws DaoException {
+		// throw new UnsupportedOperationException("Not supported yet.");
+		// Date d = new Date();
+		AemetResource aemetR = null;
+		QueryExecution exec2 = QueryExecutionFactory.sparqlService(endpointUri, createGetObs(100, uri)); // cogemos
+																											// las
+																											// 1000
+																											// ultimas
+		ResultSet queryResult2 = exec2.execSelect();
+		while (queryResult2.hasNext()) {
+			/*
+			 * String id,String uriObs,String estacion,String valor, String
+			 * calidad, String prop, String feature, String intervalo ?obs
+			 * ?nombreEst ?prop ?dato ?q ?intervalo
+			 */
+			QuerySolution solution2 = queryResult2.next();
+			String sttionUri = solution2.getResource("estacion").getURI();
+			String idObs = solution2.getResource("obs").getURI();
+			String nombreEstacion = solution2.getLiteral("est").getLexicalForm();
+			String prop = solution2.getResource("prop").getURI();
+			String propLabel = solution2.getResource("prop").getLocalName();
+			double dato = solution2.getLiteral("dato").getDouble();
+			String q = "No disponible";
+			if (solution2.contains("q")) {
+				q = solution2.getLiteral("q").getLexicalForm();
+			}
+			int min, h, dia, mes, anno;
+			min = solution2.getLiteral("min").getInt();
+			h = solution2.getLiteral("h").getInt();
+			dia = solution2.getLiteral("dia").getInt();
+			mes = solution2.getLiteral("mes").getInt();
+			anno = solution2.getLiteral("anno").getInt();
+			Intervalo intervalo = new Intervalo(anno, mes, dia, h, min);
+			/*
+			 * AemetObs observ = new AemetObs(idObs, nombreEstacion, dato, q,
+			 * prop, "", intervalo);
+			 */
+			if (aemetR == null) {
+				aemetR = new AemetResource(sttionUri);
+				aemetR.addLabel("", nombreEstacion);
+			}
 
-        return aemetR;
+			Resource propR = new Resource(prop);
+			propR.addLabel("", propLabel);
+			AemetObs observ = new AemetObs(idObs, aemetR, dato, q, propR, "", intervalo);
+			(aemetR).addObs(observ);
+		}
 
-    }
+		return aemetR;
 
-    @Override
-    public GeoResource getDatosGuiasViajes(String uri) throws DaoException {
-        /**
-         * Add titles to resource. We do it in a separate query
-         * Because there exist more than 1k guides.
-         * i would like to do this query when you click on the resource.
-         */
-        GeoResource resource = new WebNMasUnoResourceContainer();
-        QueryExecution exec2 = QueryExecutionFactory.sparqlService(endpointUri,
-                        createGetGuidesTripsQuery(100,uri));
-        ResultSet queryResult2 = exec2.execSelect();
-        //guia
-        String uriGuide="", urlGuide="", titleGuide="", dateGuia="";
-        //viaje
-        String uriTrip="", titTrip="", idIt ="", tripURL ="", dateViaje="";
+	}
 
-        /**
-         * ?noticia ?title ?url ?trip ?tripTitle
-         */
-        while (queryResult2.hasNext()) {
-                QuerySolution solution2 = queryResult2.next();
-                if (solution2.contains("noticia")) { uriGuide = solution2.getResource("noticia").getURI();}
-                else{uriGuide = "";}//reiniciamos para que en caso de que sea una guia incompleta no guarde el anterior
-                if (solution2.contains("title")) { titleGuide = solution2.getLiteral("title").getLexicalForm();}
-                else{titleGuide = "";}
-                if (solution2.contains("url")) { urlGuide = solution2.getLiteral("url").getLexicalForm();}
-                else{urlGuide = "";}
-                if (solution2.contains("dateG")) { dateGuia = solution2.getLiteral("dateG").getLexicalForm();}
-                else{dateGuia = "";}
-                if (solution2.contains("trip")) { uriTrip = solution2.getResource("trip").getURI();}
-                else{uriTrip = "";}
-                if (solution2.contains("it")) { idIt = solution2.getResource("it").getURI();}
-                else{idIt = "";}
-                if (solution2.contains("tripTitle")) { titTrip = solution2.getLiteral("tripTitle").getLexicalForm();}
-                else{titTrip = "";}
-                if (solution2.contains("tripURL")) { tripURL = solution2.getLiteral("tripURL").getLexicalForm();}
-                else{tripURL = "";}
-                if (solution2.contains("dateV")) { dateViaje = solution2.getLiteral("dateV").getLexicalForm();}
-                else{dateViaje = "";}
+	@Override
+	public GeoResource getDatosGuiasViajes(String uri) throws DaoException {
+		/**
+		 * Add titles to resource. We do it in a separate query Because there
+		 * exist more than 1k guides. i would like to do this query when you
+		 * click on the resource.
+		 */
+		GeoResource resource = new WebNMasUnoResourceContainer();
+		QueryExecution exec2 = QueryExecutionFactory.sparqlService(endpointUri, createGetGuidesTripsQuery(100, uri));
+		ResultSet queryResult2 = exec2.execSelect();
+		// guia
+		String uriGuide = "", urlGuide = "", titleGuide = "", dateGuia = "";
+		// viaje
+		String uriTrip = "", titTrip = "", idIt = "", tripURL = "", dateViaje = "";
 
-                if(!uriGuide.equals("")){
-                    WebNMasUnoGuide g = new WebNMasUnoGuide(titleGuide, urlGuide, uriGuide,dateGuia);
-                    ((WebNMasUnoResourceContainer)resource).addWebNMasUnoResource(g);
-                }else if(!uriTrip.equals("")){
-                    WebNMasUnoTrip t = new WebNMasUnoTrip(titTrip, tripURL, uriTrip, idIt, dateViaje);
-                    ((WebNMasUnoResourceContainer)resource).addWebNMasUnoResource(t);
-                }
-                
-        }
-        return resource;
-    }
+		/**
+		 * ?noticia ?title ?url ?trip ?tripTitle
+		 */
+		while (queryResult2.hasNext()) {
+			QuerySolution solution2 = queryResult2.next();
+			if (solution2.contains("noticia")) {
+				uriGuide = solution2.getResource("noticia").getURI();
+			} else {
+				uriGuide = "";
+			}// reiniciamos para que en caso de que sea una guia incompleta no
+				// guarde el anterior
+			if (solution2.contains("title")) {
+				titleGuide = solution2.getLiteral("title").getLexicalForm();
+			} else {
+				titleGuide = "";
+			}
+			if (solution2.contains("url")) {
+				urlGuide = solution2.getLiteral("url").getLexicalForm();
+			} else {
+				urlGuide = "";
+			}
+			if (solution2.contains("dateG")) {
+				dateGuia = solution2.getLiteral("dateG").getLexicalForm();
+			} else {
+				dateGuia = "";
+			}
+			if (solution2.contains("trip")) {
+				uriTrip = solution2.getResource("trip").getURI();
+			} else {
+				uriTrip = "";
+			}
+			if (solution2.contains("it")) {
+				idIt = solution2.getResource("it").getURI();
+			} else {
+				idIt = "";
+			}
+			if (solution2.contains("tripTitle")) {
+				titTrip = solution2.getLiteral("tripTitle").getLexicalForm();
+			} else {
+				titTrip = "";
+			}
+			if (solution2.contains("tripURL")) {
+				tripURL = solution2.getLiteral("tripURL").getLexicalForm();
+			} else {
+				tripURL = "";
+			}
+			if (solution2.contains("dateV")) {
+				dateViaje = solution2.getLiteral("dateV").getLexicalForm();
+			} else {
+				dateViaje = "";
+			}
 
-    @Override
-    public WebNMasUnoItinerary getItinerary(String uriItinerario) throws DaoException {
-        /**
-         * Returns the full itinerary of a trip.
-         * The uri is the uri of the itinerary, so the sparql query is quite easy.
-         */
-        WebNMasUnoItinerary it ;
+			if (!uriGuide.equals("")) {
+				WebNMasUnoGuide g = new WebNMasUnoGuide(titleGuide, urlGuide, uriGuide, dateGuia);
+				((WebNMasUnoResourceContainer) resource).addWebNMasUnoResource(g);
+			} else if (!uriTrip.equals("")) {
+				WebNMasUnoTrip t = new WebNMasUnoTrip(titTrip, tripURL, uriTrip, idIt, dateViaje);
+				((WebNMasUnoResourceContainer) resource).addWebNMasUnoResource(t);
+			}
 
-        //query 1. The path & order of the itinerary.
-        QueryExecution exec2 = QueryExecutionFactory.sparqlService(endpointUri,
-                        createGetItineraryQuery(1000,uriItinerario));//como mucho un itinerario de 1000 puntos
-        ResultSet queryResult2 = exec2.execSelect();
-        String order="",point="", title = "";
-        double lat,longitude;
-        ArrayList puntosOrdenados = new ArrayList();
-        while (queryResult2.hasNext()) {
-            QuerySolution solution2 = queryResult2.next();
-            order = solution2.getLiteral("order").getLexicalForm();
-            point = solution2.getResource("point").getURI();
-            lat = solution2.getLiteral("lat").getDouble();
-            longitude = solution2.getLiteral("long").getDouble();
-            PointBean p1 = new PointBean(point, longitude,lat);
-            puntosOrdenados.add(p1);
-        }
+		}
+		return resource;
+	}
 
-        //Los puntos vienen ordenados ya por ?order (en la consulta)
-        PolyLineBean p = new PolyLineBean(uriItinerario, puntosOrdenados);
-        it= new WebNMasUnoItinerary(uriItinerario,p);
+	@Override
+	public WebNMasUnoItinerary getItinerary(String uriItinerario) throws DaoException {
+		/**
+		 * Returns the full itinerary of a trip. The uri is the uri of the
+		 * itinerary, so the sparql query is quite easy.
+		 */
+		WebNMasUnoItinerary it;
 
-        //query 2: titles of the trips that have this itinerary.
-        QueryExecution exec3 = QueryExecutionFactory.sparqlService(endpointUri,
-                        createGetTitleTrip(1000,uriItinerario));//como mucho un itinerario de 1000 puntos
-        ResultSet queryResult3 = exec3.execSelect();
-        while (queryResult3.hasNext()) {
-            QuerySolution solution2 = queryResult3.next();
-            title = solution2.getLiteral("tit").getLexicalForm();
-            it.addViaje(title);
-        }        
-        return it;
-    }
+		// query 1. The path & order of the itinerary.
+		QueryExecution exec2 = QueryExecutionFactory.sparqlService(endpointUri,
+				createGetItineraryQuery(1000, uriItinerario));// como mucho un
+																// itinerario de
+																// 1000 puntos
+		ResultSet queryResult2 = exec2.execSelect();
+		String order = "", point = "", title = "";
+		double lat, longitude;
+		ArrayList puntosOrdenados = new ArrayList();
+		while (queryResult2.hasNext()) {
+			QuerySolution solution2 = queryResult2.next();
+			order = solution2.getLiteral("order").getLexicalForm();
+			point = solution2.getResource("point").getURI();
+			lat = solution2.getLiteral("lat").getDouble();
+			longitude = solution2.getLiteral("long").getDouble();
+			PointBean p1 = new PointBean(point, longitude, lat);
+			puntosOrdenados.add(p1);
+		}
 
-    private String createGetItineraryQuery(Integer limit,String uri) {
+		// Los puntos vienen ordenados ya por ?order (en la consulta)
+		PolyLineBean p = new PolyLineBean(uriItinerario, puntosOrdenados);
+		it = new WebNMasUnoItinerary(uriItinerario, p);
+
+		// query 2: titles of the trips that have this itinerary.
+		QueryExecution exec3 = QueryExecutionFactory
+				.sparqlService(endpointUri, createGetTitleTrip(1000, uriItinerario));// como
+																						// mucho
+																						// un
+																						// itinerario
+																						// de
+																						// 1000
+																						// puntos
+		ResultSet queryResult3 = exec3.execSelect();
+		while (queryResult3.hasNext()) {
+			QuerySolution solution2 = queryResult3.next();
+			title = solution2.getLiteral("tit").getLexicalForm();
+			it.addViaje(title);
+		}
+		return it;
+	}
+
+	@Override
+	public List<AemetObs> getObservations(String stationUri, String propertyUri, Intervalo start, Intervalo end) {
+		List<AemetObs> result = new ArrayList<AemetObs>();
+		QueryExecution exec2 = QueryExecutionFactory.sparqlService(endpointUri,
+				createGetObsForProperty(stationUri, propertyUri, start, end));
+		ResultSet queryResult2 = exec2.execSelect();
+		while (queryResult2.hasNext()) {
+			/*
+			 * String id,String uriObs,String estacion,String valor, String
+			 * calidad, String prop, String feature, String intervalo ?obs
+			 * ?nombreEst ?prop ?dato ?q ?intervalo
+			 */
+			QuerySolution solution2 = queryResult2.next();
+			String idObs = solution2.getResource("obs").getURI();
+			String nombreEstacion = stationUri;
+			String prop = propertyUri;
+			double dato = solution2.getLiteral("dato").getDouble();
+			String q = "No disponible";
+			if (solution2.contains("q")) {
+				q = solution2.getLiteral("q").getLexicalForm();
+			}
+			int min, h, dia, mes, anno;
+			min = solution2.getLiteral("min").getInt();
+			h = solution2.getLiteral("h").getInt();
+			dia = solution2.getLiteral("dia").getInt();
+			mes = solution2.getLiteral("mes").getInt();
+			anno = solution2.getLiteral("anno").getInt();
+			Intervalo intervalo = new Intervalo(anno, mes, dia, h, min);
+			/*
+			 * AemetObs observ = new AemetObs(idObs, nombreEstacion, dato, q,
+			 * prop, "", intervalo);
+			 */
+			Resource estation = new Resource(stationUri);
+			estation.addLabel("", nombreEstacion);
+
+			Resource propR = new Resource(propertyUri);
+
+			AemetObs observ = new AemetObs(idObs, estation, dato, q, propR, "", intervalo);
+			result.add(observ);
+		}
+
+		return result;
+	}
+
+	private String createGetItineraryQuery(Integer limit, String uri) {
 		StringBuilder query = new StringBuilder("SELECT distinct ?order ?point ?lat ?long ");
-                query.append("WHERE{ ");
-		query.append("<"+uri+"> <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPart> ?path.");
-                query.append("?path <http://webenemasuno.linkeddata.es/ontology/OPMO/hasOrder> ?order.");
-                query.append("?path <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPoint> ?point.");
-                query.append("?point <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.");
-                query.append("?point <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long.");
-                /**
-                 *  select distinct ?path ?order ?point where {?Concept a <http://webenemasuno.linkeddata.es/ontology/OPMO/Itinerary>.
-                    ?Concept <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPart> ?path.
-                    ?path <http://webenemasuno.linkeddata.es/ontology/OPMO/hasOrder> ?order.
-                    ?path <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPoint> ?point.}
-                 */
-                
+		query.append("WHERE{ ");
+		query.append("<" + uri + "> <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPart> ?path.");
+		query.append("?path <http://webenemasuno.linkeddata.es/ontology/OPMO/hasOrder> ?order.");
+		query.append("?path <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPoint> ?point.");
+		query.append("?point <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.");
+		query.append("?point <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long.");
+		/**
+		 * select distinct ?path ?order ?point where {?Concept a
+		 * <http://webenemasuno.linkeddata.es/ontology/OPMO/Itinerary>. ?Concept
+		 * <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPart> ?path.
+		 * ?path <http://webenemasuno.linkeddata.es/ontology/OPMO/hasOrder>
+		 * ?order. ?path
+		 * <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPoint> ?point.}
+		 */
+
 		query.append("}");
-                query.append("ORDER BY ?order");
+		query.append("ORDER BY ?order");
 		if (limit != null) {
 			query.append(" LIMIT " + limit);
 		}
 		return query.toString();
 	}
 
-    private String createGetTitleTrip(Integer limit,String uri) {
+	private String createGetTitleTrip(Integer limit, String uri) {
 		StringBuilder query = new StringBuilder("SELECT distinct ?tit ");
-                query.append("WHERE{ ");
-		query.append("?trip <http://webenemasuno.linkeddata.es/ontology/OPMO/hasItinerary> <"+uri+">.");
-                query.append("?trip <http://purl.org/dc/terms/title> ?tit.");
-                
+		query.append("WHERE{ ");
+		query.append("?trip <http://webenemasuno.linkeddata.es/ontology/OPMO/hasItinerary> <" + uri + ">.");
+		query.append("?trip <http://purl.org/dc/terms/title> ?tit.");
+
 		query.append("}");
 		if (limit != null) {
 			query.append(" LIMIT " + limit);

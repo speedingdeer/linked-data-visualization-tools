@@ -24,9 +24,9 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.server.inject;
 
-import es.upm.fi.dia.oeg.map4rdf.client.action.GetItineraryResource;
-import es.upm.fi.dia.oeg.map4rdf.server.command.GetAemetObsHandler;
 import net.customware.gwt.dispatch.server.guice.ActionHandlerModule;
+import es.upm.fi.dia.oeg.map4rdf.server.command.GetAemetObsForPropertyHandler;
+import es.upm.fi.dia.oeg.map4rdf.server.command.GetAemetObsHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetFacetDefinitionsHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetGeoResourceHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetGeoResourceOverlaysHandler;
@@ -35,7 +35,6 @@ import es.upm.fi.dia.oeg.map4rdf.server.command.GetGeoResourcesHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetStatisticDatasetsHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetStatisticYearsHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetWebNMasUnoItineraryHandler;
-import es.upm.fi.dia.oeg.map4rdf.server.command.GetWebNMasUnoResourceHandler;
 
 /**
  * @author Alexander De Leon
@@ -52,9 +51,9 @@ public class BrowserActionHandlerModule extends ActionHandlerModule {
 		bindHandler(GetGeoResourceHandler.class);
 		bindHandler(GetGeoResourcesAsKmlUrlHandler.class);
 
-                
-                bindHandler(GetAemetObsHandler.class);
-                //bindHandler(GetWebNMasUnoResourceHandler.class);
-                bindHandler(GetWebNMasUnoItineraryHandler.class);
+		bindHandler(GetAemetObsHandler.class);
+		// bindHandler(GetWebNMasUnoResourceHandler.class);
+		bindHandler(GetWebNMasUnoItineraryHandler.class);
+		bindHandler(GetAemetObsForPropertyHandler.class);
 	}
 }

@@ -7,6 +7,7 @@
 	<inherits name='name.alexdeleon.lib.gwtblocks.gwt-blocks' />
 	<inherits name='com.google.gwt.maps.GoogleMaps' />
 	<inherits name="com.google.gwt.gen2.picker.Picker"/>
+	<inherits name="ca.nanometrics.gflot.GFlot" />
 
 	
 	<inherits name="com.google.gwt.user.theme.chrome.Chrome"/>

@@ -27,50 +27,52 @@ package es.upm.fi.dia.oeg.map4rdf.server.dao;
 import java.util.List;
 import java.util.Set;
 
+import es.upm.fi.dia.oeg.map4rdf.share.AemetObs;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
-import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
 import es.upm.fi.dia.oeg.map4rdf.share.Facet;
+import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResourceOverlay;
+import es.upm.fi.dia.oeg.map4rdf.share.Intervalo;
 import es.upm.fi.dia.oeg.map4rdf.share.Resource;
 import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
 import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoItinerary;
 import es.upm.fi.dia.oeg.map4rdf.share.Year;
-import java.util.ArrayList;
 
 /**
  * @author Alexander De Leon
  */
 public interface Map4rdfDao {
 
-	List<GeoResource> getGeoResources(BoundingBox boundingBox)
-			throws DaoException;
+	List<GeoResource> getGeoResources(BoundingBox boundingBox) throws DaoException;
 
 	GeoResource getGeoResource(String uri) throws DaoException;
 
-	List<GeoResource> getGeoResources(BoundingBox boundingBox,
-			Set<FacetConstraint> constraints) throws DaoException;
+	List<GeoResource> getGeoResources(BoundingBox boundingBox, Set<FacetConstraint> constraints) throws DaoException;
 
-	List<GeoResource> getGeoResources(BoundingBox boundingBox,
-			Set<FacetConstraint> constraints, int max) throws DaoException;
-
-	List<GeoResourceOverlay> getGeoResourceOverlays(
-			StatisticDefinition statisticDefinition, BoundingBox boundingBox,
-			Set<FacetConstraint> constraints) throws DaoException;
-
-	List<Facet> getFacets(String predicateUri, BoundingBox boundingBox)
+	List<GeoResource> getGeoResources(BoundingBox boundingBox, Set<FacetConstraint> constraints, int max)
 			throws DaoException;
+
+	List<GeoResourceOverlay> getGeoResourceOverlays(StatisticDefinition statisticDefinition, BoundingBox boundingBox,
+			Set<FacetConstraint> constraints) throws DaoException;
+
+	List<Facet> getFacets(String predicateUri, BoundingBox boundingBox) throws DaoException;
 
 	List<Year> getYears(String datasetUri) throws DaoException;
 
 	List<Resource> getStatisticDatasets() throws DaoException;
 
-        /**
-         * Extension de Dani para peticion bajo demanda de recursos.
-         * Se deberia hacer generica y extender segun la impl
-         */
-        GeoResource getDatosObservacion(String uri) throws DaoException;
-        GeoResource getDatosGuiasViajes(String uri) throws DaoException;
-        WebNMasUnoItinerary getItinerary(String uri) throws DaoException;
-        //GeoResource getDatosViajes(String uri) throws DaoException;
+	/**
+	 * Extension de Dani para peticion bajo demanda de recursos. Se deberia
+	 * hacer generica y extender segun la impl
+	 */
+	GeoResource getDatosObservacion(String uri) throws DaoException;
+
+	GeoResource getDatosGuiasViajes(String uri) throws DaoException;
+
+	WebNMasUnoItinerary getItinerary(String uri) throws DaoException;
+
+	// GeoResource getDatosViajes(String uri) throws DaoException;
+
+	List<AemetObs> getObservations(String stationUri, String propertyUri, Intervalo start, Intervalo end);
 }

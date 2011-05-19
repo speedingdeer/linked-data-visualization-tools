@@ -24,7 +24,6 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.server.dao.impl;
 
-import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoItinerary;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,12 +48,14 @@ import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Geo;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.GeoLinkedDataEsOwlVocabulary;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Scovo;
+import es.upm.fi.dia.oeg.map4rdf.share.AemetObs;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.Facet;
 import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResourceOverlay;
 import es.upm.fi.dia.oeg.map4rdf.share.Geometry;
+import es.upm.fi.dia.oeg.map4rdf.share.Intervalo;
 import es.upm.fi.dia.oeg.map4rdf.share.Point;
 import es.upm.fi.dia.oeg.map4rdf.share.PointBean;
 import es.upm.fi.dia.oeg.map4rdf.share.PolyLine;
@@ -63,6 +64,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.Polygon;
 import es.upm.fi.dia.oeg.map4rdf.share.PolygonBean;
 import es.upm.fi.dia.oeg.map4rdf.share.Resource;
 import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
+import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoItinerary;
 import es.upm.fi.dia.oeg.map4rdf.share.Year;
 
 /**
@@ -454,21 +456,24 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 		return query.toString();
 	}
 
-    @Override
-    public GeoResource getDatosObservacion(String uri) throws DaoException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	@Override
+	public GeoResource getDatosObservacion(String uri) throws DaoException {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-    @Override
-    public GeoResource getDatosGuiasViajes(String uri) throws DaoException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	@Override
+	public GeoResource getDatosGuiasViajes(String uri) throws DaoException {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-    @Override
-    public WebNMasUnoItinerary getItinerary(String uri) throws DaoException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+	@Override
+	public WebNMasUnoItinerary getItinerary(String uri) throws DaoException {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
-
+	@Override
+	public List<AemetObs> getObservations(String stationUri, String propertyUri, Intervalo start, Intervalo end) {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
 
 }

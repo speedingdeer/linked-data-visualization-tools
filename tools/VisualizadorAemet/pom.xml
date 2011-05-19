@@ -107,6 +107,12 @@
                     <artifactId>gwt-simile-timeline</artifactId>
                     <version>1.5.1</version>
                 </dependency>
+                <dependency>
+                <groupId>ca.nanometrics</groupId>
+                <artifactId>gflot</artifactId>
+                <version>1.0.0</version>
+        </dependency>
+                
 
 	</dependencies>
 
