@@ -9,6 +9,7 @@
     <!ENTITY ssn "http://purl.oclc.org/NET/ssnx/ssn#" >
     <!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
     <!ENTITY ontology "http://aemet.linkeddata.es/ontology/" >
+    <!ENTITY resource "http://aemet.linkeddata.es/resource/" >
     <!ENTITY geografica "http://dia.fi.upm.es/geografica.owl#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY describevar "http://aemet.linkdata.es/describevar#" >
@@ -33,6 +34,7 @@
      xmlns:geografica="http://dia.fi.upm.es/geografica.owl#"
      xmlns:describevar="http://aemet.linkdata.es/describevar#"
      xmlns:aemet2="&ontology;aemet/"
+     xmlns:resource="http://aemet.linkeddata.es/resource/"
      xmlns:geografica2="&ontology;geografica/"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:owl="http://www.w3.org/2002/07/owl#"
@@ -545,257 +547,257 @@
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/BAT -->
+    <!-- http://aemet.linkeddata.es/resource/BAT -->
 
-    <ssn:Property rdf:about="&ontology;BAT">
+    <ssn:Property rdf:about="&resource;BAT">
         <rdf:type rdf:resource="&owl;Thing"/>
     </ssn:Property>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/BATH -->
+    <!-- http://aemet.linkeddata.es/resource/BATH -->
 
-    <owl:Thing rdf:about="&ontology;BATH">
+    <owl:Thing rdf:about="&resource;BATH">
         <rdf:type rdf:resource="&ssn;Property"/>
     </owl:Thing>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/DMAX10m -->
+    <!-- http://aemet.linkeddata.es/resource/DMAX10m -->
 
-    <ontology:PropiedadAmbientalSobreViento rdf:about="&ontology;DMAX10m">
+    <ontology:PropiedadAmbientalSobreViento rdf:about="&resource;DMAX10m">
         <rdf:type rdf:resource="&owl;Thing"/>
     </ontology:PropiedadAmbientalSobreViento>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/DV10m -->
+    <!-- http://aemet.linkeddata.es/resource/DV10m -->
 
-    <ontology:PropiedadAmbientalSobreViento rdf:about="&ontology;DV10m">
+    <ontology:PropiedadAmbientalSobreViento rdf:about="&resource;DV10m">
         <rdf:type rdf:resource="&owl;Thing"/>
     </ontology:PropiedadAmbientalSobreViento>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/GEO700 -->
+    <!-- http://aemet.linkeddata.es/resource/GEO700 -->
 
-    <ontology:PropiedadAmbientalSobrePresion rdf:about="&ontology;GEO700">
+    <ontology:PropiedadAmbientalSobrePresion rdf:about="&resource;GEO700">
         <rdf:type rdf:resource="&owl;Thing"/>
     </ontology:PropiedadAmbientalSobrePresion>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/GEO850 -->
+    <!-- http://aemet.linkeddata.es/resource/GEO850 -->
 
-    <owl:Thing rdf:about="&ontology;GEO850">
+    <owl:Thing rdf:about="&resource;GEO850">
         <rdf:type rdf:resource="&ontology;PropiedadAmbientalSobrePresion"/>
     </owl:Thing>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/GEO925 -->
+    <!-- http://aemet.linkeddata.es/resource/GEO925 -->
 
-    <ontology:PropiedadAmbientalSobrePresion rdf:about="&ontology;GEO925">
+    <ontology:PropiedadAmbientalSobrePresion rdf:about="&resource;GEO925">
         <rdf:type rdf:resource="&owl;Thing"/>
     </ontology:PropiedadAmbientalSobrePresion>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/HR -->
+    <!-- http://aemet.linkeddata.es/resource/HR -->
 
-    <owl:Thing rdf:about="&ontology;HR">
+    <owl:Thing rdf:about="&resource;HR">
         <rdf:type rdf:resource="&ontology;PropiedadAmbientalSobreHumedad"/>
     </owl:Thing>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/HTAMAX1h -->
+    <!-- http://aemet.linkeddata.es/resource/HTAMAX1h -->
 
-    <owl:Thing rdf:about="&ontology;HTAMAX1h">
+    <owl:Thing rdf:about="&resource;HTAMAX1h">
         <rdf:type rdf:resource="&ontology;PropiedadAmbientalSobreTemperatura"/>
     </owl:Thing>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/HTAMIN1h -->
+    <!-- http://aemet.linkeddata.es/resource/HTAMIN1h -->
 
-    <ontology:PropiedadAmbientalSobreTemperatura rdf:about="&ontology;HTAMIN1h">
-        <rdf:type rdf:resource="&owl;Thing"/>
-    </ontology:PropiedadAmbientalSobreTemperatura>
-    
-
-
-    <!-- http://aemet.linkeddata.es/ontology/INSO -->
-
-    <ontology:PropiedadAmbientalSobreRadiacion rdf:about="&ontology;INSO">
-        <rdf:type rdf:resource="&owl;Thing"/>
-    </ontology:PropiedadAmbientalSobreRadiacion>
-    
-
-
-    <!-- http://aemet.linkeddata.es/ontology/NIEVE -->
-
-    <owl:Thing rdf:about="&ontology;NIEVE">
-        <rdf:type rdf:resource="&ontology;PropiedadAmbientalSobrePrecipitacion"/>
+    <owl:Thing rdf:about="&resource;HTAMIN1h">
+        <rdf:type rdf:resource="&ontology;PropiedadAmbientalSobreTemperatura"/>
     </owl:Thing>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/PLIQTP -->
+    <!-- http://aemet.linkeddata.es/resource/INSO -->
 
-    <owl:Thing rdf:about="&ontology;PLIQTP">
-        <rdf:type rdf:resource="&ontology;PropiedadAmbientalSobrePrecipitacion"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/ontology/PREC -->
-
-    <owl:Thing rdf:about="&ontology;PREC">
-        <rdf:type rdf:resource="&ontology;PropiedadAmbientalSobrePrecipitacion"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/ontology/PRES -->
-
-    <ontology:PropiedadAmbientalSobrePresion rdf:about="&ontology;PRES">
-        <rdf:type rdf:resource="&owl;Thing"/>
-    </ontology:PropiedadAmbientalSobrePresion>
-    
-
-
-    <!-- http://aemet.linkeddata.es/ontology/PRES_nmar -->
-
-    <owl:Thing rdf:about="&ontology;PRES_nmar">
-        <rdf:type rdf:resource="&ontology;PropiedadAmbientalSobrePresion"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/ontology/PSOLTP -->
-
-    <ontology:PropiedadAmbientalSobrePresion rdf:about="&ontology;PSOLTP">
-        <rdf:type rdf:resource="&owl;Thing"/>
-    </ontology:PropiedadAmbientalSobrePresion>
-    
-
-
-    <!-- http://aemet.linkeddata.es/ontology/RAGLOB -->
-
-    <owl:Thing rdf:about="&ontology;RAGLOB">
+    <owl:Thing rdf:about="&resource;INSO">
         <rdf:type rdf:resource="&ontology;PropiedadAmbientalSobreRadiacion"/>
     </owl:Thing>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/RVIENTO -->
+    <!-- http://aemet.linkeddata.es/resource/NIEVE -->
 
-    <owl:Thing rdf:about="&ontology;RVIENTO">
+    <owl:Thing rdf:about="&resource;NIEVE">
+        <rdf:type rdf:resource="&ontology;PropiedadAmbientalSobrePrecipitacion"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/PLIQTP -->
+
+    <owl:Thing rdf:about="&resource;PLIQTP">
+        <rdf:type rdf:resource="&ontology;PropiedadAmbientalSobrePrecipitacion"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/PREC -->
+
+    <owl:Thing rdf:about="&resource;PREC">
+        <rdf:type rdf:resource="&ontology;PropiedadAmbientalSobrePrecipitacion"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/PRES -->
+
+    <ontology:PropiedadAmbientalSobrePresion rdf:about="&resource;PRES">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </ontology:PropiedadAmbientalSobrePresion>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/PRES_nmar -->
+
+    <owl:Thing rdf:about="&resource;PRES_nmar">
+        <rdf:type rdf:resource="&ontology;PropiedadAmbientalSobrePresion"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/PSOLTP -->
+
+    <ontology:PropiedadAmbientalSobrePresion rdf:about="&resource;PSOLTP">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </ontology:PropiedadAmbientalSobrePresion>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/RAGLOB -->
+
+    <ontology:PropiedadAmbientalSobreRadiacion rdf:about="&resource;RAGLOB">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </ontology:PropiedadAmbientalSobreRadiacion>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/RVIENTO -->
+
+    <owl:Thing rdf:about="&resource;RVIENTO">
         <rdf:type rdf:resource="&ontology;PropiedadAmbientalSobreViento"/>
     </owl:Thing>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/TA -->
+    <!-- http://aemet.linkeddata.es/resource/TA -->
 
-    <ontology:PropiedadAmbientalSobreTemperatura rdf:about="&ontology;TA">
-        <rdf:type rdf:resource="&owl;Thing"/>
-    </ontology:PropiedadAmbientalSobreTemperatura>
-    
-
-
-    <!-- http://aemet.linkeddata.es/ontology/TAMAX10m -->
-
-    <ontology:PropiedadAmbientalSobreTemperatura rdf:about="&ontology;TAMAX10m">
-        <rdf:type rdf:resource="&owl;Thing"/>
-    </ontology:PropiedadAmbientalSobreTemperatura>
-    
-
-
-    <!-- http://aemet.linkeddata.es/ontology/TAMAX1h -->
-
-    <owl:Thing rdf:about="&ontology;TAMAX1h">
+    <owl:Thing rdf:about="&resource;TA">
         <rdf:type rdf:resource="&ontology;PropiedadAmbientalSobreTemperatura"/>
     </owl:Thing>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/TAMIN10m -->
+    <!-- http://aemet.linkeddata.es/resource/TAMAX10m -->
 
-    <owl:Thing rdf:about="&ontology;TAMIN10m">
-        <rdf:type rdf:resource="&ontology;PropiedadAmbientalSobreTemperatura"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/ontology/TAMIN1h -->
-
-    <owl:Thing rdf:about="&ontology;TAMIN1h">
-        <rdf:type rdf:resource="&ontology;PropiedadAmbientalSobreTemperatura"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/ontology/TPR -->
-
-    <ontology:PropiedadAmbientalSobreHumedad rdf:about="&ontology;TPR">
-        <rdf:type rdf:resource="&owl;Thing"/>
-    </ontology:PropiedadAmbientalSobreHumedad>
-    
-
-
-    <!-- http://aemet.linkeddata.es/ontology/TPRE -->
-
-    <ontology:PropiedadAmbiental rdf:about="&ontology;TPRE">
-        <rdf:type rdf:resource="&owl;Thing"/>
-    </ontology:PropiedadAmbiental>
-    
-
-
-    <!-- http://aemet.linkeddata.es/ontology/TS -->
-
-    <ontology:PropiedadAmbientalSobreTemperatura rdf:about="&ontology;TS">
+    <ontology:PropiedadAmbientalSobreTemperatura rdf:about="&resource;TAMAX10m">
         <rdf:type rdf:resource="&owl;Thing"/>
     </ontology:PropiedadAmbientalSobreTemperatura>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/TSS5cm -->
+    <!-- http://aemet.linkeddata.es/resource/TAMAX1h -->
 
-    <ontology:PropiedadAmbientalSobreTemperatura rdf:about="&ontology;TSS5cm">
+    <ontology:PropiedadAmbientalSobreTemperatura rdf:about="&resource;TAMAX1h">
         <rdf:type rdf:resource="&owl;Thing"/>
     </ontology:PropiedadAmbientalSobreTemperatura>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/VIS -->
+    <!-- http://aemet.linkeddata.es/resource/TAMIN10m -->
 
-    <ontology:PropiedadAmbiental rdf:about="&ontology;VIS">
-        <rdf:type rdf:resource="&owl;Thing"/>
-    </ontology:PropiedadAmbiental>
+    <owl:Thing rdf:about="&resource;TAMIN10m">
+        <rdf:type rdf:resource="&ontology;PropiedadAmbientalSobreTemperatura"/>
+    </owl:Thing>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/VMAX10m -->
+    <!-- http://aemet.linkeddata.es/resource/TAMIN1h -->
 
-    <ontology:PropiedadAmbientalSobreViento rdf:about="&ontology;VMAX10m">
+    <ontology:PropiedadAmbientalSobreTemperatura rdf:about="&resource;TAMIN1h">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </ontology:PropiedadAmbientalSobreTemperatura>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/TPR -->
+
+    <owl:Thing rdf:about="&resource;TPR">
+        <rdf:type rdf:resource="&ontology;PropiedadAmbientalSobreHumedad"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/TPRE -->
+
+    <owl:Thing rdf:about="&resource;TPRE">
+        <rdf:type rdf:resource="&ontology;PropiedadAmbiental"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/TS -->
+
+    <ontology:PropiedadAmbientalSobreTemperatura rdf:about="&resource;TS">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </ontology:PropiedadAmbientalSobreTemperatura>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/TSS5cm -->
+
+    <ontology:PropiedadAmbientalSobreTemperatura rdf:about="&resource;TSS5cm">
+        <rdf:type rdf:resource="&owl;Thing"/>
+    </ontology:PropiedadAmbientalSobreTemperatura>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/VIS -->
+
+    <owl:Thing rdf:about="&resource;VIS">
+        <rdf:type rdf:resource="&ontology;PropiedadAmbiental"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/VMAX10m -->
+
+    <owl:Thing rdf:about="&resource;VMAX10m">
+        <rdf:type rdf:resource="&ontology;PropiedadAmbientalSobreViento"/>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/VV10m -->
+
+    <ontology:PropiedadAmbientalSobreViento rdf:about="&resource;VV10m">
         <rdf:type rdf:resource="&owl;Thing"/>
     </ontology:PropiedadAmbientalSobreViento>
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/VV10m -->
+    <!-- http://aemet.linkeddata.es/resource/condicionMeteorologica -->
 
-    <owl:Thing rdf:about="&ontology;VV10m">
-        <rdf:type rdf:resource="&ontology;PropiedadAmbientalSobreViento"/>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/ontology/condicionMeteorologica -->
-
-    <ssn:FeatureOfInterest rdf:about="&ontology;condicionMeteorologica">
+    <ssn:FeatureOfInterest rdf:about="&resource;condicionMeteorologica">
         <rdf:type rdf:resource="&owl;Thing"/>
         <rdfs:label xml:lang="es"
             >condicionMeteorologica</rdfs:label>
