@@ -39,6 +39,7 @@ import org.gwtopenmaps.openlayers.client.geometry.LinearRing;
 import org.gwtopenmaps.openlayers.client.layer.Vector;
 import org.gwtopenmaps.openlayers.client.popup.Popup;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.GwtEvent;
@@ -59,6 +60,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.Polygon;
  */
 public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListener {
 
+	private static final String MARKER_ICON = "marker_red.png";
 	private static final int CIRCLE_NUMBER_OF_POINTS = 20;
 	private final Vector vectorLayer;
 	private final Set<VectorFeature> features = new HashSet<VectorFeature>();
@@ -282,7 +284,10 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 
 	private Style getStyle(org.gwtopenmaps.openlayers.client.geometry.Point olPoint) {
 		Style style = new Style();
-		style.setExternalGraphic("../imgs/mm_20_red.png");
+		style.setExternalGraphic(GWT.getModuleBaseURL() + MARKER_ICON);
+		style.setGraphicSize(24, 21);
+		style.setFillOpacity(1);
+		style.setCursor("pointer");
 		return style;
 	}
 
