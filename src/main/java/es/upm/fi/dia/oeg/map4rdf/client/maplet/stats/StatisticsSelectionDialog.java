@@ -40,6 +40,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.inject.Inject;
 
+import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
 import es.upm.fi.dia.oeg.map4rdf.client.util.LocaleUtil;
 import es.upm.fi.dia.oeg.map4rdf.share.Resource;
 import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
@@ -51,10 +52,10 @@ public class StatisticsSelectionDialog extends PrettyPopup implements HasSelecti
 
 	private final ListBox datasetList = new ListBox();
 	private final Button selectButton = new Button("Select");
-	private final Messages messages;
+	private final BrowserMessages messages;
 
 	@Inject
-	public StatisticsSelectionDialog(Messages messages) {
+	public StatisticsSelectionDialog(BrowserMessages messages) {
 		super(PrettyPopupStylesheetFactory.getDefaultStylesheet(), true);
 		this.messages = messages;
 		setModal(true);

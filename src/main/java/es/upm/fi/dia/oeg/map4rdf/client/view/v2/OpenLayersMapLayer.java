@@ -83,7 +83,7 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 	public HasClickHandlers draw(Point point) {
 		org.gwtopenmaps.openlayers.client.geometry.Point olPoint = new org.gwtopenmaps.openlayers.client.geometry.Point(
 				point.getX(), point.getY());
-		return addFeature(olPoint);
+		return addFeature(olPoint, getStyle(olPoint));
 	}
 
 	@Override
@@ -278,6 +278,12 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 		style.setCursor("pointer");
 		return style;
 
+	}
+
+	private Style getStyle(org.gwtopenmaps.openlayers.client.geometry.Point olPoint) {
+		Style style = new Style();
+		style.setExternalGraphic("../imgs/mm_20_red.png");
+		return style;
 	}
 
 	private Style getTextStyle(String text) {
