@@ -15,6 +15,8 @@ prefixes =('@base <http://aemet.linkeddata.es/ontology/> .\n' +
            '@prefix prop: <http://aemet.linkeddata.es/ontology/> .\n\n\n')
 
 stationTemplate = ('estacion:Estacion_%s a aemet:Estacion;\n' +
+                   '\trdfs:label "Estación %s"@es ;\n' +
+                   '\trdfs:label "Station %s"@en ;\n' +
                    '\tprop:indclim "%s";\n' +
                    '\tprop:indsinop "%s";\n' +
                    '\tprop:nombreEstacion "%s";\n' +
@@ -36,6 +38,6 @@ with open('stations.rdf', 'w', encoding='utf8') as outf:
     for l in inf:
       e = l[:-1].split(';')
       if len(e) >= 7 and len(e[6]) > 0:
-        outf.write(stationTemplate%(e[6], e[0], e[6], e[1], e[6]))
+        outf.write(stationTemplate%(e[6], e[6], e[6], e[0], e[6], e[1], e[6]))
         outf.write(geoposTemplate%(e[6], cc(e[5]), cc(e[4]), e[3]))
 
