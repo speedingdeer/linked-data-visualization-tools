@@ -44,6 +44,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.TwoDimentionalCoordinate;
 /**
  * @author Alexander De Leon
  */
+// TODO : Remove hard coded values!!!
 public class OpenLayersMapView implements MapView {
 
 	/**
@@ -63,6 +64,11 @@ public class OpenLayersMapView implements MapView {
 		createUi();
 
 		defaultLayer = (OpenLayersMapLayer) createLayer("default");
+		addNotice();
+	}
+
+	private void addNotice() {
+
 	}
 
 	@Override
@@ -139,6 +145,7 @@ public class OpenLayersMapView implements MapView {
 
 		WMSOptions wmsLayerParams = new WMSOptions();
 		wmsLayerParams.setTransitionEffect(TransitionEffect.RESIZE);
+		wmsLayerParams.setAttribution("Maps provided by <a href=\"http://www.idee.es\">IDEE</a>");
 
 		WMS wmsLayer = new WMS("IDEE", WMS_URL, wmsParams, wmsLayerParams);
 
