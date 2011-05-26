@@ -5,6 +5,7 @@
 
 package es.upm.fi.dia.oeg.map4rdf.client.widget.mapcontrol;
 
+import es.upm.fi.dia.oeg.map4rdf.share.Resource;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -28,8 +29,10 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetAemetObsForProperty;
 import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
@@ -63,7 +66,7 @@ public class DrawAemetResourcesOnClick extends DrawGeoResourceOnClick {
 		VerticalPanel graficas = new VerticalPanel();
 		caracteristicas.setSpacing(0);
 		graficas.setSpacing(0);
-		String text = "No se han obtenidos datos de observacion";
+		String text = "No se han obtenidos datos de observacion reciente";
 		try {
 			AemetResource ae = (AemetResource) result.getValue();
 			// if(ae==null)return;
@@ -79,7 +82,7 @@ public class DrawAemetResourcesOnClick extends DrawGeoResourceOnClick {
 					obsActual.setSpacing(5);
 					obsActual.add(new Anchor(obsevation.getPropiedad().getDefaultLabel(), obsevation.getUriObs(),
 							"_blank"));
-					obsActual.add(new Label(Double.toString(obsevation.getValor())));
+					obsActual.add(new Label(Double.toString(obsevation.getValor())+dameUnidadMedicion(obsevation.getPropiedad().getDefaultLabel())));
 					caracteristicas.add(obsActual);
 
 					HorizontalPanel graf = new HorizontalPanel();
@@ -90,37 +93,51 @@ public class DrawAemetResourcesOnClick extends DrawGeoResourceOnClick {
 
 						@Override
 						public void onClick(ClickEvent event) {
-							createDayChart(obsevation);
+							createDayChart(obsevation,sp);
 						}
 					});
 					graf.add(dayAnchor);
 					graf.add(new Label("|"));
-					graf.add(new Anchor("semana", "ESTO.ESTA.POR HACER", "_blank"));
+                                        Anchor weekAnchor = new Anchor("semana");
+					weekAnchor.addClickHandler(new ClickHandler() {
+						@Override
+						public void onClick(ClickEvent event) {
+							Window.alert("Por hacer");
+						}
+					});
+					graf.add(weekAnchor);
 					graf.add(new Label("|"));
-					graf.add(new Anchor("mes", "ESTO.ESTA.POR HACER", "_blank"));
+                                        Anchor monthAnchor = new Anchor("mes");
+					monthAnchor.addClickHandler(new ClickHandler() {
+						@Override
+						public void onClick(ClickEvent event) {
+							Window.alert("Por hacer");
+						}
+					});
+					graf.add(monthAnchor);
 					graficas.add(graf);
 				}
 				caractYGraficas.add(caracteristicas);
 				caractYGraficas.add(graficas);
 				mainPanel.add(caractYGraficas);
 			}
-
+                    sp.setSize("300px", "350px");
 		} catch (Exception e) {
-			Window.alert("Error: " + e.getMessage() + e.toString());
+			//Window.alert("Error: " + e.getMessage() + e.toString());
 			System.err.println("Error: " + e.getMessage());
 			mainPanel.add(new Label(text));
-		}
-		sp.setSize("300px", "350px");
+                        sp.setSize("310px", "20px");
+		}		
 		infoWindow.open(latl, new InfoWindowContent(sp));
 	}
 
-	private void createDayChart(final AemetObs ao) {
+	private void createDayChart(final AemetObs ao, Widget ref) {
 		final GetAemetObsForProperty action = new GetAemetObsForProperty();
 		action.setStationUri(ao.getEstacion().getUri());
 		action.setPropertyUri(ao.getPropiedad().getUri());
 		action.setStart(new Intervalo(2011, 05, 12, 00, 00));
 		action.setEnd(new Intervalo(2011, 05, 12, 23, 59));
-
+                final Widget lastPannel = ref;
 		disp.startProcessing();
 		dispatchAsync.execute(action, new AsyncCallback<ListResult<AemetObs>>() {
 
@@ -153,7 +170,22 @@ public class DrawAemetResourcesOnClick extends DrawGeoResourceOnClick {
 						.getDefaultLabel());
 
 				infoWindow.close();
-				infoWindow.open(latl, new InfoWindowContent(plot.getWidget()));
+                                VerticalPanel vp = new VerticalPanel();
+                                vp.setHorizontalAlignment(vp.ALIGN_CENTER);
+                                vp.add(plot.getWidget());
+                                PushButton p = new PushButton("Volver");
+                                p.setWidth("50px");
+                                p.addClickHandler(new ClickHandler() {
+
+                                    @Override
+                                    public void onClick(ClickEvent event) {
+                                        infoWindow.close();
+                                        infoWindow.open(latl, new InfoWindowContent(lastPannel));
+                                    }
+                                });
+                                vp.add(p);
+                                vp.setSize(""+(plot.getWidth())+"px",""+(plot.getHeight()+20)+"px");
+				infoWindow.open(latl, new InfoWindowContent(vp));
 
 			}
 
@@ -174,4 +206,17 @@ public class DrawAemetResourcesOnClick extends DrawGeoResourceOnClick {
 		return new SimplePlot(model, plotOptions);
 
 	}
+
+    private String dameUnidadMedicion(String label) {
+        if(label.contains("TPR")){return " %";}
+        if(label.contains("PRES")){return " hPa";}
+        if(label.contains("HR")){return " grados C";}
+        if(label.contains("TA")){return " %";}
+        if(label.contains("DMAX")){return "m/s";}
+        if(label.contains("VMAX")){return " grados";}
+        if(label.contains("RVIENTO")){return "";}
+        if(label.contains("DV")){return " grados";}
+        if(label.contains("VV")){return " m/s";}
+        return "";
+    }
 }

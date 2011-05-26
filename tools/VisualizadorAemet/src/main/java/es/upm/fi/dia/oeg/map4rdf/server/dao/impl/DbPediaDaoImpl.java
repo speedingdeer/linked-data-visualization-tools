@@ -427,7 +427,18 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		query.append("?tiempoFecha <http://www.w3.org/2006/time#day> ?dia . ");
 		query.append("?tiempoFecha <http://www.w3.org/2006/time#month> ?mes . ");
 		query.append("?tiempoFecha <http://www.w3.org/2006/time#year> ?anno . ");
-		query.append("}");
+                
+                /*query.append("OPTIONAL{"
+                        + "?obs2 <http://purl.oclc.org/NET/ssnx/ssn#observedBy> ?estacion ."
+                        + "?obs2 <http://aemet.linkeddata.es/ontology/observadaEnIntervalo> ?inter2 ."
+                        + "?inter2 <http://www.w3.org/2006/time#hasBeginning> ?instant2 ."
+                        + "?instant2 <http://www.w3.org/2006/time#inDateTime> ?tiempoFecha2 . "
+                        + "?tiempoFecha2 <http://www.w3.org/2006/time#minute> ?min2 ."//esto es loq ue debe ser el dateTime
+                        + "FILTER(?min2>=?min)"
+                        + "}");
+                query.append("FILTER (!bound (?min2))");*/
+		query.append("}"
+                        + "ORDER BY DESC(?h)");
 		if (limit != null) {
 			query.append(" LIMIT " + limit);
 		}
@@ -471,7 +482,7 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		// throw new UnsupportedOperationException("Not supported yet.");
 		// Date d = new Date();
 		AemetResource aemetR = null;
-		QueryExecution exec2 = QueryExecutionFactory.sparqlService(endpointUri, createGetObs(100, uri)); // cogemos
+		QueryExecution exec2 = QueryExecutionFactory.sparqlService(endpointUri, createGetObs(10, uri)); // cogemos
 																											// las
 																											// 1000
 																											// ultimas
@@ -631,13 +642,8 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 
 		// query 2: titles of the trips that have this itinerary.
 		QueryExecution exec3 = QueryExecutionFactory
-				.sparqlService(endpointUri, createGetTitleTrip(1000, uriItinerario));// como
-																						// mucho
-																						// un
-																						// itinerario
-																						// de
-																						// 1000
-																						// puntos
+				.sparqlService(endpointUri, createGetTitleTrip(1000, uriItinerario));
+																				// puntos
 		ResultSet queryResult3 = exec3.execSelect();
 		while (queryResult3.hasNext()) {
 			QuerySolution solution2 = queryResult3.next();
@@ -699,14 +705,7 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		query.append("?path <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPoint> ?point.");
 		query.append("?point <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.");
 		query.append("?point <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long.");
-		/**
-		 * select distinct ?path ?order ?point where {?Concept a
-		 * <http://webenemasuno.linkeddata.es/ontology/OPMO/Itinerary>. ?Concept
-		 * <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPart> ?path.
-		 * ?path <http://webenemasuno.linkeddata.es/ontology/OPMO/hasOrder>
-		 * ?order. ?path
-		 * <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPoint> ?point.}
-		 */
+		
 
 		query.append("}");
 		query.append("ORDER BY ?order");
