@@ -409,7 +409,7 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 
 	// quiza convenga separarlo en 2 queries (para no repetir nombre estacion e
 	// intervalo)
-	private String createGetObs(Integer limit, String uri) {
+	private String createGetObs(Integer limit, String uri, String date) {
 		StringBuilder query = new StringBuilder(
 				"SELECT distinct ?estacion ?obs ?est ?prop ?dato ?q ?h ?min ?dia ?mes ?anno ");
 		query.append("WHERE { ");
@@ -427,18 +427,9 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		query.append("?tiempoFecha <http://www.w3.org/2006/time#day> ?dia . ");
 		query.append("?tiempoFecha <http://www.w3.org/2006/time#month> ?mes . ");
 		query.append("?tiempoFecha <http://www.w3.org/2006/time#year> ?anno . ");
-                
-                /*query.append("OPTIONAL{"
-                        + "?obs2 <http://purl.oclc.org/NET/ssnx/ssn#observedBy> ?estacion ."
-                        + "?obs2 <http://aemet.linkeddata.es/ontology/observadaEnIntervalo> ?inter2 ."
-                        + "?inter2 <http://www.w3.org/2006/time#hasBeginning> ?instant2 ."
-                        + "?instant2 <http://www.w3.org/2006/time#inDateTime> ?tiempoFecha2 . "
-                        + "?tiempoFecha2 <http://www.w3.org/2006/time#minute> ?min2 ."//esto es loq ue debe ser el dateTime
-                        + "FILTER(?min2>=?min)"
-                        + "}");
-                query.append("FILTER (!bound (?min2))");*/
-		query.append("}"
-                        + "ORDER BY DESC(?h)");
+		query.append("?tiempoFecha <http://www.w3.org/2006/time#inXSDDateTime> \"" + date
+				+ "\"^^<http://www.w3.org/2001/XMLSchema#dateTime> . }");
+
 		if (limit != null) {
 			query.append(" LIMIT " + limit);
 		}
@@ -446,8 +437,23 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		return query.toString();
 	}
 
+	private String createGetMaxDate(String uri) {
+		StringBuilder query = new StringBuilder("SELECT (MAX(?dt) AS ?date) ");
+		query.append("WHERE { ");
+		query.append("?estacion <http://www.w3.org/2003/01/geo/wgs84_pos#location> " + "<" + uri + "> . ");
+		query.append("?obs <http://purl.oclc.org/NET/ssnx/ssn#observedBy> ?estacion . ");
+		query.append("?obs <http://aemet.linkeddata.es/ontology/observadaEnIntervalo> ?inter . ");
+		query.append("?inter <http://www.w3.org/2006/time#hasBeginning> ?instant . ");
+		query.append("?instant <http://www.w3.org/2006/time#inDateTime> ?tiempoFecha . ");
+		query.append("?tiempoFecha <http://www.w3.org/2006/time#inXSDDateTime> ?dt . }");
+
+		System.out.println(query.toString());
+		return query.toString();
+	}
+
 	private String createGetObsForProperty(String station, String property, Intervalo start, Intervalo end) {
-		StringBuilder query = new StringBuilder("SELECT distinct ?obs ?dato ?q ?h ?min ?dia ?mes ?anno ");
+		StringBuilder query = new StringBuilder(
+				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> \n\n SELECT distinct ?obs ?dato ?q ?h ?min ?dia ?mes ?anno ");
 		query.append("WHERE { ");
 		query.append("?obs <http://purl.oclc.org/NET/ssnx/ssn#observedBy> <" + station + ">. ");
 		query.append("?obs <http://purl.oclc.org/NET/ssnx/ssn#observedProperty> <" + property + "> . ");
@@ -461,6 +467,9 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		query.append("?tiempoFecha <http://www.w3.org/2006/time#day> ?dia . ");
 		query.append("?tiempoFecha <http://www.w3.org/2006/time#month> ?mes . ");
 		query.append("?tiempoFecha <http://www.w3.org/2006/time#year> ?anno . ");
+		query.append("?tiempoFecha <http://www.w3.org/2006/time#inXSDDateTime> ?dt . ");
+		query.append("FILTER(?dt >= xsd:dateTime(\"" + start.asXSDDateTime() + "\")). ");
+		query.append("FILTER(?dt <= xsd:dateTime(\"" + end.asXSDDateTime() + "\")). ");
 		query.append("}");
 
 		System.out.println(query.toString());
@@ -479,13 +488,27 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 
 	@Override
 	public GeoResource getDatosObservacion(String uri) throws DaoException {
+		QueryExecution exec2 = QueryExecutionFactory.sparqlService(endpointUri, createGetMaxDate(uri)); // cogemos
+		ResultSet queryResult2 = exec2.execSelect();
+		String date = null;
+		while (queryResult2.hasNext()) {
+			QuerySolution sol = queryResult2.next();
+			date = sol.getLiteral("date").getString();
+		}
+		if (date == null) {
+			return null;
+		}
+		return getDatosObservacion(uri, date);
+	}
+
+	public GeoResource getDatosObservacion(String uri, String date) throws DaoException {
 		// throw new UnsupportedOperationException("Not supported yet.");
 		// Date d = new Date();
 		AemetResource aemetR = null;
-		QueryExecution exec2 = QueryExecutionFactory.sparqlService(endpointUri, createGetObs(10, uri)); // cogemos
-																											// las
-																											// 1000
-																											// ultimas
+		QueryExecution exec2 = QueryExecutionFactory.sparqlService(endpointUri, createGetObs(100, uri, date)); // cogemos
+																												// las
+																												// 1000
+																												// ultimas
 		ResultSet queryResult2 = exec2.execSelect();
 		while (queryResult2.hasNext()) {
 			/*
@@ -643,7 +666,7 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		// query 2: titles of the trips that have this itinerary.
 		QueryExecution exec3 = QueryExecutionFactory
 				.sparqlService(endpointUri, createGetTitleTrip(1000, uriItinerario));
-																				// puntos
+		// puntos
 		ResultSet queryResult3 = exec3.execSelect();
 		while (queryResult3.hasNext()) {
 			QuerySolution solution2 = queryResult3.next();
@@ -705,7 +728,6 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		query.append("?path <http://webenemasuno.linkeddata.es/ontology/OPMO/hasPoint> ?point.");
 		query.append("?point <http://www.w3.org/2003/01/geo/wgs84_pos#lat> ?lat.");
 		query.append("?point <http://www.w3.org/2003/01/geo/wgs84_pos#long> ?long.");
-		
 
 		query.append("}");
 		query.append("ORDER BY ?order");

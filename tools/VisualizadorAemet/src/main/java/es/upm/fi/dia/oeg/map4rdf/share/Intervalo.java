@@ -55,6 +55,11 @@ public class Intervalo implements Serializable {
 		return new Date(anno, mes, dia, hora, min);
 	}
 
+	public String asXSDDateTime() {
+		return anno + "-" + (mes < 10 ? "0" : "") + mes + "-" + (dia < 10 ? "0" : "") + dia + "T"
+				+ (hora < 10 ? "0" : "") + hora + ":" + (min < 10 ? "0" : "") + min + ":00Z";
+	}
+
 	@Override
 	public String toString() {
 		return (hora + ":" + min + " " + dia + "/" + mes + "/" + anno);
