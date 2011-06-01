@@ -493,7 +493,10 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		String date = null;
 		while (queryResult2.hasNext()) {
 			QuerySolution sol = queryResult2.next();
-			date = sol.getLiteral("date").getString();
+                        if(sol.contains("date")){
+                            date = sol.getLiteral("date").getString();
+                        }
+
 		}
 		if (date == null) {
 			return null;

@@ -77,13 +77,8 @@ public class DrawAemetResourcesOnClick extends DrawGeoResourceOnClick {
 				final AemetObs firstObservation = obs.get(0);
 				mainPanel.add(new Label("Estacion " + firstObservation.getEstacion().getDefaultLabel()));
 				mainPanel.add(new Label(firstObservation.getIntervalo().toString()));
-				for (final AemetObs obsevation : obs) {
-					HorizontalPanel obsActual = new HorizontalPanel();
-					obsActual.setSpacing(5);
-					obsActual.add(new Anchor(obsevation.getPropiedad().getDefaultLabel(), obsevation.getUriObs(),
-							"_blank"));
-					obsActual.add(new Label(Double.toString(obsevation.getValor())
-							+ dameUnidadMedicion(obsevation.getPropiedad().getDefaultLabel())));
+				for (final AemetObs observation : obs) {
+					HorizontalPanel obsActual = dameUnidadMedicion(observation.getPropiedad().getDefaultLabel(), observation.getUriObs(), Double.toString(observation.getValor()) );                                        
 					caracteristicas.add(obsActual);
 
 					HorizontalPanel graf = new HorizontalPanel();
@@ -94,7 +89,7 @@ public class DrawAemetResourcesOnClick extends DrawGeoResourceOnClick {
 
 						@Override
 						public void onClick(ClickEvent event) {
-							createDayChart(obsevation, sp, firstObservation.getIntervalo().asDate());
+							createDayChart(observation, sp, firstObservation.getIntervalo().asDate());
 						}
 					});
 					graf.add(dayAnchor);
@@ -103,7 +98,7 @@ public class DrawAemetResourcesOnClick extends DrawGeoResourceOnClick {
 					weekAnchor.addClickHandler(new ClickHandler() {
 						@Override
 						public void onClick(ClickEvent event) {
-							createWeekChart(obsevation, sp, firstObservation.getIntervalo().asDate());
+							createWeekChart(observation, sp, firstObservation.getIntervalo().asDate());
 						}
 					});
 					graf.add(weekAnchor);
@@ -122,7 +117,7 @@ public class DrawAemetResourcesOnClick extends DrawGeoResourceOnClick {
 				caractYGraficas.add(graficas);
 				mainPanel.add(caractYGraficas);
 			}
-			sp.setSize("250px", "350px");
+			sp.setSize("350px", "350px");
 		} catch (Exception e) {
 			// Window.alert("Error: " + e.getMessage() + e.toString());
 			System.err.println("Error: " + e.getMessage());
@@ -220,34 +215,92 @@ public class DrawAemetResourcesOnClick extends DrawGeoResourceOnClick {
 
 	}
 
-	private String dameUnidadMedicion(String label) {
-		if (label.contains("TPR")) {
-			return " %";
+	private HorizontalPanel dameUnidadMedicion(String label, String uri, String valor) {
+            /**
+             *        ?       ALT=58.0, --Altitud (m)
+
+        ?       VV10m=5.0, --Velocidad media del viento (m/s)
+        ?       QVV10m=0, ---Valor de Calidad Asignado
+
+        ?       DV10m=202, --Dirección media del viento (grados)
+        ?       QDV10m=0, --Valor de Calidad Asignado
+       ?       RVIENTO=30.0, --Recorrido del viento (Hm)
+       ?       QRVIENTO=0, --Valor de Calidad Asignado
+
+       ?       VMAX10m=11.3, --Velocidad máxima del viento (m/s)
+       ?       QVMAX10m=0, --Valor de Calidad Asignado
+       ?       DMAX10m=228, --Dirección de la velocidad máxima del viento (grados)
+       ?       QDMAX10m=0, --Valor de Calidad Asignado
+             *
+       ?       TA=11.3, --Temperatura del aire (grados Celsius)
+       ?       QTA=0, --Valor de Calidad Asignado
+             *
+       ?       HR=74,--Humedad relativa (%)
+       ?       QHR=0,-- Valor de Calidad Asignado
+       ?       PREC=0.0, --Precipitación (mm) == (litros/m2)
+       ?       QPREC=0, --Valor de Calidad Asignado
+       ?       PRES=1005.5, --Presión (hPa)
+       ?       QPRES=0, --Valor de Calidad Asignado
+       ?       TPR=6.8, --Temperatura del punto de rocío (grados Celsius)
+       ?       QTPR=0, -- Valor de Calidad Asignado
+       ?       PRES_nmar=1013.6, --Presión reducida al nivel del mar (hPa)
+       ?       QPRES_nmar=0 --Valor de Calidad Asignado
+             */
+            HorizontalPanel panelAct = new HorizontalPanel();
+            panelAct.setSpacing(5);
+                if (label.contains("VV")) {
+			//return " m/s";
+                    panelAct.add(new Anchor("Vel. media del viento: ",uri,"_blank"));
+                    panelAct.add(new Label(valor+" m/s"));
 		}
-		if (label.contains("PRES")) {
-			return " hPa";
+                if (label.contains("DV")) {
+                    panelAct.add(new Anchor("Dir. media del viento: ",uri,"_blank"));
+                    panelAct.add(new Label(valor+" grados"));
 		}
-		if (label.contains("HR")) {
-			return " grados C";
+                if (label.contains("RVIENTO")) {
+                    panelAct.add(new Anchor("Recorrido del viento: ",uri,"_blank"));
+                    panelAct.add(new Label(valor+" Hm"));
 		}
-		if (label.contains("TA")) {
-			return " %";
-		}
-		if (label.contains("DMAX")) {
-			return "m/s";
+                if (label.contains("DMAX")) {
+                    panelAct.add(new Anchor("Dir. de la v. max. del viento: ",uri,"_blank"));
+                    panelAct.add(new Label(valor+" grados"));
 		}
 		if (label.contains("VMAX")) {
-			return " grados";
+                    panelAct.add(new Anchor("Vel. max. del viento: ",uri,"_blank"));
+                    panelAct.add(new Label(valor+" m/s"));
 		}
-		if (label.contains("RVIENTO")) {
-			return "";
+                if (label.contains("TA")) {
+                    panelAct.add(new Anchor("Temperatura del aire: ",uri,"_blank"));
+                    panelAct.add(new Label(valor+" grados C."));
 		}
-		if (label.contains("DV")) {
-			return " grados";
+                if (label.contains("HR")) {
+                    panelAct.add(new Anchor("Humedad relativa: ",uri,"_blank"));
+                    panelAct.add(new Label(valor+" %"));
 		}
-		if (label.contains("VV")) {
-			return " m/s";
+                if (label.contains("PREC")) {
+                    panelAct.add(new Anchor("Precipitacion: ",uri,"_blank"));
+                    panelAct.add(new Label(valor+" litros/m2"));
+		}                
+		if (label.contains("TPR")) {			
+                    panelAct.add(new Anchor("Temp. del pto. de rocio: ",uri,"_blank"));
+                    panelAct.add(new Label(valor+" grados C."));
 		}
-		return "";
+                if (label.contains("PRES_nmar")) {
+                    panelAct.add(new Anchor("Pres. reducida al nivel del mar: ",uri,"_blank"));
+                    panelAct.add(new Label(valor+" hPa"));
+                }else if(label.contains("PRES")) {
+                    panelAct.add(new Anchor("Presion: ",uri,"_blank"));
+                    panelAct.add(new Label(valor+" hPa"));
+		}
+                if (label.contains("RAGLOB")) {
+                    panelAct.add(new Anchor("RAGLOB: ",uri,"_blank"));
+                    panelAct.add(new Label(valor+""));
+                }
+                if (label.contains("GEO")) {
+                    panelAct.add(new Anchor("GEO: ",uri,"_blank"));
+                    panelAct.add(new Label(valor+""));
+                }
+                								
+		return panelAct;
 	}
 }
