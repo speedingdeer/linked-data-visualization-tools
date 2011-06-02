@@ -142,7 +142,7 @@
 					<modules>
 						<module>es.upm.fi.dia.oeg.map4rdf.map4rdf</module>
 					</modules>
-                                        <!-- <draftCompile>true</draftCompile> -->
+                                         <draftCompile>true</draftCompile> 
 					<!--  <buildOutputDirectory>${project.build.directory}/war</buildOutputDirectory>  -->
 				</configuration>
 				<executions>

@@ -66,7 +66,7 @@ public class DrawAemetResourcesOnClick extends DrawGeoResourceOnClick {
 		VerticalPanel graficas = new VerticalPanel();
 		caracteristicas.setSpacing(0);
 		graficas.setSpacing(0);
-		String text = "No se han obtenidos datos de observacion reciente";
+		String text = "No se han obtenido datos de observacion reciente";
 		try {
 			AemetResource ae = (AemetResource) result.getValue();
 			// if(ae==null)return;
@@ -290,15 +290,15 @@ public class DrawAemetResourcesOnClick extends DrawGeoResourceOnClick {
 			panelAct.add(new Label(valor + " hPa"));
 		}
 		if (label.contains("RAGLOB")) {
-			panelAct.add(new Anchor("RAGLOB: medida de radiaci—n global (directa + difusa)", uri, "_blank"));
+			panelAct.add(new Anchor("Radiacion global", uri, "_blank"));
 			panelAct.add(new Label(valor + " KJ/m2"));
 		}
-		if (label.contains("GEO")) {
-			panelAct.add(new Anchor("GEO: reducci—n de la presi—n a una altura del geopotencial", uri, "_blank"));
-			panelAct.add(new Label(valor + ""));
+		if (label.contains("GEO925")) {
+			panelAct.add(new Anchor("GEO925", uri, "_blank"));
+			panelAct.add(new Label(valor + "m"));
 		}
 		if (label.contains("GEO850")) {
-			panelAct.add(new Anchor("GEO850:  altura donde se encuentra una presi—n de 850 hPa", uri, "_blank"));
+			panelAct.add(new Anchor("GEO850", uri, "_blank"));
 			panelAct.add(new Label(valor + " m"));
 		}
 
