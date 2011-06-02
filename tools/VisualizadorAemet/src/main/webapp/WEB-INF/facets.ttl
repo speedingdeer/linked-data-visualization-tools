@@ -12,7 +12,7 @@ _:rdfTypeFacet
         map4rdf:facet <http://www.w3.org/2003/01/geo/wgs84_pos#Point>;
 .
 <http://www.w3.org/2003/01/geo/wgs84_pos#Point>
-        rdfs:label "Estaciones automaticas"@en;
-        rdfs:label "Automatic stations"@es;
+        rdfs:label "Estaciones automaticas"@es;
+        rdfs:label "Automatic stations"@en;
 .
 
