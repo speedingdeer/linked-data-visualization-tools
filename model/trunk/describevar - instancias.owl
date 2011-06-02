@@ -17,6 +17,13 @@
     <!ENTITY describevar2 "http://aemet.linkeddata.es/describevar.owl#" >
     <!ENTITY describevar4 "http://aemet.linkdata.es/ontology/describevar/" >
     <!ENTITY describevar3 "http://aemet.linkdata.es/ontology/describevar#" >
+	   <!ENTITY AmbientProperty "http://aemet.linkeddata.es/resource/AmbientProperty/" >
+    <!ENTITY WindAmbientProperty "http://aemet.linkeddata.es/resource/WindAmbientProperty/" >
+    <!ENTITY PressureAmbientProperty "http://aemet.linkeddata.es/resource/PressureAmbientProperty/" >
+    <!ENTITY HumidityAmbientProperty "http://aemet.linkeddata.es/resource/HumidityAmbientProperty/" >
+    <!ENTITY RadiationAmbientProperty "http://aemet.linkeddata.es/resource/RadiationAmbientProperty/" >
+    <!ENTITY TemperatureAmbientProperty "http://aemet.linkeddata.es/resource/TemperatureAmbientProperty/" >
+    <!ENTITY PrecipitationAmbientProperty "http://aemet.linkeddata.es/resource/PrecipitationAmbientProperty/" >
 ]>
 
 
@@ -81,291 +88,13 @@
     //
     ///////////////////////////////////////////////////////////////////////////////////////
      -->
-
     
 
 
-    <!-- http://aemet.linkeddata.es/resource/BAT -->
+    <!-- http://aemet.linkeddata.es/resource/AmbientProperty/TPRE -->
 
-    <owl:Thing rdf:about="&resource;BAT">
-        <rdfs:label xml:lang="es">BAT</rdfs:label>
-        <rdfs:label xml:lang="es">Carga bater&#237;as</rdfs:label>
-        <rdfs:comment xml:lang="es">Unidad en V</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/BATH -->
-
-    <owl:Thing rdf:about="&resource;BATH">
-        <rdfs:label xml:lang="es">BATH</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Carga bater&#237;as horaria</rdfs:label>
-        <rdfs:comment xml:lang="es">Unidad en V</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/DMAX10m -->
-
-    <owl:Thing rdf:about="&resource;DMAX10m">
-        <rdfs:label xml:lang="es">DMAX10m</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Direcci&#243;n de la velocidad m&#225;xima del viento</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Unidad en grados</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/DV10m -->
-
-    <owl:Thing rdf:about="&resource;DV10m">
-        <rdfs:label xml:lang="es">DV10m</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Direcci&#243;n media del viento</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Unidad en grados</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/GEO700 -->
-
-    <owl:Thing rdf:about="&resource;GEO700">
-        <rdfs:label xml:lang="es">GEO700</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Reducci&#243;n de la presi&#243;n a la altura de 700 hPa</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Unidad en metros.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/GEO850 -->
-
-    <owl:Thing rdf:about="&resource;GEO850">
-        <rdfs:label xml:lang="es">GEO850</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Reducci&#243;nr de la presi&#243;n a la altura de 850 hPa.</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Unidad en metros.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/GEO925 -->
-
-    <owl:Thing rdf:about="&resource;GEO925">
-        <rdfs:label xml:lang="es">GEO925</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Reducci&#243;n de la presi&#243;n a altura de unos 925m</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Unidad en metros.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/HR -->
-
-    <owl:Thing rdf:about="&resource;HR">
-        <rdfs:label xml:lang="es">HR</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Humedad relativa</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Unidad en porcentage %</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/HTAMAX1h -->
-
-    <owl:Thing rdf:about="&resource;HTAMAX1h">
-        <rdfs:label xml:lang="es">HTAMAX1h</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Hora y minuto de la temperatura m&#225;xima en 1 hora</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Unidad en hora y minuto</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/HTAMIN1h -->
-
-    <owl:Thing rdf:about="&resource;HTAMIN1h">
-        <rdfs:label xml:lang="es">HTAMIN1h</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Hora y minuto de la temperatura m&#237;nima en 1 hora</rdfs:label>
-        <rdfs:comment xml:lang="es"
-            >Unidad hora y minuto</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/INSO -->
-
-    <owl:Thing rdf:about="&resource;INSO">
-        <rdfs:label xml:lang="es">INSO</rdfs:label>
-        <rdfs:label xml:lang="es">Insolaci&#243;n</rdfs:label>
-        <rdfs:comment xml:lang="es">Unidad en min.</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/NIEVE -->
-
-    <owl:Thing rdf:about="&resource;NIEVE">
-        <rdfs:label xml:lang="es">Capa de nieve</rdfs:label>
-        <rdfs:label xml:lang="es">NIEVE</rdfs:label>
-        <rdfs:comment xml:lang="es">Unidad en cm</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/PLIQTP -->
-
-    <owl:Thing rdf:about="&resource;PLIQTP">
-        <rdfs:label xml:lang="es">PLIQTP</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Precipitaci&#243;n acumulada l&#237;quida</rdfs:label>
-        <rdfs:comment xml:lang="es">Unidad en mm</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/PREC -->
-
-    <owl:Thing rdf:about="&resource;PREC">
-        <rdfs:label xml:lang="es">PREC</rdfs:label>
-        <rdfs:label xml:lang="es">Precipitaci&#243;n</rdfs:label>
-        <rdfs:comment xml:lang="es">Unidad en mm</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/PRES -->
-
-    <owl:Thing rdf:about="&resource;PRES">
-        <rdfs:label xml:lang="es">PRES</rdfs:label>
-        <rdfs:label xml:lang="es">Presi&#243;n</rdfs:label>
-        <rdfs:comment xml:lang="es">Unidad en hPa</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/PRES_nmar -->
-
-    <owl:Thing rdf:about="&resource;PRES_nmar">
-        <rdfs:label xml:lang="es">PRES_nmar</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Presi&#243;n reducida al nivel del mar</rdfs:label>
-        <rdfs:comment xml:lang="es">Unidad en hPa</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/PSOLTP -->
-
-    <owl:Thing rdf:about="&resource;PSOLTP">
-        <rdfs:label xml:lang="es">PSOLTP</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Precipitaci&#243;n acumulada s&#243;lida</rdfs:label>
-        <rdfs:comment xml:lang="es">Unidad en mm</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/RAGLOB -->
-
-    <owl:Thing rdf:about="&resource;RAGLOB">
-        <rdfs:label xml:lang="es">RAGLOB</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Radiaci&#243;n global</rdfs:label>
-        <rdfs:comment xml:lang="es">Unidad en KJ/m2</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/RVIENTO -->
-
-    <owl:Thing rdf:about="&resource;RVIENTO">
-        <rdfs:label xml:lang="es">RVIENTO</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Recorrido del viento</rdfs:label>
-        <rdfs:comment xml:lang="es">Unidad en Hm</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/TA -->
-
-    <owl:Thing rdf:about="&resource;TA">
-        <rdfs:label xml:lang="es">TA</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Temperatura del aire</rdfs:label>
-        <rdfs:comment xml:lang="es">Unidad en &#186;C</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/TAMAX10m -->
-
-    <owl:Thing rdf:about="&resource;TAMAX10m">
-        <rdfs:label xml:lang="es">TAMAX10m</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Temperatura m&#225;xima en 10 min</rdfs:label>
-        <rdfs:comment xml:lang="es">Unidad en &#186;C</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/TAMAX1h -->
-
-    <owl:Thing rdf:about="&resource;TAMAX1h">
-        <rdfs:label xml:lang="es">TAMAX1h</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Temperatura m&#225;xima en 1 hora</rdfs:label>
-        <rdfs:comment xml:lang="es">Unidad en &#186;C</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/TAMIN10m -->
-
-    <owl:Thing rdf:about="&resource;TAMIN10m">
-        <rdfs:label xml:lang="es">TAMIN10m</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Temperatura m&#237;nima en 10 minutos</rdfs:label>
-        <rdfs:comment xml:lang="es">Unidad en &#186;C</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/TAMIN1h -->
-
-    <owl:Thing rdf:about="&resource;TAMIN1h">
-        <rdfs:label xml:lang="es">TAMIN1h</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Temperatura m&#237;nima en 1 hora</rdfs:label>
-        <rdfs:comment xml:lang="es">Unidad en &#186;C</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/TPR -->
-
-    <owl:Thing rdf:about="&resource;TPR">
-        <rdfs:label xml:lang="es">TPR</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Temperatura del punto de roc&#237;o</rdfs:label>
-        <rdfs:comment xml:lang="es">Unidad en &#186;C</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/TPRE -->
-
-    <owl:Thing rdf:about="&resource;TPRE">
+    <owl:Thing rdf:about="&resource;AmbientProperty/TPRE">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:label xml:lang="es">TPRE</rdfs:label>
         <rdfs:label xml:lang="es">Tiempo presente</rdfs:label>
         <rdfs:comment xml:lang="es">Ver Tabla 4680</rdfs:comment>
@@ -373,31 +102,10 @@
     
 
 
-    <!-- http://aemet.linkeddata.es/resource/TS -->
+    <!-- http://aemet.linkeddata.es/resource/AmbientProperty/VIS -->
 
-    <owl:Thing rdf:about="&resource;TS">
-        <rdfs:label xml:lang="es">TS</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Temperatura suelo</rdfs:label>
-        <rdfs:comment xml:lang="es">Unidad en &#186;C</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/TSS5cm -->
-
-    <owl:Thing rdf:about="&resource;TSS5cm">
-        <rdfs:label xml:lang="es">TSS5cm</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Temperatura subsuelo 5cm</rdfs:label>
-        <rdfs:comment xml:lang="es">Unidad en &#186;C</rdfs:comment>
-    </owl:Thing>
-    
-
-
-    <!-- http://aemet.linkeddata.es/resource/VIS -->
-
-    <owl:Thing rdf:about="&resource;VIS">
+    <owl:Thing rdf:about="&resource;AmbientProperty/VIS">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:label xml:lang="es">VIS</rdfs:label>
         <rdfs:label xml:lang="es">Visibilidad</rdfs:label>
         <rdfs:comment xml:lang="es">Unidad en Km</rdfs:comment>
@@ -405,23 +113,320 @@
     
 
 
-    <!-- http://aemet.linkeddata.es/resource/VMAX10m -->
+    <!-- http://aemet.linkeddata.es/resource/HumidityAmbientProperty/HR -->
 
-    <owl:Thing rdf:about="&resource;VMAX10m">
+    <owl:Thing rdf:about="&resource;HumidityAmbientProperty/HR">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">HR</rdfs:label>
+        <rdfs:label xml:lang="es">Humedad relativa</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en porcentage %</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/HumidityAmbientProperty/TPR -->
+
+    <owl:Thing rdf:about="&resource;HumidityAmbientProperty/TPR">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">TPR</rdfs:label>
+        <rdfs:label xml:lang="es">Temperatura del punto de rocío</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en ºC</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/PrecipitationAmbientProperty/NIEVE -->
+
+    <owl:Thing rdf:about="&resource;PrecipitationAmbientProperty/NIEVE">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">Capa de nieve</rdfs:label>
+        <rdfs:label xml:lang="es">NIEVE</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en cm</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/PrecipitationAmbientProperty/PLIQTP -->
+
+    <owl:Thing rdf:about="&resource;PrecipitationAmbientProperty/PLIQTP">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">PLIQTP</rdfs:label>
+        <rdfs:label xml:lang="es">Precipitación acumulada líquida</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en mm</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/PrecipitationAmbientProperty/PREC -->
+
+    <owl:Thing rdf:about="&resource;PrecipitationAmbientProperty/PREC">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">PREC</rdfs:label>
+        <rdfs:label xml:lang="es">Precipitación</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en mm</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/PressureAmbientProperty/GEO700 -->
+
+    <owl:Thing rdf:about="&resource;PressureAmbientProperty/GEO700">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">GEO700</rdfs:label>
+        <rdfs:label xml:lang="es">Reducción de la presión a la altura de 700 hPa</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en metros.</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/PressureAmbientProperty/GEO850 -->
+
+    <owl:Thing rdf:about="&resource;PressureAmbientProperty/GEO850">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">GEO850</rdfs:label>
+        <rdfs:label xml:lang="es">Reducciónr de la presión a la altura de 850 hPa.</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en metros.</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/PressureAmbientProperty/GEO925 -->
+
+    <owl:Thing rdf:about="&resource;PressureAmbientProperty/GEO925">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">GEO925</rdfs:label>
+        <rdfs:label xml:lang="es">Reducción de la presión a altura de unos 925m</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en metros.</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/PressureAmbientProperty/PRES -->
+
+    <owl:Thing rdf:about="&resource;PressureAmbientProperty/PRES">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">PRES</rdfs:label>
+        <rdfs:label xml:lang="es">Presión</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en hPa</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/PressureAmbientProperty/PRES_nmar -->
+
+    <owl:Thing rdf:about="&resource;PressureAmbientProperty/PRES_nmar">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">PRES_nmar</rdfs:label>
+        <rdfs:label xml:lang="es">Presión reducida al nivel del mar</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en hPa</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/PressureAmbientProperty/PSOLTP -->
+
+    <owl:Thing rdf:about="&resource;PressureAmbientProperty/PSOLTP">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">PSOLTP</rdfs:label>
+        <rdfs:label xml:lang="es">Precipitación acumulada sólida</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en mm</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/Property/BAT -->
+
+    <owl:Thing rdf:about="&resource;Property/BAT">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">BAT</rdfs:label>
+        <rdfs:label xml:lang="es">Carga baterías</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en V</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/Property/BATH -->
+
+    <owl:Thing rdf:about="&resource;Property/BATH">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">BATH</rdfs:label>
+        <rdfs:label xml:lang="es">Carga baterías horaria</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en V</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/RadiationAmbientProperty/INSO -->
+
+    <owl:Thing rdf:about="&resource;RadiationAmbientProperty/INSO">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">INSO</rdfs:label>
+        <rdfs:label xml:lang="es">Insolación</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en min.</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/RadiationAmbientProperty/RAGLOB -->
+
+    <owl:Thing rdf:about="&resource;RadiationAmbientProperty/RAGLOB">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">RAGLOB</rdfs:label>
+        <rdfs:label xml:lang="es">Radiación global</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en KJ/m2</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/TemperatureAmbientProperty/HTAMAX1h -->
+
+    <owl:Thing rdf:about="&resource;TemperatureAmbientProperty/HTAMAX1h">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">HTAMAX1h</rdfs:label>
+        <rdfs:label xml:lang="es">Hora y minuto de la temperatura máxima en 1 hora</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en hora y minuto</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/TemperatureAmbientProperty/HTAMIN1h -->
+
+    <owl:Thing rdf:about="&resource;TemperatureAmbientProperty/HTAMIN1h">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">HTAMIN1h</rdfs:label>
+        <rdfs:label xml:lang="es">Hora y minuto de la temperatura mínima en 1 hora</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad hora y minuto</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/TemperatureAmbientProperty/TA -->
+
+    <owl:Thing rdf:about="&resource;TemperatureAmbientProperty/TA">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">TA</rdfs:label>
+        <rdfs:label xml:lang="es">Temperatura del aire</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en ºC</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/TemperatureAmbientProperty/TAMAX10m -->
+
+    <owl:Thing rdf:about="&resource;TemperatureAmbientProperty/TAMAX10m">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">TAMAX10m</rdfs:label>
+        <rdfs:label xml:lang="es">Temperatura máxima en 10 min</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en ºC</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/TemperatureAmbientProperty/TAMAX1h -->
+
+    <owl:Thing rdf:about="&resource;TemperatureAmbientProperty/TAMAX1h">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">TAMAX1h</rdfs:label>
+        <rdfs:label xml:lang="es">Temperatura máxima en 1 hora</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en ºC</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/TemperatureAmbientProperty/TAMIN10m -->
+
+    <owl:Thing rdf:about="&resource;TemperatureAmbientProperty/TAMIN10m">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">TAMIN10m</rdfs:label>
+        <rdfs:label xml:lang="es">Temperatura mínima en 10 minutos</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en ºC</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/TemperatureAmbientProperty/TAMIN1h -->
+
+    <owl:Thing rdf:about="&resource;TemperatureAmbientProperty/TAMIN1h">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">TAMIN1h</rdfs:label>
+        <rdfs:label xml:lang="es">Temperatura mínima en 1 hora</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en ºC</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/TemperatureAmbientProperty/TS -->
+
+    <owl:Thing rdf:about="&resource;TemperatureAmbientProperty/TS">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">TS</rdfs:label>
+        <rdfs:label xml:lang="es">Temperatura suelo</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en ºC</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/TemperatureAmbientProperty/TSS5cm -->
+
+    <owl:Thing rdf:about="&resource;TemperatureAmbientProperty/TSS5cm">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">TSS5cm</rdfs:label>
+        <rdfs:label xml:lang="es">Temperatura subsuelo 5cm</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en ºC</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/WindAmbientProperty/DMAX10m -->
+
+    <owl:Thing rdf:about="&resource;WindAmbientProperty/DMAX10m">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">DMAX10m</rdfs:label>
+        <rdfs:label xml:lang="es">Dirección de la velocidad máxima del viento</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en grados</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/WindAmbientProperty/DV10m -->
+
+    <owl:Thing rdf:about="&resource;WindAmbientProperty/DV10m">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">DV10m</rdfs:label>
+        <rdfs:label xml:lang="es">Dirección media del viento</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en grados</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/WindAmbientProperty/RVIENTO -->
+
+    <owl:Thing rdf:about="&resource;WindAmbientProperty/RVIENTO">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
+        <rdfs:label xml:lang="es">RVIENTO</rdfs:label>
+        <rdfs:label xml:lang="es">Recorrido del viento</rdfs:label>
+        <rdfs:comment xml:lang="es">Unidad en Hm</rdfs:comment>
+    </owl:Thing>
+    
+
+
+    <!-- http://aemet.linkeddata.es/resource/WindAmbientProperty/VMAX10m -->
+
+    <owl:Thing rdf:about="&resource;WindAmbientProperty/VMAX10m">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:label xml:lang="es">VMAX10m</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Velocidad m&#225;xima del viento</rdfs:label>
+        <rdfs:label xml:lang="es">Velocidad máxima del viento</rdfs:label>
         <rdfs:comment xml:lang="es">Unidad en m/s</rdfs:comment>
     </owl:Thing>
     
 
 
-    <!-- http://aemet.linkeddata.es/resource/VV10m -->
+    <!-- http://aemet.linkeddata.es/resource/WindAmbientProperty/VV10m -->
 
-    <owl:Thing rdf:about="&resource;VV10m">
+    <owl:Thing rdf:about="&resource;WindAmbientProperty/VV10m">
+        <rdf:type rdf:resource="&owl;NamedIndividual"/>
         <rdfs:label xml:lang="es">VV10m</rdfs:label>
-        <rdfs:label xml:lang="es"
-            >Velocidad media del viento</rdfs:label>
+        <rdfs:label xml:lang="es">Velocidad media del viento</rdfs:label>
         <rdfs:comment xml:lang="es">Unidad en m/s</rdfs:comment>
     </owl:Thing>
 </rdf:RDF>
