@@ -90,7 +90,7 @@
         <rdfs:label xml:lang="en">Captured</rdfs:label>
         <rdfs:label xml:lang="es">Captura</rdfs:label>
         <rdfs:comment xml:lang="en">Capture</rdfs:comment>
-        <rdfs:range rdf:resource="&ontology;Observacion"/>
+        <rdfs:range rdf:resource="&ontology;Observation"/>
         <rdfs:domain rdf:resource="&ontology;WeatherStation"/>
     </owl:ObjectProperty>
     
@@ -162,7 +162,7 @@
         <rdfs:label xml:lang="es"
             >Es capturada por</rdfs:label>
         <rdfs:comment xml:lang="en">Is captured by</rdfs:comment>
-        <rdfs:domain rdf:resource="&ontology;Observacion"/>
+        <rdfs:domain rdf:resource="&ontology;Observation"/>
         <rdfs:range rdf:resource="&ontology;WeatherStation"/>
         <owl:inverseOf rdf:resource="&ontology;capture"/>
     </owl:ObjectProperty>
@@ -210,7 +210,7 @@
             >Observed in interval</rdfs:label>
         <rdfs:label xml:lang="es"
             >Observada en intervalo</rdfs:label>
-        <rdfs:domain rdf:resource="&ontology;Observacion"/>
+        <rdfs:domain rdf:resource="&ontology;Observation"/>
         <rdfs:range rdf:resource="&time;DateTimeDescription"/>
     </owl:ObjectProperty>
     
@@ -1323,9 +1323,9 @@
     
 
 
-    <!-- http://aemet.linkeddata.es/ontology/Observacion -->
+    <!-- http://aemet.linkeddata.es/ontology/Observation -->
 
-    <owl:Class rdf:about="&ontology;Observacion">
+    <owl:Class rdf:about="&ontology;Observation">
         <rdfs:label xml:lang="en">Observation</rdfs:label>
         <rdfs:label xml:lang="es">Observaci&#243;n</rdfs:label>
         <owl:equivalentClass rdf:resource="&ssn;Observation"/>
