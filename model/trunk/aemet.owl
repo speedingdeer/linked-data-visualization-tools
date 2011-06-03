@@ -2293,12 +2293,12 @@
     
 
 
-    <!-- http://aemet.linkeddata.es/resource/condicionMeteorologica -->
+    <!-- http://aemet.linkeddata.es/resource/meteorologicalCondition-->
 
-    <ssn:FeatureOfInterest rdf:about="&resource;condicionMeteorologica">
+    <ssn:FeatureOfInterest rdf:about="&resource;meteorologicalCondition">
         <rdf:type rdf:resource="&owl;Thing"/>
         <rdfs:label xml:lang="es"
-            >condicionMeteorologica</rdfs:label>
+            >condicion meteorologica</rdfs:label>
     </ssn:FeatureOfInterest>
 </rdf:RDF>
 
