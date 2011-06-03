@@ -10,20 +10,20 @@ from urllib.parse import quote
 prefixes =('@base <http://aemet.linkeddata.es/ontology/> .\n' +
            '@prefix aemet: <http://aemet.linkeddata.es/ontology/> .\n' +
            '@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .\n' +
-           '@prefix estacion: <http://aemet.linkeddata.es/resource/Estacion/> .\n' +
-           '@prefix punto: <http://aemet.linkeddata.es/resource/Point/> .\n' +
+           '@prefix station: <http://aemet.linkeddata.es/resource/WeatherStation/> .\n' +
+           '@prefix point: <http://aemet.linkeddata.es/resource/Point/> .\n' +
            '@prefix prop: <http://aemet.linkeddata.es/ontology/> .\n\n\n')
 
-stationTemplate = ('estacion:Estacion_%s a aemet:Estacion;\n' +
+stationTemplate = ('station:station_%s a aemet:Station;\n' +
                    '\trdfs:label "Estación %s"@es ;\n' +
                    '\trdfs:label "Station %s"@en ;\n' +
                    '\tprop:indclim "%s";\n' +
                    '\tprop:indsinop "%s";\n' +
-                   '\tprop:nombreEstacion "%s";\n' +
-                   '\tgeo:location punto:GeoPos_%s;\n' +
+                   '\tprop:stationName "%s";\n' +
+                   '\tgeo:location point:geoPos_%s;\n' +
                    '\t.\n\n')
 
-geoposTemplate = ('punto:GeoPos_%s a geo:Point;\n' +
+geoposTemplate = ('point:geoPos_%s a geo:Point;\n' +
                   '\tgeo:long "%s";\n' +
                   '\tgeo:lat "%s";\n' +
                   '\tgeo:alt "%s";\n' +
