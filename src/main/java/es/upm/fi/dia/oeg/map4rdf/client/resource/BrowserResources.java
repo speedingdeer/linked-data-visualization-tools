@@ -24,6 +24,7 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.resource;
 
+import name.alexdeleon.lib.gwtblocks.client.widget.loading.LoadingWidget;
 import name.alexdeleon.lib.gwtblocks.client.widget.togglebutton.ToggleButton;
 
 import com.google.gwt.resources.client.ClientBundle;
@@ -41,8 +42,8 @@ import es.upm.fi.dia.oeg.map4rdf.client.widget.Timeline;
  */
 public interface BrowserResources extends ClientBundle {
 
-	interface BrowserCss extends ToggleButton.Stylesheet, FacetWidget.Stylesheet, DataToolBar.Stylesheet,
-			Timeline.Stylesheet, CssResource {
+	interface BrowserCss extends LoadingWidget.Stylesheet, ToggleButton.Stylesheet, FacetWidget.Stylesheet,
+			DataToolBar.Stylesheet, Timeline.Stylesheet, CssResource {
 		String header();
 
 		String footer();

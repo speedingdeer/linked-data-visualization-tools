@@ -55,12 +55,18 @@ body {
 }
 
 
-.loadingWidget{
+.loadingWidgetStlye{
 	vertical-align: middle;
 	font-size: 2em;
 	opacity: 0.75;
 	text-align: center;
+	width: 160px;
+	height: 32px;
 }
+
+.loadingWidgetLabelStyle { }
+
+.loadingWidgetIconStyle { }
 
 .toolbar{
 	padding: 0.5em;

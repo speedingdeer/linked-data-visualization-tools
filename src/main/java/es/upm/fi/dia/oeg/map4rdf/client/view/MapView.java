@@ -26,6 +26,8 @@ package es.upm.fi.dia.oeg.map4rdf.client.view;
 
 import java.util.List;
 
+import name.alexdeleon.lib.gwtblocks.client.widget.loading.LoadingWidget;
+
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.maps.client.MapType;
 import com.google.gwt.maps.client.MapWidget;
@@ -47,7 +49,6 @@ import com.google.inject.Inject;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
-import es.upm.fi.dia.oeg.map4rdf.client.widget.LoadingWidget;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.mapcontrol.GeoResourcesMapControl;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.mapcontrol.MapControl;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.mapcontrol.StatisticsMapControl;
@@ -113,13 +114,13 @@ public class MapView extends Composite implements MapPresenter.Display {
 
 	@Override
 	public void startProcessing() {
-		loadingWidget.center();
+		loadingWidget.waitOn(this);
 
 	}
 
 	@Override
 	public void stopProcessing() {
-		loadingWidget.hide();
+		loadingWidget.release(this);
 
 	}
 
