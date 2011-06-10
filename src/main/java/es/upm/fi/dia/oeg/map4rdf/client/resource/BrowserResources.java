@@ -52,7 +52,6 @@ public interface BrowserResources extends ClientBundle {
 
 		String leftMenu();
 
-		String loadingWidget();
 	}
 
 	@Source("style.css")

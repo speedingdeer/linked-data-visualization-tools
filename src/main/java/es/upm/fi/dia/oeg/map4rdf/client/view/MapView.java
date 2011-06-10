@@ -49,6 +49,7 @@ import com.google.inject.Inject;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
+import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.mapcontrol.GeoResourcesMapControl;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.mapcontrol.MapControl;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.mapcontrol.StatisticsMapControl;
@@ -73,11 +74,11 @@ public class MapView extends Composite implements MapPresenter.Display {
 	private final BrowserMessages geoMessages;
 
 	@Inject
-	public MapView(LoadingWidget loadingWidget, StatisticsMapControl statisticsMapControl,
+	public MapView(WidgetFactory widgetFactory, StatisticsMapControl statisticsMapControl,
 			GeoResourcesMapControl geoResourcesMapControl, BrowserMessages geoMessages,
 			BrowserResources browserResources) {
 		this.geoResourcesMapControl = geoResourcesMapControl;
-		this.loadingWidget = loadingWidget;
+		loadingWidget = widgetFactory.getLoadingWidget();
 		this.geoMessages = geoMessages;
 		kmlButton = createKMLButton(browserResources);
 
