@@ -128,11 +128,30 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 	}
 
 	@Override
-	public HasClickHandlers draw(String text, Point point) {
-		org.gwtopenmaps.openlayers.client.geometry.Point olPoint = new org.gwtopenmaps.openlayers.client.geometry.Point(
-				point.getX(), point.getY());
-		return addFeature(olPoint, getTextStyle(text));
+	public HasClickHandlers drawCircle(StyleMapShape<Circle> circle, String text) {
+		org.gwtopenmaps.openlayers.client.geometry.Point[] circlePoints = new org.gwtopenmaps.openlayers.client.geometry.Point[CIRCLE_NUMBER_OF_POINTS];
 
+		double EARTH_RADIUS = 6371000;
+		double d = circle.getMapShape().getRadius() / EARTH_RADIUS;
+		double lat1 = Math.toRadians(circle.getMapShape().getCenter().getY());
+		double lng1 = Math.toRadians(circle.getMapShape().getCenter().getX());
+
+		double a = 0;
+		double step = 360.0 / CIRCLE_NUMBER_OF_POINTS;
+		for (int i = 0; i < CIRCLE_NUMBER_OF_POINTS; i++) {
+			double tc = Math.toRadians(a);
+			double lat2 = Math.asin(Math.sin(lat1) * Math.cos(d) + Math.cos(lat1) * Math.sin(d) * Math.cos(tc));
+			double lng2 = lng1
+					+ Math.atan2(Math.sin(tc) * Math.sin(d) * Math.cos(lat1),
+							Math.cos(d) - Math.sin(lat1) * Math.sin(lat2));
+			circlePoints[i] = new org.gwtopenmaps.openlayers.client.geometry.Point(Math.toDegrees(lng2),
+					Math.toDegrees(lat2));
+			a += step;
+		}
+		LinearRing ring = new LinearRing(circlePoints);
+		Style style = getStyle(circle);
+		style.setLabel(text);
+		return addFeature((new org.gwtopenmaps.openlayers.client.geometry.Polygon(new LinearRing[] { ring })), style);
 	}
 
 	@Override
@@ -293,11 +312,9 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 
 	private Style getTextStyle(String text) {
 		Style style = new Style();
-		style.setFill(false);
-		style.setStroke(false);
 		style.setLabel(text);
 		style.setCursor("pointer");
-		style.setPointRadius(10);
+		style.setPointRadius(20);
 		return style;
 	}
 }

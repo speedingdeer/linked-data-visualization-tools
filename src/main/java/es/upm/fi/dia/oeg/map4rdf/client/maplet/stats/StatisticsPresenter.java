@@ -45,9 +45,8 @@ import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
 import es.upm.fi.dia.oeg.map4rdf.client.event.MapletEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.MyMapletEventHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
-import es.upm.fi.dia.oeg.map4rdf.client.style.StyleMapShape;
 import es.upm.fi.dia.oeg.map4rdf.client.view.v2.MapLayer;
-import es.upm.fi.dia.oeg.map4rdf.share.Circle;
+import es.upm.fi.dia.oeg.map4rdf.client.widget.MapShapeStyleFactory;
 import es.upm.fi.dia.oeg.map4rdf.share.CircleBean;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResourceOverlay;
 import es.upm.fi.dia.oeg.map4rdf.share.Point;
@@ -209,51 +208,15 @@ public class StatisticsPresenter extends ControlPresenter<StatisticsPresenter.Di
 					double radius = (100000 * overlay.getValue()) / max;
 					final CircleBean circle = new CircleBean(point, radius);
 
-					mapLayer.drawCircle(new StyleMapShape<Circle>() {
-
-						@Override
-						public int getStrokeWidth() {
-							// TODO Auto-generated method stub
-							return 1;
-						}
-
-						@Override
-						public double getStrokeOpacity() {
-							// TODO Auto-generated method stub
-							return 1;
-						}
-
-						@Override
-						public String getStrokeColor() {
-							// TODO Auto-generated method stub
-							return "green";
-						}
-
-						@Override
-						public Circle getMapShape() {
-							return circle;
-						}
-
-						@Override
-						public double getFillOpacity() {
-							return 0.4;
-						}
-
-						@Override
-						public String getFillColor() {
-							return "green";
-						}
-					});
-
 					final String uri = overlay.getUri();
-					mapLayer.draw(Double.toString(overlay.getValue()), point).addClickHandler(new ClickHandler() {
+					mapLayer.drawCircle(MapShapeStyleFactory.createStyle(circle), Double.toString(overlay.getValue()))
+							.addClickHandler(new ClickHandler() {
 
-						@Override
-						public void onClick(ClickEvent event) {
-							Window.open(uri, "_blank", null);
-
-						}
-					});
+								@Override
+								public void onClick(ClickEvent event) {
+									Window.open(uri, "_blank", null);
+								}
+							});
 
 				}
 				getDisplay().stopProcessing();

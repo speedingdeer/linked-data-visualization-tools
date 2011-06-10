@@ -24,8 +24,9 @@ import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapWidget;
-import org.gwtopenmaps.openlayers.client.control.LayerSwitcher;
+import org.gwtopenmaps.openlayers.client.layer.GMapType;
 import org.gwtopenmaps.openlayers.client.layer.Google;
+import org.gwtopenmaps.openlayers.client.layer.GoogleOptions;
 import org.gwtopenmaps.openlayers.client.layer.Layer;
 import org.gwtopenmaps.openlayers.client.layer.TransitionEffect;
 import org.gwtopenmaps.openlayers.client.layer.WMS;
@@ -33,9 +34,11 @@ import org.gwtopenmaps.openlayers.client.layer.WMSOptions;
 import org.gwtopenmaps.openlayers.client.layer.WMSParams;
 
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import es.upm.fi.dia.oeg.map4rdf.client.widget.BaseLayerSelector;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.LoadingWidget;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.OpenLayersAdapter;
@@ -132,7 +135,7 @@ public class OpenLayersMapView implements MapView {
 				0.0006866455078125, 0.00034332275390625, 0.000171661376953125, 8.58306884765625e-005,
 				4.291534423828125e-005, 2.1457672119140625e-005, 1.0728836059570313e-005, 5.3644180297851563e-006,
 				2.6822090148925781e-006, 1.3411045074462891e-006 };
-		options.setProjection("EPSG:4326");
+		// options.setProjection("EPSG:4326");
 		options.setResolutions(resolutions);
 
 		MapWidget mapWidget = new MapWidget("100%", "100%", options);
@@ -151,13 +154,29 @@ public class OpenLayersMapView implements MapView {
 
 		// markers = new Markers("Markers");
 
-		map.addLayers(new Layer[] { wmsLayer, new Google("Google Maps") });
-		map.addControl(new LayerSwitcher());
+		BaseLayerSelector baseLayerSelector = new BaseLayerSelector(map);
+
+		GoogleOptions googleOptions = new GoogleOptions();
+		// googleOptions.setSphericalMercator(true);
+		googleOptions.setType(GMapType.G_HYBRID_MAP);
+		Google google = new Google("Google Maps", googleOptions);
+
+		baseLayerSelector.addLayer("IDEE Maps", wmsLayer);
+		baseLayerSelector.addLayer("Google Maps", google);
+
+		map.addLayers(new Layer[] { wmsLayer, google });
 		map.setCenter(DEFAULT_CENTER, DEFAULT_ZOOM_LEVEL);
 
 		panel.add(mapWidget);
 		DOM.setStyleAttribute(panel.getElement(), "zIndex", "0");
 
-	}
+		panel.add(baseLayerSelector);
 
+		// baselayer selector layout
+		Element baseLayerSelectorElement = baseLayerSelector.getElement();
+		DOM.setStyleAttribute(baseLayerSelectorElement, "position", "absolute");
+		DOM.setStyleAttribute(baseLayerSelectorElement, "right", 22 + "px");
+		DOM.setStyleAttribute(baseLayerSelectorElement, "top", 22 + "px");
+		DOM.setStyleAttribute(baseLayerSelectorElement, "zIndex", "2024");
+	}
 }

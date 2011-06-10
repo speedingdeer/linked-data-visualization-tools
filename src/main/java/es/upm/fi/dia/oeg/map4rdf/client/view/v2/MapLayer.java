@@ -42,7 +42,7 @@ public interface MapLayer {
 
 	HasClickHandlers drawCircle(StyleMapShape<Circle> circle);
 
-	HasClickHandlers draw(String text, Point point);
+	HasClickHandlers drawCircle(StyleMapShape<Circle> circle, String text);
 
 	PopupWindow createPopupWindow();
 

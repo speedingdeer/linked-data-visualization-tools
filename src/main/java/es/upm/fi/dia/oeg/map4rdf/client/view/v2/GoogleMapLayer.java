@@ -52,6 +52,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.GoogleMapsAdapters;
 import es.upm.fi.dia.oeg.map4rdf.share.Point;
 import es.upm.fi.dia.oeg.map4rdf.share.PolyLine;
 import es.upm.fi.dia.oeg.map4rdf.share.Polygon;
+import es.upm.fi.dia.oeg.map4rdf.share.TwoDimentionalCoordinate;
 
 /**
  * @author Alexander De Leon
@@ -98,7 +99,12 @@ public class GoogleMapLayer implements MapLayer {
 	}
 
 	@Override
-	public HasClickHandlers draw(String text, Point point) {
+	public HasClickHandlers drawCircle(StyleMapShape<Circle> circle, String text) {
+		drawCircle(circle);
+		return draw(text, circle.getMapShape().getCenter());
+	}
+
+	public HasClickHandlers draw(String text, TwoDimentionalCoordinate point) {
 		TextOverlay textOverlay = new TextOverlay(GoogleMapsAdapters.getLatLng(point), text);
 		addOverlay(textOverlay);
 		return textOverlay.getTextWidget();

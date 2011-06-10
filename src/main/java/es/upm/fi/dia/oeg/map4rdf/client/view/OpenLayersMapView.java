@@ -32,10 +32,13 @@ import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.view.v2.MapLayer;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.GeoResourceSummary;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.LoadingWidget;
+import es.upm.fi.dia.oeg.map4rdf.client.widget.MapShapeStyleFactory;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.Geometry;
 import es.upm.fi.dia.oeg.map4rdf.share.Point;
+import es.upm.fi.dia.oeg.map4rdf.share.PolyLine;
+import es.upm.fi.dia.oeg.map4rdf.share.Polygon;
 
 /**
  * @author Alexander De Leon
@@ -88,7 +91,34 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 						window.open(point);
 					}
 				});
+				break;
+			case POLYLINE:
+				final PolyLine line = (PolyLine) geometry;
+				getDefaultLayer().drawPolyline(MapShapeStyleFactory.createStyle(line)).addClickHandler(
+						new ClickHandler() {
+
+							@Override
+							public void onClick(ClickEvent event) {
+								summary.setGeoResource(resource, line);
+								window.open(line.getPoints().get(0));
+							}
+						});
+				break;
+			case POLYGON:
+				final Polygon polygon = (Polygon) geometry;
+				getDefaultLayer().drawPolygon(MapShapeStyleFactory.createStyle(polygon)).addClickHandler(
+						new ClickHandler() {
+
+							@Override
+							public void onClick(ClickEvent event) {
+								summary.setGeoResource(resource, polygon);
+								window.open(polygon.getPoints().get(0));
+
+							}
+						});
+				break;
 			}
+
 		}
 
 	}
