@@ -20,6 +20,8 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.view.v2;
 
+import name.alexdeleon.lib.gwtblocks.client.widget.loading.LoadingWidget;
+
 import com.google.gwt.maps.client.MapType;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.control.LargeMapControl3D;
@@ -32,7 +34,7 @@ import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
-import es.upm.fi.dia.oeg.map4rdf.client.widget.LoadingWidget;
+import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.GoogleMapsAdapters;
 import es.upm.fi.dia.oeg.map4rdf.share.TwoDimentionalCoordinate;
@@ -56,8 +58,8 @@ public class GoogleMapView implements MapView {
 	private final LoadingWidget loadingWidget;
 
 	@Inject
-	public GoogleMapView(LoadingWidget loadingWidget) {
-		this.loadingWidget = loadingWidget;
+	public GoogleMapView(WidgetFactory widgetFactory) {
+		loadingWidget = widgetFactory.getLoadingWidget();
 		createUi();
 
 		defaultLayer = createLayer("default");

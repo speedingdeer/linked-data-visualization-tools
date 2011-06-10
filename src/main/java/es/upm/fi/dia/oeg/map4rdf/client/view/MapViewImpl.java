@@ -38,7 +38,6 @@ import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.view.v2.GoogleMapView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.v2.MapLayer;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.GeoResourceSummary;
-import es.upm.fi.dia.oeg.map4rdf.client.widget.LoadingWidget;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.Geometry;
@@ -60,8 +59,8 @@ public class MapViewImpl extends GoogleMapView implements MapPresenter.Display {
 	private final MapLayer.PopupWindow window;
 
 	@Inject
-	public MapViewImpl(LoadingWidget loadingWidget, WidgetFactory widgetFactory) {
-		super(loadingWidget);
+	public MapViewImpl(WidgetFactory widgetFactory) {
+		super(widgetFactory);
 		summary = widgetFactory.createGeoResourceSummary();
 		window = getDefaultLayer().createPopupWindow();
 		window.add(summary);

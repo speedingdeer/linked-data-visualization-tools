@@ -22,6 +22,8 @@ package es.upm.fi.dia.oeg.map4rdf.client.maplet.stats;
 
 import java.util.List;
 
+import name.alexdeleon.lib.gwtblocks.client.widget.loading.LoadingWidget;
+
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.DOM;
@@ -32,7 +34,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
 import es.upm.fi.dia.oeg.map4rdf.client.view.v2.MapLayer;
-import es.upm.fi.dia.oeg.map4rdf.client.widget.LoadingWidget;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.Timeline;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
 import es.upm.fi.dia.oeg.map4rdf.share.Resource;
@@ -50,10 +51,9 @@ public class StatisticsView extends SimplePanel implements StatisticsPresenter.D
 	private final Timeline timeline;
 
 	@Inject
-	public StatisticsView(StatisticsSelectionDialog selectionDialog, LoadingWidget loadingWidget,
-			WidgetFactory widgetFactory) {
+	public StatisticsView(StatisticsSelectionDialog selectionDialog, WidgetFactory widgetFactory) {
 		this.selectionDialog = selectionDialog;
-		this.loadingWidget = loadingWidget;
+		loadingWidget = widgetFactory.getLoadingWidget();
 		timeline = widgetFactory.createTimeline();
 
 	}

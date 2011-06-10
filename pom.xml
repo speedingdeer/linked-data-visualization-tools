@@ -9,7 +9,7 @@
 	
 	<groupId>es.upm.oeg.geolinkeddata</groupId>
 	<artifactId>map4rdf</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.3-OL-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Map4RDF</name>
 
@@ -48,7 +48,7 @@
 		<dependency>
 			<groupId>name.alexdeleon.lib</groupId>
 			<artifactId>gwt-blocks</artifactId>
-			<version>0.0.6</version>
+			<version>0.0.7</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.inject</groupId>

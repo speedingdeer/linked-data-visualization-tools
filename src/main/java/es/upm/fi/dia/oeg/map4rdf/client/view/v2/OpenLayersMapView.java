@@ -20,6 +20,8 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.view.v2;
 
+import name.alexdeleon.lib.gwtblocks.client.widget.loading.LoadingWidget;
+
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
@@ -39,7 +41,7 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import es.upm.fi.dia.oeg.map4rdf.client.widget.BaseLayerSelector;
-import es.upm.fi.dia.oeg.map4rdf.client.widget.LoadingWidget;
+import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.OpenLayersAdapter;
 import es.upm.fi.dia.oeg.map4rdf.share.TwoDimentionalCoordinate;
@@ -62,8 +64,8 @@ public class OpenLayersMapView implements MapView {
 	private final OpenLayersMapLayer defaultLayer;
 	private AbsolutePanel panel;
 
-	public OpenLayersMapView(LoadingWidget loadingWidget) {
-		this.loadingWidget = loadingWidget;
+	public OpenLayersMapView(WidgetFactory widgetFactory) {
+		loadingWidget = widgetFactory.getLoadingWidget();
 		createUi();
 
 		defaultLayer = (OpenLayersMapLayer) createLayer("default");

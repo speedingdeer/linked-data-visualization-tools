@@ -20,6 +20,8 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.widget;
 
+import name.alexdeleon.lib.gwtblocks.client.widget.loading.LoadingWidget;
+
 import com.google.inject.Inject;
 
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
@@ -33,6 +35,8 @@ public class WidgetFactory {
 	private final BrowserMessages messages;
 	private final BrowserResources resources;
 
+	private static LoadingWidget loadingWidget;
+
 	@Inject
 	public WidgetFactory(BrowserMessages messages, BrowserResources resources) {
 		this.messages = messages;
@@ -45,5 +49,12 @@ public class WidgetFactory {
 
 	public Timeline createTimeline() {
 		return new Timeline(resources.css());
+	}
+
+	public LoadingWidget getLoadingWidget() {
+		if (loadingWidget == null) {
+			loadingWidget = new LoadingWidget(resources.loadingIcon(), messages.loading(), resources.css());
+		}
+		return loadingWidget;
 	}
 }

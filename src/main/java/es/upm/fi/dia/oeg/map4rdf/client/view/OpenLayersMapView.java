@@ -31,7 +31,6 @@ import com.google.inject.Inject;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.view.v2.MapLayer;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.GeoResourceSummary;
-import es.upm.fi.dia.oeg.map4rdf.client.widget.LoadingWidget;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.MapShapeStyleFactory;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
@@ -51,8 +50,8 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 	private final MapLayer.PopupWindow window;
 
 	@Inject
-	public OpenLayersMapView(LoadingWidget loadingWidget, WidgetFactory widgetFactory) {
-		super(loadingWidget);
+	public OpenLayersMapView(WidgetFactory widgetFactory) {
+		super(widgetFactory);
 		kmlButton = createKMLButton();
 		summary = widgetFactory.createGeoResourceSummary();
 		window = getDefaultLayer().createPopupWindow();
