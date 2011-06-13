@@ -26,7 +26,6 @@ import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapWidget;
-import org.gwtopenmaps.openlayers.client.layer.GMapType;
 import org.gwtopenmaps.openlayers.client.layer.Google;
 import org.gwtopenmaps.openlayers.client.layer.GoogleOptions;
 import org.gwtopenmaps.openlayers.client.layer.Layer;
@@ -40,6 +39,7 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import es.upm.fi.dia.oeg.map4rdf.client.util.GMapType;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.BaseLayerSelector;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
@@ -160,7 +160,7 @@ public class OpenLayersMapView implements MapView {
 
 		GoogleOptions googleOptions = new GoogleOptions();
 		// googleOptions.setSphericalMercator(true);
-		googleOptions.setType(GMapType.G_HYBRID_MAP);
+		googleOptions.setType(GMapType.G_NORMAL_MAP);
 		Google google = new Google("Google Maps", googleOptions);
 
 		baseLayerSelector.addLayer("IDEE Maps", wmsLayer);
