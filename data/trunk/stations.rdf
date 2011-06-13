@@ -1,1163 +1,1341 @@
 @base <http://aemet.linkeddata.es/ontology/> .
 @prefix aemet: <http://aemet.linkeddata.es/ontology/> .
 @prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .
-@prefix estacion: <http://aemet.linkeddata.es/resource/Estacion/> .
-@prefix punto: <http://aemet.linkeddata.es/resource/Point/> .
+@prefix station: <http://aemet.linkeddata.es/resource/WeatherStation/> .
+@prefix point: <http://aemet.linkeddata.es/resource/Point/> .
 @prefix prop: <http://aemet.linkeddata.es/ontology/> .
 
 
-estacion:Estacion_08001 a aemet:Estacion;
+station:08001 a aemet:Station;
+	rdfs:label "Estación 08001"@es ;
+	rdfs:label "Station 08001"@en ;
 	prop:indclim "1387";
 	prop:indsinop "08001";
-	prop:nombreEstacion "A CORUÑA";
-	geo:location punto:GeoPos_08001;
+	prop:stationName "A CORUÑA";
+	geo:location point:08001;
 	.
 
-punto:GeoPos_08001 a geo:Point;
+point:08001 a geo:Point;
 	geo:long "-8.41944444444";
 	geo:lat "43.3672222222";
 	geo:alt "58";
 	.
 
-estacion:Estacion_08002 a aemet:Estacion;
+station:08002 a aemet:Station;
+	rdfs:label "Estación 08002"@es ;
+	rdfs:label "Station 08002"@en ;
 	prop:indclim "1387E";
 	prop:indsinop "08002";
-	prop:nombreEstacion "A CORUÑA/ALVEDRO";
-	geo:location punto:GeoPos_08002;
+	prop:stationName "A CORUÑA/ALVEDRO";
+	geo:location point:08002;
 	.
 
-punto:GeoPos_08002 a geo:Point;
+point:08002 a geo:Point;
 	geo:long "-8.37222222222";
 	geo:lat "43.3069444444";
 	geo:alt "98";
 	.
 
-estacion:Estacion_08042 a aemet:Estacion;
+station:08042 a aemet:Station;
+	rdfs:label "Estación 08042"@es ;
+	rdfs:label "Station 08042"@en ;
 	prop:indclim "1428";
 	prop:indsinop "08042";
-	prop:nombreEstacion "SANTIAGO DE COMPOSTELA/LABACOLLA";
-	geo:location punto:GeoPos_08042;
+	prop:stationName "SANTIAGO DE COMPOSTELA/LABACOLLA";
+	geo:location point:08042;
 	.
 
-punto:GeoPos_08042 a geo:Point;
+point:08042 a geo:Point;
 	geo:long "-8.41083333333";
 	geo:lat "42.8877777778";
 	geo:alt "370";
 	.
 
-estacion:Estacion_08080 a aemet:Estacion;
+station:08080 a aemet:Station;
+	rdfs:label "Estación 08080"@es ;
+	rdfs:label "Station 08080"@en ;
 	prop:indclim "9091O";
 	prop:indsinop "08080";
-	prop:nombreEstacion "VITORIA/FORONDA";
-	geo:location punto:GeoPos_08080;
+	prop:stationName "VITORIA/FORONDA";
+	geo:location point:08080;
 	.
 
-punto:GeoPos_08080 a geo:Point;
+point:08080 a geo:Point;
 	geo:long "-2.73333333333";
 	geo:lat "42.8719444444";
 	geo:alt "513";
 	.
 
-estacion:Estacion_08279 a aemet:Estacion;
+station:08279 a aemet:Station;
+	rdfs:label "Estación 08279"@es ;
+	rdfs:label "Station 08279"@en ;
 	prop:indclim "8178D";
 	prop:indsinop "08279";
-	prop:nombreEstacion "ALBACETE,OBS.";
-	geo:location punto:GeoPos_08279;
+	prop:stationName "ALBACETE,OBS.";
+	geo:location point:08279;
 	.
 
-punto:GeoPos_08279 a geo:Point;
+point:08279 a geo:Point;
 	geo:long "-1.86083333333";
 	geo:lat "39.0069444444";
 	geo:alt "674";
 	.
 
-estacion:Estacion_08280 a aemet:Estacion;
+station:08280 a aemet:Station;
+	rdfs:label "Estación 08280"@es ;
+	rdfs:label "Station 08280"@en ;
 	prop:indclim "8175";
 	prop:indsinop "08280";
-	prop:nombreEstacion "ALBACETE/LOS LLANOS";
-	geo:location punto:GeoPos_08280;
+	prop:stationName "ALBACETE/LOS LLANOS";
+	geo:location point:08280;
 	.
 
-punto:GeoPos_08280 a geo:Point;
+point:08280 a geo:Point;
 	geo:long "-1.86305555556";
 	geo:lat "38.9522222222";
 	geo:alt "704";
 	.
 
-estacion:Estacion_08359 a aemet:Estacion;
+station:08359 a aemet:Station;
+	rdfs:label "Estación 08359"@es ;
+	rdfs:label "Station 08359"@en ;
 	prop:indclim "8025";
 	prop:indsinop "08359";
-	prop:nombreEstacion "ALICANTE";
-	geo:location punto:GeoPos_08359;
+	prop:stationName "ALICANTE";
+	geo:location point:08359;
 	.
 
-punto:GeoPos_08359 a geo:Point;
+point:08359 a geo:Point;
 	geo:long "-0.494166666667";
 	geo:lat "38.3725";
 	geo:alt "81";
 	.
 
-estacion:Estacion_08360 a aemet:Estacion;
+station:08360 a aemet:Station;
+	rdfs:label "Estación 08360"@es ;
+	rdfs:label "Station 08360"@en ;
 	prop:indclim "8019";
 	prop:indsinop "08360";
-	prop:nombreEstacion "ALICANTE/EL ALTET";
-	geo:location punto:GeoPos_08360;
+	prop:stationName "ALICANTE/EL ALTET";
+	geo:location point:08360;
 	.
 
-punto:GeoPos_08360 a geo:Point;
+point:08360 a geo:Point;
 	geo:long "-0.570833333333";
 	geo:lat "38.2827777778";
 	geo:alt "43";
 	.
 
-estacion:Estacion_08487 a aemet:Estacion;
+station:08487 a aemet:Station;
+	rdfs:label "Estación 08487"@es ;
+	rdfs:label "Station 08487"@en ;
 	prop:indclim "6325O";
 	prop:indsinop "08487";
-	prop:nombreEstacion "ALMERÍA/AEROPUERTO";
-	geo:location punto:GeoPos_08487;
+	prop:stationName "ALMERÍA/AEROPUERTO";
+	geo:location point:08487;
 	.
 
-punto:GeoPos_08487 a geo:Point;
+point:08487 a geo:Point;
 	geo:long "-2.35694444444";
 	geo:lat "36.8463888889";
 	geo:alt "21";
 	.
 
-estacion:Estacion_08011 a aemet:Estacion;
+station:08011 a aemet:Station;
+	rdfs:label "Estación 08011"@es ;
+	rdfs:label "Station 08011"@en ;
 	prop:indclim "1212E";
 	prop:indsinop "08011";
-	prop:nombreEstacion "ASTURIAS/AVILÉS";
-	geo:location punto:GeoPos_08011;
+	prop:stationName "ASTURIAS/AVILÉS";
+	geo:location point:08011;
 	.
 
-punto:GeoPos_08011 a geo:Point;
+point:08011 a geo:Point;
 	geo:long "-6.04416666667";
 	geo:lat "43.5669444444";
 	geo:alt "127";
 	.
 
-estacion:Estacion_08014 a aemet:Estacion;
+station:08014 a aemet:Station;
+	rdfs:label "Estación 08014"@es ;
+	rdfs:label "Station 08014"@en ;
 	prop:indclim "1208H";
 	prop:indsinop "08014";
-	prop:nombreEstacion "GIJÓN, MUSEL";
-	geo:location punto:GeoPos_08014;
+	prop:stationName "GIJÓN, MUSEL";
+	geo:location point:08014;
 	.
 
-punto:GeoPos_08014 a geo:Point;
+point:08014 a geo:Point;
 	geo:long "-5.69861111111";
 	geo:lat "43.5608333333";
 	geo:alt "5";
 	.
 
-estacion:Estacion_08015 a aemet:Estacion;
+station:08015 a aemet:Station;
+	rdfs:label "Estación 08015"@es ;
+	rdfs:label "Station 08015"@en ;
 	prop:indclim "1249I";
 	prop:indsinop "08015";
-	prop:nombreEstacion "OVIEDO";
-	geo:location punto:GeoPos_08015;
+	prop:stationName "OVIEDO";
+	geo:location point:08015;
 	.
 
-punto:GeoPos_08015 a geo:Point;
+point:08015 a geo:Point;
 	geo:long "-5.87277777778";
 	geo:lat "43.3544444444";
 	geo:alt "336";
 	.
 
-estacion:Estacion_08210 a aemet:Estacion;
+station:08210 a aemet:Station;
+	rdfs:label "Estación 08210"@es ;
+	rdfs:label "Station 08210"@en ;
 	prop:indclim "2444";
 	prop:indsinop "08210";
-	prop:nombreEstacion "ÁVILA";
-	geo:location punto:GeoPos_08210;
+	prop:stationName "ÁVILA";
+	geo:location point:08210;
 	.
 
-punto:GeoPos_08210 a geo:Point;
+point:08210 a geo:Point;
 	geo:long "-4.68";
 	geo:lat "40.6591666667";
 	geo:alt "1130";
 	.
 
-estacion:Estacion_08330 a aemet:Estacion;
+station:08330 a aemet:Station;
+	rdfs:label "Estación 08330"@es ;
+	rdfs:label "Station 08330"@en ;
 	prop:indclim "4452";
 	prop:indsinop "08330";
-	prop:nombreEstacion "BADAJOZ/TALAVERA LA REAL";
-	geo:location punto:GeoPos_08330;
+	prop:stationName "BADAJOZ/TALAVERA LA REAL";
+	geo:location point:08330;
 	.
 
-punto:GeoPos_08330 a geo:Point;
+point:08330 a geo:Point;
 	geo:long "-6.82916666667";
 	geo:lat "38.8833333333";
 	geo:alt "185";
 	.
 
-estacion:Estacion_08373 a aemet:Estacion;
+station:08373 a aemet:Station;
+	rdfs:label "Estación 08373"@es ;
+	rdfs:label "Station 08373"@en ;
 	prop:indclim "B954";
 	prop:indsinop "08373";
-	prop:nombreEstacion "IBIZA/ES CODOLA";
-	geo:location punto:GeoPos_08373;
+	prop:stationName "IBIZA/ES CODOLA";
+	geo:location point:08373;
 	.
 
-punto:GeoPos_08373 a geo:Point;
+point:08373 a geo:Point;
 	geo:long "1.38444444444";
 	geo:lat "38.8763888889";
 	geo:alt "6";
 	.
 
-estacion:Estacion_08314 a aemet:Estacion;
+station:08314 a aemet:Station;
+	rdfs:label "Estación 08314"@es ;
+	rdfs:label "Station 08314"@en ;
 	prop:indclim "B893";
 	prop:indsinop "08314";
-	prop:nombreEstacion "MENORCA/MAÓ";
-	geo:location punto:GeoPos_08314;
+	prop:stationName "MENORCA/MAÓ";
+	geo:location point:08314;
 	.
 
-punto:GeoPos_08314 a geo:Point;
+point:08314 a geo:Point;
 	geo:long "4.21555555556";
 	geo:lat "39.8547222222";
 	geo:alt "91";
 	.
 
-estacion:Estacion_08301 a aemet:Estacion;
+station:08301 a aemet:Station;
+	rdfs:label "Estación 08301"@es ;
+	rdfs:label "Station 08301"@en ;
 	prop:indclim "B228";
 	prop:indsinop "08301";
-	prop:nombreEstacion "PALMA DE MALLORCA, CMT";
-	geo:location punto:GeoPos_08301;
+	prop:stationName "PALMA DE MALLORCA, CMT";
+	geo:location point:08301;
 	.
 
-punto:GeoPos_08301 a geo:Point;
+point:08301 a geo:Point;
 	geo:long "2.62638888889";
 	geo:lat "39.5555555556";
 	geo:alt "3";
 	.
 
-estacion:Estacion_08306 a aemet:Estacion;
+station:08306 a aemet:Station;
+	rdfs:label "Estación 08306"@es ;
+	rdfs:label "Station 08306"@en ;
 	prop:indclim "B278";
 	prop:indsinop "08306";
-	prop:nombreEstacion "PALMA DE MALLORCA/SON SAN JUAN";
-	geo:location punto:GeoPos_08306;
+	prop:stationName "PALMA DE MALLORCA/SON SAN JUAN";
+	geo:location point:08306;
 	.
 
-punto:GeoPos_08306 a geo:Point;
+point:08306 a geo:Point;
 	geo:long "2.73666666667";
 	geo:lat "39.5608333333";
 	geo:alt "8";
 	.
 
-estacion:Estacion_08181 a aemet:Estacion;
+station:08181 a aemet:Station;
+	rdfs:label "Estación 08181"@es ;
+	rdfs:label "Station 08181"@en ;
 	prop:indclim "0076";
 	prop:indsinop "08181";
-	prop:nombreEstacion "BARCELONA/AEROPUERTO";
-	geo:location punto:GeoPos_08181;
+	prop:stationName "BARCELONA/AEROPUERTO";
+	geo:location point:08181;
 	.
 
-punto:GeoPos_08181 a geo:Point;
+point:08181 a geo:Point;
 	geo:long "2.07";
 	geo:lat "41.2927777778";
 	geo:alt "4";
 	.
 
-estacion:Estacion_08075 a aemet:Estacion;
+station:08075 a aemet:Station;
+	rdfs:label "Estación 08075"@es ;
+	rdfs:label "Station 08075"@en ;
 	prop:indclim "2331";
 	prop:indsinop "08075";
-	prop:nombreEstacion "BURGOS/VILLAFRÍA";
-	geo:location punto:GeoPos_08075;
+	prop:stationName "BURGOS/VILLAFRÍA";
+	geo:location point:08075;
 	.
 
-punto:GeoPos_08075 a geo:Point;
+point:08075 a geo:Point;
 	geo:long "-3.6325";
 	geo:lat "42.3561111111";
 	geo:alt "890";
 	.
 
-estacion:Estacion_08261 a aemet:Estacion;
+station:08261 a aemet:Station;
+	rdfs:label "Estación 08261"@es ;
+	rdfs:label "Station 08261"@en ;
 	prop:indclim "3469A";
 	prop:indsinop "08261";
-	prop:nombreEstacion "CÁCERES";
-	geo:location punto:GeoPos_08261;
+	prop:stationName "CÁCERES";
+	geo:location point:08261;
 	.
 
-punto:GeoPos_08261 a geo:Point;
+point:08261 a geo:Point;
 	geo:long "-6.33944444444";
 	geo:lat "39.4722222222";
 	geo:alt "405";
 	.
 
-estacion:Estacion_08452 a aemet:Estacion;
+station:08452 a aemet:Station;
+	rdfs:label "Estación 08452"@es ;
+	rdfs:label "Station 08452"@en ;
 	prop:indclim "5973";
 	prop:indsinop "08452";
-	prop:nombreEstacion "CADIZ";
-	geo:location punto:GeoPos_08452;
+	prop:stationName "CADIZ";
+	geo:location point:08452;
 	.
 
-punto:GeoPos_08452 a geo:Point;
+point:08452 a geo:Point;
 	geo:long "-6.25666666667";
 	geo:lat "36.5011111111";
 	geo:alt "1";
 	.
 
-estacion:Estacion_08451 a aemet:Estacion;
+station:08451 a aemet:Station;
+	rdfs:label "Estación 08451"@es ;
+	rdfs:label "Station 08451"@en ;
 	prop:indclim "5960";
 	prop:indsinop "08451";
-	prop:nombreEstacion "JEREZ DE LA FRONTERA/AEROPUERTO";
-	geo:location punto:GeoPos_08451;
+	prop:stationName "JEREZ DE LA FRONTERA/AEROPUERTO";
+	geo:location point:08451;
 	.
 
-punto:GeoPos_08451 a geo:Point;
+point:08451 a geo:Point;
 	geo:long "-6.05583333333";
 	geo:lat "36.7505555556";
 	geo:alt "27";
 	.
 
-estacion:Estacion_08449 a aemet:Estacion;
+station:08449 a aemet:Station;
+	rdfs:label "Estación 08449"@es ;
+	rdfs:label "Station 08449"@en ;
 	prop:indclim "5910";
 	prop:indsinop "08449";
-	prop:nombreEstacion "ROTA";
-	geo:location punto:GeoPos_08449;
+	prop:stationName "ROTA";
+	geo:location point:08449;
 	.
 
-punto:GeoPos_08449 a geo:Point;
+point:08449 a geo:Point;
 	geo:long "-6.33166666667";
 	geo:lat "36.6388888889";
 	geo:alt "21";
 	.
 
-estacion:Estacion_08458 a aemet:Estacion;
+station:08458 a aemet:Station;
+	rdfs:label "Estación 08458"@es ;
+	rdfs:label "Station 08458"@en ;
 	prop:indclim "6001";
 	prop:indsinop "08458";
-	prop:nombreEstacion "TARIFA";
-	geo:location punto:GeoPos_08458;
+	prop:stationName "TARIFA";
+	geo:location point:08458;
 	.
 
-punto:GeoPos_08458 a geo:Point;
+point:08458 a geo:Point;
 	geo:long "-5.5975";
 	geo:lat "36.0152777778";
 	geo:alt "32";
 	.
 
-estacion:Estacion_08023 a aemet:Estacion;
+station:08023 a aemet:Station;
+	rdfs:label "Estación 08023"@es ;
+	rdfs:label "Station 08023"@en ;
 	prop:indclim "1111";
 	prop:indsinop "08023";
-	prop:nombreEstacion "SANTANDER,CMT";
-	geo:location punto:GeoPos_08023;
+	prop:stationName "SANTANDER,CMT";
+	geo:location point:08023;
 	.
 
-punto:GeoPos_08023 a geo:Point;
+point:08023 a geo:Point;
 	geo:long "-3.79972222222";
 	geo:lat "43.4916666667";
 	geo:alt "52";
 	.
 
-estacion:Estacion_08021 a aemet:Estacion;
+station:08021 a aemet:Station;
+	rdfs:label "Estación 08021"@es ;
+	rdfs:label "Station 08021"@en ;
 	prop:indclim "1109";
 	prop:indsinop "08021";
-	prop:nombreEstacion "SANTANDER/PARAYAS";
-	geo:location punto:GeoPos_08021;
+	prop:stationName "SANTANDER/PARAYAS";
+	geo:location point:08021;
 	.
 
-punto:GeoPos_08021 a geo:Point;
+point:08021 a geo:Point;
 	geo:long "-3.83138888889";
 	geo:lat "43.4291666667";
 	geo:alt "5";
 	.
 
-estacion:Estacion_08286 a aemet:Estacion;
+station:08286 a aemet:Station;
+	rdfs:label "Estación 08286"@es ;
+	rdfs:label "Station 08286"@en ;
 	prop:indclim "8500A";
 	prop:indsinop "08286";
-	prop:nombreEstacion "CASTELLÓN";
-	geo:location punto:GeoPos_08286;
+	prop:stationName "CASTELLÓN";
+	geo:location point:08286;
 	.
 
-punto:GeoPos_08286 a geo:Point;
+point:08286 a geo:Point;
 	geo:long "-0.0713888888889";
 	geo:lat "39.95";
 	geo:alt "35";
 	.
 
-estacion:Estacion_60320 a aemet:Estacion;
+station:60320 a aemet:Station;
+	rdfs:label "Estación 60320"@es ;
+	rdfs:label "Station 60320"@en ;
 	prop:indclim "5000C";
 	prop:indsinop "60320";
-	prop:nombreEstacion "CEUTA";
-	geo:location punto:GeoPos_60320;
+	prop:stationName "CEUTA";
+	geo:location point:60320;
 	.
 
-punto:GeoPos_60320 a geo:Point;
+point:60320 a geo:Point;
 	geo:long "-5.34583333333";
 	geo:lat "35.89";
 	geo:alt "87";
 	.
 
-estacion:Estacion_08348 a aemet:Estacion;
+station:08348 a aemet:Station;
+	rdfs:label "Estación 08348"@es ;
+	rdfs:label "Station 08348"@en ;
 	prop:indclim "4121";
 	prop:indsinop "08348";
-	prop:nombreEstacion "CIUDAD REAL";
-	geo:location punto:GeoPos_08348;
+	prop:stationName "CIUDAD REAL";
+	geo:location point:08348;
 	.
 
-punto:GeoPos_08348 a geo:Point;
+point:08348 a geo:Point;
 	geo:long "-3.91972222222";
 	geo:lat "38.9894444444";
 	geo:alt "628";
 	.
 
-estacion:Estacion_08410 a aemet:Estacion;
+station:08410 a aemet:Station;
+	rdfs:label "Estación 08410"@es ;
+	rdfs:label "Station 08410"@en ;
 	prop:indclim "5402";
 	prop:indsinop "08410";
-	prop:nombreEstacion "CÓRDOBA/AEROPUERTO";
-	geo:location punto:GeoPos_08410;
+	prop:stationName "CÓRDOBA/AEROPUERTO";
+	geo:location point:08410;
 	.
 
-punto:GeoPos_08410 a geo:Point;
+point:08410 a geo:Point;
 	geo:long "-4.84611111111";
 	geo:lat "37.8441666667";
 	geo:alt "90";
 	.
 
-estacion:Estacion_08231 a aemet:Estacion;
+station:08231 a aemet:Station;
+	rdfs:label "Estación 08231"@es ;
+	rdfs:label "Station 08231"@en ;
 	prop:indclim "8096";
 	prop:indsinop "08231";
-	prop:nombreEstacion "CUENCA";
-	geo:location punto:GeoPos_08231;
+	prop:stationName "CUENCA";
+	geo:location point:08231;
 	.
 
-punto:GeoPos_08231 a geo:Point;
+point:08231 a geo:Point;
 	geo:long "-2.13805555556";
 	geo:lat "40.0666666667";
 	geo:alt "945";
 	.
 
-estacion:Estacion_08184 a aemet:Estacion;
+station:08184 a aemet:Station;
+	rdfs:label "Estación 08184"@es ;
+	rdfs:label "Station 08184"@en ;
 	prop:indclim "0367";
 	prop:indsinop "08184";
-	prop:nombreEstacion "GIRONA/COSTA BRAVA";
-	geo:location punto:GeoPos_08184;
+	prop:stationName "GIRONA/COSTA BRAVA";
+	geo:location point:08184;
 	.
 
-punto:GeoPos_08184 a geo:Point;
+point:08184 a geo:Point;
 	geo:long "2.76333333333";
 	geo:lat "41.9116666667";
 	geo:alt "143";
 	.
 
-estacion:Estacion_08419 a aemet:Estacion;
+station:08419 a aemet:Station;
+	rdfs:label "Estación 08419"@es ;
+	rdfs:label "Station 08419"@en ;
 	prop:indclim "5530E";
 	prop:indsinop "08419";
-	prop:nombreEstacion "GRANADA/AEROPUERTO";
-	geo:location punto:GeoPos_08419;
+	prop:stationName "GRANADA/AEROPUERTO";
+	geo:location point:08419;
 	.
 
-punto:GeoPos_08419 a geo:Point;
+point:08419 a geo:Point;
 	geo:long "-3.78944444444";
 	geo:lat "37.1897222222";
 	geo:alt "567";
 	.
 
-estacion:Estacion_08226 a aemet:Estacion;
+station:08226 a aemet:Station;
+	rdfs:label "Estación 08226"@es ;
+	rdfs:label "Station 08226"@en ;
 	prop:indclim "3168C";
 	prop:indsinop "08226";
-	prop:nombreEstacion "GUADALAJARA";
-	geo:location punto:GeoPos_08226;
+	prop:stationName "GUADALAJARA";
+	geo:location point:08226;
 	.
 
-punto:GeoPos_08226 a geo:Point;
+point:08226 a geo:Point;
 	geo:long "-3.17416666667";
 	geo:lat "40.6611111111";
 	geo:alt "639";
 	.
 
-estacion:Estacion_08232 a aemet:Estacion;
+station:08232 a aemet:Station;
+	rdfs:label "Estación 08232"@es ;
+	rdfs:label "Station 08232"@en ;
 	prop:indclim "3013";
 	prop:indsinop "08232";
-	prop:nombreEstacion "MOLINA DE ARAGÓN";
-	geo:location punto:GeoPos_08232;
+	prop:stationName "MOLINA DE ARAGÓN";
+	geo:location point:08232;
 	.
 
-punto:GeoPos_08232 a geo:Point;
+point:08232 a geo:Point;
 	geo:long "-1.88527777778";
 	geo:lat "40.8444444444";
 	geo:alt "1056";
 	.
 
-estacion:Estacion_08029 a aemet:Estacion;
+station:08029 a aemet:Station;
+	rdfs:label "Estación 08029"@es ;
+	rdfs:label "Station 08029"@en ;
 	prop:indclim "1014";
 	prop:indsinop "08029";
-	prop:nombreEstacion "SAN SEBASTIÁN/FUENTERRABIA";
-	geo:location punto:GeoPos_08029;
+	prop:stationName "SAN SEBASTIÁN/FUENTERRABIA";
+	geo:location point:08029;
 	.
 
-punto:GeoPos_08029 a geo:Point;
+point:08029 a geo:Point;
 	geo:long "-1.78722222222";
 	geo:lat "43.3605555556";
 	geo:alt "4";
 	.
 
-estacion:Estacion_08383 a aemet:Estacion;
+station:08383 a aemet:Station;
+	rdfs:label "Estación 08383"@es ;
+	rdfs:label "Station 08383"@en ;
 	prop:indclim "4642E";
 	prop:indsinop "08383";
-	prop:nombreEstacion "HUELVA";
-	geo:location punto:GeoPos_08383;
+	prop:stationName "HUELVA";
+	geo:location point:08383;
 	.
 
-punto:GeoPos_08383 a geo:Point;
+point:08383 a geo:Point;
 	geo:long "-6.90972222222";
 	geo:lat "37.28";
 	geo:alt "19";
 	.
 
-estacion:Estacion_08094 a aemet:Estacion;
+station:08094 a aemet:Station;
+	rdfs:label "Estación 08094"@es ;
+	rdfs:label "Station 08094"@en ;
 	prop:indclim "9898";
 	prop:indsinop "08094";
-	prop:nombreEstacion "HUESCA/PIRINEOS";
-	geo:location punto:GeoPos_08094;
+	prop:stationName "HUESCA/PIRINEOS";
+	geo:location point:08094;
 	.
 
-punto:GeoPos_08094 a geo:Point;
+point:08094 a geo:Point;
 	geo:long "-0.326388888889";
 	geo:lat "42.0833333333";
 	geo:alt "541";
 	.
 
-estacion:Estacion_08417 a aemet:Estacion;
+station:08417 a aemet:Station;
+	rdfs:label "Estación 08417"@es ;
+	rdfs:label "Station 08417"@en ;
 	prop:indclim "5270B";
 	prop:indsinop "08417";
-	prop:nombreEstacion "JAÉN";
-	geo:location punto:GeoPos_08417;
+	prop:stationName "JAÉN";
+	geo:location point:08417;
 	.
 
-punto:GeoPos_08417 a geo:Point;
+point:08417 a geo:Point;
 	geo:long "-3.8075";
 	geo:lat "37.7777777778";
 	geo:alt "582";
 	.
 
-estacion:Estacion_08084 a aemet:Estacion;
+station:08084 a aemet:Station;
+	rdfs:label "Estación 08084"@es ;
+	rdfs:label "Station 08084"@en ;
 	prop:indclim "9170";
 	prop:indsinop "08084";
-	prop:nombreEstacion "LOGROÑO/AGONCILLO";
-	geo:location punto:GeoPos_08084;
+	prop:stationName "LOGROÑO/AGONCILLO";
+	geo:location point:08084;
 	.
 
-punto:GeoPos_08084 a geo:Point;
+point:08084 a geo:Point;
 	geo:long "-2.33111111111";
 	geo:lat "42.4522222222";
 	geo:alt "353";
 	.
 
-estacion:Estacion_60035 a aemet:Estacion;
+station:60035 a aemet:Station;
+	rdfs:label "Estación 60035"@es ;
+	rdfs:label "Station 60035"@en ;
 	prop:indclim "C249I";
 	prop:indsinop "60035";
-	prop:nombreEstacion "FUERTEVENTURA/AEROPUERTO";
-	geo:location punto:GeoPos_60035;
+	prop:stationName "FUERTEVENTURA/AEROPUERTO";
+	geo:location point:60035;
 	.
 
-punto:GeoPos_60035 a geo:Point;
+point:60035 a geo:Point;
 	geo:long "-13.8630555556";
 	geo:lat "28.4447222222";
 	geo:alt "25";
 	.
 
-estacion:Estacion_60040 a aemet:Estacion;
+station:60040 a aemet:Station;
+	rdfs:label "Estación 60040"@es ;
+	rdfs:label "Station 60040"@en ;
 	prop:indclim "C029O";
 	prop:indsinop "60040";
-	prop:nombreEstacion "LANZAROTE/AEROPUERTO";
-	geo:location punto:GeoPos_60040;
+	prop:stationName "LANZAROTE/AEROPUERTO";
+	geo:location point:60040;
 	.
 
-punto:GeoPos_60040 a geo:Point;
+point:60040 a geo:Point;
 	geo:long "-13.6002777778";
 	geo:lat "28.9519444444";
 	geo:alt "14";
 	.
 
-estacion:Estacion_60030 a aemet:Estacion;
+station:60030 a aemet:Station;
+	rdfs:label "Estación 60030"@es ;
+	rdfs:label "Station 60030"@en ;
 	prop:indclim "C649I";
 	prop:indsinop "60030";
-	prop:nombreEstacion "LAS PALMAS DE GRAN CANARIA/GANDO";
-	geo:location punto:GeoPos_60030;
+	prop:stationName "LAS PALMAS DE GRAN CANARIA/GANDO";
+	geo:location point:60030;
 	.
 
-punto:GeoPos_60030 a geo:Point;
+point:60030 a geo:Point;
 	geo:long "-15.3894444444";
 	geo:lat "27.9225";
 	geo:alt "24";
 	.
 
-estacion:Estacion_08055 a aemet:Estacion;
+station:08055 a aemet:Station;
+	rdfs:label "Estación 08055"@es ;
+	rdfs:label "Station 08055"@en ;
 	prop:indclim "2661";
 	prop:indsinop "08055";
-	prop:nombreEstacion "LEÓN/VIRGEN DEL CAMINO";
-	geo:location punto:GeoPos_08055;
+	prop:stationName "LEÓN/VIRGEN DEL CAMINO";
+	geo:location point:08055;
 	.
 
-punto:GeoPos_08055 a geo:Point;
+point:08055 a geo:Point;
 	geo:long "-5.64944444444";
 	geo:lat "42.5888888889";
 	geo:alt "916";
 	.
 
-estacion:Estacion_08053 a aemet:Estacion;
+station:08053 a aemet:Station;
+	rdfs:label "Estación 08053"@es ;
+	rdfs:label "Station 08053"@en ;
 	prop:indclim "1549";
 	prop:indsinop "08053";
-	prop:nombreEstacion "PONFERRADA";
-	geo:location punto:GeoPos_08053;
+	prop:stationName "PONFERRADA";
+	geo:location point:08053;
 	.
 
-punto:GeoPos_08053 a geo:Point;
+point:08053 a geo:Point;
 	geo:long "-6.6";
 	geo:lat "42.5638888889";
 	geo:alt "534";
 	.
 
-estacion:Estacion_08171 a aemet:Estacion;
+station:08171 a aemet:Station;
+	rdfs:label "Estación 08171"@es ;
+	rdfs:label "Station 08171"@en ;
 	prop:indclim "9771C";
 	prop:indsinop "08171";
-	prop:nombreEstacion "LLEIDA";
-	geo:location punto:GeoPos_08171;
+	prop:stationName "LLEIDA";
+	geo:location point:08171;
 	.
 
-punto:GeoPos_08171 a geo:Point;
+point:08171 a geo:Point;
 	geo:long "0.595";
 	geo:lat "41.6258333333";
 	geo:alt "192";
 	.
 
-estacion:Estacion_08008 a aemet:Estacion;
+station:08008 a aemet:Station;
+	rdfs:label "Estación 08008"@es ;
+	rdfs:label "Station 08008"@en ;
 	prop:indclim "1505";
 	prop:indsinop "08008";
-	prop:nombreEstacion "LUGO/ROZAS";
-	geo:location punto:GeoPos_08008;
+	prop:stationName "LUGO/ROZAS";
+	geo:location point:08008;
 	.
 
-punto:GeoPos_08008 a geo:Point;
+point:08008 a geo:Point;
 	geo:long "-7.45611111111";
 	geo:lat "43.1152777778";
 	geo:alt "445";
 	.
 
-estacion:Estacion_08219 a aemet:Estacion;
+station:08219 a aemet:Station;
+	rdfs:label "Estación 08219"@es ;
+	rdfs:label "Station 08219"@en ;
 	prop:indclim "3191E";
 	prop:indsinop "08219";
-	prop:nombreEstacion "COLMENAR VIEJO/FAMET";
-	geo:location punto:GeoPos_08219;
+	prop:stationName "COLMENAR VIEJO/FAMET";
+	geo:location point:08219;
 	.
 
-punto:GeoPos_08219 a geo:Point;
+point:08219 a geo:Point;
 	geo:long "-3.76444444444";
 	geo:lat "40.6986111111";
 	geo:alt "1004";
 	.
 
-estacion:Estacion_08222 a aemet:Estacion;
+station:08222 a aemet:Station;
+	rdfs:label "Estación 08222"@es ;
+	rdfs:label "Station 08222"@en ;
 	prop:indclim "3195";
 	prop:indsinop "08222";
-	prop:nombreEstacion "MADRID,RETIRO";
-	geo:location punto:GeoPos_08222;
+	prop:stationName "MADRID,RETIRO";
+	geo:location point:08222;
 	.
 
-punto:GeoPos_08222 a geo:Point;
+point:08222 a geo:Point;
 	geo:long "-3.67805555556";
 	geo:lat "40.4119444444";
 	geo:alt "667";
 	.
 
-estacion:Estacion_08221 a aemet:Estacion;
+station:08221 a aemet:Station;
+	rdfs:label "Estación 08221"@es ;
+	rdfs:label "Station 08221"@en ;
 	prop:indclim "3129";
 	prop:indsinop "08221";
-	prop:nombreEstacion "MADRID/BARAJAS";
-	geo:location punto:GeoPos_08221;
+	prop:stationName "MADRID/BARAJAS";
+	geo:location point:08221;
 	.
 
-punto:GeoPos_08221 a geo:Point;
+point:08221 a geo:Point;
 	geo:long "-3.55555555556";
 	geo:lat "40.4666666667";
 	geo:alt "609";
 	.
 
-estacion:Estacion_08223 a aemet:Estacion;
+station:08223 a aemet:Station;
+	rdfs:label "Estación 08223"@es ;
+	rdfs:label "Station 08223"@en ;
 	prop:indclim "3196";
 	prop:indsinop "08223";
-	prop:nombreEstacion "MADRID/CUATRO VIENTOS";
-	geo:location punto:GeoPos_08223;
+	prop:stationName "MADRID/CUATRO VIENTOS";
+	geo:location point:08223;
 	.
 
-punto:GeoPos_08223 a geo:Point;
+point:08223 a geo:Point;
 	geo:long "-3.78916666667";
 	geo:lat "40.3777777778";
 	geo:alt "687";
 	.
 
-estacion:Estacion_08224 a aemet:Estacion;
+station:08224 a aemet:Station;
+	rdfs:label "Estación 08224"@es ;
+	rdfs:label "Station 08224"@en ;
 	prop:indclim "3200";
 	prop:indsinop "08224";
-	prop:nombreEstacion "MADRID/GETAFE";
-	geo:location punto:GeoPos_08224;
+	prop:stationName "MADRID/GETAFE";
+	geo:location point:08224;
 	.
 
-punto:GeoPos_08224 a geo:Point;
+point:08224 a geo:Point;
 	geo:long "-3.7225";
 	geo:lat "40.3";
 	geo:alt "617";
 	.
 
-estacion:Estacion_08227 a aemet:Estacion;
+station:08227 a aemet:Station;
+	rdfs:label "Estación 08227"@es ;
+	rdfs:label "Station 08227"@en ;
 	prop:indclim "3175";
 	prop:indsinop "08227";
-	prop:nombreEstacion "MADRID/TORREJÓN";
-	geo:location punto:GeoPos_08227;
+	prop:stationName "MADRID/TORREJÓN";
+	geo:location point:08227;
 	.
 
-punto:GeoPos_08227 a geo:Point;
+point:08227 a geo:Point;
 	geo:long "-3.45027777778";
 	geo:lat "40.4833333333";
 	geo:alt "611";
 	.
 
-estacion:Estacion_08215 a aemet:Estacion;
+station:08215 a aemet:Station;
+	rdfs:label "Estación 08215"@es ;
+	rdfs:label "Station 08215"@en ;
 	prop:indclim "2462";
 	prop:indsinop "08215";
-	prop:nombreEstacion "NAVACERRADA,PUERTO";
-	geo:location punto:GeoPos_08215;
+	prop:stationName "NAVACERRADA,PUERTO";
+	geo:location point:08215;
 	.
 
-punto:GeoPos_08215 a geo:Point;
+point:08215 a geo:Point;
 	geo:long "-4.01027777778";
 	geo:lat "40.7805555556";
 	geo:alt "1894";
 	.
 
-estacion:Estacion_08482 a aemet:Estacion;
+station:08482 a aemet:Station;
+	rdfs:label "Estación 08482"@es ;
+	rdfs:label "Station 08482"@en ;
 	prop:indclim "6155A";
 	prop:indsinop "08482";
-	prop:nombreEstacion "MÁLAGA/AEROPUERTO";
-	geo:location punto:GeoPos_08482;
+	prop:stationName "MÁLAGA/AEROPUERTO";
+	geo:location point:08482;
 	.
 
-punto:GeoPos_08482 a geo:Point;
+point:08482 a geo:Point;
 	geo:long "-4.48805555556";
 	geo:lat "36.6666666667";
 	geo:alt "7";
 	.
 
-estacion:Estacion_60338 a aemet:Estacion;
+station:60338 a aemet:Station;
+	rdfs:label "Estación 60338"@es ;
+	rdfs:label "Station 60338"@en ;
 	prop:indclim "6000A";
 	prop:indsinop "60338";
-	prop:nombreEstacion "MELILLA";
-	geo:location punto:GeoPos_60338;
+	prop:stationName "MELILLA";
+	geo:location point:60338;
 	.
 
-punto:GeoPos_60338 a geo:Point;
+point:60338 a geo:Point;
 	geo:long "-2.95527777778";
 	geo:lat "35.2777777778";
 	geo:alt "47";
 	.
 
-estacion:Estacion_08430 a aemet:Estacion;
+station:08430 a aemet:Station;
+	rdfs:label "Estación 08430"@es ;
+	rdfs:label "Station 08430"@en ;
 	prop:indclim "7178I";
 	prop:indsinop "08430";
-	prop:nombreEstacion "MURCIA";
-	geo:location punto:GeoPos_08430;
+	prop:stationName "MURCIA";
+	geo:location point:08430;
 	.
 
-punto:GeoPos_08430 a geo:Point;
+point:08430 a geo:Point;
 	geo:long "-1.16944444444";
 	geo:lat "38.0027777778";
 	geo:alt "61";
 	.
 
-estacion:Estacion_08429 a aemet:Estacion;
+station:08429 a aemet:Station;
+	rdfs:label "Estación 08429"@es ;
+	rdfs:label "Station 08429"@en ;
 	prop:indclim "7228";
 	prop:indsinop "08429";
-	prop:nombreEstacion "MURCIA/ALCANTARILLA";
-	geo:location punto:GeoPos_08429;
+	prop:stationName "MURCIA/ALCANTARILLA";
+	geo:location point:08429;
 	.
 
-punto:GeoPos_08429 a geo:Point;
+point:08429 a geo:Point;
 	geo:long "-1.22972222222";
 	geo:lat "37.9577777778";
 	geo:alt "85";
 	.
 
-estacion:Estacion_08433 a aemet:Estacion;
+station:08433 a aemet:Station;
+	rdfs:label "Estación 08433"@es ;
+	rdfs:label "Station 08433"@en ;
 	prop:indclim "7031";
 	prop:indsinop "08433";
-	prop:nombreEstacion "MURCIA/SAN JAVIER";
-	geo:location punto:GeoPos_08433;
+	prop:stationName "MURCIA/SAN JAVIER";
+	geo:location point:08433;
 	.
 
-punto:GeoPos_08433 a geo:Point;
+point:08433 a geo:Point;
 	geo:long "-0.803333333333";
 	geo:lat "37.7888888889";
 	geo:alt "4";
 	.
 
-estacion:Estacion_08085 a aemet:Estacion;
+station:08085 a aemet:Station;
+	rdfs:label "Estación 08085"@es ;
+	rdfs:label "Station 08085"@en ;
 	prop:indclim "9263D";
 	prop:indsinop "08085";
-	prop:nombreEstacion "PAMPLONA/NOAIN";
-	geo:location punto:GeoPos_08085;
+	prop:stationName "PAMPLONA/NOAIN";
+	geo:location point:08085;
 	.
 
-punto:GeoPos_08085 a geo:Point;
+point:08085 a geo:Point;
 	geo:long "-1.65";
 	geo:lat "42.7769444444";
 	geo:alt "459";
 	.
 
-estacion:Estacion_08048 a aemet:Estacion;
+station:08048 a aemet:Station;
+	rdfs:label "Estación 08048"@es ;
+	rdfs:label "Station 08048"@en ;
 	prop:indclim "1690A";
 	prop:indsinop "08048";
-	prop:nombreEstacion "OURENSE";
-	geo:location punto:GeoPos_08048;
+	prop:stationName "OURENSE";
+	geo:location point:08048;
 	.
 
-punto:GeoPos_08048 a geo:Point;
+point:08048 a geo:Point;
 	geo:long "-7.86027777778";
 	geo:lat "42.3277777778";
 	geo:alt "143";
 	.
 
-estacion:Estacion_08044 a aemet:Estacion;
+station:08044 a aemet:Station;
+	rdfs:label "Estación 08044"@es ;
+	rdfs:label "Station 08044"@en ;
 	prop:indclim "1484C";
 	prop:indsinop "08044";
-	prop:nombreEstacion "PONTEVEDRA";
-	geo:location punto:GeoPos_08044;
+	prop:stationName "PONTEVEDRA";
+	geo:location point:08044;
 	.
 
-punto:GeoPos_08044 a geo:Point;
+point:08044 a geo:Point;
 	geo:long "-8.61638888889";
 	geo:lat "42.44";
 	geo:alt "108";
 	.
 
-estacion:Estacion_08045 a aemet:Estacion;
+station:08045 a aemet:Station;
+	rdfs:label "Estación 08045"@es ;
+	rdfs:label "Station 08045"@en ;
 	prop:indclim "1495";
 	prop:indsinop "08045";
-	prop:nombreEstacion "VIGO/PEINADOR";
-	geo:location punto:GeoPos_08045;
+	prop:stationName "VIGO/PEINADOR";
+	geo:location point:08045;
 	.
 
-punto:GeoPos_08045 a geo:Point;
+point:08045 a geo:Point;
 	geo:long "-8.62388888889";
 	geo:lat "42.2394444444";
 	geo:alt "261";
 	.
 
-estacion:Estacion_08201 a aemet:Estacion;
+station:08201 a aemet:Station;
+	rdfs:label "Estación 08201"@es ;
+	rdfs:label "Station 08201"@en ;
 	prop:indclim "2870";
 	prop:indsinop "08201";
-	prop:nombreEstacion "SALAMANCA,OBS.";
-	geo:location punto:GeoPos_08201;
+	prop:stationName "SALAMANCA,OBS.";
+	geo:location point:08201;
 	.
 
-punto:GeoPos_08201 a geo:Point;
+point:08201 a geo:Point;
 	geo:long "-5.66138888889";
 	geo:lat "40.9563888889";
 	geo:alt "775";
 	.
 
-estacion:Estacion_08202 a aemet:Estacion;
+station:08202 a aemet:Station;
+	rdfs:label "Estación 08202"@es ;
+	rdfs:label "Station 08202"@en ;
 	prop:indclim "2867";
 	prop:indsinop "08202";
-	prop:nombreEstacion "SALAMANCA/MATACAN";
-	geo:location punto:GeoPos_08202;
+	prop:stationName "SALAMANCA/MATACAN";
+	geo:location point:08202;
 	.
 
-punto:GeoPos_08202 a geo:Point;
+point:08202 a geo:Point;
 	geo:long "-5.49833333333";
 	geo:lat "40.9594444444";
 	geo:alt "790";
 	.
 
-estacion:Estacion_60001 a aemet:Estacion;
+station:60001 a aemet:Station;
+	rdfs:label "Estación 60001"@es ;
+	rdfs:label "Station 60001"@en ;
 	prop:indclim "C929I";
 	prop:indsinop "60001";
-	prop:nombreEstacion "HIERRO/AEROPUERTO";
-	geo:location punto:GeoPos_60001;
+	prop:stationName "HIERRO/AEROPUERTO";
+	geo:location point:60001;
 	.
 
-punto:GeoPos_60001 a geo:Point;
+point:60001 a geo:Point;
 	geo:long "-17.8888888889";
 	geo:lat "27.8188888889";
 	geo:alt "32";
 	.
 
-estacion:Estacion_60010 a aemet:Estacion;
+station:60010 a aemet:Station;
+	rdfs:label "Estación 60010"@es ;
+	rdfs:label "Station 60010"@en ;
 	prop:indclim "C430E";
 	prop:indsinop "60010";
-	prop:nombreEstacion "IZAÑA";
-	geo:location punto:GeoPos_60010;
+	prop:stationName "IZAÑA";
+	geo:location point:60010;
 	.
 
-punto:GeoPos_60010 a geo:Point;
+point:60010 a geo:Point;
 	geo:long "-16.4994444444";
 	geo:lat "28.3088888889";
 	geo:alt "2371";
 	.
 
-estacion:Estacion_60005 a aemet:Estacion;
+station:60005 a aemet:Station;
+	rdfs:label "Estación 60005"@es ;
+	rdfs:label "Station 60005"@en ;
 	prop:indclim "C139E";
 	prop:indsinop "60005";
-	prop:nombreEstacion "LA PALMA/AEROPUERTO";
-	geo:location punto:GeoPos_60005;
+	prop:stationName "LA PALMA/AEROPUERTO";
+	geo:location point:60005;
 	.
 
-punto:GeoPos_60005 a geo:Point;
+point:60005 a geo:Point;
 	geo:long "-17.755";
 	geo:lat "28.6330555556";
 	geo:alt "33";
 	.
 
-estacion:Estacion_60020 a aemet:Estacion;
+station:60020 a aemet:Station;
+	rdfs:label "Estación 60020"@es ;
+	rdfs:label "Station 60020"@en ;
 	prop:indclim "C449C";
 	prop:indsinop "60020";
-	prop:nombreEstacion "STA.CRUZ DE TENERIFE";
-	geo:location punto:GeoPos_60020;
+	prop:stationName "STA.CRUZ DE TENERIFE";
+	geo:location point:60020;
 	.
 
-punto:GeoPos_60020 a geo:Point;
+point:60020 a geo:Point;
 	geo:long "-16.2552777778";
 	geo:lat "28.4630555556";
 	geo:alt "35";
 	.
 
-estacion:Estacion_60015 a aemet:Estacion;
+station:60015 a aemet:Station;
+	rdfs:label "Estación 60015"@es ;
+	rdfs:label "Station 60015"@en ;
 	prop:indclim "C447A";
 	prop:indsinop "60015";
-	prop:nombreEstacion "TENERIFE/LOS RODEOS";
-	geo:location punto:GeoPos_60015;
+	prop:stationName "TENERIFE/LOS RODEOS";
+	geo:location point:60015;
 	.
 
-punto:GeoPos_60015 a geo:Point;
+point:60015 a geo:Point;
 	geo:long "-16.3294444444";
 	geo:lat "28.4775";
 	geo:alt "632";
 	.
 
-estacion:Estacion_60025 a aemet:Estacion;
+station:60025 a aemet:Station;
+	rdfs:label "Estación 60025"@es ;
+	rdfs:label "Station 60025"@en ;
 	prop:indclim "C429I";
 	prop:indsinop "60025";
-	prop:nombreEstacion "TENERIFE/SUR";
-	geo:location punto:GeoPos_60025;
+	prop:stationName "TENERIFE/SUR";
+	geo:location point:60025;
 	.
 
-punto:GeoPos_60025 a geo:Point;
+point:60025 a geo:Point;
 	geo:long "-16.5608333333";
 	geo:lat "28.0475";
 	geo:alt "64";
 	.
 
-estacion:Estacion_08213 a aemet:Estacion;
+station:08213 a aemet:Station;
+	rdfs:label "Estación 08213"@es ;
+	rdfs:label "Station 08213"@en ;
 	prop:indclim "2465";
 	prop:indsinop "08213";
-	prop:nombreEstacion "SEGOVIA";
-	geo:location punto:GeoPos_08213;
+	prop:stationName "SEGOVIA";
+	geo:location point:08213;
 	.
 
-punto:GeoPos_08213 a geo:Point;
+point:08213 a geo:Point;
 	geo:long "-4.12722222222";
 	geo:lat "40.9477777778";
 	geo:alt "1005";
 	.
 
-estacion:Estacion_08397 a aemet:Estacion;
+station:08397 a aemet:Station;
+	rdfs:label "Estación 08397"@es ;
+	rdfs:label "Station 08397"@en ;
 	prop:indclim "5796";
 	prop:indsinop "08397";
-	prop:nombreEstacion "MORÓN DE LA FRONTERA";
-	geo:location punto:GeoPos_08397;
+	prop:stationName "MORÓN DE LA FRONTERA";
+	geo:location point:08397;
 	.
 
-punto:GeoPos_08397 a geo:Point;
+point:08397 a geo:Point;
 	geo:long "-5.61583333333";
 	geo:lat "37.1583333333";
 	geo:alt "87";
 	.
 
-estacion:Estacion_08391 a aemet:Estacion;
+station:08391 a aemet:Station;
+	rdfs:label "Estación 08391"@es ;
+	rdfs:label "Station 08391"@en ;
 	prop:indclim "5783";
 	prop:indsinop "08391";
-	prop:nombreEstacion "SEVILLA/SAN PABLO";
-	geo:location punto:GeoPos_08391;
+	prop:stationName "SEVILLA/SAN PABLO";
+	geo:location point:08391;
 	.
 
-punto:GeoPos_08391 a geo:Point;
+point:08391 a geo:Point;
 	geo:long "-5.87916666667";
 	geo:lat "37.4166666667";
 	geo:alt "34";
 	.
 
-estacion:Estacion_08148 a aemet:Estacion;
+station:08148 a aemet:Station;
+	rdfs:label "Estación 08148"@es ;
+	rdfs:label "Station 08148"@en ;
 	prop:indclim "2030";
 	prop:indsinop "08148";
-	prop:nombreEstacion "SORIA";
-	geo:location punto:GeoPos_08148;
+	prop:stationName "SORIA";
+	geo:location point:08148;
 	.
 
-punto:GeoPos_08148 a geo:Point;
+point:08148 a geo:Point;
 	geo:long "-2.48305555556";
 	geo:lat "41.775";
 	geo:alt "1082";
 	.
 
-estacion:Estacion_08175 a aemet:Estacion;
+station:08175 a aemet:Station;
+	rdfs:label "Estación 08175"@es ;
+	rdfs:label "Station 08175"@en ;
 	prop:indclim "0016A";
 	prop:indsinop "08175";
-	prop:nombreEstacion "REUS/AEROPUERTO";
-	geo:location punto:GeoPos_08175;
+	prop:stationName "REUS/AEROPUERTO";
+	geo:location point:08175;
 	.
 
-punto:GeoPos_08175 a geo:Point;
+point:08175 a geo:Point;
 	geo:long "1.17888888889";
 	geo:lat "41.1497222222";
 	geo:alt "71";
 	.
 
-estacion:Estacion_08238 a aemet:Estacion;
+station:08238 a aemet:Station;
+	rdfs:label "Estación 08238"@es ;
+	rdfs:label "Station 08238"@en ;
 	prop:indclim "9981A";
 	prop:indsinop "08238";
-	prop:nombreEstacion "TORTOSA";
-	geo:location punto:GeoPos_08238;
+	prop:stationName "TORTOSA";
+	geo:location point:08238;
 	.
 
-punto:GeoPos_08238 a geo:Point;
+point:08238 a geo:Point;
 	geo:long "0.491388888889";
 	geo:lat "40.8205555556";
 	geo:alt "44";
 	.
 
-estacion:Estacion_08233 a aemet:Estacion;
+station:08233 a aemet:Station;
+	rdfs:label "Estación 08233"@es ;
+	rdfs:label "Station 08233"@en ;
 	prop:indclim "9381I";
 	prop:indsinop "08233";
-	prop:nombreEstacion "CALAMOCHA";
-	geo:location punto:GeoPos_08233;
+	prop:stationName "CALAMOCHA";
+	geo:location point:08233;
 	.
 
-punto:GeoPos_08233 a geo:Point;
+point:08233 a geo:Point;
 	geo:long "-1.29333333333";
 	geo:lat "40.9261111111";
 	geo:alt "890";
 	.
 
-estacion:Estacion_08235 a aemet:Estacion;
+station:08235 a aemet:Station;
+	rdfs:label "Estación 08235"@es ;
+	rdfs:label "Station 08235"@en ;
 	prop:indclim "8368U";
 	prop:indsinop "08235";
-	prop:nombreEstacion "TERUEL";
-	geo:location punto:GeoPos_08235;
+	prop:stationName "TERUEL";
+	geo:location point:08235;
 	.
 
-punto:GeoPos_08235 a geo:Point;
+point:08235 a geo:Point;
 	geo:long "-1.11666666667";
 	geo:lat "40.3497222222";
 	geo:alt "900";
 	.
 
-estacion:Estacion_08272 a aemet:Estacion;
+station:08272 a aemet:Station;
+	rdfs:label "Estación 08272"@es ;
+	rdfs:label "Station 08272"@en ;
 	prop:indclim "3260B";
 	prop:indsinop "08272";
-	prop:nombreEstacion "TOLEDO";
-	geo:location punto:GeoPos_08272;
+	prop:stationName "TOLEDO";
+	geo:location point:08272;
 	.
 
-punto:GeoPos_08272 a geo:Point;
+point:08272 a geo:Point;
 	geo:long "-4.04944444444";
 	geo:lat "39.8847222222";
 	geo:alt "515";
 	.
 
-estacion:Estacion_08285 a aemet:Estacion;
+station:08285 a aemet:Station;
+	rdfs:label "Estación 08285"@es ;
+	rdfs:label "Station 08285"@en ;
 	prop:indclim "8416";
 	prop:indsinop "08285";
-	prop:nombreEstacion "VALENCIA";
-	geo:location punto:GeoPos_08285;
+	prop:stationName "VALENCIA";
+	geo:location point:08285;
 	.
 
-punto:GeoPos_08285 a geo:Point;
+point:08285 a geo:Point;
 	geo:long "-0.366388888889";
 	geo:lat "39.4805555556";
 	geo:alt "11";
 	.
 
-estacion:Estacion_08284 a aemet:Estacion;
+station:08284 a aemet:Station;
+	rdfs:label "Estación 08284"@es ;
+	rdfs:label "Station 08284"@en ;
 	prop:indclim "8414A";
 	prop:indsinop "08284";
-	prop:nombreEstacion "VALENCIA/AEROPUERTO";
-	geo:location punto:GeoPos_08284;
+	prop:stationName "VALENCIA/AEROPUERTO";
+	geo:location point:08284;
 	.
 
-punto:GeoPos_08284 a geo:Point;
+point:08284 a geo:Point;
 	geo:long "-0.473333333333";
 	geo:lat "39.4866666667";
 	geo:alt "69";
 	.
 
-estacion:Estacion_08141 a aemet:Estacion;
+station:08141 a aemet:Station;
+	rdfs:label "Estación 08141"@es ;
+	rdfs:label "Station 08141"@en ;
 	prop:indclim "2422";
 	prop:indsinop "08141";
-	prop:nombreEstacion "VALLADOLID";
-	geo:location punto:GeoPos_08141;
+	prop:stationName "VALLADOLID";
+	geo:location point:08141;
 	.
 
-punto:GeoPos_08141 a geo:Point;
+point:08141 a geo:Point;
 	geo:long "-4.76666666667";
 	geo:lat "41.65";
 	geo:alt "735";
 	.
 
-estacion:Estacion_08140 a aemet:Estacion;
+station:08140 a aemet:Station;
+	rdfs:label "Estación 08140"@es ;
+	rdfs:label "Station 08140"@en ;
 	prop:indclim "2539";
 	prop:indsinop "08140";
-	prop:nombreEstacion "VALLADOLID (VILLANUBLA)";
-	geo:location punto:GeoPos_08140;
+	prop:stationName "VALLADOLID (VILLANUBLA)";
+	geo:location point:08140;
 	.
 
-punto:GeoPos_08140 a geo:Point;
+point:08140 a geo:Point;
 	geo:long "-4.85";
 	geo:lat "41.7";
 	geo:alt "846";
 	.
 
-estacion:Estacion_08025 a aemet:Estacion;
+station:08025 a aemet:Station;
+	rdfs:label "Estación 08025"@es ;
+	rdfs:label "Station 08025"@en ;
 	prop:indclim "1082";
 	prop:indsinop "08025";
-	prop:nombreEstacion "BILBAO/AEROPUERTO";
-	geo:location punto:GeoPos_08025;
+	prop:stationName "BILBAO/AEROPUERTO";
+	geo:location point:08025;
 	.
 
-punto:GeoPos_08025 a geo:Point;
+point:08025 a geo:Point;
 	geo:long "-2.90583333333";
 	geo:lat "43.2980555556";
 	geo:alt "42";
 	.
 
-estacion:Estacion_08130 a aemet:Estacion;
+station:08130 a aemet:Station;
+	rdfs:label "Estación 08130"@es ;
+	rdfs:label "Station 08130"@en ;
 	prop:indclim "2614";
 	prop:indsinop "08130";
-	prop:nombreEstacion "ZAMORA";
-	geo:location punto:GeoPos_08130;
+	prop:stationName "ZAMORA";
+	geo:location point:08130;
 	.
 
-punto:GeoPos_08130 a geo:Point;
+point:08130 a geo:Point;
 	geo:long "-5.73361111111";
 	geo:lat "41.5166666667";
 	geo:alt "656";
 	.
 
-estacion:Estacion_08157 a aemet:Estacion;
+station:08157 a aemet:Station;
+	rdfs:label "Estación 08157"@es ;
+	rdfs:label "Station 08157"@en ;
 	prop:indclim "9390";
 	prop:indsinop "08157";
-	prop:nombreEstacion "DAROCA";
-	geo:location punto:GeoPos_08157;
+	prop:stationName "DAROCA";
+	geo:location point:08157;
 	.
 
-punto:GeoPos_08157 a geo:Point;
+point:08157 a geo:Point;
 	geo:long "-1.41083333333";
 	geo:lat "41.1147222222";
 	geo:alt "779";
 	.
 
-estacion:Estacion_08160 a aemet:Estacion;
+station:08160 a aemet:Station;
+	rdfs:label "Estación 08160"@es ;
+	rdfs:label "Station 08160"@en ;
 	prop:indclim "9434";
 	prop:indsinop "08160";
-	prop:nombreEstacion "ZARAGOZA (AEROPUERTO)";
-	geo:location punto:GeoPos_08160;
+	prop:stationName "ZARAGOZA (AEROPUERTO)";
+	geo:location point:08160;
 	.
 
-punto:GeoPos_08160 a geo:Point;
+point:08160 a geo:Point;
 	geo:long "-1.00805555556";
 	geo:lat "41.6619444444";
 	geo:alt "247";

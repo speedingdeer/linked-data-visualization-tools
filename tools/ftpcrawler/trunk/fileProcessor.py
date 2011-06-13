@@ -28,28 +28,28 @@ prefixes =('@base <http://aemet.linkeddata.es/ontology/> .\n' +
            '@prefix tz-world: <http://www.w3.org/2006/timezone-world#> .\n' +
            '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n\n')
 
-obsT = Template ('observation:observation_at_${time}_of_${stationId}_on_${prop} a aemet:Observation ;\n' +
+obsT = Template ('observation:at_${time}_of_${stationId}_on_${prop} a aemet:Observation ;\n' +
         '\trdfs:label "Observación en: $time de: $stationId sobre: $prop"@es ;\n' +
         '\trdfs:label "Observation at: $time from: $stationId about: $prop"@en ;\n' +
         '\tprop:valueOfObservedData "$value"^^xsd:$type ;\n' +
         '\tprop:observedDataQuality "$quality"^^xsd:int ;\n' +
         '\tssn:observedProperty $propClass:$prop ;\n' +
         '\tssn:featureOfInterest aemet:meteorologicalCondition ;\n' +
-        '\tssn:observedBy station:station_$stationId ;\n' +
+        '\tssn:observedBy station:$stationId ;\n' +
         '\tprop:observedInInterval interval:tenMinutes_since_$time ;\n' +
         '\t.\n\n')
 
 timeT = Template ('interval:tenMinutes_since_$time a time:Interval ;\n' +
-         '\ttime:hasBeginning <http://aemet.linkeddata.es/resource/Instant/instant_$time> ;\n' +
+         '\ttime:hasBeginning <http://aemet.linkeddata.es/resource/Instant/$time> ;\n' +
          '\ttime:hasDurationDescription <http://aemet.linkeddata.es/resource/DurationDescription/tenMinutes> ; \n' +
          '\t.\n\n' +
          '<http://aemet.linkeddata.es/resource/DateTimeDescription/tenMinutes> a time:DurationDescription ;\n' +
          '\ttime:minutes "10"^^xsd:int ;\n' +
          '\t.\n\n' +
-         '<http://aemet.linkeddata.es/resource/Instant/instant_$time> a time:Instant ; \n' +
-         '\ttime:inDateTime <http://aemet.linkeddata.es/resource/DateTimeDescription/dateTime_$time> ;\n' +
+         '<http://aemet.linkeddata.es/resource/Instant/$time> a time:Instant ; \n' +
+         '\ttime:inDateTime <http://aemet.linkeddata.es/resource/DateTimeDescription/$time> ;\n' +
          '\t.\n\n' +
-         '<http://aemet.linkeddata.es/resource/DateTime/dateTime_$time> a time:DateTimeDescription ;\n' +
+         '<http://aemet.linkeddata.es/resource/DateTime/$time> a time:DateTimeDescription ;\n' +
          '\ttime:unitType time:unitMinute ;\n'+
          '\ttime:minute "$min"^^xsd:int ;\n' +
          '\ttime:hour "$hour"^^xsd:int ;\n' +
