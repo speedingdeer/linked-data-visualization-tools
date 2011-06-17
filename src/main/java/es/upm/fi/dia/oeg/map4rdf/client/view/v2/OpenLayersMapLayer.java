@@ -37,6 +37,7 @@ import org.gwtopenmaps.openlayers.client.geometry.Geometry;
 import org.gwtopenmaps.openlayers.client.geometry.LineString;
 import org.gwtopenmaps.openlayers.client.geometry.LinearRing;
 import org.gwtopenmaps.openlayers.client.layer.Vector;
+import org.gwtopenmaps.openlayers.client.layer.VectorOptions;
 import org.gwtopenmaps.openlayers.client.popup.Popup;
 
 import com.google.gwt.core.client.GWT;
@@ -65,18 +66,16 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 	private final Vector vectorLayer;
 	private final Set<VectorFeature> features = new HashSet<VectorFeature>();
 	private final OpenLayersMapView owner;
-	private Map map;
+	private final Map map;
 	private final java.util.Map<String, List<ClickHandler>> handlers = new HashMap<String, List<ClickHandler>>();
 
 	public OpenLayersMapLayer(OpenLayersMapView owner, Map map, String name) {
 		this.owner = owner;
 		this.map = map;
-		vectorLayer = new Vector(name + "_vectors") {
-			@Override
-			public boolean displayInLayerSwitcher() {
-				return false;
-			}
-		};
+		VectorOptions vectorOptions = new VectorOptions();
+		vectorOptions.setProjection("EPSG:4326");
+		vectorLayer = new Vector(name + "_vectors", vectorOptions);
+
 		map.addLayer(vectorLayer);
 
 	}
@@ -270,10 +269,6 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 			pointsArray[index++] = new org.gwtopenmaps.openlayers.client.geometry.Point(p.getX(), p.getY());
 		}
 		return pointsArray;
-	}
-
-	private HasClickHandlers addFeature(Geometry geometry) {
-		return addFeature(geometry, null);
 	}
 
 	private HasClickHandlers addFeature(Geometry geometry, Style style) {

@@ -137,8 +137,6 @@ public class OpenLayersMapView implements MapView {
 				0.0006866455078125, 0.00034332275390625, 0.000171661376953125, 8.58306884765625e-005,
 				4.291534423828125e-005, 2.1457672119140625e-005, 1.0728836059570313e-005, 5.3644180297851563e-006,
 				2.6822090148925781e-006, 1.3411045074462891e-006 };
-		// options.setProjection("EPSG:4326");
-		options.setResolutions(resolutions);
 
 		MapWidget mapWidget = new MapWidget("100%", "100%", options);
 		map = mapWidget.getMap();
@@ -151,6 +149,8 @@ public class OpenLayersMapView implements MapView {
 		WMSOptions wmsLayerParams = new WMSOptions();
 		wmsLayerParams.setTransitionEffect(TransitionEffect.RESIZE);
 		wmsLayerParams.setAttribution("Maps provided by <a href=\"http://www.idee.es\">IDEE</a>");
+		wmsLayerParams.setResolutions(resolutions);
+		wmsLayerParams.setProjection("EPSG:4326");
 
 		WMS wmsLayer = new WMS("IDEE", WMS_URL, wmsParams, wmsLayerParams);
 
