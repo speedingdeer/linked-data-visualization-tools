@@ -12,18 +12,19 @@ prefixes =('@base <http://aemet.linkeddata.es/ontology/> .\n' +
            '@prefix geo: <http://www.w3.org/2003/01/geo/wgs84_pos#> .\n' +
            '@prefix station: <http://aemet.linkeddata.es/resource/WeatherStation/> .\n' +
            '@prefix point: <http://aemet.linkeddata.es/resource/Point/> .\n' +
+           '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n' +
            '@prefix prop: <http://aemet.linkeddata.es/ontology/> .\n\n\n')
 
-stationTemplate = ('station:%s a aemet:Station;\n' +
+stationTemplate = ('station:id%s a aemet:Station;\n' +
                    '\trdfs:label "Estación %s"@es ;\n' +
                    '\trdfs:label "Station %s"@en ;\n' +
                    '\tprop:indclim "%s";\n' +
                    '\tprop:indsinop "%s";\n' +
                    '\tprop:stationName "%s";\n' +
-                   '\tgeo:location point:%s;\n' +
+                   '\tgeo:location point:id%s;\n' +
                    '\t.\n\n')
 
-geoposTemplate = ('point:%s a geo:Point;\n' +
+geoposTemplate = ('point:id%s a geo:Point;\n' +
                   '\tgeo:long "%s";\n' +
                   '\tgeo:lat "%s";\n' +
                   '\tgeo:alt "%s";\n' +

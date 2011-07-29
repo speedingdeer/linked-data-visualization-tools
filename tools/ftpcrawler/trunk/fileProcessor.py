@@ -1,7 +1,7 @@
-"""* Copyright (c) ONTOLOGY ENGINEERING GROUP: UNIVERSIDAD POLITÉCNICA DE MADRID, 2011
+"""* Copyright (c) ONTOLOGY ENGINEERING GROUP: UNIVERSIDAD POLITÉNICA DE MADRID, 2011
 * Todos los derechos reservados.
-* Título: AEMET FTP CSV2RDF(N3) Conversor
-* Autor: José Mora López"""
+* Tílo: AEMET FTP CSV2RDF(N3) Conversor
+* Autor: Joséora Ló"""
 
 from threading import Thread
 from string import Template
@@ -29,13 +29,13 @@ prefixes =('@base <http://aemet.linkeddata.es/ontology/> .\n' +
            '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n\n')
 
 obsT = Template ('observation:at_${time}_of_${stationId}_on_${prop} a aemet:Observation ;\n' +
-        '\trdfs:label "Observación en: $time de: $stationId sobre: $prop"@es ;\n' +
+        '\trdfs:label "Observación: $time de: $stationId sobre: $prop"@es ;\n' +
         '\trdfs:label "Observation at: $time from: $stationId about: $prop"@en ;\n' +
         '\tprop:valueOfObservedData "$value"^^xsd:$type ;\n' +
         '\tprop:observedDataQuality "$quality"^^xsd:int ;\n' +
         '\tssn:observedProperty $propClass:$prop ;\n' +
         '\tssn:featureOfInterest aemet:meteorologicalCondition ;\n' +
-        '\tssn:observedBy station:$stationId ;\n' +
+        '\tssn:observedBy station:id$stationId ;\n' +
         '\tprop:observedInInterval interval:tenMinutes_since_$time ;\n' +
         '\t.\n\n')
 
@@ -88,15 +88,17 @@ class FileProcessor(Thread):
     self.filename = filename
   
   def run(self):
-    with open(self.filename[:-7]+".rdf", 'w', encoding='utf8') as rdffile:
+    with open(self.filename[:-7]+".ttl", 'w', encoding='utf8') as rdffile:
       rdffile.write(prefixes)
       with gzip.open(self.filename, 'r') as csvfile:
         for l in csvfile:
-          e = (l.decode('mbcs'))[:-1].split(',')
+          e = (l.decode('iso-8859-1'))[:-1].split(',')
           for i in range(7, len(e), 2):
             ei = e[i].split('=')
-            rdffile.write(obsT.substitute({'time': e[4], 'stationId': e[0], 'prop': ei[0], 'value': fixt(ei[1]),
-                                           'type': typeof(ei[1]), 'quality': e[i+1].split('=')[1], 'propClass': p[ei[0]]}))
+            if ei[0] in p:
+              rdffile.write(obsT.substitute({'time': e[4], 'stationId': e[0], 'prop': ei[0], 'value': fixt(ei[1]),
+                                             'type': typeof(ei[1]), 'quality': e[i+1].split('=')[1], 'propClass': p[ei[0]]}))
         st = time.gmtime(int(e[4])/1000)
         rdffile.write(timeT.substitute({'time': e[4], 'min': st[4], 'hour': st[3], 'day': st[2], 'dow': dow[st[6]], 'doy': st[7],
                                         'week': st[7]//7, 'month': st[1], 'year': st[0], 'xsddt': humantime(int(e[4]))}))
+
