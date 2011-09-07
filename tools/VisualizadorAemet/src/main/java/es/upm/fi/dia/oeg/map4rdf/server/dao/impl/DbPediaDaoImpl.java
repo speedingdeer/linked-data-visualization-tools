@@ -414,12 +414,12 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 				"SELECT distinct ?estacion ?obs ?est ?prop ?dato ?q ?h ?min ?dia ?mes ?anno ");
 		query.append("WHERE { ");
 		query.append("?estacion <http://www.w3.org/2003/01/geo/wgs84_pos#location> " + "<" + uri + "> . ");
-		query.append("?estacion <http://aemet.linkeddata.es/ontology/nombreEstacion> ?est . ");
+		query.append("?estacion <http://aemet.linkeddata.es/ontology/stationName > ?est . ");
 		query.append("?obs <http://purl.oclc.org/NET/ssnx/ssn#observedBy> ?estacion . ");
 		query.append("?obs <http://purl.oclc.org/NET/ssnx/ssn#observedProperty> ?prop . ");
-		query.append("?obs <http://aemet.linkeddata.es/ontology/valorDelDatoObservado> ?dato . ");
-		query.append("?obs <http://aemet.linkeddata.es/ontology/calidadDelDatoObservado> ?q . ");
-		query.append("?obs <http://aemet.linkeddata.es/ontology/observadaEnIntervalo> ?inter . ");
+		query.append("?obs <http://aemet.linkeddata.es/ontology/valueOfObservedData> ?dato . ");
+		query.append("?obs <http://aemet.linkeddata.es/ontology/observedDataQuality> ?q . ");
+		query.append("?obs <http://aemet.linkeddata.es/ontology/observedInInterval> ?inter . ");
 		query.append("?inter <http://www.w3.org/2006/time#hasBeginning> ?instant . ");
 		query.append("?instant <http://www.w3.org/2006/time#inDateTime> ?tiempoFecha . ");
 		query.append("?tiempoFecha <http://www.w3.org/2006/time#hour> ?h . ");
@@ -442,7 +442,7 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		query.append("WHERE { ");
 		query.append("?estacion <http://www.w3.org/2003/01/geo/wgs84_pos#location> " + "<" + uri + "> . ");
 		query.append("?obs <http://purl.oclc.org/NET/ssnx/ssn#observedBy> ?estacion . ");
-		query.append("?obs <http://aemet.linkeddata.es/ontology/observadaEnIntervalo> ?inter . ");
+		query.append("?obs <http://aemet.linkeddata.es/ontology/observedInInterval> ?inter . ");
 		query.append("?inter <http://www.w3.org/2006/time#hasBeginning> ?instant . ");
 		query.append("?instant <http://www.w3.org/2006/time#inDateTime> ?tiempoFecha . ");
 		query.append("?tiempoFecha <http://www.w3.org/2006/time#inXSDDateTime> ?dt . }");
@@ -457,9 +457,9 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		query.append("WHERE { ");
 		query.append("?obs <http://purl.oclc.org/NET/ssnx/ssn#observedBy> <" + station + ">. ");
 		query.append("?obs <http://purl.oclc.org/NET/ssnx/ssn#observedProperty> <" + property + "> . ");
-		query.append("?obs <http://aemet.linkeddata.es/ontology/valorDelDatoObservado> ?dato . ");
-		query.append("?obs <http://aemet.linkeddata.es/ontology/calidadDelDatoObservado> ?q . ");
-		query.append("?obs <http://aemet.linkeddata.es/ontology/observadaEnIntervalo> ?inter . ");
+		query.append("?obs <http://aemet.linkeddata.es/ontology/valueOfObservedData> ?dato . ");
+		query.append("?obs <http://aemet.linkeddata.es/ontology/observedDataQuality> ?q . ");
+		query.append("?obs <http://aemet.linkeddata.es/ontology/observedInInterval> ?inter . ");
 		query.append("?inter <http://www.w3.org/2006/time#hasBeginning> ?instant . ");
 		query.append("?instant <http://www.w3.org/2006/time#inDateTime> ?tiempoFecha . ");
 		query.append("?tiempoFecha <http://www.w3.org/2006/time#hour> ?h . ");
