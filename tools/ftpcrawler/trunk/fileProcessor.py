@@ -1,7 +1,7 @@
 """* Copyright (c) ONTOLOGY ENGINEERING GROUP: UNIVERSIDAD POLITÉNICA DE MADRID, 2011
 * Todos los derechos reservados.
 * Tílo: AEMET FTP CSV2RDF(N3) Conversor
-* Autor: Joséora Ló"""
+* Autor: José Mora López"""
 
 from threading import Thread
 from string import Template
@@ -29,7 +29,7 @@ prefixes =('@base <http://aemet.linkeddata.es/ontology/> .\n' +
            '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n\n')
 
 obsT = Template ('observation:at_${time}_of_${stationId}_on_${prop} a aemet:Observation ;\n' +
-        '\trdfs:label "Observación: $time de: $stationId sobre: $prop"@es ;\n' +
+        '\trdfs:label "Observación en: $time de: $stationId sobre: $prop"@es ;\n' +
         '\trdfs:label "Observation at: $time from: $stationId about: $prop"@en ;\n' +
         '\tprop:valueOfObservedData "$value"^^xsd:$type ;\n' +
         '\tprop:observedDataQuality "$quality"^^xsd:int ;\n' +
@@ -40,16 +40,16 @@ obsT = Template ('observation:at_${time}_of_${stationId}_on_${prop} a aemet:Obse
         '\t.\n\n')
 
 timeT = Template ('interval:tenMinutes_since_$time a time:Interval ;\n' +
-         '\ttime:hasBeginning <http://aemet.linkeddata.es/resource/Instant/$time> ;\n' +
+         '\ttime:hasBeginning <http://aemet.linkeddata.es/resource/Instant/t$time> ;\n' +
          '\ttime:hasDurationDescription <http://aemet.linkeddata.es/resource/DurationDescription/tenMinutes> ; \n' +
          '\t.\n\n' +
          '<http://aemet.linkeddata.es/resource/DateTimeDescription/tenMinutes> a time:DurationDescription ;\n' +
          '\ttime:minutes "10"^^xsd:int ;\n' +
          '\t.\n\n' +
-         '<http://aemet.linkeddata.es/resource/Instant/$time> a time:Instant ; \n' +
-         '\ttime:inDateTime <http://aemet.linkeddata.es/resource/DateTimeDescription/$time> ;\n' +
+         '<http://aemet.linkeddata.es/resource/Instant/t$time> a time:Instant ; \n' +
+         '\ttime:inDateTime <http://aemet.linkeddata.es/resource/DateTimeDescription/dtd$time> ;\n' +
          '\t.\n\n' +
-         '<http://aemet.linkeddata.es/resource/DateTime/$time> a time:DateTimeDescription ;\n' +
+         '<http://aemet.linkeddata.es/resource/DateTimeDescription/dtd$time> a time:DateTimeDescription ;\n' +
          '\ttime:unitType time:unitMinute ;\n'+
          '\ttime:minute "$min"^^xsd:int ;\n' +
          '\ttime:hour "$hour"^^xsd:int ;\n' +
@@ -72,6 +72,8 @@ p = {"TPRE":"ambientProperty", "VIS":"ambientProperty", "HR":"humidityAmbientPro
      "TAMAX1h":"temperatureAmbientProperty", "TAMIN10m":"temperatureAmbientProperty", "TAMIN1h":"temperatureAmbientProperty",
      "TS":"temperatureAmbientProperty", "TSS5cm":"temperatureAmbientProperty", "DMAX10m":"windAmbientProperty", "DV10m":"windAmbientProperty",
      "RVIENTO":"windAmbientProperty", "VMAX10m":"windAmbientProperty", "VV10m":"windAmbientProperty"}
+#    "STDDV":"uF1", "STDVV":"uF2", "VVU10m":"uF3", "DVU10m":"uF4", "STDVVU":"uF5", "STDDVU":"uF6",
+#    "VMAXU10m":"uF7", "DMAXU10m":"uF8", "CA":"uF9", "TSS20cm":"uF10", "PACUTP":"uF11"}
 
 dow = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
