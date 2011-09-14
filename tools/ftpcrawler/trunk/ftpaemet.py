@@ -1,9 +1,9 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
-"""* Copyright (c) ONTOLOGY ENGINEERING GROUP: UNIVERSIDAD POLITÉCNICA DE MADRID, 2011
+"""* Copyright (c) ONTOLOGY ENGINEERING GROUP: UNIVERSIDAD POLITECNICA DE MADRID, 2011
 * Todos los derechos reservados.
-* Título: AEMET FTP CSV2RDF(N3) Conversor
-* Autor: José Mora López"""
+* Titulo: AEMET FTP CSV2RDF(N3) Conversor
+* Autor: Jose Mora """
 
 from ftplib import FTP
 from pickle import dump, load
@@ -11,7 +11,6 @@ import os, time
 from fileProcessor import FileProcessor
 
 gettime = lambda l: "%s-%s-%s"%(l[5], l[6], l[7])
-
 
 #pretend this class is not here (5 lines)
 class MyFTP(FTP):
@@ -48,16 +47,23 @@ def dlDir(base, times):
     newtimes[name] = gettime(e)
   return newtimes
 
-try:
-  with open('status.pickle', 'rb') as old:
-    times = load(old)
-except:
-  times = {}
-base = "datos_observacion/observaciones_diezminutales"
-conn = MyFTP('ftpdatos.aemet.es', 'Anonymous', '', timeout=60)
-newtimes = dlDir(base, times)
-conn.close()
-with open('status.pickle', 'wb') as new:
-  dump(newtimes, new)
+
+def doit():
+  global conn
+  try:
+    with open('status.pickle', 'rb') as old:
+      times = load(old)
+  except:
+    times = {}
+  base = "datos_observacion/observaciones_diezminutales"
+  conn = MyFTP('ftpdatos.aemet.es', 'Anonymous', '', timeout=60)
+  newtimes = dlDir(base, times)
+  conn.close()
+  with open('status.pickle', 'wb') as new:
+    dump(newtimes, new)
   
+
+if __name__ == "__main__":
+  doit()
+
 

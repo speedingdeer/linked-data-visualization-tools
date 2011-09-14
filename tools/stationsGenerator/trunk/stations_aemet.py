@@ -31,6 +31,7 @@ geoposTemplate = ('point:id%s a geo:Point;\n' +
                   '\t.\n\n')
 #convertCoordinates
 cc = lambda n: str((-1 if n[6] in 'SW' else 1) * (int(n[:2]) + int(n[2:4])/60 + int(n[4:6])/3600))
+cc2 = lambda n: cc(n.replace(' ', ''))
 
 # 0Indicativo;1NOMBRE;2Provincia;3ALTITUD;4LATITUD;5LONGITUD;6INDSINOP
 with open('stations.rdf', 'w', encoding='utf8') as outf:
@@ -38,7 +39,7 @@ with open('stations.rdf', 'w', encoding='utf8') as outf:
     outf.write(prefixes)
     for l in inf:
       e = l[:-1].split(';')
-      if len(e) >= 7 and len(e[6]) > 0:
-        outf.write(stationTemplate%(e[6], e[6], e[6], e[0], e[6], e[1], e[6]))
-        outf.write(geoposTemplate%(e[6], cc(e[5]), cc(e[4]), e[3]))
+      if len(e) >= 7 and len(e[1]) > 0:
+        outf.write(stationTemplate%(e[1], e[1], e[1], e[0], e[1], e[2], e[1]))
+        outf.write(geoposTemplate%(e[1], cc2(e[5]), cc2(e[4]), e[6]))
 

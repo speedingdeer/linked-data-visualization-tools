@@ -1,4 +1,4 @@
-"""* Copyright (c) ONTOLOGY ENGINEERING GROUP: UNIVERSIDAD POLITÉNICA DE MADRID, 2011
+﻿"""* Copyright (c) ONTOLOGY ENGINEERING GROUP: UNIVERSIDAD POLITÉCNICA DE MADRID, 2011
 * Todos los derechos reservados.
 * Tílo: AEMET FTP CSV2RDF(N3) Conversor
 * Autor: José Mora López"""
@@ -29,7 +29,7 @@ prefixes =('@base <http://aemet.linkeddata.es/ontology/> .\n' +
            '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n\n')
 
 obsT = Template ('observation:at_${time}_of_${stationId}_on_${prop} a aemet:Observation ;\n' +
-        '\trdfs:label "Observación en: $time de: $stationId sobre: $prop"@es ;\n' +
+        '\trdfs:label "Observación: $time de: $stationId sobre: $prop"@es ;\n' +
         '\trdfs:label "Observation at: $time from: $stationId about: $prop"@en ;\n' +
         '\tprop:valueOfObservedData "$value"^^xsd:$type ;\n' +
         '\tprop:observedDataQuality "$quality"^^xsd:int ;\n' +
