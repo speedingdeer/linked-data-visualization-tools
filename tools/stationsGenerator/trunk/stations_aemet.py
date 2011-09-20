@@ -15,7 +15,7 @@ prefixes =('@base <http://aemet.linkeddata.es/ontology/> .\n' +
            '@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n' +
            '@prefix prop: <http://aemet.linkeddata.es/ontology/> .\n\n\n')
 
-stationTemplate = ('station:id%s a aemet:Station;\n' +
+stationTemplate = ('station:id%s a aemet:WeatherStation;\n' +
                    '\trdfs:label "Estación %s"@es ;\n' +
                    '\trdfs:label "Station %s"@en ;\n' +
                    '\tprop:indclim "%s";\n' +
