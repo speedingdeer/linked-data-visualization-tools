@@ -1,2 +1,4 @@
 *.project
 *.class
+target/*
+*.war
