@@ -1,4 +1,5 @@
 *.project
 *.class
 target/*
+context.xml
 *.war
