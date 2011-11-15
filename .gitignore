@@ -1,6 +1,6 @@
 *.project
 *.class
-target
+target/*
 context.xml
-
+*.war
 
