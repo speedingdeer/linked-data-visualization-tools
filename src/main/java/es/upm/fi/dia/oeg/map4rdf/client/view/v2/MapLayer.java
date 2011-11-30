@@ -35,7 +35,8 @@ import es.upm.fi.dia.oeg.map4rdf.share.Polygon;
 public interface MapLayer {
 
 	HasClickHandlers draw(Point point);
-
+        HasClickHandlers drawFlat(Point point);
+        
 	HasClickHandlers drawPolygon(StyleMapShape<Polygon> polygon);
 
 	HasClickHandlers drawPolyline(StyleMapShape<PolyLine> polyline);

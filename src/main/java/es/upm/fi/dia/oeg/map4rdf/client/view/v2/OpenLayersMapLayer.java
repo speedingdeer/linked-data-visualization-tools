@@ -36,25 +36,32 @@ import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 import org.gwtopenmaps.openlayers.client.geometry.Geometry;
 import org.gwtopenmaps.openlayers.client.geometry.LineString;
 import org.gwtopenmaps.openlayers.client.geometry.LinearRing;
+import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.layer.Vector;
 import org.gwtopenmaps.openlayers.client.layer.VectorOptions;
 import org.gwtopenmaps.openlayers.client.popup.Popup;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.style.StyleMapShape;
 import es.upm.fi.dia.oeg.map4rdf.share.Circle;
 import es.upm.fi.dia.oeg.map4rdf.share.OpenLayersAdapter;
 import es.upm.fi.dia.oeg.map4rdf.share.Point;
+import es.upm.fi.dia.oeg.map4rdf.share.PointBean;
 import es.upm.fi.dia.oeg.map4rdf.share.PolyLine;
 import es.upm.fi.dia.oeg.map4rdf.share.Polygon;
+import javax.mail.search.SizeTerm;
+import org.junit.experimental.theories.PotentialAssignment;
 
 /**
  * @author Alexander De Leon
@@ -64,6 +71,8 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 	private static final String MARKER_ICON = "marker_red.png";
 	private static final int CIRCLE_NUMBER_OF_POINTS = 20;
 	private final Vector vectorLayer;
+        private final Vector vectorBckgLayer;
+        
 	private final Set<VectorFeature> features = new HashSet<VectorFeature>();
 	private final OpenLayersMapView owner;
 	private final Map map;
@@ -73,19 +82,38 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 		this.owner = owner;
 		this.map = map;
 		VectorOptions vectorOptions = new VectorOptions();
-		vectorOptions.setProjection("EPSG:4326");
+                VectorOptions vectorBckgOptions = new VectorOptions();
+                
 		vectorLayer = new Vector(name + "_vectors", vectorOptions);
+                vectorLayer.setDisplayInLayerSwitcher(false);
 
-		map.addLayer(vectorLayer);
-
+                vectorBckgLayer = new Vector(name + "_bckg_vectors", vectorOptions);
+                vectorBckgLayer.setDisplayInLayerSwitcher(false);
+                
+                map.addLayer(vectorLayer);
+                map.addLayer(vectorBckgLayer);
 	}
-
+        
 	@Override
 	public HasClickHandlers draw(Point point) {
-		org.gwtopenmaps.openlayers.client.geometry.Point olPoint = new org.gwtopenmaps.openlayers.client.geometry.Point(
-				point.getX(), point.getY());
-		return addFeature(olPoint, getStyle(olPoint));
+                LonLat ll = new LonLat(point.getX(), point.getY());
+                ll.transform("EPSG:4326", "EPSG:3857");
+             
+                org.gwtopenmaps.openlayers.client.geometry.Point olPoint = new org.gwtopenmaps.openlayers.client.geometry.Point(
+				ll.lon(),ll.lat());
+		//Window.alert(new Double(olPoint.getY()).toString() + " " + new Double(olPoint.getX()).toString() );
+                return addFeature(olPoint, getStyle(olPoint));
 	}
+        public HasClickHandlers drawFlat(Point point) {
+                LonLat ll = new LonLat(point.getX(), point.getY());
+                ll.transform("EPSG:4326","EPSG:4326" );
+             
+                org.gwtopenmaps.openlayers.client.geometry.Point olPoint = new org.gwtopenmaps.openlayers.client.geometry.Point(
+				ll.lon(),ll.lat());
+		//Window.alert(new Double(olPoint.getY()).toString() + " " + new Double(olPoint.getX()).toString() );
+                return addFlatFeature(olPoint, getStyle(olPoint));
+	}
+        
 
 	@Override
 	public HasClickHandlers drawPolygon(StyleMapShape<Polygon> polygon) {
@@ -182,7 +210,9 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 
 			@Override
 			public void open(Point location) {
-				popup = new Popup(location.getUri(), OpenLayersAdapter.getLatLng(location), new Size(200, 100),
+                                LonLat popupPosition = OpenLayersAdapter.getLatLng(location);
+                                popupPosition.transform("EPSG:4326", map.getProjection());
+				popup = new Popup(location.getUri(), popupPosition, new Size(200, 100),
 						DOM.getInnerHTML(panel.getElement()), true);
 				popup.setBorder("1px solid #424242");
 				map.addPopupExclusive(popup);
@@ -201,6 +231,8 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 	public void clear() {
 		for (VectorFeature feature : features) {
 			vectorLayer.removeFeature(feature);
+                        vectorBckgLayer.removeFeature(feature);
+                        
 		}
 		features.clear();
 	}
@@ -283,6 +315,19 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 
 		return new FeatureHasClickHandlerWrapper(featureId);
 	}
+        private HasClickHandlers addFlatFeature(Geometry geometry, Style style) {
+		VectorFeature feature = new VectorFeature(geometry);
+		if (style != null) {
+			feature.setStyle(style);
+		}
+		String featureId = DOM.createUniqueId();
+		feature.getAttributes().setAttribute("map4rdf_id", featureId);
+		vectorBckgLayer.addFeature(feature);
+                features.add(feature);
+		return new FeatureHasClickHandlerWrapper(featureId);
+	}
+        
+        
 
 	private Style getStyle(StyleMapShape<?> styleMapShape) {
 		Style style = new Style();
@@ -312,4 +357,31 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 		style.setPointRadius(20);
 		return style;
 	}
+        
+        public void refreshContent(){
+
+            if(this != null && this.map!=null) {
+                //setCenter!!
+               // this.owner.setMapProjectionString(mapProjecetion);
+                //result += this.owner.getMapProjectionString()+ this.map.getProjection();
+
+                LonLat ll3 = new LonLat(-3.703637, 40.416645);
+                ll3.transform("EPSG:EPSG:4326", this.map.getProjection());
+                map.setCenter(ll3,4);
+                //if there is a flat map
+                if(this.vectorBckgLayer != null && this.vectorLayer !=null){
+                    if(map.getProjection().equals("EPSG:900913")){
+                        this.vectorBckgLayer.setIsVisible(false);
+                        this.vectorLayer.setIsVisible(true);
+                    }
+                    //if there is a spherical map
+                    else {
+                        this.vectorBckgLayer.setIsVisible(true);
+                        this.vectorLayer.setIsVisible(false);     
+                    }               
+                }
+                
+            }
+
+        }
 }

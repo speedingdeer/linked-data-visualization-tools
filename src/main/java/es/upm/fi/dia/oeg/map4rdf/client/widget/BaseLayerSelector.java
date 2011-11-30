@@ -31,6 +31,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
+import es.upm.fi.dia.oeg.map4rdf.client.view.v2.OpenLayersMapView;
 
 /**
  * @author Alexander De Leon
@@ -89,7 +90,7 @@ public class BaseLayerSelector extends Composite {
 		panel.add(list);
 		return panel;
 	}
-
+       
 	private static class SelectableLayer {
 		Layer layer;
 		int index;

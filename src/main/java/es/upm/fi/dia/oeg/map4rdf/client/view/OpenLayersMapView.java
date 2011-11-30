@@ -90,6 +90,14 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 						window.open(point);
 					}
 				});
+                                getDefaultLayer().drawFlat(point).addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						summary.setGeoResource(resource, point);
+						window.open(point);
+					}
+				});
 				break;
 			case POLYLINE:
 				final PolyLine line = (PolyLine) geometry;
@@ -127,3 +135,4 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 		return button;
 	}
 }
+    

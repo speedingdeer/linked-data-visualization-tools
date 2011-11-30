@@ -199,6 +199,11 @@ public class GoogleMapLayer implements MapLayer {
 		map.addOverlay(overlay);
 	}
 
+    @Override
+    public HasClickHandlers drawFlat(Point point) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 	public class MarkerClickHandlerWrapper implements HasClickHandlers {
 
 		private final Marker marker;

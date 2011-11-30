@@ -52,7 +52,7 @@ public class InjectorModule extends AbstractPresenterModule {
 
 		// Events
 		bind(EventBus.class).to(DefaultEventBus.class);
-
+                
 		// MVP
 		bindDisplay(DashboardPresenter.Display.class, DashboardView.class);
 		bindDisplay(FacetPresenter.Display.class, FacetView.class);
@@ -60,7 +60,7 @@ public class InjectorModule extends AbstractPresenterModule {
 		bindDisplay(ResultsPresenter.Display.class, ResultsView.class);
 		bindDisplay(MapOverlaysPresenter.Display.class, MapOverlaysView.class);
 		bindDisplay(StatisticsPresenter.Display.class, StatisticsView.class);
-
+                
 		// Maplets
 		bind(Maplet.class).to(StatisticsMaplet.class).asEagerSingleton();
 	}
