@@ -31,11 +31,13 @@ import es.upm.fi.dia.oeg.map4rdf.client.maplet.Maplet;
 import es.upm.fi.dia.oeg.map4rdf.client.maplet.stats.StatisticsMaplet;
 import es.upm.fi.dia.oeg.map4rdf.client.maplet.stats.StatisticsPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.maplet.stats.StatisticsView;
+import es.upm.fi.dia.oeg.map4rdf.client.presenter.AdminPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.DashboardPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.FacetPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapOverlaysPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.ResultsPresenter;
+import es.upm.fi.dia.oeg.map4rdf.client.view.AdminView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.DashboardView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.FacetView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.MapOverlaysView;
@@ -55,11 +57,12 @@ public class InjectorModule extends AbstractPresenterModule {
 
 		// MVP
 		bindDisplay(DashboardPresenter.Display.class, DashboardView.class);
-		bindDisplay(FacetPresenter.Display.class, FacetView.class);
+                bindDisplay(FacetPresenter.Display.class, FacetView.class);
 		bindDisplay(MapPresenter.Display.class, OpenLayersMapView.class);
 		bindDisplay(ResultsPresenter.Display.class, ResultsView.class);
 		bindDisplay(MapOverlaysPresenter.Display.class, MapOverlaysView.class);
 		bindDisplay(StatisticsPresenter.Display.class, StatisticsView.class);
+		bindDisplay(AdminPresenter.Display.class, AdminView.class);
 
 		// Maplets
 		bind(Maplet.class).to(StatisticsMaplet.class).asEagerSingleton();

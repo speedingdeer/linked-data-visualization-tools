@@ -55,11 +55,11 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 		interface FacetSelectionHandler {
 			void onFacetSelectionChanged(String facetId, String facetValueId, boolean selected);
 		}
-
+                
 		// TODO this should be decoupled from the model
 		void setFacets(List<FacetGroup> facets);
-
 		void setFacetSelectionChangedHandler(FacetSelectionHandler handler);
+                void clearFacets();
 	}
 
 	private final DispatchAsync dispatchAsync;

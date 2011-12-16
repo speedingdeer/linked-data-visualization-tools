@@ -48,7 +48,7 @@ public class BrowserUi extends ResizeComposite implements AppController.Display 
 	public BrowserUi(BrowserResources resources) {
 		appView = new LayoutPanel();
 		initWidget(createUi(resources));
-
+                
 		StyleInjector.inject(resources.css().getText());
 	}
 
@@ -63,7 +63,7 @@ public class BrowserUi extends ResizeComposite implements AppController.Display 
 
 	@Override
 	public void setContent(Widget widget) {
-		appView.add(widget);
+                appView.add(widget);
 		appView.setWidgetTopHeight(widget, 0, Unit.EM, 100, Unit.PCT);
 		appView.forceLayout();
 	}

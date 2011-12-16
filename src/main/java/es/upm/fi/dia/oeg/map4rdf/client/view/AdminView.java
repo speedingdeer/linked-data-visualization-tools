@@ -28,9 +28,12 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
+import es.upm.fi.dia.oeg.map4rdf.client.presenter.AdminPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.FacetPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.util.LocaleUtil;
@@ -43,55 +46,14 @@ import es.upm.fi.dia.oeg.map4rdf.share.FacetGroup;
 /**
  * @author Alexander De Leon
  */
-public class FacetView extends Composite implements FacetPresenter.Display {
+public class AdminView extends Composite implements AdminPresenter.Display {
 
-	private FlowPanel panel;
-	private final BrowserResources resources;
-	private FacetSelectionHandler handler;
+	private LayoutPanel panel;
 
 	@Inject
-	public FacetView(BrowserResources resources) {
-		this.resources = resources;
+	public AdminView(BrowserResources resources) {
 		initWidget(createUi());
-		addStyleName(resources.css().facets());
-	}
-
-	@Override
-	public void setFacets(List<FacetGroup> facets) {
-		for (final FacetGroup facetDefinition : facets) {
-			FacetWidget facet = new FacetWidget(resources.css());
-			facet.setLabel(facetDefinition.getLabel(LocaleUtil.getClientLanguage()));
-			for (Facet facetValue : facetDefinition.getFacets()) {
-				String label = facetValue.getLabel(LocaleUtil.getClientLanguage());
-				if (label == null) {
-					label = facetValue.getDefaultLabel();
-				}
-				if (label == null) {
-					label = facetValue.getUri();
-				}
-				facet.addFacetSelectionOption(facetValue.getUri(), label);
-
-			}
-			facet.sort();
-
-			facet.addFacetValueSelectionChangedHandler(new FacetValueSelectionChangedHandler() {
-				@Override
-				public void onSelectionChanged(FacetValueSelectionChangedEvent event) {
-					if (handler != null) {
-						handler.onFacetSelectionChanged(facetDefinition.getUri(), event.getSelectionOptionId(),
-								event.getSelectionValue());
-					}
-				}
-			});
-
-			panel.add(facet);
-		}
-
-	}
-
-	@Override
-	public void setFacetSelectionChangedHandler(FacetSelectionHandler handler) {
-		this.handler = handler;
+                panel.add(new Label("ADMIN VIEW"));
 	}
 
 	/* ------------- Display API -- */
@@ -114,13 +76,8 @@ public class FacetView extends Composite implements FacetPresenter.Display {
 
 	/* ---------------- helper methods -- */
 	private Widget createUi() {
-		panel = new FlowPanel();
+		panel = new LayoutPanel();
 		return panel;
 	}
-
-    @Override
-    public void clearFacets() {
-        panel.clear();
-    }
 
 }

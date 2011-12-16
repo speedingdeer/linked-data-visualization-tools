@@ -26,6 +26,7 @@ package es.upm.fi.dia.oeg.map4rdf.client.view;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
@@ -45,10 +46,15 @@ public class DashboardView extends ResizeComposite implements DashboardPresenter
 	private final LayoutPanel centerPanel;
 	private final StackLayoutPanel leftPanel;
 	private final LayoutPanel mapPanel;
-
+        private final LayoutPanel adminPanel;
+        private final LayoutPanel wrapPanel;
+        
+        
 	@Inject
 	public DashboardView(BrowserResources resources) {
+                wrapPanel = new LayoutPanel();
 		mapPanel = new LayoutPanel();
+                adminPanel = new LayoutPanel();
 		splitPanel = new SplitLayoutPanel();
 		leftPanel = new StackLayoutPanel(Unit.EM);
 		centerPanel = new LayoutPanel();
@@ -60,12 +66,14 @@ public class DashboardView extends ResizeComposite implements DashboardPresenter
 	public void addWestWidget(Widget widget, String header) {
 		leftPanel.add(widget, header, 3);
 	}
-
+        
 	@Override
 	public HasWidgets getMapPanel() {
 		return mapPanel;
 	}
 
+        
+        
 	/* ----------------- Display API -- */
 	@Override
 	public Widget asWidget() {
@@ -85,14 +93,37 @@ public class DashboardView extends ResizeComposite implements DashboardPresenter
 
 	/* ------------------- Helper methods -- */
 	private Widget createUi(BrowserResources resources) {
-		centerPanel.add(mapPanel);
-
+		centerPanel.add(mapPanel);        adminPanel.setVisible(false);
+                centerPanel.add(adminPanel);
 		centerPanel.setWidgetTopHeight(mapPanel, 0, Unit.EM, 100, Unit.PCT);
 		centerPanel.setWidgetLeftWidth(mapPanel, 0, Unit.EM, 100, Unit.PCT);
 
 		splitPanel.addWest(leftPanel, 200);
 		splitPanel.add(centerPanel);
 		leftPanel.addStyleName(resources.css().leftMenu());
-		return splitPanel;
+		wrapPanel.add(splitPanel);
+                wrapPanel.add(adminPanel);
+                return wrapPanel;
 	}
+
+    @Override
+    public void showAdminView() {
+        adminPanel.setVisible(true);
+        splitPanel.setVisible(false);
+    }
+
+    @Override
+    public void showMainView() {
+        adminPanel.setVisible(false);   
+        splitPanel.setVisible(true);
+    }
+
+    @Override
+    public HasWidgets getAdminPanel() {
+        return  adminPanel;
+    }
+        
+        
+    
+    
 }

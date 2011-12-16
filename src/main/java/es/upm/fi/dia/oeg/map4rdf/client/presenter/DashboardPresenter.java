@@ -24,6 +24,10 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.presenter;
 
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import java.util.Collections;
 import java.util.Set;
 
@@ -61,32 +65,57 @@ import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
  */
 @Singleton
 public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display> implements
-		FacetConstraintsChangedHandler, LoadResourceEventHandler {
+		FacetConstraintsChangedHandler, LoadResourceEventHandler, ValueChangeHandler {
 
 	public interface Display extends WidgetDisplay {
-
+                
+                void addWestWidget(Widget widget, String header);
 		HasWidgets getMapPanel();
-
-		void addWestWidget(Widget widget, String header);
-	}
+                HasWidgets getAdminPanel();
+		void showAdminView();
+                void showMainView();
+	
+        }
 
 	private final ResultsPresenter resultsPresenter;
 	private final MapPresenter mapPresenter;
 	private final FacetPresenter facetPresenter;
-	private final DispatchAsync dispatchAsync;
+	private final AdminPresenter adminPresenter;
+        private final DispatchAsync dispatchAsync;
 	private final DataToolBar dataToolBar;
 	private final BrowserMessages messages;
 
+        @Override
+        public void onValueChange(ValueChangeEvent event) {
+            
+            if((event.getValue().toString()).equals("dashboard")) {
+                mapSite();
+            }
+            if((event.getValue().toString()).equals("admin")) {
+                adminSite();
+                facetPresenter.getDisplay().clearFacets();
+            }
+            refreshDisplay();
+        }
+        
+        private void mapSite() {
+            getDisplay().showMainView();
+        }
+        private void adminSite() {
+            getDisplay().showAdminView();
+        }
+        
 	@Inject
 	public DashboardPresenter(Display display, EventBus eventBus, FacetPresenter facetPresenter,
-			MapPresenter mapPresenter, ResultsPresenter resultsPresenter, DispatchAsync dispatchAsync,
+			MapPresenter mapPresenter, ResultsPresenter resultsPresenter,AdminPresenter adminPresenter, DispatchAsync dispatchAsync,
 			DataToolBar dataToolBar, BrowserMessages messages) {
 		super(display, eventBus);
 		this.messages = messages;
 		this.mapPresenter = mapPresenter;
 		this.facetPresenter = facetPresenter;
 		this.resultsPresenter = resultsPresenter;
-		this.dispatchAsync = dispatchAsync;
+		this.adminPresenter = adminPresenter;
+                this.dispatchAsync = dispatchAsync;
 		this.dataToolBar = dataToolBar;
 
 		addControl(mapPresenter);
@@ -122,12 +151,13 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
 	protected void onBind() {
 		// attach children
 		getDisplay().addWestWidget(facetPresenter.getDisplay().asWidget(), "Facets");
+
 		getDisplay().addWestWidget(dataToolBar, messages.overlays());
 		getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
 
-		// getDisplay().getOverlayPanel().add(overlayPresenter.getDisplay().asWidget());
+		//getDisplay().getOverlayPanel().add(overlayPresenter.getDisplay().asWidget());
 		getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());
-
+                getDisplay().getAdminPanel().add(adminPresenter.getDisplay().asWidget());
 	}
 
 	@Override
