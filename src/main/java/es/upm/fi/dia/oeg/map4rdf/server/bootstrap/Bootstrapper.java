@@ -14,6 +14,7 @@ import com.google.inject.servlet.GuiceServletContextListener;
 import es.upm.fi.dia.oeg.map4rdf.server.conf.Configuration;
 import es.upm.fi.dia.oeg.map4rdf.server.conf.Constants;
 import es.upm.fi.dia.oeg.map4rdf.server.conf.FacetedBrowserConfiguration;
+import es.upm.fi.dia.oeg.map4rdf.server.db.SQLconnector;
 import es.upm.fi.dia.oeg.map4rdf.server.inject.BrowserActionHandlerModule;
 import es.upm.fi.dia.oeg.map4rdf.server.inject.BrowserConfigModule;
 import es.upm.fi.dia.oeg.map4rdf.server.inject.BrowserModule;
@@ -31,7 +32,10 @@ public class Bootstrapper extends GuiceServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
-		InputStream propIn = servletContextEvent.getServletContext().getResourceAsStream(Constants.CONFIGURATION_FILE);
+              	
+              //  SQLconnector dbConnector = Guice.createInjector().getInstance(SQLconnector.class);
+                
+                InputStream propIn = servletContextEvent.getServletContext().getResourceAsStream(Constants.CONFIGURATION_FILE);
 		try {
 			config = new Configuration(propIn);
 			// add config to servlet context so it can be accessed in JSPs

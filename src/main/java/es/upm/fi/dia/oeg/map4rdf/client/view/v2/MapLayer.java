@@ -33,7 +33,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.Polygon;
  * @author Alexander De Leon
  */
 public interface MapLayer {
-
+    
 	HasClickHandlers draw(Point point);
 
 	HasClickHandlers drawPolygon(StyleMapShape<Polygon> polygon);
