@@ -33,6 +33,8 @@ public class Constants {
 
 	public static final String FACET_CONFIGURATION_FILE = "/WEB-INF/facets.ttl";
 
+        public static final String DB_NAME = "map4rdf.db";
+        
 	public static enum GeometryModel {
 		/**
 		 * OEG models geometries explicitly. The resource and its geometries are
