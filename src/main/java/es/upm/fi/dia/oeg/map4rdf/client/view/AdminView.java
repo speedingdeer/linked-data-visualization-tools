@@ -24,23 +24,37 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.view;
 
+import com.anotherbigidea.flash.movie.Text;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.inject.Guice;
 import com.google.inject.Inject;
 
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.AdminPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.FacetPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
+import es.upm.fi.dia.oeg.map4rdf.client.services.IPropertiesService;
+import es.upm.fi.dia.oeg.map4rdf.client.services.IPropertiesServiceAsync;
 import es.upm.fi.dia.oeg.map4rdf.client.util.LocaleUtil;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.FacetWidget;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.event.FacetValueSelectionChangedEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.event.FacetValueSelectionChangedHandler;
+import es.upm.fi.dia.oeg.map4rdf.server.db.DbConfig;
+import es.upm.fi.dia.oeg.map4rdf.server.db.SQLconnector;
 import es.upm.fi.dia.oeg.map4rdf.share.Facet;
 import es.upm.fi.dia.oeg.map4rdf.share.FacetGroup;
 
@@ -50,12 +64,57 @@ import es.upm.fi.dia.oeg.map4rdf.share.FacetGroup;
 public class AdminView extends Composite implements AdminPresenter.Display {
 
 	private FlowPanel panel;
-
+        private Button loginButton;
+        private Label loginLabel;
+        private PasswordTextBox loginTextBox;
+        private Label informationLoginLabel;
+        private IPropertiesServiceAsync propertiesServiceAsync;
+        
 	@Inject
 	public AdminView(BrowserResources resources) {
-		initWidget(createUi());
-                panel.add(new Label("ADMIN VIEW"));
-                panel.add(new Button("BUZIK"));
+               
+                propertiesServiceAsync = GWT.create(IPropertiesService.class);
+                AsyncCallback<String> callback = new AsyncCallback<String>(){
+
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        Window.alert("Something is wrong :(");
+                    }
+
+                    @Override
+                    public void onSuccess(String result) {
+                        Window.alert(result);
+                    }
+                };
+                
+                propertiesServiceAsync.getValue("klucz",callback);
+                       
+                initWidget(createUi());
+                
+                loginLabel = new Label("password:");
+                panel.add(loginLabel);
+                
+                loginTextBox = new PasswordTextBox();
+                panel.add(loginTextBox);
+                
+                informationLoginLabel = new Label("");
+                
+                loginButton = new Button("login");
+                panel.add(loginButton);
+                    
+                
+                loginButton.addClickHandler(new ClickHandler() {
+
+                    @Override
+                    public void onClick(ClickEvent event) {
+                      if(true) {//  if (loginTextBox.getText().equals(dbConnector.decryptString(dbConnector.getProperties("admin")))) {
+                            Window.alert("ok");
+                        } else {
+                            Window.alert(("fail"));
+                        }
+                    }
+                });
+                
 	}
 
 	/* ------------- Display API -- */

@@ -11,17 +11,16 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author filip
  */
+@Singleton
 public class SQLconnector {
     
-    Connection connection;
-    Statement statement;
+    public static Connection connection;
+    public static Statement statement;
     
     public SQLconnector() throws ClassNotFoundException, SQLException {
         
@@ -56,7 +55,7 @@ public class SQLconnector {
         }
     }
     
-    public Boolean setProperties(String key, String value) {
+    public static Boolean setProperties(String key, String value) {
         //check that connection and statement are ok
         
         try {
@@ -68,12 +67,12 @@ public class SQLconnector {
        
     }
 
-    public String getProperties(String key) {
+    public static String getProperties(String key) {
         try {
             ResultSet result =  statement.executeQuery("SELECT value FROM config WHERE key='"+key+"'");
             return result.getString("value");
         } catch (SQLException ex) {
-            Logger.getLogger(SQLconnector.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(SQLconnector.class.getName()).log(Level.SEVERE, null, ex);
             return "";
         }
     }
