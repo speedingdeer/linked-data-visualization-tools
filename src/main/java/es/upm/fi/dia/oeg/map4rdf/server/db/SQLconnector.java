@@ -5,56 +5,89 @@
 package es.upm.fi.dia.oeg.map4rdf.server.db;
 
 import com.google.inject.Singleton;
-import es.upm.fi.dia.oeg.map4rdf.server.conf.Constants;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author filip
  */
-@Singleton
 public class SQLconnector {
     
     Connection connection;
+    Statement statement;
     
-    public SQLconnector() throws ClassNotFoundException {
+    public SQLconnector() throws ClassNotFoundException, SQLException {
+        
         try {
             Class.forName("org.sqlite.JDBC");
             
-            File file=new File(Constants.DB_NAME);
+            File file=new File(DbConfig.DB_NAME);
+            Boolean init = true;
+            if (file.exists()) {
+                    init = false;
+            }
             
-            Statement statement;
-            
-            if (!file.exists()) {
-                connection = DriverManager.getConnection("jdbc:sqlite:" + Constants.DB_NAME);
-                statement = connection.createStatement();
-                statement.setQueryTimeout(30);  // set timeout to 30 sec.
-           
-                //statement.executeUpdate("drop table if exists person");
+            connection = DriverManager.getConnection("jdbc:sqlite:" + DbConfig.DB_NAME);
+            statement = connection.createStatement();
+            if(init) {
+                //init seed values for database
                 statement.executeUpdate("create table config (key string, value string)");
-                statement.executeUpdate("insert into config values('key', 'val')");
+                
+                //crypt and save admin password
+                setProperties("admin",cryptString(DbConfig.ADMIN_PASSWORD));
+                
+                for ( String key : DbConfig.DB_SEED.keySet() ) {
+                    setProperties(key,DbConfig.DB_SEED.get(key));
+                }
             }
-            else {
-                connection = DriverManager.getConnection("jdbc:sqlite:" + Constants.DB_NAME);
-                statement = connection.createStatement();
-                statement.setQueryTimeout(30);  // set timeout to 30 sec.
-            }
+            
             //Logger.getLogger(SQLconnector.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             //Logger.getLogger(SQLconnector.class.getName()).log(Level.SEVERE, null, ex);
+            statement.close();
+            connection.close();
         }
     }
     
-    private Boolean setProperties() {
-        return true;
+    public Boolean setProperties(String key, String value) {
+        //check that connection and statement are ok
+        
+        try {
+            statement.executeUpdate("INSERT INTO config VALUES('"+key+"', '"+value+"')");
+            return true;
+        } catch (SQLException ex) {
+          return false;
+        }
+       
     }
 
-    private String getProperties(String key) {
-        return "";
+    public String getProperties(String key) {
+        try {
+            ResultSet result =  statement.executeQuery("SELECT value FROM config WHERE key='"+key+"'");
+            return result.getString("value");
+        } catch (SQLException ex) {
+            Logger.getLogger(SQLconnector.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        }
     }
-
+    
+    public String cryptString(String value) {
+        return value;
+    }
+    public String decryptString(String value) {
+        return value;
+    }
+  
+    protected void finalize() throws Throwable {
+        statement.close();
+        connection.close();
+        super.finalize();
+    }
 }

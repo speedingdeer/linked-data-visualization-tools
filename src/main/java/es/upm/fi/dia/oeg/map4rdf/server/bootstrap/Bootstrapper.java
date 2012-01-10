@@ -33,7 +33,7 @@ public class Bootstrapper extends GuiceServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
               	
-                SQLconnector dbConnector = Guice.createInjector().getInstance(SQLconnector.class);
+                //SQLconnector dbConnector = Guice.createInjector().getInstance(SQLconnector.class);
              
                 InputStream propIn = servletContextEvent.getServletContext().getResourceAsStream(Constants.CONFIGURATION_FILE);
 		try {
