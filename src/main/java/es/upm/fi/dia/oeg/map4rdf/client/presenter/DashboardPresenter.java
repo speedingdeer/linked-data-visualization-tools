@@ -26,7 +26,6 @@ package es.upm.fi.dia.oeg.map4rdf.client.presenter;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import java.util.Collections;
 import java.util.Set;
@@ -72,7 +71,8 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
                 void addWestWidget(Widget widget, String header);
 		HasWidgets getMapPanel();
                 HasWidgets getAdminPanel();
-		void showAdminView();
+		HasWidgets getMainPanel();
+                void showAdminView();
                 void showMainView();
 	
         }
@@ -99,10 +99,18 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
         }
         
         private void mapSite() {
-            getDisplay().showMainView();
+            //getDisplay().showMainView();
+            if(getDisplay().getMainPanel().iterator().next().equals(adminPresenter.getDisplay().asWidget())) {
+                Window.Location.reload();
+            }
+            else {
+                ;
+            }
         }
         private void adminSite() {
-            getDisplay().showAdminView();
+            
+            getDisplay().getMainPanel().clear();
+            getDisplay().getMainPanel().add(adminPresenter.getDisplay().asWidget());
         }
         
 	@Inject
@@ -120,7 +128,8 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
 
 		addControl(mapPresenter);
 		addControl(facetPresenter);
-
+                addControl(adminPresenter);
+                
 		// registered for app-level events
 		eventBus.addHandler(FacetConstraintsChangedEvent.getType(), this);
 		eventBus.addHandler(LoadResourceEvent.getType(), this);
@@ -154,10 +163,11 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
 
 		getDisplay().addWestWidget(dataToolBar, messages.overlays());
 		getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
-
+                //getDisplay().addWestWidget(adminPresenter.getDisplay().asWidget(), "ADMIN");
 		//getDisplay().getOverlayPanel().add(overlayPresenter.getDisplay().asWidget());
-		getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());
-                getDisplay().getAdminPanel().add(adminPresenter.getDisplay().asWidget());
+		//getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());
+                //getDisplay().getAdminPanel().add(adminPresenter.getDisplay().asWidget());
+                getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());
 	}
 
 	@Override

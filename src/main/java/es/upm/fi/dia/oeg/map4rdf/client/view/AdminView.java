@@ -24,6 +24,7 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.view;
 
+import com.google.gwt.user.client.ui.Button;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -48,12 +49,13 @@ import es.upm.fi.dia.oeg.map4rdf.share.FacetGroup;
  */
 public class AdminView extends Composite implements AdminPresenter.Display {
 
-	private LayoutPanel panel;
+	private FlowPanel panel;
 
 	@Inject
 	public AdminView(BrowserResources resources) {
 		initWidget(createUi());
                 panel.add(new Label("ADMIN VIEW"));
+                panel.add(new Button("BUZIK"));
 	}
 
 	/* ------------- Display API -- */
@@ -76,7 +78,7 @@ public class AdminView extends Composite implements AdminPresenter.Display {
 
 	/* ---------------- helper methods -- */
 	private Widget createUi() {
-		panel = new LayoutPanel();
+		panel = new FlowPanel();
 		return panel;
 	}
 

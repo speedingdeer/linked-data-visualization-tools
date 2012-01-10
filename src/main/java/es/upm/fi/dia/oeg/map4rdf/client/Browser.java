@@ -32,7 +32,6 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
 import es.upm.fi.dia.oeg.map4rdf.client.event.LoadResourceEvent;
@@ -53,7 +52,7 @@ public class Browser implements EntryPoint {
 		AppController controller = new AppController(injector.getBrowserUi(), injector.getEventBus(),injector.getDashboard());
 		         controller.bind();
 		RootLayoutPanel.get().add(controller.getDisplay().asWidget());
-
+                
 		PlaceManager placeManager = new PlaceManager(injector.getEventBus());
 		if (History.getToken() == null || History.getToken().length() == 0) {
 			// Go to the default place
