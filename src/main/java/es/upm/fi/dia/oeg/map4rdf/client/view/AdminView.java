@@ -24,98 +24,128 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.view;
 
-import com.anotherbigidea.flash.movie.Text;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import java.util.List;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.inject.Guice;
 import com.google.inject.Inject;
 
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.AdminPresenter;
-import es.upm.fi.dia.oeg.map4rdf.client.presenter.FacetPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.services.IPropertiesService;
 import es.upm.fi.dia.oeg.map4rdf.client.services.IPropertiesServiceAsync;
-import es.upm.fi.dia.oeg.map4rdf.client.util.LocaleUtil;
-import es.upm.fi.dia.oeg.map4rdf.client.widget.FacetWidget;
-import es.upm.fi.dia.oeg.map4rdf.client.widget.event.FacetValueSelectionChangedEvent;
-import es.upm.fi.dia.oeg.map4rdf.client.widget.event.FacetValueSelectionChangedHandler;
-import es.upm.fi.dia.oeg.map4rdf.server.db.DbConfig;
 import es.upm.fi.dia.oeg.map4rdf.server.db.SQLconnector;
-import es.upm.fi.dia.oeg.map4rdf.share.Facet;
-import es.upm.fi.dia.oeg.map4rdf.share.FacetGroup;
+import es.upm.fi.dia.oeg.map4rdf.share.db.StringProcessor;
 
 /**
  * @author Alexander De Leon
  */
 public class AdminView extends Composite implements AdminPresenter.Display {
 
-	private FlowPanel panel;
+        private FlowPanel mainPanel;
+        private FlowPanel loginPanel;
+        private FlowPanel adminPanel;
+        
         private Button loginButton;
         private Label loginLabel;
         private PasswordTextBox loginTextBox;
-        private Label informationLoginLabel;
+        
+        private Button saveButton;
+        private Label enpointLabel;
+        private TextBox endpointTextBox ;
+        private Label geometryLabel;
+        private TextBox geometryTextBox ;
+        private Label apikKeyLabel;
+        private TextBox apiKeyTextBox ;
+        private Label facetConfLabel;
+        private TextBox facetConfTextBox ;
+        
         private IPropertiesServiceAsync propertiesServiceAsync;
+        
+        
+        
         
 	@Inject
 	public AdminView(BrowserResources resources) {
                
                 propertiesServiceAsync = GWT.create(IPropertiesService.class);
-                AsyncCallback<String> callback = new AsyncCallback<String>(){
+                final AsyncCallback<String> loginCallback = new AsyncCallback<String>(){
 
                     @Override
                     public void onFailure(Throwable caught) {
-                        Window.alert("Something is wrong :(");
+                        //in case there is something wrong
+                        Window.alert("Check your database connection");
                     }
 
                     @Override
                     public void onSuccess(String result) {
-                        Window.alert(result);
+                        if(StringProcessor.decrypt(result).equals(loginTextBox.getValue())) {
+                            //in case your password is correct
+                            loginPanel.setVisible(false);
+                            adminPanel.setVisible(true);
+                            //and fill proper fields
+                            
+                        } else {
+                            //in case your password is incorrect
+                            Window.alert("Your password is incorrect");
+                        }
                     }
                 };
-                
-                propertiesServiceAsync.getValue("klucz",callback);
                        
                 initWidget(createUi());
                 
                 loginLabel = new Label("password:");
-                panel.add(loginLabel);
+                loginPanel.add(loginLabel);
                 
                 loginTextBox = new PasswordTextBox();
-                panel.add(loginTextBox);
+                loginPanel.add(loginTextBox);
                 
-                informationLoginLabel = new Label("");
                 
                 loginButton = new Button("login");
-                panel.add(loginButton);
+                loginPanel.add(loginButton);
                     
                 
                 loginButton.addClickHandler(new ClickHandler() {
 
                     @Override
                     public void onClick(ClickEvent event) {
-                      if(true) {//  if (loginTextBox.getText().equals(dbConnector.decryptString(dbConnector.getProperties("admin")))) {
-                            Window.alert("ok");
-                        } else {
-                            Window.alert(("fail"));
-                        }
+                        propertiesServiceAsync.getValue("admin",loginCallback);
                     }
                 });
                 
-	}
+                enpointLabel = new Label("endpoint_url:");
+                adminPanel.add(enpointLabel);
+                endpointTextBox = new TextBox();
+                adminPanel.add(endpointTextBox);
+                
+                geometryLabel = new Label("geometry:");
+                adminPanel.add(geometryLabel);
+                geometryTextBox = new TextBox();
+                adminPanel.add(geometryTextBox);
+                
+                apikKeyLabel = new Label("google api key:");
+                adminPanel.add(apikKeyLabel);
+                apiKeyTextBox = new TextBox();
+                adminPanel.add(apiKeyTextBox);
+                
+                facetConfLabel = new Label("facet automatic:");
+                adminPanel.add(facetConfLabel);
+                facetConfTextBox = new TextBox();
+                adminPanel.add(facetConfTextBox);
+                
+                
+                saveButton = new Button("save");
+                adminPanel.add(saveButton);
+            }
 
 	/* ------------- Display API -- */
 	@Override
@@ -137,8 +167,14 @@ public class AdminView extends Composite implements AdminPresenter.Display {
 
 	/* ---------------- helper methods -- */
 	private Widget createUi() {
-		panel = new FlowPanel();
-		return panel;
+                mainPanel = new FlowPanel();
+		loginPanel = new FlowPanel();
+                adminPanel = new FlowPanel();
+                loginPanel.setVisible(true);
+                adminPanel.setVisible(false);
+		mainPanel.add(adminPanel);
+                mainPanel.add(loginPanel);
+                return mainPanel;
 	}
 
 }

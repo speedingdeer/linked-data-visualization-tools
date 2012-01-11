@@ -5,6 +5,7 @@
 package es.upm.fi.dia.oeg.map4rdf.server.db;
 
 import com.google.inject.Singleton;
+import es.upm.fi.dia.oeg.map4rdf.share.db.StringProcessor;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -40,7 +41,7 @@ public class SQLconnector {
                 statement.executeUpdate("create table config (key string, value string)");
                 
                 //crypt and save admin password
-                setProperties("admin",cryptString(DbConfig.ADMIN_PASSWORD));
+                setProperties("admin",StringProcessor.crypt(DbConfig.ADMIN_PASSWORD));
                 
                 for ( String key : DbConfig.DB_SEED.keySet() ) {
                     setProperties(key,DbConfig.DB_SEED.get(key));
@@ -76,17 +77,11 @@ public class SQLconnector {
             return "";
         }
     }
-    
-    public String cryptString(String value) {
-        return value;
-    }
-    public String decryptString(String value) {
-        return value;
-    }
   
+    @Override
     protected void finalize() throws Throwable {
-        statement.close();
-        connection.close();
+        if (statement != null) statement.close();
+        if (connection != null) connection.close();
         super.finalize();
     }
 }

@@ -100,7 +100,9 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
         
         private void mapSite() {
             //getDisplay().showMainView();
+            
             if(getDisplay().getMainPanel().iterator().next().equals(adminPresenter.getDisplay().asWidget())) {
+                getDisplay().getMainPanel().clear();
                 Window.Location.reload();
             }
             else {

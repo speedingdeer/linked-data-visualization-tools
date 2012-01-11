@@ -7,6 +7,7 @@ package es.upm.fi.dia.oeg.map4rdf.server.db.services;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.inject.Singleton;
 import es.upm.fi.dia.oeg.map4rdf.client.services.IPropertiesService;
+import es.upm.fi.dia.oeg.map4rdf.server.db.SQLconnector;
 
 /**
  *
@@ -17,7 +18,7 @@ public class PropertiesService extends RemoteServiceServlet implements IProperti
 
     @Override
     public String getValue(String key) {
-        return "kluczyk";
+        return SQLconnector.getProperties(key);
     }
     
 }

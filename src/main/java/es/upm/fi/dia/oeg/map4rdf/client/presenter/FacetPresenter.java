@@ -110,7 +110,7 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-				Window.alert(caught.toString());
+				//Window.alert(caught.toString());
 			}
 
 			@Override
