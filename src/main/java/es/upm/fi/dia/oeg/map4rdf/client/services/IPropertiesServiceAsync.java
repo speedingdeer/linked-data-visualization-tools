@@ -5,12 +5,18 @@
 package es.upm.fi.dia.oeg.map4rdf.client.services;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import es.upm.fi.dia.oeg.map4rdf.share.ConfigPropertie;
+import java.util.List;
 
 /**
  *
  * @author filip
  */
+
 public interface  IPropertiesServiceAsync {
     
     public void getValue(String key, AsyncCallback<String> callback);
+    public void getValues(List<String> keysList, AsyncCallback<List<ConfigPropertie>> valuesLoadCallback);
+    public void setValues(List<ConfigPropertie> propertiesList, AsyncCallback<Boolean> valuesLoadCallback);
+    
 }

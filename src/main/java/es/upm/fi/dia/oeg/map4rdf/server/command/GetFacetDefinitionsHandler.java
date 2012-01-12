@@ -38,7 +38,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.action.GetFacetDefinitions;
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetFacetDefinitionsResult;
 import es.upm.fi.dia.oeg.map4rdf.server.conf.ConfigurationException;
 import es.upm.fi.dia.oeg.map4rdf.server.conf.FacetedBrowserConfiguration;
-import es.upm.fi.dia.oeg.map4rdf.server.conf.ParameterNames;
+import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.DaoException;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;

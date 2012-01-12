@@ -29,7 +29,7 @@ import com.google.inject.Provides;
 import com.google.inject.name.Named;
 
 import es.upm.fi.dia.oeg.map4rdf.server.conf.Constants;
-import es.upm.fi.dia.oeg.map4rdf.server.conf.ParameterNames;
+import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.impl.DbPediaDaoImpl;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.impl.GeoLinkedDataDaoImpl;

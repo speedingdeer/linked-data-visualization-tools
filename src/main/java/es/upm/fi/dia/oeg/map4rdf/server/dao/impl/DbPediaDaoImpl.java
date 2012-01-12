@@ -42,7 +42,7 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
-import es.upm.fi.dia.oeg.map4rdf.server.conf.ParameterNames;
+import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.DaoException;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Geo;

@@ -6,6 +6,8 @@ package es.upm.fi.dia.oeg.map4rdf.client.services;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import es.upm.fi.dia.oeg.map4rdf.share.ConfigPropertie;
+import java.util.List;
 
 /**
  *
@@ -14,4 +16,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("properties")
 public interface IPropertiesService extends RemoteService{
     public String getValue(String key);
+    public List<ConfigPropertie> getValues(List<String> keys);
+    public Boolean setValues(List<ConfigPropertie> propertiesList);
 }

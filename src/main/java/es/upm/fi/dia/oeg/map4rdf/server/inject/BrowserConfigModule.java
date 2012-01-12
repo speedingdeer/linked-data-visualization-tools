@@ -31,7 +31,7 @@ import es.upm.fi.dia.oeg.map4rdf.server.conf.Configuration;
 import es.upm.fi.dia.oeg.map4rdf.server.conf.Constants;
 import es.upm.fi.dia.oeg.map4rdf.server.conf.FacetedBrowserConfiguration;
 import es.upm.fi.dia.oeg.map4rdf.server.conf.ParameterDefaults;
-import es.upm.fi.dia.oeg.map4rdf.server.conf.ParameterNames;
+import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
 
 /**
  * @author Alexander De Leon

@@ -39,12 +39,18 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
+import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.AdminPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.services.IPropertiesService;
 import es.upm.fi.dia.oeg.map4rdf.client.services.IPropertiesServiceAsync;
-import es.upm.fi.dia.oeg.map4rdf.server.db.SQLconnector;
+import es.upm.fi.dia.oeg.map4rdf.share.ConfigPropertie;
+import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
 import es.upm.fi.dia.oeg.map4rdf.share.db.StringProcessor;
+import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
+import java.lang.String;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Alexander De Leon
@@ -56,10 +62,13 @@ public class AdminView extends Composite implements AdminPresenter.Display {
         private FlowPanel adminPanel;
         
         private Button loginButton;
+        private Button backButton;
         private Label loginLabel;
         private PasswordTextBox loginTextBox;
         
         private Button saveButton;
+        private Button canelBackButton;
+        
         private Label enpointLabel;
         private TextBox endpointTextBox ;
         private Label geometryLabel;
@@ -78,11 +87,36 @@ public class AdminView extends Composite implements AdminPresenter.Display {
 	public AdminView(BrowserResources resources) {
                
                 propertiesServiceAsync = GWT.create(IPropertiesService.class);
+                final AsyncCallback<List<ConfigPropertie>> valuesLoadCallback = new AsyncCallback<List<ConfigPropertie>>(){
+
+                    @Override
+                    public void onFailure(Throwable caught) {
+                       Window.alert("Check your database connection");
+                    }
+
+                    @Override
+                    public void onSuccess(List<ConfigPropertie> result) {
+                        for(ConfigPropertie p : result) {
+                            if (p.getKey().equals(ParameterNames.ENDPOINT_URL)){
+                                endpointTextBox.setValue(p.getValue());
+                            }
+                            else if (p.getKey().equals(ParameterNames.GOOGLE_MAPS_API_KEY)){
+                                apiKeyTextBox.setValue(p.getValue());     
+                            }
+                            else if (p.getKey().equals(ParameterNames.GEOMETRY_MODEL)){
+                                geometryTextBox.setValue(p.getValue());    
+                            }
+                            else if (p.getKey().equals(ParameterNames.FACETS_AUTO)){
+                                facetConfTextBox.setValue(p.getValue());    
+                            }
+                        }
+                    }
+                };
+                    
                 final AsyncCallback<String> loginCallback = new AsyncCallback<String>(){
 
                     @Override
                     public void onFailure(Throwable caught) {
-                        //in case there is something wrong
                         Window.alert("Check your database connection");
                     }
 
@@ -92,15 +126,36 @@ public class AdminView extends Composite implements AdminPresenter.Display {
                             //in case your password is correct
                             loginPanel.setVisible(false);
                             adminPanel.setVisible(true);
-                            //and fill proper fields
+                            List<String> keysList = new ArrayList<String>();
+                            keysList.add(ParameterNames.ENDPOINT_URL);
+                            keysList.add(ParameterNames.GOOGLE_MAPS_API_KEY);
+                            keysList.add(ParameterNames.GEOMETRY_MODEL);
+                            keysList.add(ParameterNames.FACETS_AUTO);
+                            
+                            propertiesServiceAsync.getValues(keysList,valuesLoadCallback);
                             
                         } else {
-                            //in case your password is incorrect
                             Window.alert("Your password is incorrect");
                         }
                     }
                 };
-                       
+                
+                final AsyncCallback<Boolean> saveCallback = new AsyncCallback<Boolean>(){
+
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        Window.alert("Unexpected exception");
+                    }
+
+                    @Override
+                    public void onSuccess(Boolean result) {
+                        Window.Location.assign("#" + Places.DASHBOARD);
+                        Window.Location.reload();
+                    }
+
+        
+                };
+                
                 initWidget(createUi());
                 
                 loginLabel = new Label("password:");
@@ -119,6 +174,18 @@ public class AdminView extends Composite implements AdminPresenter.Display {
                     @Override
                     public void onClick(ClickEvent event) {
                         propertiesServiceAsync.getValue("admin",loginCallback);
+                    }
+                });
+                
+                backButton = new Button("back");
+                loginPanel.add(backButton);
+                
+                backButton.addClickHandler(new ClickHandler() {
+
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        Window.Location.assign("#" + Places.DASHBOARD);
+                        Window.Location.reload();
                     }
                 });
                 
@@ -144,7 +211,33 @@ public class AdminView extends Composite implements AdminPresenter.Display {
                 
                 
                 saveButton = new Button("save");
+                
+                saveButton.addClickHandler(new ClickHandler() {
+
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        List<ConfigPropertie> list = new ArrayList<ConfigPropertie>();
+                        list.add(new ConfigPropertie(ParameterNames.ENDPOINT_URL,endpointTextBox.getValue()));
+                        list.add(new ConfigPropertie(ParameterNames.GOOGLE_MAPS_API_KEY,apiKeyTextBox.getValue()));
+                        list.add(new ConfigPropertie(ParameterNames.GEOMETRY_MODEL,geometryTextBox.getValue()));
+                        list.add(new ConfigPropertie(ParameterNames.FACETS_AUTO,facetConfTextBox.getValue()));
+                        propertiesServiceAsync.setValues(list, saveCallback);
+                    }
+                });
+                
                 adminPanel.add(saveButton);
+                
+                canelBackButton = new Button("cancel/back");
+                adminPanel.add(canelBackButton);
+                
+                canelBackButton.addClickHandler(new ClickHandler() {
+
+                    @Override
+                    public void onClick(ClickEvent event) {
+                        Window.Location.assign("#" + Places.DASHBOARD);
+                        Window.Location.reload();
+                    }
+                });
             }
 
 	/* ------------- Display API -- */

@@ -22,7 +22,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.server.conf;
+package es.upm.fi.dia.oeg.map4rdf.share.conf;
 
 /**
  * @author Alexander De Leon
