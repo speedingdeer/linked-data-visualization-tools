@@ -35,7 +35,6 @@ public final class SQLconnector {
                     init = false;
             }
             db = SqlJetDb.open(dbFile, true);
-            //db.getOptions().setAutovacuum(true);
             if(init) {
                 //init seed values for database
                 try {
@@ -45,9 +44,7 @@ public final class SQLconnector {
                 } finally {
                     db.commit();
                 }
-                //crypt and save admin password
-                //addPropertie("admin",crypt(DbConfig.ADMIN_PASSWORD));
-                
+                //initiate all properties
                 for ( String key : DbConfig.DB_SEED.keySet() ) {
                     addPropertie(key,DbConfig.DB_SEED.get(key));
                 }
@@ -67,11 +64,11 @@ public final class SQLconnector {
                 table.insert(key,value);
             }
             
-            db.commit();
         } catch (SqlJetException ex) {
-       //    db.commit();
+            db.commit();
             return false;
         }
+        db.commit();
         return true;
     }
 

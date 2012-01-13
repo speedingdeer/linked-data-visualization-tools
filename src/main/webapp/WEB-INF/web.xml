@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app id="WebApp_ID" version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
     <display-name>Map4RDF</display-name>
+    
     <servlet>
         <servlet-name>PropertiesService</servlet-name>
         <servlet-class>es.upm.fi.dia.oeg.map4rdf.server.db.services.DBService</servlet-class>
@@ -9,6 +10,7 @@
         <servlet-name>PropertiesService</servlet-name>
         <url-pattern>/es.upm.fi.dia.oeg.map4rdf.map4rdf/properties</url-pattern>
     </servlet-mapping>
+    
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
@@ -29,9 +31,4 @@
         <listener-class>es.upm.fi.dia.oeg.map4rdf.server.bootstrap.Bootstrapper</listener-class>
     </listener>
 
-  
-    
-    
-    s
-  
     </web-app>
