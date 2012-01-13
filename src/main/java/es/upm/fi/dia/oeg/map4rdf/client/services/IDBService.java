@@ -14,8 +14,10 @@ import java.util.List;
  * @author filip
  */
 @RemoteServiceRelativePath("properties")
-public interface IPropertiesService extends RemoteService{
+public interface IDBService extends RemoteService{
     public String getValue(String key);
     public List<ConfigPropertie> getValues(List<String> keys);
     public Boolean setValues(List<ConfigPropertie> propertiesList);
+    public Boolean login(String password);
+    public void logout();
 }

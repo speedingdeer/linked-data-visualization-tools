@@ -6,11 +6,11 @@ package es.upm.fi.dia.oeg.map4rdf.server.db;
 
 import com.google.inject.Singleton;
 import es.upm.fi.dia.oeg.map4rdf.share.ConfigPropertie;
-import es.upm.fi.dia.oeg.map4rdf.share.db.StringProcessor;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import org.mindrot.jbcrypt.BCrypt;
 import org.tmatesoft.sqljet.core.SqlJetException;
 import org.tmatesoft.sqljet.core.SqlJetTransactionMode;
 import org.tmatesoft.sqljet.core.table.ISqlJetCursor;
@@ -46,7 +46,7 @@ public final class SQLconnector {
                     db.commit();
                 }
                 //crypt and save admin password
-                addPropertie("admin",StringProcessor.crypt(DbConfig.ADMIN_PASSWORD));
+                //addPropertie("admin",crypt(DbConfig.ADMIN_PASSWORD));
                 
                 for ( String key : DbConfig.DB_SEED.keySet() ) {
                     addPropertie(key,DbConfig.DB_SEED.get(key));
@@ -61,7 +61,12 @@ public final class SQLconnector {
         db.beginTransaction(SqlJetTransactionMode.WRITE);
         try {    
             table = db.getTable("config");
-            table.insert(key,value);
+            if(key.equals("admin")) {
+                table.insert(key,crypt(value));
+            } else {
+                table.insert(key,value);
+            }
+            
             db.commit();
         } catch (SqlJetException ex) {
        //    db.commit();
@@ -116,7 +121,12 @@ public final class SQLconnector {
             for (ConfigPropertie p : properties) {
                 ISqlJetCursor cursorUpdate = table.lookup("key_index",p.getKey());
                 //resultList.add(new ConfigPropertie(key, cursor.getString("value")));
-                cursorUpdate.update(cursorUpdate.getValue("key"),p.getValue());
+                if(p.getKey().equals("admin")) {
+                    cursorUpdate.update(cursorUpdate.getValue("key"),crypt(p.getValue()));
+                }
+                else {
+                    cursorUpdate.update(cursorUpdate.getValue("key"),p.getValue());
+                }
             }
             db.commit();
             return true;
@@ -127,4 +137,27 @@ public final class SQLconnector {
         }
 
     }
+    
+        public Boolean login(String password) throws SqlJetException  {
+        ISqlJetTable table;
+        db.beginTransaction(SqlJetTransactionMode.READ_ONLY);
+        try {
+            table = db.getTable("config");
+            ISqlJetCursor cursor = table.lookup("key_index","admin");
+            String a = cursor.getString("value");
+            //ISqlJetCursor cursor = table.open();
+            db.commit();
+            return BCrypt.checkpw(password, a);
+        } catch (SqlJetException ex) {
+                    //Logger.getLogger(SQLconnector.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        db.commit();
+        return false;
+    }
+
+        
+    private String crypt(String string) {
+        return BCrypt.hashpw(string, BCrypt.gensalt(12));
+    }
 }
+            

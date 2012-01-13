@@ -3,7 +3,7 @@
     <display-name>Map4RDF</display-name>
     <servlet>
         <servlet-name>PropertiesService</servlet-name>
-        <servlet-class>es.upm.fi.dia.oeg.map4rdf.server.db.services.PropertiesService</servlet-class>
+        <servlet-class>es.upm.fi.dia.oeg.map4rdf.server.db.services.DBService</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>PropertiesService</servlet-name>
@@ -12,7 +12,7 @@
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
-    
+    <sessions-enabled>true</sessions-enabled>
   
     <filter>
         <filter-name>guiceFilter</filter-name>

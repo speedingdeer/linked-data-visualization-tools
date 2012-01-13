@@ -3,25 +3,8 @@
  * Departamento de Inteligencia Artificial,
  * Facultad de Informetica, Universidad 
  * Politecnica de Madrid, Spain
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
  */
+
 package es.upm.fi.dia.oeg.map4rdf.client.view;
 
 import com.google.gwt.core.client.GWT;
@@ -42,18 +25,15 @@ import com.google.inject.Inject;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.AdminPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
-import es.upm.fi.dia.oeg.map4rdf.client.services.IPropertiesService;
-import es.upm.fi.dia.oeg.map4rdf.client.services.IPropertiesServiceAsync;
+import es.upm.fi.dia.oeg.map4rdf.client.services.IDBService;
+import es.upm.fi.dia.oeg.map4rdf.client.services.IDBServiceAsync;
 import es.upm.fi.dia.oeg.map4rdf.share.ConfigPropertie;
 import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
-import es.upm.fi.dia.oeg.map4rdf.share.db.StringProcessor;
-import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
-import java.lang.String;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Alexander De Leon
+ * @author Filip
  */
 public class AdminView extends Composite implements AdminPresenter.Display {
 
@@ -77,8 +57,13 @@ public class AdminView extends Composite implements AdminPresenter.Display {
         private TextBox apiKeyTextBox ;
         private Label facetConfLabel;
         private TextBox facetConfTextBox ;
+        private Label newPasswordLabel;
+        private PasswordTextBox newPasswordTextBox ;
+        private Label confirmPasswordLabel;
+        private PasswordTextBox confirmPasswordTextBox ;
         
-        private IPropertiesServiceAsync propertiesServiceAsync;
+        
+        private IDBServiceAsync propertiesServiceAsync;
         
         
         
@@ -86,7 +71,7 @@ public class AdminView extends Composite implements AdminPresenter.Display {
 	@Inject
 	public AdminView(BrowserResources resources) {
                
-                propertiesServiceAsync = GWT.create(IPropertiesService.class);
+                propertiesServiceAsync = GWT.create(IDBService.class);
                 final AsyncCallback<List<ConfigPropertie>> valuesLoadCallback = new AsyncCallback<List<ConfigPropertie>>(){
 
                     @Override
@@ -113,7 +98,7 @@ public class AdminView extends Composite implements AdminPresenter.Display {
                     }
                 };
                     
-                final AsyncCallback<String> loginCallback = new AsyncCallback<String>(){
+                final AsyncCallback<Boolean> loginCallback = new AsyncCallback<Boolean>(){
 
                     @Override
                     public void onFailure(Throwable caught) {
@@ -121,8 +106,8 @@ public class AdminView extends Composite implements AdminPresenter.Display {
                     }
 
                     @Override
-                    public void onSuccess(String result) {
-                        if(StringProcessor.decrypt(result).equals(loginTextBox.getValue())) {
+                    public void onSuccess(Boolean result) {
+                        if(result) {
                             //in case your password is correct
                             loginPanel.setVisible(false);
                             adminPanel.setVisible(true);
@@ -149,8 +134,7 @@ public class AdminView extends Composite implements AdminPresenter.Display {
 
                     @Override
                     public void onSuccess(Boolean result) {
-                        Window.Location.assign("#" + Places.DASHBOARD);
-                        Window.Location.reload();
+                        backToMainPage();
                     }
 
         
@@ -173,7 +157,7 @@ public class AdminView extends Composite implements AdminPresenter.Display {
 
                     @Override
                     public void onClick(ClickEvent event) {
-                        propertiesServiceAsync.getValue("admin",loginCallback);
+                        propertiesServiceAsync.login(loginTextBox.getValue(),loginCallback);
                     }
                 });
                 
@@ -184,8 +168,7 @@ public class AdminView extends Composite implements AdminPresenter.Display {
 
                     @Override
                     public void onClick(ClickEvent event) {
-                        Window.Location.assign("#" + Places.DASHBOARD);
-                        Window.Location.reload();
+                        backToMainPage();
                     }
                 });
                 
@@ -209,6 +192,14 @@ public class AdminView extends Composite implements AdminPresenter.Display {
                 facetConfTextBox = new TextBox();
                 adminPanel.add(facetConfTextBox);
                 
+                newPasswordLabel = new Label("new password:");
+                adminPanel.add(newPasswordLabel);
+                newPasswordTextBox = new PasswordTextBox();
+                adminPanel.add(newPasswordTextBox);
+                confirmPasswordLabel = new Label("confirm password:");
+                adminPanel.add(confirmPasswordLabel);
+                confirmPasswordTextBox = new PasswordTextBox();
+                adminPanel.add(confirmPasswordTextBox);
                 
                 saveButton = new Button("save");
                 
@@ -216,12 +207,20 @@ public class AdminView extends Composite implements AdminPresenter.Display {
 
                     @Override
                     public void onClick(ClickEvent event) {
-                        List<ConfigPropertie> list = new ArrayList<ConfigPropertie>();
-                        list.add(new ConfigPropertie(ParameterNames.ENDPOINT_URL,endpointTextBox.getValue()));
-                        list.add(new ConfigPropertie(ParameterNames.GOOGLE_MAPS_API_KEY,apiKeyTextBox.getValue()));
-                        list.add(new ConfigPropertie(ParameterNames.GEOMETRY_MODEL,geometryTextBox.getValue()));
-                        list.add(new ConfigPropertie(ParameterNames.FACETS_AUTO,facetConfTextBox.getValue()));
-                        propertiesServiceAsync.setValues(list, saveCallback);
+                        
+                        if(newPasswordTextBox.getValue().equals(confirmPasswordTextBox.getValue())) { 
+                            List<ConfigPropertie> list = new ArrayList<ConfigPropertie>();
+                            list.add(new ConfigPropertie(ParameterNames.ENDPOINT_URL,endpointTextBox.getValue()));
+                            list.add(new ConfigPropertie(ParameterNames.GOOGLE_MAPS_API_KEY,apiKeyTextBox.getValue()));
+                            list.add(new ConfigPropertie(ParameterNames.GEOMETRY_MODEL,geometryTextBox.getValue()));
+                            list.add(new ConfigPropertie(ParameterNames.FACETS_AUTO,facetConfTextBox.getValue()));
+                            if(!newPasswordTextBox.getValue().equals("")) {
+                                 list.add(new ConfigPropertie(ParameterNames.ADMIN,newPasswordTextBox.getValue()));
+                            }
+                            propertiesServiceAsync.setValues(list, saveCallback);
+                        } else {
+                            Window.alert("Password does not match the confirm password");
+                        }
                     }
                 });
                 
@@ -234,8 +233,7 @@ public class AdminView extends Composite implements AdminPresenter.Display {
 
                     @Override
                     public void onClick(ClickEvent event) {
-                        Window.Location.assign("#" + Places.DASHBOARD);
-                        Window.Location.reload();
+                        backToMainPage();
                     }
                 });
             }
@@ -269,5 +267,11 @@ public class AdminView extends Composite implements AdminPresenter.Display {
                 mainPanel.add(loginPanel);
                 return mainPanel;
 	}
+        
+        private void backToMainPage(){
+            propertiesServiceAsync.logout(null);
+            Window.Location.assign("#" + Places.DASHBOARD);
+            Window.Location.reload();
+        }
 
 }

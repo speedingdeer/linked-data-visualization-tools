@@ -7,10 +7,11 @@ package es.upm.fi.dia.oeg.map4rdf.server.db.services;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.google.inject.Guice;
 import com.google.inject.Singleton;
-import es.upm.fi.dia.oeg.map4rdf.client.services.IPropertiesService;
+import es.upm.fi.dia.oeg.map4rdf.client.services.IDBService;
 import es.upm.fi.dia.oeg.map4rdf.server.db.SQLconnector;
 import es.upm.fi.dia.oeg.map4rdf.share.ConfigPropertie;
 import java.util.List;
+import javax.servlet.http.HttpSession;
 import org.tmatesoft.sqljet.core.SqlJetException;
 
 /**
@@ -18,7 +19,7 @@ import org.tmatesoft.sqljet.core.SqlJetException;
  * @author filip
  */
 @Singleton
-public class PropertiesService extends RemoteServiceServlet implements IPropertiesService{
+public class DBService extends RemoteServiceServlet implements IDBService{
     
     @Override
     public String getValue(String key) {
@@ -46,10 +47,42 @@ public class PropertiesService extends RemoteServiceServlet implements IProperti
     public Boolean setValues(List<ConfigPropertie> propertiesList) {
         SQLconnector dbConnector = Guice.createInjector().getInstance(SQLconnector.class);
         try {
-            return dbConnector.setProperties(propertiesList);
+            HttpSession session = this.getThreadLocalRequest().getSession();
+            String a = (String) session.getAttribute("admin");
+            if(a.equals("true")) {
+                return dbConnector.setProperties(propertiesList);
+            }
+            else {
+                return false;
+            }
         } catch (SqlJetException ex) {
             return false;
             //Logger.getLogger(PropertiesService.class.getName()).log(Level.SEVERE, null, ex);
         }  
+    }
+
+    @Override
+    public Boolean login(String password) {
+        SQLconnector dbConnector = Guice.createInjector().getInstance(SQLconnector.class);
+        try {
+            if(dbConnector.login(password)) {
+                HttpSession session = this.getThreadLocalRequest().getSession();
+                session.setAttribute("admin", "true");
+                return true;
+            }
+            else {
+                return false;
+            }
+            
+        } catch (SqlJetException ex) {
+            return false;
+            //Logger.getLogger(PropertiesService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void logout() {
+        HttpSession session = this.getThreadLocalRequest().getSession();
+        session.setAttribute("admin", "false");
     }
 }

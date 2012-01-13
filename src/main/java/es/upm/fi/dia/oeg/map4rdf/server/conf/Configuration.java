@@ -24,32 +24,55 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.server.conf;
 
+import com.google.inject.Guice;
+import es.upm.fi.dia.oeg.map4rdf.server.db.SQLconnector;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.tmatesoft.sqljet.core.SqlJetException;
 
 /**
  * @author Alexander De Leon
  */
 public class Configuration {
 
-	private final Properties properties;
+    private final Properties properties;
 
-	public Configuration(Properties properties) {
-		this.properties = properties;
-	}
+    public Configuration(Properties properties) {
+        this.properties = properties;
+    }
 
-	public Configuration(InputStream propIn) throws IOException {
-		properties = new Properties();
-		properties.load(propIn);
-	}
+    public Configuration() {
+        properties = new Properties();
+//        properties.load(propIn);
+    }
 
-	public String getConfigurationParamValue(String param) {
-		return properties.getProperty(param);
-	}
+    public String getConfigurationParamValue(String param) {
+        try {
+            SQLconnector dbConnector = Guice.createInjector().getInstance(SQLconnector.class);
+            return dbConnector.getPropertie(param);
+            //return properties.getProperty(param);
+        } catch (SqlJetException ex) {
+            Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        }
+    }
 
-	public boolean containsConfigurationParam(String param) {
-		return properties.containsKey(param);
-	}
-
+    public boolean containsConfigurationParam(String param) {
+        try {
+            SQLconnector dbConnector = Guice.createInjector().getInstance(SQLconnector.class);
+            if (!dbConnector.getPropertie(param).equals("")) {
+                return true;
+            } else {
+                return false;
+            }
+            //return properties.getProperty(param);
+        } catch (SqlJetException ex) {
+            Logger.getLogger(Configuration.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+    //return properties.containsKey(param);
 }
