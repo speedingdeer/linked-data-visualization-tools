@@ -6,11 +6,6 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.view;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 
 import com.google.gwt.user.client.ui.Composite;
@@ -21,14 +16,10 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
-import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.AdminPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
-import es.upm.fi.dia.oeg.map4rdf.client.services.IDBService;
-import es.upm.fi.dia.oeg.map4rdf.client.services.IDBServiceAsync;
 import es.upm.fi.dia.oeg.map4rdf.share.ConfigPropertie;
 import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,14 +28,9 @@ import java.util.List;
 public class AdminView extends Composite implements AdminPresenter.Display {
 
     private FlowPanel mainPanel;
-    private FlowPanel loginPanel;
-    private FlowPanel adminPanel;
-    private Button loginButton;
-    private Button backButton;
-    private Label loginLabel;
     private PasswordTextBox loginTextBox;
     private Button saveButton;
-    private Button canelBackButton;
+    private Button logoutButton;
     private Label enpointLabel;
     private TextBox endpointTextBox;
     private Label geometryLabel;
@@ -57,16 +43,10 @@ public class AdminView extends Composite implements AdminPresenter.Display {
     private PasswordTextBox newPasswordTextBox;
     private Label confirmPasswordLabel;
     private PasswordTextBox confirmPasswordTextBox;
-    private IDBServiceAsync propertiesServiceAsync;
-    private AsyncCallback<List<ConfigPropertie>> valuesLoadCallback;
-    private AsyncCallback<Boolean> loginCallback;
-    private AsyncCallback<Boolean> saveCallback;
 
     @Inject
     public AdminView(BrowserResources resources) {
 
-        propertiesServiceAsync = GWT.create(IDBService.class);
-        createCallbacks();
         initWidget(createUi());
         buildWidgets();
     }
@@ -90,180 +70,80 @@ public class AdminView extends Composite implements AdminPresenter.Display {
     /* ---------------- helper methods -- */
     private Widget createUi() {
         mainPanel = new FlowPanel();
-        loginPanel = new FlowPanel();
-        adminPanel = new FlowPanel();
-        loginPanel.setVisible(true);
-        adminPanel.setVisible(false);
-        mainPanel.add(adminPanel);
-        mainPanel.add(loginPanel);
         return mainPanel;
     }
 
-    private void createCallbacks() {
-        valuesLoadCallback = new AsyncCallback<List<ConfigPropertie>>() {
-
-            @Override
-            public void onFailure(Throwable caught) {
-                Window.alert("Check your database connection");
-            }
-
-            @Override
-            public void onSuccess(List<ConfigPropertie> result) {
-                for (ConfigPropertie p : result) {
-                    if (p.getKey().equals(ParameterNames.ENDPOINT_URL)) {
-                        endpointTextBox.setValue(p.getValue());
-                    } else if (p.getKey().equals(ParameterNames.GOOGLE_MAPS_API_KEY)) {
-                        apiKeyTextBox.setValue(p.getValue());
-                    } else if (p.getKey().equals(ParameterNames.GEOMETRY_MODEL)) {
-                        geometryTextBox.setValue(p.getValue());
-                    } else if (p.getKey().equals(ParameterNames.FACETS_AUTO)) {
-                        facetConfTextBox.setValue(p.getValue());
-                    }
-                }
-            }
-        };
-
-        loginCallback = new AsyncCallback<Boolean>() {
-
-            @Override
-            public void onFailure(Throwable caught) {
-                Window.alert("Check your database connection");
-            }
-
-            @Override
-            public void onSuccess(Boolean result) {
-                if (result) {
-                    //in case your password is correct
-                    loginPanel.setVisible(false);
-                    adminPanel.setVisible(true);
-                    List<String> keysList = new ArrayList<String>();
-                    keysList.add(ParameterNames.ENDPOINT_URL);
-                    keysList.add(ParameterNames.GOOGLE_MAPS_API_KEY);
-                    keysList.add(ParameterNames.GEOMETRY_MODEL);
-                    keysList.add(ParameterNames.FACETS_AUTO);
-
-                    propertiesServiceAsync.getValues(keysList, valuesLoadCallback);
-
-                } else {
-                    Window.alert("Your password is incorrect");
-                }
-            }
-        };
-
-        saveCallback = new AsyncCallback<Boolean>() {
-
-            @Override
-            public void onFailure(Throwable caught) {
-                Window.alert("Unexpected exception");
-            }
-
-            @Override
-            public void onSuccess(Boolean result) {
-                backToMainPage();
-            }
-        };
-    }
-
     private void buildWidgets() {
-        loginLabel = new Label("password:");
-        loginPanel.add(loginLabel);
-
-        loginTextBox = new PasswordTextBox();
-        loginPanel.add(loginTextBox);
-
-
-        loginButton = new Button("login");
-        loginPanel.add(loginButton);
-
-
-        loginButton.addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                propertiesServiceAsync.login(loginTextBox.getValue(), loginCallback);
-            }
-        });
-
-        backButton = new Button("back");
-        loginPanel.add(backButton);
-
-        backButton.addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                backToMainPage();
-            }
-        });
 
         enpointLabel = new Label("endpoint_url:");
-        adminPanel.add(enpointLabel);
+        mainPanel.add(enpointLabel);
         endpointTextBox = new TextBox();
-        adminPanel.add(endpointTextBox);
+        mainPanel.add(endpointTextBox);
 
         geometryLabel = new Label("geometry:");
-        adminPanel.add(geometryLabel);
+        mainPanel.add(geometryLabel);
         geometryTextBox = new TextBox();
-        adminPanel.add(geometryTextBox);
+        mainPanel.add(geometryTextBox);
 
         apikKeyLabel = new Label("google api key:");
-        adminPanel.add(apikKeyLabel);
+        mainPanel.add(apikKeyLabel);
         apiKeyTextBox = new TextBox();
-        adminPanel.add(apiKeyTextBox);
+        mainPanel.add(apiKeyTextBox);
 
         facetConfLabel = new Label("facet automatic:");
-        adminPanel.add(facetConfLabel);
+        mainPanel.add(facetConfLabel);
         facetConfTextBox = new TextBox();
-        adminPanel.add(facetConfTextBox);
+        mainPanel.add(facetConfTextBox);
 
         newPasswordLabel = new Label("new password:");
-        adminPanel.add(newPasswordLabel);
+        mainPanel.add(newPasswordLabel);
         newPasswordTextBox = new PasswordTextBox();
-        adminPanel.add(newPasswordTextBox);
+        mainPanel.add(newPasswordTextBox);
         confirmPasswordLabel = new Label("confirm password:");
-        adminPanel.add(confirmPasswordLabel);
+        mainPanel.add(confirmPasswordLabel);
         confirmPasswordTextBox = new PasswordTextBox();
-        adminPanel.add(confirmPasswordTextBox);
+        mainPanel.add(confirmPasswordTextBox);
 
+        mainPanel.add(new Label(""));
+        
         saveButton = new Button("save");
+        mainPanel.add(saveButton);
 
-        saveButton.addClickHandler(new ClickHandler() {
+        logoutButton = new Button("logout");
+        mainPanel.add(logoutButton);
+        mainPanel.setVisible(true);
 
-            @Override
-            public void onClick(ClickEvent event) {
-
-                if (newPasswordTextBox.getValue().equals(confirmPasswordTextBox.getValue())) {
-                    List<ConfigPropertie> list = new ArrayList<ConfigPropertie>();
-                    list.add(new ConfigPropertie(ParameterNames.ENDPOINT_URL, endpointTextBox.getValue()));
-                    list.add(new ConfigPropertie(ParameterNames.GOOGLE_MAPS_API_KEY, apiKeyTextBox.getValue()));
-                    list.add(new ConfigPropertie(ParameterNames.GEOMETRY_MODEL, geometryTextBox.getValue()));
-                    list.add(new ConfigPropertie(ParameterNames.FACETS_AUTO, facetConfTextBox.getValue()));
-                    if (!newPasswordTextBox.getValue().equals("")) {
-                        list.add(new ConfigPropertie(ParameterNames.ADMIN, newPasswordTextBox.getValue()));
-                    }
-                    propertiesServiceAsync.setValues(list, saveCallback);
-                } else {
-                    Window.alert("Password does not match the confirm password");
-                }
-            }
-        });
-        adminPanel.add(new Label(""));
-        adminPanel.add(saveButton);
-
-        canelBackButton = new Button("cancel/back");
-        adminPanel.add(canelBackButton);
-
-        canelBackButton.addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent event) {
-                backToMainPage();
-            }
-        });
     }
 
-    private void backToMainPage() {
-        propertiesServiceAsync.logout(null);
-        Window.Location.assign("#" + Places.DASHBOARD);
-        Window.Location.reload();
+    @Override
+    public void clear() {
+        loginTextBox.setText("");
     }
+
+    @Override
+    public Button getLogoutButton() {
+        return logoutButton;
+    }
+
+    @Override
+    public void setVisibility(Boolean visibility) {
+        mainPanel.setVisible(visibility);
+    }
+
+    @Override
+    public void fullfilForm(List<ConfigPropertie> result) {
+        for(ConfigPropertie prop : result) {
+            if(prop.getKey().equals(ParameterNames.ENDPOINT_URL)) {
+                endpointTextBox.setText(prop.getValue());
+            } else if (prop.getKey().equals(ParameterNames.FACETS_AUTO)) {
+                facetConfTextBox.setText(prop.getValue());
+            } else if (prop.getKey().equals(ParameterNames.GEOMETRY_MODEL)) {
+                geometryTextBox.setText(prop.getValue());
+            } else if (prop.getKey().equals(ParameterNames.GOOGLE_MAPS_API_KEY)) {
+                apiKeyTextBox.setText(prop.getValue());
+            }
+        }
+    }
+
+
 }

@@ -24,16 +24,17 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client;
 
-import name.alexdeleon.lib.gwtblocks.client.AppController;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.StyleInjector;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
+import es.upm.fi.dia.oeg.map4rdf.client.controllers.AppController;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.Header;
 
@@ -63,7 +64,8 @@ public class BrowserUi extends ResizeComposite implements AppController.Display 
 
 	@Override
 	public void setContent(Widget widget) {
-                appView.add(widget);
+        appView.clear();
+        appView.add(widget);
 		appView.setWidgetTopHeight(widget, 0, Unit.EM, 100, Unit.PCT);
 		appView.forceLayout();
 	}

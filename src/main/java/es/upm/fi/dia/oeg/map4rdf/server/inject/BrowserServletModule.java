@@ -26,9 +26,10 @@ package es.upm.fi.dia.oeg.map4rdf.server.inject;
 
 import com.google.inject.servlet.ServletModule;
 
-import es.upm.fi.dia.oeg.map4rdf.server.db.services.DBService;
+import es.upm.fi.dia.oeg.map4rdf.server.servlet.DBServiceServlet;
 import es.upm.fi.dia.oeg.map4rdf.server.servlet.DispatchServiceServlet;
 import es.upm.fi.dia.oeg.map4rdf.server.servlet.KmlService;
+import es.upm.fi.dia.oeg.map4rdf.server.servlet.SessionsServiceServlet;
 
 /**
  * @author Alexander De Leon
@@ -39,7 +40,7 @@ public class BrowserServletModule extends ServletModule {
 	protected void configureServlets() {
 		serve("/es.upm.fi.dia.oeg.map4rdf.map4rdf/dispatch").with(DispatchServiceServlet.class);
 		serve("/es.upm.fi.dia.oeg.map4rdf.map4rdf/kml").with(KmlService.class);
-                serve("/es.upm.fi.dia.oeg.map4rdf.map4rdf/properties").with(DBService.class);
-        }
-
+    	serve("/es.upm.fi.dia.oeg.map4rdf.map4rdf/sessions").with(SessionsServiceServlet.class);
+        serve("/es.upm.fi.dia.oeg.map4rdf.map4rdf/db").with(DBServiceServlet.class);
+    }
 }

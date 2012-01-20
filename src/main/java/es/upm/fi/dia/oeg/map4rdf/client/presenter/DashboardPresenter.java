@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
- * Facultad de Informetica, Universidad 
- * Politecnica de Madrid, Spain
+ * Facultad de Inform‡tica, Universidad 
+ * PolitŽcnica de Madrid, Spain
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,9 +24,6 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.presenter;
 
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.Window;
 import java.util.Collections;
 import java.util.Set;
 
@@ -64,177 +61,133 @@ import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
  */
 @Singleton
 public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display> implements
-		FacetConstraintsChangedHandler, LoadResourceEventHandler, ValueChangeHandler {
+        FacetConstraintsChangedHandler, LoadResourceEventHandler {
 
-	public interface Display extends WidgetDisplay {
-                
-                void addWestWidget(Widget widget, String header);
-		HasWidgets getMapPanel();
-                HasWidgets getAdminPanel();
-		HasWidgets getMainPanel();
-                void showAdminView();
-                void showMainView();
-	
+    public interface Display extends WidgetDisplay {
+        HasWidgets getMapPanel();
+        void addWestWidget(Widget widget, String header);
+    }
+    private final ResultsPresenter resultsPresenter;
+    private final MapPresenter mapPresenter;
+    private final FacetPresenter facetPresenter;
+    private final DispatchAsync dispatchAsync;
+    private final DataToolBar dataToolBar;
+    private final BrowserMessages messages;
+
+    @Inject
+    public DashboardPresenter(Display display, EventBus eventBus, FacetPresenter facetPresenter,
+            MapPresenter mapPresenter, ResultsPresenter resultsPresenter, DispatchAsync dispatchAsync,
+            DataToolBar dataToolBar, BrowserMessages messages) {
+        super(display, eventBus);
+        this.messages = messages;
+        this.mapPresenter = mapPresenter;
+        this.facetPresenter = facetPresenter;
+        this.resultsPresenter = resultsPresenter;
+        this.dispatchAsync = dispatchAsync;
+        this.dataToolBar = dataToolBar;
+
+        addControl(mapPresenter);
+        addControl(facetPresenter);
+
+        // registered for app-level events
+        eventBus.addHandler(FacetConstraintsChangedEvent.getType(), this);
+        eventBus.addHandler(LoadResourceEvent.getType(), this);
+    }
+
+    @Override
+    public void onFacetConstraintsChanged(FacetConstraintsChangedEvent event) {
+        // TODO: add constraints to the Place
+        mapPresenter.clear();
+        resultsPresenter.clear();
+        loadResources(mapPresenter.getVisibleBox(), event.getConstraints());
+    }
+
+    @Override
+    public void onLoadResource(LoadResourceEvent event) {
+        mapPresenter.clear();
+        resultsPresenter.clear();
+        loadResource(event.getResourceUri());
+    }
+
+    /* -------------- Presenter callbacks -- */
+    @Override
+    public Place getPlace() {
+        return Places.DASHBOARD;
+    }
+
+    @Override
+    protected void onBind() {
+        // attach children
+        getDisplay().addWestWidget(facetPresenter.getDisplay().asWidget(), "Facets");
+        getDisplay().addWestWidget(dataToolBar, messages.overlays());
+        getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
+
+        getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());
+
+    }
+
+    @Override
+    protected void onPlaceRequest(PlaceRequest request) {
+    }
+
+    @Override
+    protected void onUnbind() {
+        // empty
+    }
+
+    @Override
+    protected void onRefreshDisplay() {
+    }
+
+    @Override
+    protected void onRevealDisplay() {
+        mapPresenter.clear();
+        resultsPresenter.clear();
+        facetPresenter.clear();
+        loadResources(mapPresenter.getVisibleBox(), null);
+    }
+
+    /* --------------- helper methods --- */
+    void loadResources(BoundingBox boundingBox, Set<FacetConstraint> constraints) {
+        GetGeoResources action = new GetGeoResources(boundingBox);
+        if (constraints != null) {
+            action.setFacetConstraints(constraints);
         }
+        mapPresenter.getDisplay().startProcessing();
+        dispatchAsync.execute(action, new AsyncCallback<ListResult<GeoResource>>() {
 
-	private final ResultsPresenter resultsPresenter;
-	private final MapPresenter mapPresenter;
-	private final FacetPresenter facetPresenter;
-	private final AdminPresenter adminPresenter;
-        private final DispatchAsync dispatchAsync;
-	private final DataToolBar dataToolBar;
-	private final BrowserMessages messages;
-
-        @Override
-        public void onValueChange(ValueChangeEvent event) {
-            
-            if((event.getValue().toString()).equals("dashboard")) {
-                mapSite();
+            @Override
+            public void onFailure(Throwable caught) {
+                // TODO Auto-generated method stub
+                mapPresenter.getDisplay().stopProcessing();
             }
-            if((event.getValue().toString()).equals("admin")) {
-                adminSite();
-                facetPresenter.getDisplay().clearFacets();
+
+            @Override
+            public void onSuccess(ListResult<GeoResource> result) {
+                mapPresenter.drawGeoResouces(result.asList());
+                resultsPresenter.setResults(result.asList());
+                mapPresenter.getDisplay().stopProcessing();
             }
-            refreshDisplay();
-        }
-        
-        private void mapSite() {
-            //getDisplay().showMainView();
-            
-            if(getDisplay().getMainPanel().iterator().next().equals(adminPresenter.getDisplay().asWidget())) {
-                getDisplay().getMainPanel().clear();
-                Window.Location.reload();
+        });
+    }
+
+    void loadResource(String uri) {
+        GetGeoResource action = new GetGeoResource(uri);
+        mapPresenter.getDisplay().startProcessing();
+        dispatchAsync.execute(action, new AsyncCallback<SingletonResult<GeoResource>>() {
+
+            @Override
+            public void onFailure(Throwable caught) {
+                // TODO Auto-generated method stub
+                mapPresenter.getDisplay().stopProcessing();
             }
-            else {
-                ;
+
+            @Override
+            public void onSuccess(SingletonResult<GeoResource> result) {
+                mapPresenter.drawGeoResouces(Collections.singletonList(result.getValue()));
+                mapPresenter.setVisibleBox(GeoUtils.computeBoundingBoxFromGeometries(result.getValue().getGeometries()));
+                mapPresenter.getDisplay().stopProcessing();
             }
-        }
-        private void adminSite() {
-            
-            getDisplay().getMainPanel().clear();
-            getDisplay().getMainPanel().add(adminPresenter.getDisplay().asWidget());
-        }
-        
-	@Inject
-	public DashboardPresenter(Display display, EventBus eventBus, FacetPresenter facetPresenter,
-			MapPresenter mapPresenter, ResultsPresenter resultsPresenter,AdminPresenter adminPresenter, DispatchAsync dispatchAsync,
-			DataToolBar dataToolBar, BrowserMessages messages) {
-		super(display, eventBus);
-		this.messages = messages;
-		this.mapPresenter = mapPresenter;
-		this.facetPresenter = facetPresenter;
-		this.resultsPresenter = resultsPresenter;
-		this.adminPresenter = adminPresenter;
-                this.dispatchAsync = dispatchAsync;
-		this.dataToolBar = dataToolBar;
-
-		addControl(mapPresenter);
-		addControl(facetPresenter);
-                addControl(adminPresenter);
-                
-		// registered for app-level events
-		eventBus.addHandler(FacetConstraintsChangedEvent.getType(), this);
-		eventBus.addHandler(LoadResourceEvent.getType(), this);
-	}
-
-	@Override
-	public void onFacetConstraintsChanged(FacetConstraintsChangedEvent event) {
-		// TODO: add constraints to the Place
-		mapPresenter.clear();
-		resultsPresenter.clear();
-		loadResources(mapPresenter.getVisibleBox(), event.getConstraints());
-	}
-
-	@Override
-	public void onLoadResource(LoadResourceEvent event) {
-		mapPresenter.clear();
-		resultsPresenter.clear();
-		loadResource(event.getResourceUri());
-	}
-
-	/* -------------- Presenter callbacks -- */
-	@Override
-	public Place getPlace() {
-		return Places.DASHBOARD;
-	}
-
-	@Override
-	protected void onBind() {
-		// attach children
-		getDisplay().addWestWidget(facetPresenter.getDisplay().asWidget(), "Facets");
-
-		getDisplay().addWestWidget(dataToolBar, messages.overlays());
-		getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
-                //getDisplay().addWestWidget(adminPresenter.getDisplay().asWidget(), "ADMIN");
-		//getDisplay().getOverlayPanel().add(overlayPresenter.getDisplay().asWidget());
-		//getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());
-                //getDisplay().getAdminPanel().add(adminPresenter.getDisplay().asWidget());
-                getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());
-	}
-
-	@Override
-	protected void onPlaceRequest(PlaceRequest request) {
-
-	}
-
-	@Override
-	protected void onUnbind() {
-		// empty
-	}
-
-	@Override
-	protected void onRefreshDisplay() {
-
-	}
-
-	@Override
-	protected void onRevealDisplay() {
-		mapPresenter.clear();
-		resultsPresenter.clear();
-		loadResources(mapPresenter.getVisibleBox(), null);
-	}
-
-	/* --------------- helper methods --- */
-	void loadResources(BoundingBox boundingBox, Set<FacetConstraint> constraints) {
-		GetGeoResources action = new GetGeoResources(boundingBox);
-		if (constraints != null) {
-			action.setFacetConstraints(constraints);
-		}
-		mapPresenter.getDisplay().startProcessing();
-		dispatchAsync.execute(action, new AsyncCallback<ListResult<GeoResource>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				mapPresenter.getDisplay().stopProcessing();
-			}
-
-			@Override
-			public void onSuccess(ListResult<GeoResource> result) {
-				mapPresenter.drawGeoResouces(result.asList());
-				resultsPresenter.setResults(result.asList());
-				mapPresenter.getDisplay().stopProcessing();
-			}
-		});
-	}
-
-	void loadResource(String uri) {
-		GetGeoResource action = new GetGeoResource(uri);
-		mapPresenter.getDisplay().startProcessing();
-		dispatchAsync.execute(action, new AsyncCallback<SingletonResult<GeoResource>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				mapPresenter.getDisplay().stopProcessing();
-			}
-
-			@Override
-			public void onSuccess(SingletonResult<GeoResource> result) {
-				mapPresenter.drawGeoResouces(Collections.singletonList(result.getValue()));
-				mapPresenter.setVisibleBox(GeoUtils.computeBoundingBoxFromGeometries(result.getValue().getGeometries()));
-				mapPresenter.getDisplay().stopProcessing();
-			}
-		});
-	}
+        });
+    }
 }

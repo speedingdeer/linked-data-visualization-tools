@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
- * Facultad de Informetica, Universidad 
- * Politecnica de Madrid, Spain
+ * Facultad de Inform‡tica, Universidad 
+ * PolitŽcnica de Madrid, Spain
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -46,19 +46,12 @@ public class DashboardView extends ResizeComposite implements DashboardPresenter
 	private final StackLayoutPanel leftPanel;
 	private final LayoutPanel mapPanel;
 
-        private final LayoutPanel adminPanel;
-        private final SplitLayoutPanel wrapPanel;
-        
-        
 	@Inject
 	public DashboardView(BrowserResources resources) {
-                
 		mapPanel = new LayoutPanel();
-                adminPanel = new LayoutPanel();
 		splitPanel = new SplitLayoutPanel();
 		leftPanel = new StackLayoutPanel(Unit.EM);
 		centerPanel = new LayoutPanel();
-                wrapPanel = new SplitLayoutPanel();
 		initWidget(createUi(resources));
 	}
 
@@ -67,14 +60,12 @@ public class DashboardView extends ResizeComposite implements DashboardPresenter
 	public void addWestWidget(Widget widget, String header) {
 		leftPanel.add(widget, header, 3);
 	}
-        
+
 	@Override
 	public HasWidgets getMapPanel() {
 		return mapPanel;
 	}
 
-        
-        
 	/* ----------------- Display API -- */
 	@Override
 	public Widget asWidget() {
@@ -94,48 +85,14 @@ public class DashboardView extends ResizeComposite implements DashboardPresenter
 
 	/* ------------------- Helper methods -- */
 	private Widget createUi(BrowserResources resources) {
-		centerPanel.add(mapPanel);        
-                //centerPanel.add(adminPanel);
+		centerPanel.add(mapPanel);
+
 		centerPanel.setWidgetTopHeight(mapPanel, 0, Unit.EM, 100, Unit.PCT);
 		centerPanel.setWidgetLeftWidth(mapPanel, 0, Unit.EM, 100, Unit.PCT);
 
 		splitPanel.addWest(leftPanel, 200);
 		splitPanel.add(centerPanel);
 		leftPanel.addStyleName(resources.css().leftMenu());
-
-                //wrapPanel.add(adminPanel);
-                //splitPanel.add(adminPanel);
-                wrapPanel.add(adminPanel);                
-                wrapPanel.add(splitPanel);
-                return wrapPanel;
+		return splitPanel;
 	}
-        
-
-    @Override
-    public void showAdminView() {
-        //adminPanel.setVisible(true);
-        //splitPanel.setVisible(false);
-        return;
-    }
-
-    @Override
-    public void showMainView() {
-        //adminPanel.setVisible(false);   
-        //splitPanel.setVisible(true);
-        return;
-    }
-
-    @Override
-    public HasWidgets getAdminPanel() {
-        return  adminPanel;
-    }
-
-    @Override
-    public HasWidgets getMainPanel() {
-        return wrapPanel;
-    }
-        
-        
-    
-    
 }

@@ -14,10 +14,6 @@ import java.util.List;
  */
 
 public interface  IDBServiceAsync {
-    
-    public void getValue(String key, AsyncCallback<String> callback);
     public void getValues(List<String> keysList, AsyncCallback<List<ConfigPropertie>> valuesLoadCallback);
     public void setValues(List<ConfigPropertie> propertiesList, AsyncCallback<Boolean> valuesLoadCallback);
-    public void login(String password, AsyncCallback<Boolean> loginCallback);
-    public void logout(AsyncCallback loginCallback);
 }

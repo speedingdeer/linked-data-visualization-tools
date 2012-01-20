@@ -119,8 +119,7 @@ public class FacetView extends Composite implements FacetPresenter.Display {
 	}
 
     @Override
-    public void clearFacets() {
+    public void clear() {
         panel.clear();
     }
-
 }

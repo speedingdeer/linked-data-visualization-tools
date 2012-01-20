@@ -24,7 +24,6 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client;
 
-import name.alexdeleon.lib.gwtblocks.client.AppController;
 import net.customware.gwt.presenter.client.place.PlaceChangedEvent;
 import net.customware.gwt.presenter.client.place.PlaceManager;
 
@@ -34,6 +33,8 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
+import es.upm.fi.dia.oeg.map4rdf.client.controllers.AppController;
+import es.upm.fi.dia.oeg.map4rdf.client.controllers.AppController.Display;
 import es.upm.fi.dia.oeg.map4rdf.client.event.LoadResourceEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.inject.Injector;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
@@ -49,10 +50,11 @@ public class Browser implements EntryPoint {
 	public void onModuleLoad() {
 		Injector injector = GWT.create(Injector.class);
 
-		AppController controller = new AppController(injector.getBrowserUi(), injector.getEventBus(),injector.getDashboard());
-		         controller.bind();
+		AppController controller = new AppController(injector.getBrowserUi(), injector.getEventBus(),
+                injector.getDashboard(),injector.getAdminPresenter(),injector.getLoginPresenter());
+            
+		controller.bind();
 		RootLayoutPanel.get().add(controller.getDisplay().asWidget());
-                
 		PlaceManager placeManager = new PlaceManager(injector.getEventBus());
 		if (History.getToken() == null || History.getToken().length() == 0) {
 			// Go to the default place
@@ -67,8 +69,8 @@ public class Browser implements EntryPoint {
 				LoadResourceEvent.fire(parts[1], injector.getEventBus());
 			}
 		}
-                History.addValueChangeHandler(injector.getDashboard());
-                placeManager.fireCurrentPlace();
+        //History.addValueChangeHandler(injector.getDashboard());
+        placeManager.fireCurrentPlace();
 
 	}
 }

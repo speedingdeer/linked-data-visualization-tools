@@ -42,7 +42,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 public class GetGeoResourceHandler implements ActionHandler<GetGeoResource, SingletonResult<GeoResource>> {
 
 	private final Map4rdfDao dao;
-
+   
 	@Inject
 	public GetGeoResourceHandler(Map4rdfDao dao) {
 		this.dao = dao;

@@ -42,54 +42,40 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
-import es.upm.fi.dia.oeg.map4rdf.client.presenter.AdminPresenter.Display;
-import es.upm.fi.dia.oeg.map4rdf.client.services.IDBService;
-import es.upm.fi.dia.oeg.map4rdf.client.services.IDBServiceAsync;
 import es.upm.fi.dia.oeg.map4rdf.client.services.ISessionsService;
 import es.upm.fi.dia.oeg.map4rdf.client.services.ISessionsServiceAsync;
-import es.upm.fi.dia.oeg.map4rdf.share.ConfigPropertie;
-import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
-import java.util.ArrayList;
-import java.util.List;
 import name.alexdeleon.lib.gwtblocks.client.PagePresenter;
-import net.customware.gwt.presenter.client.place.PlaceChangedEvent;
 
 /**
  * @author Alexander De Leon
  */
 @Singleton
-public class AdminPresenter extends  PagePresenter<AdminPresenter.Display>  {
+public class LoginPresenter extends  PagePresenter<LoginPresenter.Display> {
 
+   private ISessionsServiceAsync sessionsService;
+    
 	public interface Display extends WidgetDisplay {
 
         public void clear();
-        public Button getLogoutButton();
-        public void setVisibility(Boolean visibility);
-        public void fullfilForm(List<ConfigPropertie> result);
-
-	}
-    private ISessionsServiceAsync sessionsService;
-    private IDBServiceAsync dbService;
-    
+        public Button getLoginActionButton();
+        public String getPassword();
+    }
 	private final DispatchAsync dispatchAsync;
-    //private IDBServiceAsync propertiesServiceAsync;
+
 	@Inject
-	public AdminPresenter(Display display, EventBus eventBus, DispatchAsync dispatchAsync) {
+	public LoginPresenter(Display display, EventBus eventBus, final DispatchAsync dispatchAsync) {
 		super(display, eventBus);
 		this.dispatchAsync = dispatchAsync;
         sessionsService = GWT.create(ISessionsService.class);
-        dbService = GWT.create(IDBService.class);
     }
 
 	/* -------------- Presenter callbacks -- */
 	@Override
 	protected void onBind() {
-		display.getLogoutButton().addClickHandler(new ClickHandler() {
-
+		display.getLoginActionButton().addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                
-                    sessionsService.logout(new AsyncCallback() {
+                sessionsService.login(display.getPassword(), new AsyncCallback<Boolean>() {
 
                     @Override
                     public void onFailure(Throwable caught) {
@@ -97,10 +83,13 @@ public class AdminPresenter extends  PagePresenter<AdminPresenter.Display>  {
                     }
 
                     @Override
-                    public void onSuccess(Object result) {
-                        Cookies.removeCookie("admin");
-                        eventBus.fireEvent(new PlaceChangedEvent(Places.DASHBOARD.request()));
-                        Window.Location.reload();
+                    public void onSuccess(Boolean result) {
+                        if(result) {
+                            Cookies.setCookie("admin", "true");
+                            Window.Location.assign("#" + Places.ADMIN);
+                        } else {
+                            Window.alert("Incorrect password");
+                        }
                     }
                 });
             }
@@ -112,7 +101,6 @@ public class AdminPresenter extends  PagePresenter<AdminPresenter.Display>  {
 		// TODO Auto-generated method stub
 
 	}
-
     
         @Override
     protected void onRefreshDisplay() {
@@ -121,43 +109,16 @@ public class AdminPresenter extends  PagePresenter<AdminPresenter.Display>  {
 
     @Override
     protected void onRevealDisplay() {
-        
+        getDisplay().clear();
     }
 
     @Override
     public Place getPlace() {
-         return Places.ADMIN;
+         return Places.LOGIN;
     }
 
     @Override
     protected void onPlaceRequest(PlaceRequest request) {
-        display.setVisibility(Boolean.FALSE);
-        if(Cookies.getCookie("admin") != null && Cookies.getCookie("admin").toString().equals("true")) {
-            display.setVisibility(Boolean.TRUE);
-            ArrayList<String> paramNames = new ArrayList<String>();
-            paramNames.add(ParameterNames.ENDPOINT_URL);
-            paramNames.add(ParameterNames.FACETS_AUTO);
-            paramNames.add(ParameterNames.GEOMETRY_MODEL);
-            paramNames.add(ParameterNames.GOOGLE_MAPS_API_KEY);
-           
-            dbService.getValues(paramNames,new AsyncCallback<List<ConfigPropertie>>(){
-
-                @Override
-                public void onFailure(Throwable caught) {
-                    Window.alert(caught.getMessage().toString());
-                }
-
-                @Override
-                public void onSuccess(List<ConfigPropertie> result) {
-                    display.fullfilForm(result);
-                }
-                
-            });
-        }
-        else {
-          eventBus.fireEvent(new PlaceChangedEvent(Places.LOGIN.request()));
-          Window.Location.reload();
-        }
     }
 
 }

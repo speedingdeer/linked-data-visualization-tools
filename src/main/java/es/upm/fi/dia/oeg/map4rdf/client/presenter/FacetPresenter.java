@@ -52,6 +52,8 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 
 	public interface Display extends WidgetDisplay {
 
+        public void clear();
+
 		interface FacetSelectionHandler {
 			void onFacetSelectionChanged(String facetId, String facetValueId, boolean selected);
 		}
@@ -59,7 +61,6 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 		// TODO this should be decoupled from the model
 		void setFacets(List<FacetGroup> facets);
 		void setFacetSelectionChangedHandler(FacetSelectionHandler handler);
-                void clearFacets();
 	}
 
 	private final DispatchAsync dispatchAsync;
@@ -69,7 +70,7 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 	public FacetPresenter(Display display, EventBus eventBus, DispatchAsync dispatchAsync) {
 		super(display, eventBus);
 		this.dispatchAsync = dispatchAsync;
-	}
+    }
 
 	/* -------------- Presenter callbacks -- */
 	@Override
@@ -101,7 +102,7 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 
 	@Override
 	public void revealDisplay() {
-		loadFacets();
+        loadFacets();
 	}
 
 	void loadFacets() {
@@ -122,5 +123,9 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 
 	private void fireFacetConstrainsChanged() {
 		eventBus.fireEvent(new FacetConstraintsChangedEvent(constraints));
+	}
+    
+    public void clear() {
+		getDisplay().clear();
 	}
 }

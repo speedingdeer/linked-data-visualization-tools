@@ -53,14 +53,15 @@ public class GetFacetDefinitionsHandler implements ActionHandler<GetFacetDefinit
 	private final Map4rdfDao dao;
 	private final FacetedBrowserConfiguration facetedBrowserConfiguration;
 	private final boolean automaticFacets;
-
+    
+    
 	@Inject
 	public GetFacetDefinitionsHandler(Map4rdfDao dao, FacetedBrowserConfiguration facetedBrowserConfiguration,
 			@Named(ParameterNames.FACETS_AUTO) boolean automaticFacets) {
 		this.dao = dao;
 		this.facetedBrowserConfiguration = facetedBrowserConfiguration;
 		this.automaticFacets = automaticFacets;
-	}
+    }
 
 	@Override
 	public GetFacetDefinitionsResult execute(GetFacetDefinitions action, ExecutionContext context)

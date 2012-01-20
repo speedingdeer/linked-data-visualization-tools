@@ -35,11 +35,14 @@ public class Bootstrapper extends GuiceServletContextListener {
               	
                 SQLconnector dbConnector = Guice.createInjector().getInstance(SQLconnector.class);
              
-                //InputStream propIn = servletContextEvent.getServletContext().getResourceAsStream(Constants.CONFIGURATION_FILE);
-		
-		config = new Configuration();
+                InputStream propIn = servletContextEvent.getServletContext().getResourceAsStream(Constants.CONFIGURATION_FILE);
+        try {
+            config = new Configuration(propIn);
+        } catch (IOException ex) {
+            Logger.getLogger(Bootstrapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
 		// add config to servlet context so it can be accessed in JSPs
-                servletContextEvent.getServletContext().setAttribute(Configuration.class.getName(), config);
+        servletContextEvent.getServletContext().setAttribute(Configuration.class.getName(), config);
 		
 
 		InputStream facetConfigIn = servletContextEvent.getServletContext().getResourceAsStream(
