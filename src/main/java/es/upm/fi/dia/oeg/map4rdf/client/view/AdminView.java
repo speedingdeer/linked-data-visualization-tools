@@ -20,6 +20,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.presenter.AdminPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.share.ConfigPropertie;
 import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -143,6 +144,33 @@ public class AdminView extends Composite implements AdminPresenter.Display {
                 apiKeyTextBox.setText(prop.getValue());
             }
         }
+    }
+
+    @Override
+    public Button getSaveButton() {
+        return saveButton;
+    }
+
+    @Override
+    public Boolean checkAdminPassword() {
+        return newPasswordTextBox.getText().equals(confirmPasswordTextBox.getText());
+    }
+
+    @Override
+    public List<ConfigPropertie> getPropertieMap() {
+        ArrayList<ConfigPropertie> resultList = new ArrayList<ConfigPropertie>();
+        if(isAdminPassordIntroduced()) {
+            resultList.add(new ConfigPropertie(ParameterNames.ADMIN, newPasswordTextBox.getText()));
+        }
+        resultList.add(new ConfigPropertie(ParameterNames.ENDPOINT_URL,endpointTextBox.getText()));
+        resultList.add(new ConfigPropertie(ParameterNames.FACETS_AUTO, facetConfTextBox.getText()));
+        resultList.add(new ConfigPropertie(ParameterNames.GEOMETRY_MODEL, geometryTextBox.getText()));
+        resultList.add(new ConfigPropertie(ParameterNames.GOOGLE_MAPS_API_KEY, apiKeyTextBox.getText()));
+        return  resultList;
+    }
+
+    public Boolean isAdminPassordIntroduced() {
+        return (! (newPasswordTextBox.getText().equals("") && confirmPasswordTextBox.getText().equals("") ));
     }
 
 

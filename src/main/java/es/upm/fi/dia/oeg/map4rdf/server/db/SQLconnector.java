@@ -80,7 +80,7 @@ public final class SQLconnector {
     }
  
 
-    public List<ConfigPropertie> getProperties(List<String> keys) throws SqlJetException {
+    public List<ConfigPropertie> getProperties(List<String> keys) {
         ArrayList<ConfigPropertie> resultList = new ArrayList<ConfigPropertie>();
         try {
             for (String key : keys) {
@@ -95,7 +95,7 @@ public final class SQLconnector {
             }
 
         } catch (SQLException ex) {
-            int a = 1;
+
         }
         return resultList;
     }
@@ -106,7 +106,7 @@ public final class SQLconnector {
             try {
                 PreparedStatement prep = conn.prepareStatement("UPDATE config SET value=? WHERE key=?");
                 prep.setString(1,prop.getValue());
-                prep.setString(1,prop.getKey());
+                prep.setString(2,prop.getKey());
                 prep.executeUpdate();
                 prep.close();
             } catch (SQLException ex) {
@@ -127,6 +127,17 @@ public final class SQLconnector {
         } catch (SQLException ex) {
             //Logger.getLogger(SQLconnector.class.getName()).log(Level.SEVERE, null, ex);
             return false;
+        }
+    }
+    
+    public String getValue(String key) {
+        ArrayList<String> list = new  ArrayList<String>();
+        list.add(key);
+        List<ConfigPropertie> resultList = getProperties(list);
+        if(resultList!=null) {
+            return resultList.get(0).getValue();
+        } else {
+            return "";        
         }
     }
 

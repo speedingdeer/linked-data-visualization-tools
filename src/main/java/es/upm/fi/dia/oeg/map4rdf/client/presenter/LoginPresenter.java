@@ -44,6 +44,7 @@ import com.google.inject.Singleton;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
 import es.upm.fi.dia.oeg.map4rdf.client.services.ISessionsService;
 import es.upm.fi.dia.oeg.map4rdf.client.services.ISessionsServiceAsync;
+import java.util.Date;
 import name.alexdeleon.lib.gwtblocks.client.PagePresenter;
 
 /**
@@ -85,7 +86,7 @@ public class LoginPresenter extends  PagePresenter<LoginPresenter.Display> {
                     @Override
                     public void onSuccess(Boolean result) {
                         if(result) {
-                            Cookies.setCookie("admin", "true");
+                            Cookies.setCookie("admin", "true",new Date(new Date().getTime()+(15*1000)));
                             Window.Location.assign("#" + Places.ADMIN);
                         } else {
                             Window.alert("Incorrect password");

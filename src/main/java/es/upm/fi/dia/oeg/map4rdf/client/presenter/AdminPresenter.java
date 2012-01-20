@@ -66,6 +66,9 @@ public class AdminPresenter extends  PagePresenter<AdminPresenter.Display>  {
         public Button getLogoutButton();
         public void setVisibility(Boolean visibility);
         public void fullfilForm(List<ConfigPropertie> result);
+        public Button getSaveButton();
+        public Boolean checkAdminPassword();
+        public List<ConfigPropertie> getPropertieMap();
 
 	}
     private ISessionsServiceAsync sessionsService;
@@ -105,6 +108,29 @@ public class AdminPresenter extends  PagePresenter<AdminPresenter.Display>  {
                 });
             }
         });
+        display.getSaveButton().addClickHandler(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent event) {
+             if (display.checkAdminPassword()) {
+                 dbService.setValues(display.getPropertieMap(),new AsyncCallback<Boolean>() {
+
+                        @Override
+                        public void onFailure(Throwable caught) {
+                            throw new UnsupportedOperationException("Not supported yet.");
+                        }
+
+                        @Override
+                        public void onSuccess(Boolean result) {
+                            throw new UnsupportedOperationException("Not supported yet.");
+                        }
+                    });
+             } else {
+                 Window.alert("Passwords do not match");
+             }
+            }
+        });
+        
 	}
 
 	@Override
