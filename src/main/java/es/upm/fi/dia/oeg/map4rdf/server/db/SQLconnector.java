@@ -105,7 +105,11 @@ public final class SQLconnector {
       for(ConfigPropertie prop : properties) {
             try {
                 PreparedStatement prep = conn.prepareStatement("UPDATE config SET value=? WHERE key=?");
+                if(prop.getKey().equals("admin")) {
+                    prep.setString(1,crypt(prop.getValue()));
+                } else {
                 prep.setString(1,prop.getValue());
+                }
                 prep.setString(2,prop.getKey());
                 prep.executeUpdate();
                 prep.close();
@@ -123,7 +127,8 @@ public final class SQLconnector {
             String a = rs.getString("value");
             statement.close();
             rs.close();
-            return BCrypt.checkpw(password, a);
+            Boolean res =  BCrypt.checkpw(password, a);
+            return res;
         } catch (SQLException ex) {
             //Logger.getLogger(SQLconnector.class.getName()).log(Level.SEVERE, null, ex);
             return false;
