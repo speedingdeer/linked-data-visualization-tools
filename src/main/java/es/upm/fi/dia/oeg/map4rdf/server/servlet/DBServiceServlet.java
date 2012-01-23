@@ -23,16 +23,13 @@ public class DBServiceServlet extends RemoteServiceServlet implements IDBService
 
     @Override
     public List<ConfigPropertie> getValues(List<String> keys) {
-        try {
             HttpSession session = this.getThreadLocalRequest().getSession(true);
             if (session.getAttribute("admin") == null || !session.getAttribute("admin").toString().equals("true")) {
                 return null;
             }
             SQLconnector dbConnector = Guice.createInjector().getInstance(SQLconnector.class);
             return dbConnector.getProperties(keys);
-        } catch (SqlJetException ex) {
-            return null;
-        }
+  
     }
 
     @Override

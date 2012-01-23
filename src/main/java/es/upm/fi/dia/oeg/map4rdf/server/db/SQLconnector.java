@@ -134,7 +134,7 @@ public final class SQLconnector {
         ArrayList<String> list = new  ArrayList<String>();
         list.add(key);
         List<ConfigPropertie> resultList = getProperties(list);
-        if(resultList!=null) {
+        if(resultList!=null && resultList.size()>0) {
             return resultList.get(0).getValue();
         } else {
             return "";        
