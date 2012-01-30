@@ -45,11 +45,14 @@ import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
  * @author Alexander De Leon
  */
 public class Browser implements EntryPoint {
-
+	Injector injector = null;
 	@Override
 	public void onModuleLoad() {
-		Injector injector = GWT.create(Injector.class);
-
+		try {
+		injector = GWT.create(Injector.class);
+		} catch (Exception e) {
+			injector = null;
+		}
 		AppController controller = new AppController(injector.getBrowserUi(), injector.getEventBus(),
                 injector.getDashboard(),injector.getAdminPresenter(),injector.getLoginPresenter());
             
