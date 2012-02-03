@@ -46,5 +46,7 @@ public interface BrowserMessages extends Messages {
 	String longitude();
 
 	String information();
+	
+	String edit();
 
 }

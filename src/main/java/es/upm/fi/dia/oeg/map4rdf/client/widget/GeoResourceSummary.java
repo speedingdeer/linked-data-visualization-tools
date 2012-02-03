@@ -24,12 +24,15 @@ import com.google.gwt.gen2.table.override.client.Grid;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.InlineHTML;
+import com.google.gwt.user.client.ui.InlineHyperlink;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
+import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.util.LocaleUtil;
@@ -45,11 +48,8 @@ public class GeoResourceSummary extends Composite {
 
 	public interface Stylesheet {
 		String summaryLabelStyle();
-
 		String summaryPropertyName();
-
 		String summaryPropertyValue();
-
 	}
 
 	private Stylesheet style;
@@ -59,6 +59,7 @@ public class GeoResourceSummary extends Composite {
 	private Label latitude;
 	private Anchor link;
 	private Panel locationPanel;
+	private Hyperlink editLink;
 
 	public GeoResourceSummary(BrowserMessages messages, BrowserResources appResources) {
 		this.messages = messages;
@@ -81,6 +82,7 @@ public class GeoResourceSummary extends Composite {
 			locationPanel.setVisible(false);
 		}
 		link.setHref(resource.getUri());
+		editLink.setTargetHistoryToken(Places.EDIT_RESOURCE.toString() + "?res=" + resource.getUri());
 	}
 
 	private Widget createUi() {
@@ -115,7 +117,13 @@ public class GeoResourceSummary extends Composite {
 
 		link = new Anchor(messages.here(), "", "_blank");
 		panel.add(link);
-
+		
+		InlineLabel editInfo = new InlineLabel(messages.edit() + " ");	
+		editLink = new InlineHyperlink(messages.here(),Places.DASHBOARD.toString() );
+		panel.add(new InlineHTML("<br />"));		
+		panel.add(editInfo);
+		panel.add(editLink);
+		
 		return panel;
 	}
 }

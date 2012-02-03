@@ -24,6 +24,7 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.presenter;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -71,7 +72,7 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 		void drawGeoResouces(List<GeoResource> resources);
 
 		void clear();
-
+		
 		HasClickHandlers getKmlButton();
 	}
 
@@ -111,7 +112,6 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 	@Override
 	protected void onBind() {
 		getDisplay().getKmlButton().addClickHandler(new ClickHandler() {
-
 			@Override
 			public void onClick(ClickEvent event) {
 				GetGeoResourcesAsKmlUrl action = new GetGeoResourcesAsKmlUrl(getVisibleBox());

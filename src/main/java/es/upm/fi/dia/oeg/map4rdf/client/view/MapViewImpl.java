@@ -46,11 +46,13 @@ import es.upm.fi.dia.oeg.map4rdf.share.Point;
 /**
  * @author Alexander De Leon
  */
+
+/*
 public class MapViewImpl extends GoogleMapView implements MapPresenter.Display {
 
-	/**
-	 * By default the map is centered in Puerta del Sol, Madrid
-	 */
+	
+	 //By default the map is centered in Puerta del Sol, Madrid
+	 
 	private static final LatLng DEFAULT_CENTER = LatLng.newInstance(40.416645, -3.703637);
 	private static final int DEFAULT_ZOOM_LEVEL = 7;
 
@@ -86,7 +88,7 @@ public class MapViewImpl extends GoogleMapView implements MapPresenter.Display {
 		return kmlButton;
 	}
 
-	/* --------------- helper methods -- */
+	// --------------- helper methods -- 
 
 	private void drawGeoResource(final GeoResource resource) {
 		for (Geometry geometry : resource.getGeometries()) {
@@ -112,3 +114,4 @@ public class MapViewImpl extends GoogleMapView implements MapPresenter.Display {
 	}
 
 }
+*/

@@ -48,7 +48,7 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 	private final Image kmlButton;
 	private final GeoResourceSummary summary;
 	private final MapLayer.PopupWindow window;
-
+	
 	@Inject
 	public OpenLayersMapView(WidgetFactory widgetFactory) {
 		super(widgetFactory);

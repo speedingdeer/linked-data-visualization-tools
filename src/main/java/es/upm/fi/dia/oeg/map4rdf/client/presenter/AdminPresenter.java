@@ -42,7 +42,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
-import es.upm.fi.dia.oeg.map4rdf.client.presenter.AdminPresenter.Display;
 import es.upm.fi.dia.oeg.map4rdf.client.services.IDBService;
 import es.upm.fi.dia.oeg.map4rdf.client.services.IDBServiceAsync;
 import es.upm.fi.dia.oeg.map4rdf.client.services.ISessionsService;

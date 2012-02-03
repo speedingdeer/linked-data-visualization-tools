@@ -21,6 +21,7 @@
 package es.upm.fi.dia.oeg.map4rdf.client.controllers;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,6 +34,9 @@ import net.customware.gwt.presenter.client.widget.WidgetDisplay;
 import net.customware.gwt.presenter.client.widget.WidgetPresenter;
 
 import com.google.gwt.user.client.ui.Widget;
+import com.sun.xml.bind.v2.TODO;
+
+import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
 
 /**
  * @author Alexander De Leon
@@ -67,7 +71,8 @@ public class AppController extends WidgetPresenter<AppController.Display> implem
 
     @Override
 	public void onPlaceRequest(PlaceRequestEvent event) {
-		Place place = event.getRequest().getPlace();
+    	Place place = getPlaceFromQueryString(event);
+    	event.getRequest().getParameterNames();
 		if (place == null) {
 			return;
 		}
@@ -114,5 +119,22 @@ public class AppController extends WidgetPresenter<AppController.Display> implem
 	public void revealDisplay() {
 		// empty
 	}
-
+	private Place getPlaceFromQueryString(PlaceRequestEvent event){
+		PlaceRequest placeRequest = event.getRequest();
+		String originRequestAddress = placeRequest.toString();
+		String address = "";
+		HashMap<String,String> paramsMap= new HashMap<String, String>();
+		
+		if(originRequestAddress.contains("?")) {
+			address = originRequestAddress.split("\\?")[0];
+			String paramsString = originRequestAddress.split("\\?")[1];
+			String[] map = paramsString.split(";");
+			for(String pair : map) {
+				paramsMap.put(pair.split("=")[0], pair.split("=")[1]);
+			}
+			return new Place(address);
+		}
+		
+		return placeRequest.getPlace();
+	}
 }

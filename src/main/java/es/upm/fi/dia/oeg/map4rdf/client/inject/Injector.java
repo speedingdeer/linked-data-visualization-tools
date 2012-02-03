@@ -33,6 +33,7 @@ import com.google.gwt.inject.client.Ginjector;
 import es.upm.fi.dia.oeg.map4rdf.client.BrowserUi;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.AdminPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.DashboardPresenter;
+import es.upm.fi.dia.oeg.map4rdf.client.presenter.EditResourcePresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.LoginPresenter;
 
 /**
@@ -42,7 +43,8 @@ import es.upm.fi.dia.oeg.map4rdf.client.presenter.LoginPresenter;
 public interface Injector extends Ginjector {
 
 	DashboardPresenter getDashboard();
-    AdminPresenter getAdminPresenter();
+    EditResourcePresenter getEditResourcePresenter();
+	AdminPresenter getAdminPresenter();
     LoginPresenter getLoginPresenter();
     EventBus getEventBus();
 	BrowserUi getBrowserUi();

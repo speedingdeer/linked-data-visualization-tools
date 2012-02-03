@@ -54,9 +54,10 @@ public class Browser implements EntryPoint {
 			injector = null;
 		}
 		AppController controller = new AppController(injector.getBrowserUi(), injector.getEventBus(),
-                injector.getDashboard(),injector.getAdminPresenter(),injector.getLoginPresenter());
+                injector.getDashboard(),injector.getAdminPresenter(),injector.getLoginPresenter(),injector.getEditResourcePresenter());
             
 		controller.bind();
+		
 		RootLayoutPanel.get().add(controller.getDisplay().asWidget());
 		PlaceManager placeManager = new PlaceManager(injector.getEventBus());
 		if (History.getToken() == null || History.getToken().length() == 0) {
