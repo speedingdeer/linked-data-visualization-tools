@@ -40,6 +40,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.Geometry;
 import es.upm.fi.dia.oeg.map4rdf.share.MapShape;
 import es.upm.fi.dia.oeg.map4rdf.share.Point;
+import es.upm.fi.dia.oeg.map4rdf.share.conf.UrlParamtersDict;
 
 /**
  * @author Alexander De Leon
@@ -72,6 +73,7 @@ public class GeoResourceSummary extends Composite {
 	}
 
 	public void setGeoResource(GeoResource resource, Geometry geometry) {
+
 		label.setText(LocaleUtil.getBestLabel(resource, true));
 		if (geometry.getType() == MapShape.Type.POINT) {
 			locationPanel.setVisible(true);
@@ -82,7 +84,7 @@ public class GeoResourceSummary extends Composite {
 			locationPanel.setVisible(false);
 		}
 		link.setHref(resource.getUri());
-		editLink.setTargetHistoryToken(Places.EDIT_RESOURCE.toString() + "?res=" + resource.getUri());
+		editLink.setTargetHistoryToken(Places.EDIT_RESOURCE.toString() + "?"+ UrlParamtersDict.RESOURCE_EDIT_PARAMTERES + "=" + resource.getUri());
 	}
 
 	private Widget createUi() {

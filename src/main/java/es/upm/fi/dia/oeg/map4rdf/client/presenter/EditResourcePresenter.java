@@ -25,24 +25,38 @@
 package es.upm.fi.dia.oeg.map4rdf.client.presenter;
 
 
+import java.util.HashMap;
+
 import net.customware.gwt.dispatch.client.DispatchAsync;
 import net.customware.gwt.presenter.client.EventBus;
 import net.customware.gwt.presenter.client.place.Place;
 import net.customware.gwt.presenter.client.place.PlaceRequest;
 import net.customware.gwt.presenter.client.widget.WidgetDisplay;
 
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResource;
+import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
+import es.upm.fi.dia.oeg.map4rdf.client.event.UrlParametersChangeEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.event.UrlParametersChangeEventHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
+import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
+import es.upm.fi.dia.oeg.map4rdf.share.conf.UrlParamtersDict;
 import name.alexdeleon.lib.gwtblocks.client.PagePresenter;
 
 /**
  * @author Alexander De Leon
  */
 @Singleton
-public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.Display> {
+public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.Display> implements UrlParametersChangeEventHandler{
 
+	private HashMap<String, String> parameters;
+	private String geoResouceUri;
+	private GeoResource geoResource;
+	
 	public interface Display extends WidgetDisplay {
         public void clear();
     }
@@ -53,6 +67,7 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 	public EditResourcePresenter(Display display, EventBus eventBus, final DispatchAsync dispatchAsync) {
 		super(display, eventBus);
 		this.dispatchAsync = dispatchAsync;
+		eventBus.addHandler(UrlParametersChangeEvent.getType(), this);
     }
 
 	/* -------------- Presenter callbacks -- */
@@ -84,5 +99,30 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
     @Override
     protected void onPlaceRequest(PlaceRequest request) {
     }
+
+	@Override
+	public void onParametersChange(UrlParametersChangeEvent event) {
+		parameters = event.getParamaters();
+		if (parameters.containsKey(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES)) { 
+			geoResouceUri = parameters.get(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES);
+			fullfilContent();
+		}
+	}
+	private void fullfilContent() {
+        GetGeoResource action = new GetGeoResource(geoResouceUri);
+        dispatchAsync.execute(action, new AsyncCallback<SingletonResult<GeoResource>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Can not get resource");
+			}
+
+			@Override
+			public void onSuccess(SingletonResult<GeoResource> result) {
+				geoResource = result.getValue();
+			}
+        	
+        });
+	}
 
 }

@@ -5,6 +5,7 @@ import org.eclipse.jdt.core.JDTCompilerAdapter;
 
 
 public class JDTCompiler16 extends JDTCompilerAdapter {
+  
   @Override
   public void setJavac(Javac attributes) {
     if (attributes.getTarget() == null) {
@@ -15,5 +16,6 @@ public class JDTCompiler16 extends JDTCompilerAdapter {
     }
     super.setJavac(attributes);
   }
+  
 }
 

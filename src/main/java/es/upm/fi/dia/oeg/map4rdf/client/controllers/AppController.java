@@ -34,9 +34,8 @@ import net.customware.gwt.presenter.client.widget.WidgetDisplay;
 import net.customware.gwt.presenter.client.widget.WidgetPresenter;
 
 import com.google.gwt.user.client.ui.Widget;
-import com.sun.xml.bind.v2.TODO;
 
-import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
+import es.upm.fi.dia.oeg.map4rdf.client.event.UrlParametersChangeEvent;
 
 /**
  * @author Alexander De Leon
@@ -72,12 +71,16 @@ public class AppController extends WidgetPresenter<AppController.Display> implem
     @Override
 	public void onPlaceRequest(PlaceRequestEvent event) {
     	Place place = getPlaceFromQueryString(event);
-    	event.getRequest().getParameterNames();
+    	HashMap<String, String> myMap = getParamtersMap(event);
 		if (place == null) {
 			return;
 		}
         for (WidgetPresenter<?> presenter : presenters) {
 			if (place.equals(presenter.getPlace())) {
+				if (myMap != null) {
+					UrlParametersChangeEvent parametersChangeEvent = new UrlParametersChangeEvent(myMap);
+					eventBus.fireEvent(parametersChangeEvent);
+				}
                 getDisplay().setContent(presenter.getDisplay().asWidget());
 				break;
 			}
@@ -123,18 +126,30 @@ public class AppController extends WidgetPresenter<AppController.Display> implem
 		PlaceRequest placeRequest = event.getRequest();
 		String originRequestAddress = placeRequest.toString();
 		String address = "";
-		HashMap<String,String> paramsMap= new HashMap<String, String>();
 		
 		if(originRequestAddress.contains("?")) {
 			address = originRequestAddress.split("\\?")[0];
-			String paramsString = originRequestAddress.split("\\?")[1];
-			String[] map = paramsString.split(";");
-			for(String pair : map) {
-				paramsMap.put(pair.split("=")[0], pair.split("=")[1]);
-			}
 			return new Place(address);
 		}
 		
 		return placeRequest.getPlace();
+	}
+	private HashMap<String, String> getParamtersMap(PlaceRequestEvent event){
+		PlaceRequest placeRequest = event.getRequest();
+		String originRequestAddress = placeRequest.toString();
+		HashMap<String,String> paramsMap= new HashMap<String, String>();
+		try {
+			if(originRequestAddress.contains("?")) {
+				String paramsString = originRequestAddress.split("\\?")[1];
+				String[] map = paramsString.split(";");
+				for(String pair : map) {
+					paramsMap.put(pair.split("=")[0], pair.split("=")[1]);
+				}
+				return paramsMap;
+			}
+		} catch (IndexOutOfBoundsException e) {
+			
+		}
+		return null;
 	}
 }
