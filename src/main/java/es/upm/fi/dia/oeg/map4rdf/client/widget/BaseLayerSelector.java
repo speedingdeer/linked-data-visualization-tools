@@ -34,6 +34,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Alexander De Leon
+ * @deprecated
  */
 public class BaseLayerSelector extends Composite {
 

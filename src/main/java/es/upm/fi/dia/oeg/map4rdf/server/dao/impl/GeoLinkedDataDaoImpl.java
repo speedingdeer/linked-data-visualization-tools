@@ -24,6 +24,9 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.server.dao.impl;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +37,7 @@ import org.apache.log4j.Logger;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import com.hp.hpl.jena.n3.turtle.parser.JavaCharStream;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QuerySolution;
@@ -41,6 +45,7 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
+import com.sun.xml.xsom.impl.util.Uri;
 
 import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.DaoException;
@@ -61,6 +66,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.PolyLineBean;
 import es.upm.fi.dia.oeg.map4rdf.share.Polygon;
 import es.upm.fi.dia.oeg.map4rdf.share.PolygonBean;
 import es.upm.fi.dia.oeg.map4rdf.share.Resource;
+import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
 import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
 import es.upm.fi.dia.oeg.map4rdf.share.Year;
 
@@ -354,6 +360,33 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 		}
 	}
 
+	@Override
+	public List<SubjectDescription> getSubjectDescription(String subject)
+			throws DaoException {
+		QueryExecution execution = QueryExecutionFactory.sparqlService(endpointUri, createGetSubjectDescriptionString(subject));
+		ArrayList<SubjectDescription> result = new ArrayList<SubjectDescription>();
+		try {
+			ResultSet queryResult = execution.execSelect();
+			while (queryResult.hasNext()) {
+				QuerySolution solution = queryResult.next();
+				result.add(new SubjectDescription(solution.get("p").toString(),solution.get("o").toString()));
+			}
+			return result;
+		} catch (Exception e) {
+			throw new DaoException("Unable to execute SPARQL query", e);
+		} finally {
+			execution.close();
+		}
+	}
+	
+	private String createGetSubjectDescriptionString(String subject) {
+		StringBuilder query = new StringBuilder("SELECT ?p ?o WHERE {");
+		query.append("<" +subject+ ">");
+		query.append(" ?p ?o .");
+		query.append("}");
+		return query.toString();
+	}
+	
 	private String createGetStatisticDatasetsQuery() {
 		StringBuilder query = new StringBuilder("SELECT DISTINCT ?uri ?label WHERE { ");
 		query.append("?uri <" + RDF.type + ">  <" + Scovo.Dataset + "> . ");

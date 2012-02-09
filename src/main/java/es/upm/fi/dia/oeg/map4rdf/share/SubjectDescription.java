@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
- * Facultad de Informatica, Universidad 
+ * Facultad de Informetica, Universidad 
  * Politecnica de Madrid, Spain
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,22 +22,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.client.action;
+package es.upm.fi.dia.oeg.map4rdf.share;
 
 import java.io.Serializable;
-import net.customware.gwt.dispatch.shared.Action;
-import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
+import java.util.Collection;
+import java.util.HashMap;
+
 /**
  * @author Alexander De Leon
  */
-public class GetGeoResourcesAsKmlUrl extends GetGeoResourcesBase implements Action<SingletonResult<String>> {
+public class SubjectDescription implements Serializable {
 
-	GetGeoResourcesAsKmlUrl() {
+	private String predicate;
+	private String object;
+
+	SubjectDescription() {
 		// for serialization
 	}
 
-	public GetGeoResourcesAsKmlUrl(BoundingBox boundingBox) {
-		super(boundingBox);
+	public SubjectDescription(String predicate, String object) {
+		this.setPredicate(predicate);
+		this.setObject(object);
+	}
+
+	public String getPredicate() {
+		return predicate;
+	}
+
+	public void setPredicate(String predicate) {
+		this.predicate = predicate;
+	}
+
+	public String getObject() {
+		return object;
+	}
+
+	public void setObject(String object) {
+		this.object = object;
 	}
 
 }

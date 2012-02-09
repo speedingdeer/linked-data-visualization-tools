@@ -26,18 +26,27 @@ package es.upm.fi.dia.oeg.map4rdf.client.action;
 
 import java.io.Serializable;
 import net.customware.gwt.dispatch.shared.Action;
-import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
-/**
- * @author Alexander De Leon
- */
-public class GetGeoResourcesAsKmlUrl extends GetGeoResourcesBase implements Action<SingletonResult<String>> {
+import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
 
-	GetGeoResourcesAsKmlUrl() {
-		// for serialization
+/**
+ * @author Filip
+ */
+public class GetSubjectDescriptions implements Serializable, Action<ListResult<SubjectDescription>> {
+
+	private String subject;
+
+	public GetSubjectDescriptions() {
+		//serialization
 	}
 
-	public GetGeoResourcesAsKmlUrl(BoundingBox boundingBox) {
-		super(boundingBox);
+	public GetSubjectDescriptions(String subject) {
+		this.subject = subject;
+	}
+	/**
+	 * @return the subject
+	 */
+	public String getSubject() {
+		return subject;
 	}
 
 }

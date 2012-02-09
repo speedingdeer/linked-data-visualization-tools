@@ -1,5 +1,5 @@
 package es.upm.fi.dia.oeg.map4rdf.compiler;
-
+/*
 import org.apache.tools.ant.taskdefs.Javac;
 import org.eclipse.jdt.core.JDTCompilerAdapter;
 
@@ -18,4 +18,4 @@ public class JDTCompiler16 extends JDTCompilerAdapter {
   }
   
 }
-
+*/

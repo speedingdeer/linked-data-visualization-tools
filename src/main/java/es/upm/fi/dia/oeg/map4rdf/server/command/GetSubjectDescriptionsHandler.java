@@ -24,51 +24,56 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.server.command;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.util.List;
 
 import net.customware.gwt.dispatch.server.ActionHandler;
 import net.customware.gwt.dispatch.server.ExecutionContext;
 import net.customware.gwt.dispatch.shared.ActionException;
-import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResourcesAsKmlUrl;
-import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
-import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
+
+import com.google.inject.Inject;
+
+import es.upm.fi.dia.oeg.map4rdf.client.action.GetSubjectDescriptions;
+import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
+import es.upm.fi.dia.oeg.map4rdf.server.dao.DaoException;
+import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
+import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
 
 /**
- * @author Alexander De Leon
+ * @author Filip
  */
-
-public class GetGeoResourcesAsKmlUrlHandler implements ActionHandler<GetGeoResourcesAsKmlUrl, SingletonResult<String>> {
+public class GetSubjectDescriptionsHandler implements
+		ActionHandler<GetSubjectDescriptions, ListResult<SubjectDescription>> {
+	
+	private final Map4rdfDao dao;
 
 	@Override
-	public Class<GetGeoResourcesAsKmlUrl> getActionType() {
-		return GetGeoResourcesAsKmlUrl.class;
+	public Class<GetSubjectDescriptions> getActionType() {
+		return GetSubjectDescriptions.class;
+	}
+	
+	@Inject
+	public GetSubjectDescriptionsHandler(Map4rdfDao dao) {
+		this.dao = dao;
 	}
 
 	@Override
-	public SingletonResult<String> execute(GetGeoResourcesAsKmlUrl action, ExecutionContext context)
-			throws ActionException {
-		StringBuilder queryBuilder = new StringBuilder();
-		if (action.getFacetConstraints() != null) {
+	public ListResult<SubjectDescription> execute(GetSubjectDescriptions action,
+			ExecutionContext context) throws ActionException {
+	
+			List<SubjectDescription> descriptions;
 			try {
-				for (FacetConstraint constratint : action.getFacetConstraints()) {
-					queryBuilder.append(URLEncoder.encode(constratint.getFacetId(), "utf-8"));
-					queryBuilder.append("=");
-					queryBuilder.append(URLEncoder.encode(constratint.getFacetValueId(), "utf-8"));
-					queryBuilder.append("&");
-				}
-				queryBuilder.deleteCharAt(queryBuilder.length() - 1);
-			} catch (UnsupportedEncodingException e) {
-				assert false : "utf-8 exists";
+				descriptions = dao.getSubjectDescription(action.getSubject());
+			} catch (DaoException e) {
+				e.printStackTrace();
+				return new ListResult<SubjectDescription>();
 			}
-		}
-		return new SingletonResult<String>("kml?" + queryBuilder.toString());
+			return new ListResult<SubjectDescription>(descriptions);
 	}
 
 	@Override
-	public void rollback(GetGeoResourcesAsKmlUrl action, SingletonResult<String> result, ExecutionContext context)
-			throws ActionException {
-		// nothing to do
+	public void rollback(GetSubjectDescriptions action,
+			ListResult<SubjectDescription> result,
+			ExecutionContext context) throws ActionException {
+		// TODO Auto-generated method stub
 	}
-
 }

@@ -4,13 +4,17 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.view;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Tree;
+import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.EditResourcePresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
+import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
 
 /**
  *
@@ -19,8 +23,8 @@ import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 public class EditResourceView extends Composite implements EditResourcePresenter.Display {
     
     private FlowPanel mainPanel;
-    
-    
+    private Tree tree;
+    private TreeItem root;
     @Inject
     public EditResourceView(BrowserResources resources) {
         
@@ -48,8 +52,22 @@ public class EditResourceView extends Composite implements EditResourcePresenter
     }
     
     private Widget createUi() {
-        mainPanel = new FlowPanel();
-        mainPanel.add(new Label("EDIT RESOURCE"));
+    	mainPanel = new FlowPanel();
+    	tree = new Tree();
+    	root = new TreeItem("");
+    	
+    	tree.addItem(root);
+        mainPanel.add(tree);
         return mainPanel;
     }
+
+	@Override
+	public void setCore(String core) {
+		root.setText(core);
+	}
+
+	@Override
+	public void addDescription(SubjectDescription description) {
+		Window.alert(description.getObject());
+	}
 }

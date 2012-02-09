@@ -121,7 +121,6 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
         getDisplay().addWestWidget(facetPresenter.getDisplay().asWidget(), "Facets");
         getDisplay().addWestWidget(dataToolBar, messages.overlays());
         getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
-
         getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());
 
     }

@@ -33,17 +33,23 @@ import net.customware.gwt.presenter.client.place.Place;
 import net.customware.gwt.presenter.client.place.PlaceRequest;
 import net.customware.gwt.presenter.client.widget.WidgetDisplay;
 
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResource;
+import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResourcesAsKmlUrl;
+import es.upm.fi.dia.oeg.map4rdf.client.action.GetSubjectDescriptions;
+import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
 import es.upm.fi.dia.oeg.map4rdf.client.event.UrlParametersChangeEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.UrlParametersChangeEventHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
-import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
+
+import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
+import es.upm.fi.dia.oeg.map4rdf.share.TwoDimentionalCoordinate;
+import es.upm.fi.dia.oeg.map4rdf.share.URLSafty;
 import es.upm.fi.dia.oeg.map4rdf.share.conf.UrlParamtersDict;
 import name.alexdeleon.lib.gwtblocks.client.PagePresenter;
 
@@ -54,11 +60,12 @@ import name.alexdeleon.lib.gwtblocks.client.PagePresenter;
 public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.Display> implements UrlParametersChangeEventHandler{
 
 	private HashMap<String, String> parameters;
-	private String geoResouceUri;
-	private GeoResource geoResource;
+	private URLSafty subjectUrl;
 	
 	public interface Display extends WidgetDisplay {
         public void clear();
+        public void setCore(String core);
+        public void addDescription(SubjectDescription description);
     }
 
 	private final DispatchAsync dispatchAsync;
@@ -104,24 +111,32 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 	public void onParametersChange(UrlParametersChangeEvent event) {
 		parameters = event.getParamaters();
 		if (parameters.containsKey(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES)) { 
-			geoResouceUri = parameters.get(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES);
+			//geoResouceUri = URLSafty.encode((parameters.get(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES)));
+			subjectUrl = new URLSafty((parameters.get(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES)));
 			fullfilContent();
 		}
 	}
 	private void fullfilContent() {
-        GetGeoResource action = new GetGeoResource(geoResouceUri);
-        dispatchAsync.execute(action, new AsyncCallback<SingletonResult<GeoResource>>() {
-
-			@Override
+		
+		getDisplay().setCore(subjectUrl.getUrl());
+		
+		GetSubjectDescriptions action = new GetSubjectDescriptions(subjectUrl.getUrlSafty());
+        dispatchAsync.execute(action, new AsyncCallback<ListResult<SubjectDescription>>() {
+        
+		@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("Can not get resource");
+				Window.alert("Url parameter is not valid");
 			}
 
 			@Override
-			public void onSuccess(SingletonResult<GeoResource> result) {
-				geoResource = result.getValue();
+			public void onSuccess(ListResult<SubjectDescription>result) {
+				int size = result.asList().size();
+				for(int i = 0; i < size; i++) {
+					getDisplay().addDescription(result.asList().get(i));
+				}
 			}
-        	
+
+			
         });
 	}
 

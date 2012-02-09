@@ -25,6 +25,7 @@ import name.alexdeleon.lib.gwtblocks.client.widget.loading.LoadingWidget;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapWidget;
+import org.gwtopenmaps.openlayers.client.event.ControlActivateListener;
 import org.gwtopenmaps.openlayers.client.event.MapLayerChangedListener.MapLayerChangedEvent;
 import org.gwtopenmaps.openlayers.client.event.MapMoveListener.MapMoveEvent;
 import org.gwtopenmaps.openlayers.client.layer.Google;
@@ -38,6 +39,7 @@ import org.gwtopenmaps.openlayers.client.layer.WMSParams;
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Bounds;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -64,20 +66,12 @@ public class OpenLayersMapView implements MapView {
     private static final int DEFAULT_ZOOM_LEVEL = 6;
     public static final String WMS_URL =
             "http://www.idee.es/wms-c/IDEE-Base/IDEE-Base";
-    private LonLat mapCenter;
+
     private final LoadingWidget loadingWidget;
     private Map map;
     private final OpenLayersMapLayer defaultLayer;
     private AbsolutePanel panel;
     private LayerSwitcher layerSwitcher;
-
-    public LonLat getMapCenter() {
-        return this.mapCenter;
-    }
-
-    public void setMapCenter(LonLat center) {
-        this.mapCenter = center;
-    }
 
     public OpenLayersMapView(WidgetFactory widgetFactory) {
         loadingWidget = widgetFactory.getLoadingWidget();
@@ -174,22 +168,21 @@ public class OpenLayersMapView implements MapView {
 
         WMS wmsLayer = new WMS("IDEE", WMS_URL, wmsParams, wmsLayerParams);
         layerSwitcher = new LayerSwitcher();
-
+        
         map.addControl(layerSwitcher);
-        map.addMapLayerChangedListener(new MapLayerChangedListener() {
-
-            @Override
-            public void onLayerChanged(MapLayerChangedEvent eventObject) {
-               //defaultLayer.refreshContent();
-            }
-        });
-        map.addMapMoveListener(new MapMoveListener() {
-
-            @Override
-            public void onMapMove(MapMoveEvent eventObject) {
-                setMapCenter(map.getCenter());
-            }
-        });
+        
+        /*
+         * Because map.pan makes an error we can sitch between two types of maps (in this case IDEE and Google) 
+         * The wraper has bug?
+         */
+        //map.addMapLayerChangedListener(new MapLayerChangedListener() {
+        //    @Override
+        //    public void onLayerChanged(MapLayerChangedEvent eventObject) {
+        //    	//map.pan(0, 0)
+        //    	Window.alert("switch");
+        //    }
+        //});
+        
         GoogleOptions googleOptions = new GoogleOptions();
         googleOptions.setSphericalMercator(true);
         googleOptions.setType(GMapType.G_NORMAL_MAP);
@@ -197,24 +190,12 @@ public class OpenLayersMapView implements MapView {
         googleOptions.setNumZoomLevels(20);
         Google google = new Google("Google Maps", googleOptions);
         OSM openStreetMap = OSM.Osmarender("Open Street Maps");
-        //BaseLayerSelector baseLayerSelector = new BaseLayerSelector(map);
-        //baseLayerSelector.addLayer("IDEE Maps", wmsLayer);
-        //baseLayerSelector.addLayer("Google Maps", google);
-        //baseLayerSelector.addLayer("Open Street Map", openStreetMap);
         map.addLayers(new Layer[]{google, openStreetMap});
         DEFAULT_CENTER.transform("EPSG:4326", map.getProjection());
         map.setCenter(DEFAULT_CENTER, DEFAULT_ZOOM_LEVEL);
-        //map.addControl(new MousePosition());
         panel.add(mapWidget);
         DOM.setStyleAttribute(panel.getElement(), "zIndex", "0");
-        this.mapCenter = map.getCenter();
-        //panel.add(baseLayerSelector);
+        
 
-        // baselayer selector layout
-        //Element baseLayerSelectorElement = baseLayerSelector.getElement();
-        //DOM.setStyleAttribute(baseLayerSelectorElement, "position","absolute");
-       //DOM.setStyleAttribute(baseLayerSelectorElement, "right", 22 + "px");
-       //DOM.setStyleAttribute(baseLayerSelectorElement, "top", 22 + "px");
-       //DOM.setStyleAttribute(baseLayerSelectorElement, "zIndex", "2024");
    }
 }

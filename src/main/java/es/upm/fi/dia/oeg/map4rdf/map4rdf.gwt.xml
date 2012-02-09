@@ -8,11 +8,10 @@
 	<inherits name='com.google.gwt.maps.GoogleMaps' />
 	<inherits name="com.google.gwt.gen2.picker.Picker"/>
 	<inherits name="org.gwtopenmaps.openlayers.OpenLayers"/>
-	
-	<stylesheet src="/map4rdf.css"/>
-	
+	<inherits name="com.google.gwt.http.HTTP"/>
 	<inherits name="com.google.gwt.user.theme.chrome.Chrome"/>
 
+	<stylesheet src="/map4rdf.css"/>
 	<stylesheet src="gwt_style.css"/>
 	
 	<source path="client" />

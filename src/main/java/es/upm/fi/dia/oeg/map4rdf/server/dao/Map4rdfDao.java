@@ -33,6 +33,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.Facet;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResourceOverlay;
 import es.upm.fi.dia.oeg.map4rdf.share.Resource;
+import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
 import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
 import es.upm.fi.dia.oeg.map4rdf.share.Year;
 
@@ -62,4 +63,6 @@ public interface Map4rdfDao {
 	List<Year> getYears(String datasetUri) throws DaoException;
 
 	List<Resource> getStatisticDatasets() throws DaoException;
+	
+	List<SubjectDescription> getSubjectDescription(String subject) throws DaoException;
 }

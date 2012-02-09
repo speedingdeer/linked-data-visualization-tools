@@ -56,6 +56,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResourceOverlay;
 import es.upm.fi.dia.oeg.map4rdf.share.PointBean;
 import es.upm.fi.dia.oeg.map4rdf.share.Resource;
+import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
 import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
 import es.upm.fi.dia.oeg.map4rdf.share.Year;
 
@@ -359,6 +360,13 @@ public class VCardDaoImpl implements Map4rdfDao {
 		query.append("OPTIONAL { <" + uri + "> <" + RDFS.label + "> ?label } .");
 		query.append("}");
 		return query.toString();
+	}
+
+	@Override
+	public List<SubjectDescription> getSubjectDescription(String subject)
+			throws DaoException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
