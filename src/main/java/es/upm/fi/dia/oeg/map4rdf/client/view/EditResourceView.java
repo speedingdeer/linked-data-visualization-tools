@@ -4,17 +4,18 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.view;
 
-import com.google.gwt.user.client.Window;
+import java.util.ArrayList;
+
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.EditResourcePresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
-import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
+import es.upm.fi.dia.oeg.map4rdf.client.widget.EditableDescription;
 
 /**
  *
@@ -22,7 +23,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
  */
 public class EditResourceView extends Composite implements EditResourcePresenter.Display {
     
-    private FlowPanel mainPanel;
+    private ScrollPanel mainPanel;
     private Tree tree;
     private TreeItem root;
     @Inject
@@ -33,7 +34,7 @@ public class EditResourceView extends Composite implements EditResourcePresenter
     
     @Override
     public void clear() {
-        
+
     }
     
     @Override
@@ -52,12 +53,13 @@ public class EditResourceView extends Composite implements EditResourcePresenter
     }
     
     private Widget createUi() {
-    	mainPanel = new FlowPanel();
+    	mainPanel = new ScrollPanel();
     	tree = new Tree();
     	root = new TreeItem("");
     	
     	tree.addItem(root);
         mainPanel.add(tree);
+        
         return mainPanel;
     }
 
@@ -67,7 +69,21 @@ public class EditResourceView extends Composite implements EditResourcePresenter
 	}
 
 	@Override
-	public void addDescription(SubjectDescription description) {
-		Window.alert(description.getObject());
+	public void addDescription(EditableDescription description) {
+		TreeItem treeItem = new TreeItem(description.getWidget());
+		treeItem.addItem("");
+		root.addItem(treeItem);
+	}
+
+	@Override
+	public Tree getTree() {
+		return tree;
+	}
+
+	@Override
+	public void addDescription(TreeItem treeItem, EditableDescription description) {
+		TreeItem leaf = new TreeItem(description.getWidget());
+		leaf.addItem("");
+		treeItem.addItem(leaf);
 	}
 }

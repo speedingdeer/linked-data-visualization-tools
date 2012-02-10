@@ -28,6 +28,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 
+import com.hp.hpl.jena.rdf.model.RDFNode;
+
 /**
  * @author Alexander De Leon
  */
@@ -35,7 +37,8 @@ public class SubjectDescription implements Serializable {
 
 	private String predicate;
 	private String object;
-
+	
+	
 	SubjectDescription() {
 		// for serialization
 	}

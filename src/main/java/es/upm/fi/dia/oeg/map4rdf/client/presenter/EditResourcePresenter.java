@@ -25,6 +25,7 @@
 package es.upm.fi.dia.oeg.map4rdf.client.presenter;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.customware.gwt.dispatch.client.DispatchAsync;
@@ -33,9 +34,13 @@ import net.customware.gwt.presenter.client.place.Place;
 import net.customware.gwt.presenter.client.place.PlaceRequest;
 import net.customware.gwt.presenter.client.widget.WidgetDisplay;
 
+import com.google.gwt.event.logical.shared.OpenEvent;
+import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Tree;
+import com.google.gwt.user.client.ui.TreeItem;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -46,10 +51,11 @@ import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
 import es.upm.fi.dia.oeg.map4rdf.client.event.UrlParametersChangeEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.UrlParametersChangeEventHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
+import es.upm.fi.dia.oeg.map4rdf.client.widget.EditableDescription;
 
 import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
 import es.upm.fi.dia.oeg.map4rdf.share.TwoDimentionalCoordinate;
-import es.upm.fi.dia.oeg.map4rdf.share.URLSafty;
+import es.upm.fi.dia.oeg.map4rdf.share.URLSafety;
 import es.upm.fi.dia.oeg.map4rdf.share.conf.UrlParamtersDict;
 import name.alexdeleon.lib.gwtblocks.client.PagePresenter;
 
@@ -60,12 +66,15 @@ import name.alexdeleon.lib.gwtblocks.client.PagePresenter;
 public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.Display> implements UrlParametersChangeEventHandler{
 
 	private HashMap<String, String> parameters;
-	private URLSafty subjectUrl;
-	
-	public interface Display extends WidgetDisplay {
+	private URLSafety subjectUrl;
+    private ArrayList<EditableDescription> descriptions = new ArrayList<EditableDescription>();
+
+    public interface Display extends WidgetDisplay {
         public void clear();
         public void setCore(String core);
-        public void addDescription(SubjectDescription description);
+        public void addDescription(EditableDescription description);
+        public void addDescription(TreeItem treeItem, EditableDescription description);
+        public Tree getTree();
     }
 
 	private final DispatchAsync dispatchAsync;
@@ -112,10 +121,11 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 		parameters = event.getParamaters();
 		if (parameters.containsKey(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES)) { 
 			//geoResouceUri = URLSafty.encode((parameters.get(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES)));
-			subjectUrl = new URLSafty((parameters.get(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES)));
+			subjectUrl = new URLSafety((parameters.get(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES)));
 			fullfilContent();
 		}
 	}
+	
 	private void fullfilContent() {
 		
 		getDisplay().setCore(subjectUrl.getUrl());
@@ -130,14 +140,72 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 
 			@Override
 			public void onSuccess(ListResult<SubjectDescription>result) {
-				int size = result.asList().size();
-				for(int i = 0; i < size; i++) {
-					getDisplay().addDescription(result.asList().get(i));
+				for(SubjectDescription d : result) {	
+					EditableDescription editableDescription = new EditableDescription(d.getPredicate(), d.getObject(),null);
+					descriptions.add(editableDescription);
+					getDisplay().addDescription(editableDescription);
 				}
 			}
 
 			
         });
-	}
+        
+        getDisplay().getTree().addOpenHandler(new OpenHandler<TreeItem>() {
+			
+			@Override
+			public void onOpen(final OpenEvent<TreeItem> event) {
+				
+				//if the node is not opened for the first time, ignore the action				
+				if (! isEmpty(getDescription(event.getTarget()))) {
+					return;
+				}
+				
+				for(EditableDescription d : descriptions)
+				if(event.getTarget().getWidget().equals(d.getWidget())) {
+					URLSafety url = new URLSafety(d.getObjectText());
+					GetSubjectDescriptions action = new GetSubjectDescriptions(url.getUrlSafty());
+			        dispatchAsync.execute(action, new AsyncCallback<ListResult<SubjectDescription>>() {
+			        
+					@Override
+						public void onFailure(Throwable caught) {
+							Window.alert("Url parameter is not valid");
+						}
+
+						@Override
+						public void onSuccess(ListResult<SubjectDescription>result) {
+							for(SubjectDescription d : result) {	
+								
+								EditableDescription editableDescription = new EditableDescription(d.getPredicate(), d.getObject(),getDescription(event.getTarget()));
+								descriptions.add(editableDescription);
+								getDisplay().addDescription(event.getTarget(), editableDescription);
+							}
+						}
+
+						
+			        });
+				}
+			}
+		});
+    }
+	
+	
+	
+    private EditableDescription getDescription(TreeItem treeItem) {
+    	for (EditableDescription d : descriptions) {
+    		if(treeItem.getWidget().equals(d.getWidget())){
+    			return d;
+    		}
+    	}
+    	return null;
+    }
+    private Boolean isEmpty(EditableDescription parent) {
+    	for (EditableDescription d: descriptions) {
+    		if (d.getParent()!= null && d.getParent().equals(parent)) {
+    			return false;
+    		}
+    	}
+    	return true;
+    }
+	
 
 }

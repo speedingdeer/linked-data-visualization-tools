@@ -43,6 +43,7 @@ import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Literal;
+import com.hp.hpl.jena.rdf.model.impl.LiteralImpl;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 import com.sun.xml.xsom.impl.util.Uri;
@@ -365,11 +366,42 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 			throws DaoException {
 		QueryExecution execution = QueryExecutionFactory.sparqlService(endpointUri, createGetSubjectDescriptionString(subject));
 		ArrayList<SubjectDescription> result = new ArrayList<SubjectDescription>();
+		Literal a;
+		com.hp.hpl.jena.rdf.model.Resource b;
 		try {
 			ResultSet queryResult = execution.execSelect();
 			while (queryResult.hasNext()) {
 				QuerySolution solution = queryResult.next();
-				result.add(new SubjectDescription(solution.get("p").toString(),solution.get("o").toString()));
+				String p = "";
+				String o = "";
+					
+				if(solution.get("p").isLiteral()) {
+					a = solution.getLiteral("p");
+					p = a.getString();
+				}
+				if(solution.get("p").isResource()) {
+					b = solution.getResource("p");
+					p = b.getURI();
+				}
+				
+				if(solution.get("o").isLiteral()) {
+					a = solution.getLiteral("o");
+					o = a.getString();
+					//String h = a.getDatatypeURI();
+					//String w = a.getLexicalForm();
+					//String p = a.getString();
+					//String q = a.getLanguage();
+					//String c = a.toString();
+				}
+				if(solution.get("o").isResource()) {
+					b = solution.getResource("o");
+					o = b.getURI();
+					//String d = b.getLocalName();
+					//String e = b.getNameSpace();
+					//String f = b.getURI();
+					//String g = b.toString();
+				}
+				result.add(new SubjectDescription(p,o));
 			}
 			return result;
 		} catch (Exception e) {
