@@ -262,4 +262,10 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		return null;
 	}
 
+	@Override
+	public String getLabel(String uri) throws DaoException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

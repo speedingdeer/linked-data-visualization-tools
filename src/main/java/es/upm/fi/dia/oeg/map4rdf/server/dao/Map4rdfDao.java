@@ -65,4 +65,6 @@ public interface Map4rdfDao {
 	List<Resource> getStatisticDatasets() throws DaoException;
 	
 	List<SubjectDescription> getSubjectDescription(String subject) throws DaoException;
+	
+	String getLabel(String uri) throws DaoException;
 }

@@ -6,6 +6,7 @@ package es.upm.fi.dia.oeg.map4rdf.client.view;
 
 import java.util.ArrayList;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -15,7 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.EditResourcePresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
-import es.upm.fi.dia.oeg.map4rdf.client.widget.EditableDescription;
+import es.upm.fi.dia.oeg.map4rdf.client.widget.DescriptionTreeItem;
 
 /**
  *
@@ -26,6 +27,9 @@ public class EditResourceView extends Composite implements EditResourcePresenter
     private ScrollPanel mainPanel;
     private Tree tree;
     private TreeItem root;
+    //@TODO refactor as a db parameter
+    private Integer maxDepth = 3; 
+    
     @Inject
     public EditResourceView(BrowserResources resources) {
         
@@ -34,7 +38,12 @@ public class EditResourceView extends Composite implements EditResourcePresenter
     
     @Override
     public void clear() {
-
+    	mainPanel.remove(tree);
+    	tree = new Tree();
+    	root = new TreeItem("");
+    	root.setSelected(false);
+    	tree.addItem(root);
+    	mainPanel.add(tree);
     }
     
     @Override
@@ -69,9 +78,11 @@ public class EditResourceView extends Composite implements EditResourcePresenter
 	}
 
 	@Override
-	public void addDescription(EditableDescription description) {
+	public void addDescription(DescriptionTreeItem description) {
 		TreeItem treeItem = new TreeItem(description.getWidget());
-		treeItem.addItem("");
+		if (description.getSubjectDescriptions().getObject().isResource() && description.getDepth() < maxDepth) {
+			treeItem.addItem("");
+		}
 		root.addItem(treeItem);
 	}
 
@@ -81,9 +92,11 @@ public class EditResourceView extends Composite implements EditResourcePresenter
 	}
 
 	@Override
-	public void addDescription(TreeItem treeItem, EditableDescription description) {
+	public void addDescription(TreeItem treeItem, DescriptionTreeItem description ) {
 		TreeItem leaf = new TreeItem(description.getWidget());
-		leaf.addItem("");
+		if (description.getSubjectDescriptions().getObject().isResource() && description.getDepth() < maxDepth) {
+			leaf.addItem("");
+		}
 		treeItem.addItem(leaf);
 	}
 }

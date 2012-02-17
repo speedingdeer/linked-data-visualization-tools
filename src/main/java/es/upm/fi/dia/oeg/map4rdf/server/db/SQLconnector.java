@@ -19,15 +19,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.mindrot.jbcrypt.BCrypt;
-import org.tmatesoft.sqljet.core.SqlJetException;
-
 /**
  *
  * @author filip
  */
 @Singleton
 public final class SQLconnector {
-
     private Connection conn = null;
     private String status;
 

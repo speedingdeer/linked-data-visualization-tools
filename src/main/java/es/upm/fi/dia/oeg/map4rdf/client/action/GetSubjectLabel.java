@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
- * Facultad de Informetica, Universidad 
+ * Facultad de Informatica, Universidad 
  * Politecnica de Madrid, Spain
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,43 +22,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.share;
+package es.upm.fi.dia.oeg.map4rdf.client.action;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashMap;
-
-import com.hp.hpl.jena.rdf.model.RDFNode;
+import net.customware.gwt.dispatch.shared.Action;
+import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
 
 /**
- * @author Alexander De Leon
+ * @author Filip
  */
-public class SubjectDescription implements Serializable {
+public class GetSubjectLabel implements Serializable, Action<SingletonResult<String>> {
 
-	//private String predicate;
-	//private String object;
-	
-	private BasicRDFInformation predicate;
-	private BasicRDFInformation object;
-	
-	public SubjectDescription() {
-		// for serialization
+	private String label;
+
+	public GetSubjectLabel() {
+		//serialization
 	}
 
-	public BasicRDFInformation getPredicate() {
-		return predicate;
+	public GetSubjectLabel(String label) {
+		this.label = label;
 	}
-
-	public void setPredicate(BasicRDFInformation predicate) {
-		this.predicate = predicate;
-	}
-
-	public BasicRDFInformation getObject() {
-		return object;
-	}
-
-	public void setObject(BasicRDFInformation object) {
-		this.object = object;
+	/**
+	 * @return the subject
+	 */
+	public String getSubjectLabel() {
+		return label;
 	}
 
 }

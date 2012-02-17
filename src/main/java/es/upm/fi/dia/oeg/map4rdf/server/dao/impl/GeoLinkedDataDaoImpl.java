@@ -51,6 +51,7 @@ import com.sun.xml.xsom.impl.util.Uri;
 import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.DaoException;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
+import es.upm.fi.dia.oeg.map4rdf.server.util.DescriptionsFactory;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Geo;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.GeoLinkedDataEsOwlVocabulary;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Scovo;
@@ -366,42 +367,11 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 			throws DaoException {
 		QueryExecution execution = QueryExecutionFactory.sparqlService(endpointUri, createGetSubjectDescriptionString(subject));
 		ArrayList<SubjectDescription> result = new ArrayList<SubjectDescription>();
-		Literal a;
-		com.hp.hpl.jena.rdf.model.Resource b;
 		try {
 			ResultSet queryResult = execution.execSelect();
 			while (queryResult.hasNext()) {
 				QuerySolution solution = queryResult.next();
-				String p = "";
-				String o = "";
-					
-				if(solution.get("p").isLiteral()) {
-					a = solution.getLiteral("p");
-					p = a.getString();
-				}
-				if(solution.get("p").isResource()) {
-					b = solution.getResource("p");
-					p = b.getURI();
-				}
-				
-				if(solution.get("o").isLiteral()) {
-					a = solution.getLiteral("o");
-					o = a.getString();
-					//String h = a.getDatatypeURI();
-					//String w = a.getLexicalForm();
-					//String p = a.getString();
-					//String q = a.getLanguage();
-					//String c = a.toString();
-				}
-				if(solution.get("o").isResource()) {
-					b = solution.getResource("o");
-					o = b.getURI();
-					//String d = b.getLocalName();
-					//String e = b.getNameSpace();
-					//String f = b.getURI();
-					//String g = b.toString();
-				}
-				result.add(new SubjectDescription(p,o));
+				result.add(DescriptionsFactory.getSubjectDescription(solution));
 			}
 			return result;
 		} catch (Exception e) {
@@ -411,6 +381,40 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 		}
 	}
 	
+	@Override
+	public String getLabel(String uri) throws DaoException {
+		String result = "";
+		QueryExecution execution = QueryExecutionFactory.sparqlService(endpointUri, createGetLabelQuery(uri));
+		try {
+			ResultSet queryResult = execution.execSelect();
+			while (queryResult.hasNext()) {
+				QuerySolution solution = queryResult.next();
+				Literal l = solution.getLiteral("?label");
+				result = l.getLexicalForm();
+		//		try {
+		//			double lat = solution.getLiteral("lat").getDouble();
+		//			double lng = solution.getLiteral("lng").getDouble();
+		//			return new PointBean(uri, lng, lat);
+		//		} catch (NumberFormatException e) {
+		//			LOG.warn("Invalid Latitud or Longitud value: " + e.getMessage());
+		//		}
+			}
+		} catch (Exception e) {
+			throw new DaoException("Unable to execute SPARQL query", e);
+		} finally {
+			execution.close();
+		}
+		return result;
+	}
+	
+	private String createGetLabelQuery(String uri) {
+		// TODO Auto-generated method stub
+		StringBuilder query = new StringBuilder("SELECT ?label WHERE {");
+		query.append(" <" + uri +"> <" + RDFS.label + "> ?label.");
+		query.append("}");
+		return query.toString();
+	}
+
 	private String createGetSubjectDescriptionString(String subject) {
 		StringBuilder query = new StringBuilder("SELECT ?p ?o WHERE {");
 		query.append("<" +subject+ ">");

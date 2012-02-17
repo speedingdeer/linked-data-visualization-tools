@@ -34,6 +34,7 @@ import es.upm.fi.dia.oeg.map4rdf.server.command.GetGeoResourcesHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetStatisticDatasetsHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetStatisticYearsHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetSubjectDescriptionsHandler;
+import es.upm.fi.dia.oeg.map4rdf.server.command.GetSubjectLabelHandler;
 /**
  * @author Alexander De Leon
  */
@@ -48,6 +49,7 @@ public class BrowserActionHandlerModule extends ActionHandlerModule {
 		bindHandler(GetStatisticDatasetsHandler.class);
 		bindHandler(GetGeoResourceHandler.class);
 		bindHandler(GetSubjectDescriptionsHandler.class);
+		bindHandler(GetSubjectLabelHandler.class);
 		bindHandler(GetGeoResourcesAsKmlUrlHandler.class);
 	}
 }

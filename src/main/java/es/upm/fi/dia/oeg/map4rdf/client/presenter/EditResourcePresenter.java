@@ -36,7 +36,6 @@ import net.customware.gwt.presenter.client.widget.WidgetDisplay;
 
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
-import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Tree;
@@ -44,17 +43,16 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResourcesAsKmlUrl;
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetSubjectDescriptions;
+import es.upm.fi.dia.oeg.map4rdf.client.action.GetSubjectLabel;
 import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
 import es.upm.fi.dia.oeg.map4rdf.client.event.UrlParametersChangeEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.UrlParametersChangeEventHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
-import es.upm.fi.dia.oeg.map4rdf.client.widget.EditableDescription;
+import es.upm.fi.dia.oeg.map4rdf.client.widget.DescriptionTreeItem;
 
 import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
-import es.upm.fi.dia.oeg.map4rdf.share.TwoDimentionalCoordinate;
 import es.upm.fi.dia.oeg.map4rdf.share.URLSafety;
 import es.upm.fi.dia.oeg.map4rdf.share.conf.UrlParamtersDict;
 import name.alexdeleon.lib.gwtblocks.client.PagePresenter;
@@ -67,16 +65,17 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 
 	private HashMap<String, String> parameters;
 	private URLSafety subjectUrl;
-    private ArrayList<EditableDescription> descriptions = new ArrayList<EditableDescription>();
+	private String subjectLabel;
+    private ArrayList<DescriptionTreeItem> descriptions = new ArrayList<DescriptionTreeItem>();
 
     public interface Display extends WidgetDisplay {
         public void clear();
         public void setCore(String core);
-        public void addDescription(EditableDescription description);
-        public void addDescription(TreeItem treeItem, EditableDescription description);
+        public void addDescription(DescriptionTreeItem description);
+        public void addDescription(TreeItem treeItem, DescriptionTreeItem description);
         public Tree getTree();
     }
-
+    
 	private final DispatchAsync dispatchAsync;
 
 	@Inject
@@ -104,7 +103,7 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 
     @Override
     protected void onRevealDisplay() {
-        getDisplay().clear();
+    	clear();
     }
 
     @Override
@@ -118,17 +117,34 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 
 	@Override
 	public void onParametersChange(UrlParametersChangeEvent event) {
+		clear();
 		parameters = event.getParamaters();
 		if (parameters.containsKey(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES)) { 
 			//geoResouceUri = URLSafty.encode((parameters.get(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES)));
 			subjectUrl = new URLSafety((parameters.get(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES)));
-			fullfilContent();
+			
+			GetSubjectLabel action = new GetSubjectLabel(subjectUrl.getUrlSafty());
+			dispatchAsync.execute(action, new AsyncCallback<SingletonResult<String>>(){
+
+				@Override
+				public void onFailure(Throwable caught) {
+					// TODO Auto-generated method stub
+					
+				}
+
+				@Override
+				public void onSuccess(SingletonResult<String> result) {
+					subjectLabel = result.getValue();
+					fullfilContent();
+				}
+				
+			});
 		}
 	}
 	
 	private void fullfilContent() {
 		
-		getDisplay().setCore(subjectUrl.getUrl());
+		getDisplay().setCore(subjectLabel+" "+ "("+subjectUrl.getUrl()+")");
 		
 		GetSubjectDescriptions action = new GetSubjectDescriptions(subjectUrl.getUrlSafty());
         dispatchAsync.execute(action, new AsyncCallback<ListResult<SubjectDescription>>() {
@@ -141,7 +157,7 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 			@Override
 			public void onSuccess(ListResult<SubjectDescription>result) {
 				for(SubjectDescription d : result) {	
-					EditableDescription editableDescription = new EditableDescription(d.getPredicate(), d.getObject(),null);
+					DescriptionTreeItem editableDescription = new DescriptionTreeItem(d,null);
 					descriptions.add(editableDescription);
 					getDisplay().addDescription(editableDescription);
 				}
@@ -160,13 +176,12 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 					return;
 				}
 				
-				for(EditableDescription d : descriptions)
-				if(event.getTarget().getWidget().equals(d.getWidget())) {
-					URLSafety url = new URLSafety(d.getObjectText());
-					GetSubjectDescriptions action = new GetSubjectDescriptions(url.getUrlSafty());
+				for(DescriptionTreeItem d : descriptions)
+				if(event.getTarget().getWidget() != null && event.getTarget().getWidget().equals(d.getWidget())) {
+					GetSubjectDescriptions action = new GetSubjectDescriptions(d.getObjectText());
 			        dispatchAsync.execute(action, new AsyncCallback<ListResult<SubjectDescription>>() {
 			        
-					@Override
+			        	@Override
 						public void onFailure(Throwable caught) {
 							Window.alert("Url parameter is not valid");
 						}
@@ -175,37 +190,39 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 						public void onSuccess(ListResult<SubjectDescription>result) {
 							for(SubjectDescription d : result) {	
 								
-								EditableDescription editableDescription = new EditableDescription(d.getPredicate(), d.getObject(),getDescription(event.getTarget()));
+								DescriptionTreeItem editableDescription = new DescriptionTreeItem(d,getDescription(event.getTarget()));
 								descriptions.add(editableDescription);
 								getDisplay().addDescription(event.getTarget(), editableDescription);
 							}
 						}
-
-						
 			        });
 				}
 			}
 		});
     }
 	
-	
-	
-    private EditableDescription getDescription(TreeItem treeItem) {
-    	for (EditableDescription d : descriptions) {
-    		if(treeItem.getWidget().equals(d.getWidget())){
+    private DescriptionTreeItem getDescription(TreeItem treeItem) {
+    
+    	for (DescriptionTreeItem d : descriptions) {    		 
+    		 
+    		if(treeItem.getWidget() != null && treeItem.getWidget().equals(d.getWidget())){
     			return d;
     		}
     	}
     	return null;
     }
-    private Boolean isEmpty(EditableDescription parent) {
-    	for (EditableDescription d: descriptions) {
+    private Boolean isEmpty(DescriptionTreeItem parent) {
+    	for (DescriptionTreeItem d: descriptions) {
     		if (d.getParent()!= null && d.getParent().equals(parent)) {
     			return false;
     		}
     	}
     	return true;
     }
-	
+    
+    private void clear(){
+        descriptions.clear();
+        getDisplay().clear();
+    }
 
 }

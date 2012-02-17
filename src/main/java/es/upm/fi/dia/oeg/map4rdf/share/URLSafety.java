@@ -1,8 +1,10 @@
 package es.upm.fi.dia.oeg.map4rdf.share;
 
+import java.io.Serializable;
+
 import com.google.gwt.http.client.URL;
 
-public class URLSafety {
+public class URLSafety implements Serializable{
 	
 	private String url;
 	
@@ -17,7 +19,7 @@ public class URLSafety {
 	
 
 	public String getUrlSafty() {
-		return URL.encode(url).toString().replaceAll(",","%2C").replaceAll("\\^", "%5E");
+		return url.replaceAll(",","%2C").replaceAll("\\^", "%5E").replaceAll(" ","%20");
 	}
 
 	public String getUrl() {
