@@ -116,12 +116,14 @@ public class AdminPresenter extends  PagePresenter<AdminPresenter.Display>  {
 
                         @Override
                         public void onFailure(Throwable caught) {
-                            throw new UnsupportedOperationException("Not supported yet.");
+                            //throw new UnsupportedOperationException("Not supported yet.");
+                        	Window.alert("Unexpected error");
                         }
 
                         @Override
                         public void onSuccess(Boolean result) {
-                            throw new UnsupportedOperationException("Not supported yet.");
+                        	Window.alert("Your changes were saved");
+                            //throw new UnsupportedOperationException("Not supported yet.");
                         }
                     });
              } else {
