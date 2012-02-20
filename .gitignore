@@ -1,5 +1,6 @@
 *.project
 *.class
+!JDTCompiler16.class
 target/*
 context.xml
 *.war
