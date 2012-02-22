@@ -4,19 +4,18 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.view;
 
-import java.util.ArrayList;
+import name.alexdeleon.lib.gwtblocks.client.widget.loading.LoadingWidget;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.EditResourcePresenter;
-import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.DescriptionTreeItem;
+import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
 
 /**
  *
@@ -29,10 +28,11 @@ public class EditResourceView extends Composite implements EditResourcePresenter
     private TreeItem root;
     //@TODO refactor as a db parameter
     private Integer maxDepth = 3; 
+    private final LoadingWidget loadingWidget;
     
     @Inject
-    public EditResourceView(BrowserResources resources) {
-        
+    public EditResourceView(WidgetFactory widgetFactory) {
+        loadingWidget = widgetFactory.getLoadingWidget();
         initWidget(createUi());
     }
     
@@ -98,5 +98,15 @@ public class EditResourceView extends Composite implements EditResourcePresenter
 			leaf.addItem("");
 		}
 		treeItem.addItem(leaf);
+	}
+
+	@Override
+	public void openLoadWidget() {
+		loadingWidget.center();
+	}
+
+	@Override
+	public void closeLoadWidget() {
+		loadingWidget.hide();
 	}
 }

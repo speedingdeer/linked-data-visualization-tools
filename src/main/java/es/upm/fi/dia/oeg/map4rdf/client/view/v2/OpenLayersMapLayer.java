@@ -76,7 +76,7 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 	private final OpenLayersMapView owner;
 	private final Map map;
 	private final java.util.Map<String, List<ClickHandler>> handlers = new HashMap<String, List<ClickHandler>>();
-
+	
 	public OpenLayersMapLayer(OpenLayersMapView owner, Map map, String name) {
 		this.owner = owner;
 		this.map = map;
@@ -96,7 +96,6 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
              
                 org.gwtopenmaps.openlayers.client.geometry.Point olPoint = new org.gwtopenmaps.openlayers.client.geometry.Point(
 				ll.lon(),ll.lat());
-		//Window.alert(new Double(olPoint.getY()).toString() + " " + new Double(olPoint.getX()).toString() );
                 return addFeature(olPoint, getStyle(olPoint));
 	}
         

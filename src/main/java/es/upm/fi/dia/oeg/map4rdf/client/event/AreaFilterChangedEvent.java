@@ -22,24 +22,45 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.share;
+package es.upm.fi.dia.oeg.map4rdf.client.event;
+
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.google.gwt.event.shared.GwtEvent;
+
+import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
+import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
 
 /**
  * @author Alexander De Leon
  */
-public interface BoundingBox {
+public class AreaFilterChangedEvent extends GwtEvent<AreaFilterChangedHandler> {
 
-	TwoDimentionalCoordinate getTopRight();
+	private static GwtEvent.Type<AreaFilterChangedHandler> TYPE;
 
-	TwoDimentionalCoordinate getBottomLeft();
+
+	public AreaFilterChangedEvent() {
 	
-	TwoDimentionalCoordinate getTop();
-	TwoDimentionalCoordinate getBottom();
-	TwoDimentionalCoordinate getLeft();
-	TwoDimentionalCoordinate getRight();
-	
-	void transform(String from, String to);
+	}
 
-	TwoDimentionalCoordinate getCenter();
+	public static GwtEvent.Type<AreaFilterChangedHandler> getType() {
+		if (TYPE == null) {
+			TYPE = new Type<AreaFilterChangedHandler>();
+		}
+		return TYPE;
+	}
+
+
+	@Override
+	protected void dispatch(AreaFilterChangedHandler handler) {
+		handler.onAreaFilterChanged(this);
+	}
+
+	@Override
+	public GwtEvent.Type<AreaFilterChangedHandler> getAssociatedType() {
+		return getType();
+	}
 
 }

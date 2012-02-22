@@ -391,13 +391,6 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 				QuerySolution solution = queryResult.next();
 				Literal l = solution.getLiteral("?label");
 				result = l.getLexicalForm();
-		//		try {
-		//			double lat = solution.getLiteral("lat").getDouble();
-		//			double lng = solution.getLiteral("lng").getDouble();
-		//			return new PointBean(uri, lng, lat);
-		//		} catch (NumberFormatException e) {
-		//			LOG.warn("Invalid Latitud or Longitud value: " + e.getMessage());
-		//		}
 			}
 		} catch (Exception e) {
 			throw new DaoException("Unable to execute SPARQL query", e);
@@ -459,10 +452,11 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 	}
 
 	private String createGetResourcesQuery(BoundingBox boundingBox, Set<FacetConstraint> constraints, Integer limit) {
-		StringBuilder query = new StringBuilder("SELECT distinct ?r ?label ?geo ?geoType ");
+		StringBuilder query = new StringBuilder("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT distinct ?r ?label ?geo ?geoType ?lat ?lon ");
 		query.append("WHERE { ");
 		query.append("?r <" + Geo.geometry + ">  ?geo. ");
 		query.append("?geo <" + RDF.type + "> ?geoType . ");
+		query.append("?geo" + "<"+ Geo.lat + ">" +  " ?lat;"  + "<" + Geo.lng + ">" + " ?lon" + ".");
 		query.append("OPTIONAL { ?r <" + RDFS.label + "> ?label } .");
 		if (constraints != null) {
 			for (FacetConstraint constraint : constraints) {
@@ -470,6 +464,12 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 			}
 			query.delete(query.length() - 5, query.length());
 		}
+		
+		//filters
+		if (boundingBox!=null) {
+			query = addBoundingBoxFilter(query, boundingBox);
+		}
+		
 		query.append("}");
 		if (limit != null) {
 			query.append(" LIMIT " + limit);
@@ -520,6 +520,111 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 		query.append("OPTIONAL { <" + uri + "> <" + RDFS.label + "> ?label } .");
 		query.append("}");
 		return query.toString();
+	}
+	
+	private StringBuilder addBoundingBoxFilter(StringBuilder query, BoundingBox boundingBox) {
+		query.append(" FILTER(");
+	    query.append("(");
+		
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getTop().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getLeft().getX() + ")" + "-" + "(" + boundingBox.getTop().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getTop().getX() + ")*(" + boundingBox.getLeft().getY() + ") - (" + boundingBox.getTop().getY() + ")*(" + boundingBox.getLeft().getX() + "))");
+		query.append(") >= 0");
+		
+		query.append("&&");
+		
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getRight().getX() + ")" + "-" + "(" + boundingBox.getLeft().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getLeft().getX() + ")*(" + boundingBox.getRight().getY() + ") - (" + boundingBox.getLeft().getY() + ")*(" + boundingBox.getRight().getX() + "))");
+		query.append(") >= 0");
+		
+		query.append("&&");
+		
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getTop().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getTop().getX() + ")" + "-" + "(" + boundingBox.getRight().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getRight().getX() + ")*(" + boundingBox.getTop().getY() + ") - (" + boundingBox.getRight().getY() + ")*(" + boundingBox.getTop().getX() + "))");
+		query.append(") >= 0");
+		
+		query.append(") || (");
+				
+		//d1 = px*(ay-by) + py*(bx-ax) + (ax*by-ay*bx);        
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getBottom().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getLeft().getX() + ")" + "-" + "(" + boundingBox.getBottom().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getBottom().getX() + ")*(" + boundingBox.getLeft().getY() + ") - (" + boundingBox.getBottom().getY() + ")*(" + boundingBox.getLeft().getX() + "))");
+		query.append(") >= 0");
+		
+		query.append("&&");
+		//d2 = px*(by-cy) + py*(cx-bx) + (bx*cy-by*cx);
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getRight().getX() + ")" + "-" + "(" + boundingBox.getLeft().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getLeft().getX() + ")*(" + boundingBox.getRight().getY() + ") - (" + boundingBox.getLeft().getY() + ")*(" + boundingBox.getRight().getX() + "))");
+		query.append(") >= 0");
+		
+		query.append("&&");
+	    //d3 = px*(cy-ay) + py*(ax-cx) + (cx*ay-cy*ax);
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getBottom().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getBottom().getX() + ")" + "-" + "(" + boundingBox.getRight().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getRight().getX() + ")*(" + boundingBox.getBottom().getY() + ") - (" + boundingBox.getRight().getY() + ")*(" + boundingBox.getBottom().getX() + "))");
+		query.append(") >= 0");
+		
+		query.append(") || (");
+		
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getTop().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getLeft().getX() + ")" + "-" + "(" + boundingBox.getTop().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getTop().getX() + ")*(" + boundingBox.getLeft().getY() + ") - (" + boundingBox.getTop().getY() + ")*(" + boundingBox.getLeft().getX() + "))");
+		query.append(") <= 0");
+		
+		query.append("&&");
+		
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getRight().getX() + ")" + "-" + "(" + boundingBox.getLeft().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getLeft().getX() + ")*(" + boundingBox.getRight().getY() + ") - (" + boundingBox.getLeft().getY() + ")*(" + boundingBox.getRight().getX() + "))");
+		query.append(") <= 0");
+		
+		query.append("&&");
+		
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getTop().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getTop().getX() + ")" + "-" + "(" + boundingBox.getRight().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getRight().getX() + ")*(" + boundingBox.getTop().getY() + ") - (" + boundingBox.getRight().getY() + ")*(" + boundingBox.getTop().getX() + "))");
+		query.append(") <= 0");
+		
+		query.append(") || (");
+		
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getBottom().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getLeft().getX() + ")" + "-" + "(" + boundingBox.getBottom().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getBottom().getX() + ")*(" + boundingBox.getLeft().getY() + ") - (" + boundingBox.getBottom().getY() + ")*(" + boundingBox.getLeft().getX() + "))");
+		query.append(") <= 0");
+		
+		query.append("&&");
+		//d2 = px*(by-cy) + py*(cx-bx) + (bx*cy-by*cx);
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getRight().getX() + ")" + "-" + "(" + boundingBox.getLeft().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getLeft().getX() + ")*(" + boundingBox.getRight().getY() + ") - (" + boundingBox.getLeft().getY() + ")*(" + boundingBox.getRight().getX() + "))");
+		query.append(") <= 0");
+		
+		query.append("&&");
+	    //d3 = px*(cy-ay) + py*(ax-cx) + (cx*ay-cy*ax);
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getBottom().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getBottom().getX() + ")" + "-" + "(" + boundingBox.getRight().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getRight().getX() + ")*(" + boundingBox.getBottom().getY() + ") - (" + boundingBox.getRight().getY() + ")*(" + boundingBox.getBottom().getX() + "))");
+		query.append(") <= 0");
+		
+		query.append(")");
+		
+		query.append(").");
+		return query;
 	}
 
 }

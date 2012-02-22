@@ -22,6 +22,8 @@ package es.upm.fi.dia.oeg.map4rdf.client.view;
 
 import java.util.List;
 
+import org.gwtopenmaps.openlayers.client.layer.Vector;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;

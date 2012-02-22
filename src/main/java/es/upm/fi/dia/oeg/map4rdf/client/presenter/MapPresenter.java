@@ -28,6 +28,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import org.gwtopenmaps.openlayers.client.event.VectorFeatureAddedListener;
+import org.gwtopenmaps.openlayers.client.layer.Vector;
+
 import name.alexdeleon.lib.gwtblocks.client.ControlPresenter;
 import net.customware.gwt.dispatch.client.DispatchAsync;
 import net.customware.gwt.presenter.client.EventBus;
@@ -44,6 +47,7 @@ import com.google.inject.Singleton;
 
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResourcesAsKmlUrl;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
+import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterChangedEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.view.v2.MapView;
@@ -72,6 +76,8 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 		void drawGeoResouces(List<GeoResource> resources);
 
 		void clear();
+		
+		Vector getDrawingVector();
 		
 		HasClickHandlers getKmlButton();
 	}
@@ -128,6 +134,15 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 					}
 				});
 			}
+		});
+		
+		getDisplay().getDrawingVector().addVectorFeatureAddedListener(new VectorFeatureAddedListener(){
+
+			@Override
+			public void onFeatureAdded(FeatureAddedEvent eventObject) {
+				eventBus.fireEvent(new AreaFilterChangedEvent());
+			}
+			
 		});
 	}
 

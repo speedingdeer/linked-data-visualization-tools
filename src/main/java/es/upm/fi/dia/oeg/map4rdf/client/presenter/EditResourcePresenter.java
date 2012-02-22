@@ -74,6 +74,8 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
         public void addDescription(DescriptionTreeItem description);
         public void addDescription(TreeItem treeItem, DescriptionTreeItem description);
         public Tree getTree();
+        public void openLoadWidget();
+        public void closeLoadWidget();
     }
     
 	private final DispatchAsync dispatchAsync;
@@ -121,6 +123,7 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 		parameters = event.getParamaters();
 		if (parameters.containsKey(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES)) { 
 			//geoResouceUri = URLSafty.encode((parameters.get(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES)));
+			getDisplay().openLoadWidget();
 			subjectUrl = new URLSafety((parameters.get(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES)));
 			
 			GetSubjectLabel action = new GetSubjectLabel(subjectUrl.getUrlSafty());
@@ -128,7 +131,6 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 
 				@Override
 				public void onFailure(Throwable caught) {
-					// TODO Auto-generated method stub
 					
 				}
 
@@ -139,7 +141,9 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 				}
 				
 			});
+			getDisplay().closeLoadWidget();
 		}
+		
 	}
 	
 	private void fullfilContent() {
@@ -170,7 +174,7 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 			
 			@Override
 			public void onOpen(final OpenEvent<TreeItem> event) {
-				
+				getDisplay().openLoadWidget();
 				//if the node is not opened for the first time, ignore the action				
 				if (! isEmpty(getDescription(event.getTarget()))) {
 					return;
@@ -197,6 +201,7 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 						}
 			        });
 				}
+				getDisplay().closeLoadWidget();
 			}
 		});
     }

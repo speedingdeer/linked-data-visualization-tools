@@ -66,6 +66,10 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 	private final DispatchAsync dispatchAsync;
 	private final List<FacetConstraint> constraints = new ArrayList<FacetConstraint>();
 
+	public List<FacetConstraint> getConstraints(){
+		return this.constraints;
+	}
+	
 	@Inject
 	public FacetPresenter(Display display, EventBus eventBus, DispatchAsync dispatchAsync) {
 		super(display, eventBus);

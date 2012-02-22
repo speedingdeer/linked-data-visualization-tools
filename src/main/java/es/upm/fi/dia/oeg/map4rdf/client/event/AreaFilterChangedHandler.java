@@ -22,24 +22,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.share;
+package es.upm.fi.dia.oeg.map4rdf.client.event;
+
+import com.google.gwt.event.shared.EventHandler;
 
 /**
  * @author Alexander De Leon
  */
-public interface BoundingBox {
+public interface AreaFilterChangedHandler extends EventHandler {
 
-	TwoDimentionalCoordinate getTopRight();
-
-	TwoDimentionalCoordinate getBottomLeft();
-	
-	TwoDimentionalCoordinate getTop();
-	TwoDimentionalCoordinate getBottom();
-	TwoDimentionalCoordinate getLeft();
-	TwoDimentionalCoordinate getRight();
-	
-	void transform(String from, String to);
-
-	TwoDimentionalCoordinate getCenter();
+	void onAreaFilterChanged(AreaFilterChangedEvent areaFilterChangedEvent);
 
 }

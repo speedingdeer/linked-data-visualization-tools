@@ -24,6 +24,7 @@ import java.util.Collection;
 
 import org.gwtopenmaps.openlayers.client.Bounds;
 import org.gwtopenmaps.openlayers.client.LonLat;
+import org.gwtopenmaps.openlayers.client.geometry.Polygon;
 
 /**
  * @author Alexander De Leon
@@ -56,6 +57,21 @@ public class OpenLayersAdapter {
 			points[i++] = getLatLng(c);
 		}
 		return points;
+	}
+	
+	public static BoundingBox getBoudingBox(Polygon p) {
+
+		int i = p.getComponents().length;
+		double[][] dimTable = p.getComponents()[0].getCoordinateArray();
+		if (dimTable.length != 5) {
+			return null;
+		}
+		TwoDimentionalCoordinateBean dim1 = new TwoDimentionalCoordinateBean(dimTable[0][0],dimTable[0][1]);
+		TwoDimentionalCoordinateBean dim2 = new TwoDimentionalCoordinateBean(dimTable[1][0],dimTable[1][1]);
+		TwoDimentionalCoordinateBean dim3 = new TwoDimentionalCoordinateBean(dimTable[2][0],dimTable[2][1]);
+		TwoDimentionalCoordinateBean dim4 = new TwoDimentionalCoordinateBean(dimTable[3][0],dimTable[3][1]);
+		
+		return new BoundingBoxBean(dim1,dim2,dim3,dim4);
 	}
 
 }

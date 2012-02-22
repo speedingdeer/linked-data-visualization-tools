@@ -25,33 +25,41 @@ import name.alexdeleon.lib.gwtblocks.client.widget.loading.LoadingWidget;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapWidget;
-import org.gwtopenmaps.openlayers.client.event.ControlActivateListener;
-import org.gwtopenmaps.openlayers.client.event.MapLayerChangedListener.MapLayerChangedEvent;
-import org.gwtopenmaps.openlayers.client.event.MapMoveListener.MapMoveEvent;
+import org.gwtopenmaps.openlayers.client.event.VectorBeforeFeatureAddedListener;
+import org.gwtopenmaps.openlayers.client.event.VectorFeatureAddedListener;
+import org.gwtopenmaps.openlayers.client.event.VectorVertexModifiedListener;
+import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 import org.gwtopenmaps.openlayers.client.layer.Google;
 import org.gwtopenmaps.openlayers.client.layer.GoogleOptions;
 import org.gwtopenmaps.openlayers.client.layer.OSM;
 import org.gwtopenmaps.openlayers.client.layer.Layer;
 import org.gwtopenmaps.openlayers.client.layer.TransitionEffect;
+import org.gwtopenmaps.openlayers.client.layer.Vector;
 import org.gwtopenmaps.openlayers.client.layer.WMS;
 import org.gwtopenmaps.openlayers.client.layer.WMSOptions;
 import org.gwtopenmaps.openlayers.client.layer.WMSParams;
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Bounds;
+import org.gwtopenmaps.openlayers.client.geometry.Geometry;
+import org.gwtopenmaps.openlayers.client.geometry.Polygon;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
+
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import es.upm.fi.dia.oeg.map4rdf.client.util.GMapType;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
+import es.upm.fi.dia.oeg.map4rdf.share.BoundingBoxBean;
 import es.upm.fi.dia.oeg.map4rdf.share.OpenLayersAdapter;
 import es.upm.fi.dia.oeg.map4rdf.share.TwoDimentionalCoordinate;
+
+import org.gwtopenmaps.openlayers.client.control.DrawFeature;
+import org.gwtopenmaps.openlayers.client.control.DrawFeatureOptions;
 import org.gwtopenmaps.openlayers.client.control.LayerSwitcher;
-import org.gwtopenmaps.openlayers.client.control.MousePosition;
-import org.gwtopenmaps.openlayers.client.event.MapLayerChangedListener;
-import org.gwtopenmaps.openlayers.client.event.MapMoveListener;
+import org.gwtopenmaps.openlayers.client.handler.RegularPolygonHandler;
+import org.gwtopenmaps.openlayers.client.handler.RegularPolygonHandlerOptions;
 
 /**
  * @author Alexander De Leon
@@ -72,13 +80,37 @@ public class OpenLayersMapView implements MapView {
     private final OpenLayersMapLayer defaultLayer;
     private AbsolutePanel panel;
     private LayerSwitcher layerSwitcher;
-
+    private Vector drawingVector;
+    private RegularPolygonHandler regularPolygonHandler;	
+    private VectorFeature feature;
+    
+    public Vector getDrawingVector() {
+		return this.drawingVector;
+	}
+    
     public OpenLayersMapView(WidgetFactory widgetFactory) {
         loadingWidget = widgetFactory.getLoadingWidget();
         createUi();
 
         defaultLayer = (OpenLayersMapLayer) createLayer("default");
         addNotice();
+        
+        regularPolygonHandler = new RegularPolygonHandler();
+        drawingVector = new Vector("drawingVector");
+        map.addLayer(drawingVector);
+        
+        drawingVector.addVectorBeforeFeatureAddedListener(new VectorBeforeFeatureAddedListener(){
+			@Override
+			public void onBeforeFeatureAdded(BeforeFeatureAddedEvent eventObject) {
+				drawingVector.destroyFeatures();
+			}
+        });
+        
+        
+        DrawFeatureOptions drawFeatureOptions = new DrawFeatureOptions();
+        DrawFeature df = new DrawFeature(drawingVector, regularPolygonHandler, drawFeatureOptions );
+        map.addControl(df);
+        df.activate();
     }
 
     private void addNotice() {
@@ -106,7 +138,22 @@ public class OpenLayersMapView implements MapView {
 
     @Override
     public BoundingBox getVisibleBox() {
-        return OpenLayersAdapter.getBoundingBox(map.getExtent());
+    	if(drawingVector!=null) {
+    		if(drawingVector.getNumberOfFeatures() > 0 ) {
+    			
+    			feature = drawingVector.getFeatures()[0];
+    			Geometry g = feature.getGeometry();
+    			if (g.getClassName().equals(Geometry.POLYGON_CLASS_NAME)) {
+    				Polygon p = Polygon.narrowToPolygon(g.getJSObject());
+    				BoundingBox b = OpenLayersAdapter.getBoudingBox(p);
+    				b.transform(map.getProjection(),"EPSG:4326");
+    				return b;
+				}
+    		}
+    	}
+    	return null;
+    	//why??
+    	//return OpenLayersAdapter.getBoundingBox(map.getExtent());
     }
 
     @Override

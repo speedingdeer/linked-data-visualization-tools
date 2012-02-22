@@ -34,6 +34,7 @@ import net.customware.gwt.presenter.client.place.Place;
 import net.customware.gwt.presenter.client.place.PlaceRequest;
 import net.customware.gwt.presenter.client.widget.WidgetDisplay;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
@@ -44,6 +45,8 @@ import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResource;
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResources;
 import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
+import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterChangedEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterChangedHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.event.LoadResourceEvent;
@@ -61,7 +64,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
  */
 @Singleton
 public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display> implements
-        FacetConstraintsChangedHandler, LoadResourceEventHandler {
+        FacetConstraintsChangedHandler, LoadResourceEventHandler, AreaFilterChangedHandler {
 
     public interface Display extends WidgetDisplay {
         HasWidgets getMapPanel();
@@ -92,6 +95,7 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
         // registered for app-level events
         eventBus.addHandler(FacetConstraintsChangedEvent.getType(), this);
         eventBus.addHandler(LoadResourceEvent.getType(), this);
+        eventBus.addHandler(AreaFilterChangedEvent.getType(), this);
     }
 
     @Override
@@ -122,7 +126,8 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
         getDisplay().addWestWidget(dataToolBar, messages.overlays());
         getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
         getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());
-
+        //set filter listeners
+        
     }
 
     @Override
@@ -189,4 +194,11 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
             }
         });
     }
+
+	@Override
+	public void onAreaFilterChanged(
+			AreaFilterChangedEvent areaFilterChangedEvent) {
+			FacetConstraintsChangedEvent event = new FacetConstraintsChangedEvent(facetPresenter.getConstraints());
+			eventBus.fireEvent(event);
+	}
 }
