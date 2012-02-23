@@ -1,5 +1,9 @@
 /**
- * Copyright (c) 2011 Alexander De Leon Battista
+ * Copyright (c) 2011 Ontology Engineering Group, 
+ * Departamento de Inteligencia Artificial,
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -18,32 +22,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.client.view.v2;
+package es.upm.fi.dia.oeg.map4rdf.client.event;
 
-import org.gwtopenmaps.openlayers.client.layer.Vector;
-
-import net.customware.gwt.presenter.client.widget.WidgetDisplay;
-
-import com.google.gwt.user.client.ui.AbsolutePanel;
-
-import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
-import es.upm.fi.dia.oeg.map4rdf.share.TwoDimentionalCoordinate;
+import com.google.gwt.event.shared.EventHandler;
 
 /**
  * @author Alexander De Leon
  */
-public interface MapView extends WidgetDisplay {
+public interface AreaFilterClearHandler extends EventHandler {
 
-	TwoDimentionalCoordinate getCurrentCenter();
-
-	BoundingBox getVisibleBox();
-
-	void setVisibleBox(BoundingBox boundingBox);
-
-	MapLayer getDefaultLayer();
-
-	MapLayer createLayer(String name);
-
-	AbsolutePanel getContainer();
+	void onAreaFilterClear(AreaFilterClearEvent areaFilterClearEvent);
 
 }

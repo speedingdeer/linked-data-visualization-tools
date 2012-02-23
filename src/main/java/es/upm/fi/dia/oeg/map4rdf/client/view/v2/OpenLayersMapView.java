@@ -22,6 +22,7 @@ package es.upm.fi.dia.oeg.map4rdf.client.view.v2;
 
 import name.alexdeleon.lib.gwtblocks.client.widget.loading.LoadingWidget;
 
+import org.antlr.runtime.DFA;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapWidget;
@@ -80,13 +81,12 @@ public class OpenLayersMapView implements MapView {
     private final OpenLayersMapLayer defaultLayer;
     private AbsolutePanel panel;
     private LayerSwitcher layerSwitcher;
+    
+    //drawing
     private Vector drawingVector;
     private RegularPolygonHandler regularPolygonHandler;	
     private VectorFeature feature;
-    
-    public Vector getDrawingVector() {
-		return this.drawingVector;
-	}
+    private DrawFeature df;
     
     public OpenLayersMapView(WidgetFactory widgetFactory) {
         loadingWidget = widgetFactory.getLoadingWidget();
@@ -95,10 +95,11 @@ public class OpenLayersMapView implements MapView {
         defaultLayer = (OpenLayersMapLayer) createLayer("default");
         addNotice();
         
+        
+        //Drawing part
         regularPolygonHandler = new RegularPolygonHandler();
         drawingVector = new Vector("drawingVector");
         map.addLayer(drawingVector);
-        
         drawingVector.addVectorBeforeFeatureAddedListener(new VectorBeforeFeatureAddedListener(){
 			@Override
 			public void onBeforeFeatureAdded(BeforeFeatureAddedEvent eventObject) {
@@ -106,11 +107,10 @@ public class OpenLayersMapView implements MapView {
 			}
         });
         
-        
         DrawFeatureOptions drawFeatureOptions = new DrawFeatureOptions();
-        DrawFeature df = new DrawFeature(drawingVector, regularPolygonHandler, drawFeatureOptions );
+        df = new DrawFeature(drawingVector, regularPolygonHandler, drawFeatureOptions );
         map.addControl(df);
-        df.activate();
+
     }
 
     private void addNotice() {
@@ -125,7 +125,24 @@ public class OpenLayersMapView implements MapView {
     public void startProcessing() {
         loadingWidget.center();
     }
-
+    
+    //presenter
+    public Vector getDrawingVector() {
+		return this.drawingVector;
+	}
+  
+    public void setDrawing(Boolean value) {
+    	if (value) {
+    		df.activate();
+    	} else {
+    		df.deactivate();
+    	}
+    }
+    
+    public void clearDrawing() {
+    	drawingVector.destroyFeatures();
+    }
+    
     @Override
     public void stopProcessing() {
         loadingWidget.hide();
