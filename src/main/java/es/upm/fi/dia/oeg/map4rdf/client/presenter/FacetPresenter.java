@@ -130,6 +130,7 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 	}
     
     public void clear() {
-		getDisplay().clear();
+    	constraints.clear();
+    	getDisplay().clear();
 	}
 }

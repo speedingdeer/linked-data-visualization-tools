@@ -117,6 +117,7 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 
 	public void clear() {
 		getDisplay().clear();
+		facetConstraints = null;
 	}
 	
 	public void clearDrawing(){

@@ -55,7 +55,7 @@ public class EditResourceView extends Composite implements EditResourcePresenter
     
     @Override
     public void clear() {
-    	mainPanel.remove(tree);
+    	container.remove(tree);
     	tree = new Tree();
     	root = new TreeItem("");
     	root.addStyleName(resources.css().treeRoot());
