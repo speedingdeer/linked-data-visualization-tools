@@ -74,6 +74,11 @@ public interface BrowserResources extends ClientBundle {
 	@Source("ajax-loader.gif")
 	ImageResource loadingIcon();
 
+	@Source("pencil.png")
+	ImageResource pencilIcon();
+	
+	@Source("erase.png")
+	ImageResource eraserIcon();
 	@Source("beta-trans.png")
 	ImageResource betaBadge();
 

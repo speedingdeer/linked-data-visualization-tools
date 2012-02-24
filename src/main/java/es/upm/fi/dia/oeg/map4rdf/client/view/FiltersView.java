@@ -25,11 +25,15 @@
 package es.upm.fi.dia.oeg.map4rdf.client.view;
 
 
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
@@ -42,14 +46,16 @@ import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
  */
 public class FiltersView extends Composite implements FiltersPresenter.Display {
 
-	private FlowPanel panel;
 	private final BrowserMessages messages;
-	private Button clearButton;
-	private Button drawButton;
-	private Boolean drawOn;
+	private final BrowserResources resources;
+	
+	private FlowPanel panel;
+	private PushButton clearButton;
+	private ToggleButton drawButton;
 	
 	@Inject
-	public FiltersView(BrowserMessages messages) {
+	public FiltersView(BrowserMessages messages, BrowserResources resources) {
+		this.resources = resources;
 		this.messages = messages;
 		initWidget(createUi());
 		//addStyleName(resources.css().facets());
@@ -78,16 +84,18 @@ public class FiltersView extends Composite implements FiltersPresenter.Display {
 	private Widget createUi() {
 		panel = new FlowPanel();
 		Grid grid = new Grid(1, 3);
-		drawButton = new Button(messages.drawOn());
-		drawOn = false;
-		clearButton = new Button(messages.clear());
+
+		drawButton = new ToggleButton(new Image(resources.pencilIcon()));
+		drawButton.setSize("20px","20px");
+		clearButton = new PushButton(new Image(resources.eraserIcon()));
+		clearButton.setSize("20px","20px");
+		
 		grid.setWidget(0, 1, drawButton);
 		grid.setWidget(0, 2, clearButton);
-		grid.setWidget(0, 0, new Label("Draw area:"));
+		grid.setWidget(0, 0, new Label(messages.draw()+": "));
 		
-		//panel.add(drawButton);
-		//panel.add(clearButton);
 		panel.add(grid);
+
 		return panel;
 	}
 
@@ -98,27 +106,16 @@ public class FiltersView extends Composite implements FiltersPresenter.Display {
 
 
 	@Override
-	public Button getDrawButton() {
+	public ToggleButton getDrawButton() {
 		return this.drawButton;
 	}
 
 
 	@Override
-	public Button getClearButton() {
+	public PushButton getClearButton() {
 		return this.clearButton;
 	}
 
 
-	@Override
-	public Boolean switchDrawing() {
-		if (!drawOn) {
-			drawButton.setText(messages.drawOff());
-		}
-		else {
-			drawButton.setText(messages.drawOn());
-		}
-		drawOn = !drawOn;
-		
-		return drawOn;
-	}
+
 }

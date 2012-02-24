@@ -177,6 +177,7 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 				getDisplay().openLoadWidget();
 				//if the node is not opened for the first time, ignore the action				
 				if (! isEmpty(getDescription(event.getTarget()))) {
+					getDisplay().closeLoadWidget();
 					return;
 				}
 				

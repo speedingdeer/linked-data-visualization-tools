@@ -52,10 +52,6 @@ public interface BrowserMessages extends Messages {
 	String filtres();
 	
 	String clear();
-	
-	String drawOn();
-	
-	String drawOff();
 
-	String drawArea();
+	String draw();
 }

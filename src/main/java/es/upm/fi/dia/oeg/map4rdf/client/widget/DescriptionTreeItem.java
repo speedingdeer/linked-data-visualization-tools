@@ -24,10 +24,10 @@ public class DescriptionTreeItem {
 		grid = new Grid(1, 2);
 		
 		this.predicate = new TextBox();
-		this.predicate.setWidth("350");
+		this.predicate.setWidth("330px");
 		this.predicate.setText(subjectDescription.getPredicate().getText());
 		this.object = new TextBox();
-		this.object.setWidth("350");
+		this.object.setWidth("330px");
 		this.object.setText(subjectDescription.getObject().getText());
 		grid.setWidget(0, 0, this.predicate);
 		grid.setWidget(0, 1, this.object);

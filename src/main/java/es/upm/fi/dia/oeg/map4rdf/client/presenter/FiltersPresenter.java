@@ -28,10 +28,14 @@ package es.upm.fi.dia.oeg.map4rdf.client.presenter;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.ToggleButton;
+
 import net.customware.gwt.dispatch.client.DispatchAsync;
 import net.customware.gwt.presenter.client.EventBus;
 import net.customware.gwt.presenter.client.place.Place;
@@ -65,13 +69,12 @@ public class FiltersPresenter extends  ControlPresenter<FiltersPresenter.Display
 
 	public interface Display extends WidgetDisplay {
         public void clear();
-        public Button getDrawButton();
-        public Button getClearButton();
-        public Boolean switchDrawing();
+        public ToggleButton getDrawButton();
+        public PushButton getClearButton();
 	}
     
 	private final DispatchAsync dispatchAsync;
-    
+	
 	@Inject
 	public FiltersPresenter(Display display, EventBus eventBus, DispatchAsync dispatchAsync) {
 		super(display, eventBus);
@@ -82,10 +85,14 @@ public class FiltersPresenter extends  ControlPresenter<FiltersPresenter.Display
 	/* -------------- Presenter callbacks -- */
 	@Override
 	protected void onBind() {
+		
 		getDisplay().getClearButton().addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
+				getDisplay().getDrawButton().setDown(false);
+				Boolean drawValue = getDisplay().getDrawButton().isDown();
+				eventBus.fireEvent(new DrawingModeChangeEvent(drawValue));	
 				eventBus.fireEvent(new AreaFilterClearEvent());	
 			}
 		});
@@ -93,7 +100,7 @@ public class FiltersPresenter extends  ControlPresenter<FiltersPresenter.Display
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				Boolean drawValue = getDisplay().switchDrawing();
+				Boolean drawValue = getDisplay().getDrawButton().isDown();
 				eventBus.fireEvent(new DrawingModeChangeEvent(drawValue));	
 			}
 		});
