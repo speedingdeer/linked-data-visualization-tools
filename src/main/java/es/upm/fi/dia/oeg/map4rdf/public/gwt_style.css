@@ -10,3 +10,8 @@
 	background-repeat: repeat-y;
 	padding: 0;
 }
+
+
+.gwt-Tree .gwt-TreeItem-selected {
+	background: none !important; 
+}

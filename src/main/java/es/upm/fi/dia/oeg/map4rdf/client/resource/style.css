@@ -119,11 +119,18 @@ body{
 	font-weight: bold;
 }
 
-.summaryPropertyName{
+.treeRoot{
+	font-weight: bold;
+	font-size: 1.4em;
+	background: none;
+}
+
+.summaryPropertyName {
 	font-weight: bold;
 	font-family: Verdana, Arial, sans-serif;
 	font-size: 0.6em;
 }
+
 
 .summaryPropertyValue{
 	font-family: Verdana, Arial, sans-serif;

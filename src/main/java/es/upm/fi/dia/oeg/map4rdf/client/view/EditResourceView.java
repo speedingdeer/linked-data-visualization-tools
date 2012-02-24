@@ -6,14 +6,25 @@ package es.upm.fi.dia.oeg.map4rdf.client.view;
 
 import name.alexdeleon.lib.gwtblocks.client.widget.loading.LoadingWidget;
 
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
+import com.smartgwt.client.docs.Toolbar;
+
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.EditResourcePresenter;
+import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.DescriptionTreeItem;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
 
@@ -24,15 +35,21 @@ import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
 public class EditResourceView extends Composite implements EditResourcePresenter.Display {
     
     private ScrollPanel mainPanel;
+    private HorizontalPanel container;
+    
     private Tree tree;
     private TreeItem root;
     //@TODO refactor as a db parameter
     private Integer maxDepth = 3; 
     private final LoadingWidget loadingWidget;
+    private BrowserResources resources;
+    private PushButton saveButton;
+    private PushButton backButton;
     
     @Inject
-    public EditResourceView(WidgetFactory widgetFactory) {
+    public EditResourceView(WidgetFactory widgetFactory, BrowserResources resources) {
         loadingWidget = widgetFactory.getLoadingWidget();
+        this.resources = resources;
         initWidget(createUi());
     }
     
@@ -41,9 +58,9 @@ public class EditResourceView extends Composite implements EditResourcePresenter
     	mainPanel.remove(tree);
     	tree = new Tree();
     	root = new TreeItem("");
-    	root.setSelected(false);
+    	root.addStyleName(resources.css().treeRoot());
     	tree.addItem(root);
-    	mainPanel.add(tree);
+    	container.add(tree);
     }
     
     @Override
@@ -62,13 +79,29 @@ public class EditResourceView extends Composite implements EditResourcePresenter
     }
     
     private Widget createUi() {
-    	mainPanel = new ScrollPanel();
+    	mainPanel = new ScrollPanel();    	
     	tree = new Tree();
     	root = new TreeItem("");
-    	
+    	backButton = new PushButton(new Image(resources.backButton()));
+    	saveButton = new PushButton(new Image(resources.saveButton()));
+    	backButton.setSize("25px", "25px");
+    	saveButton.setSize("25px", "25px");
     	tree.addItem(root);
-        mainPanel.add(tree);
-        
+    	root.setStyleName("treeRoot");
+    	container = new HorizontalPanel();
+    	VerticalPanel toolbar = new VerticalPanel();
+    	
+    	toolbar.setSpacing(2);
+    	
+    	container.setHorizontalAlignment(HorizontalPanel.ALIGN_LEFT);
+    	
+    	toolbar.add(saveButton);
+    	toolbar.add(backButton);
+
+    	container.add(tree);
+    	container.add(toolbar);
+    	
+    	mainPanel.add(container);
         return mainPanel;
     }
 

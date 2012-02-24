@@ -52,6 +52,9 @@ public interface BrowserResources extends ClientBundle {
 		String facets();
 
 		String leftMenu();
+		
+		String treeRoot();
+
 	}
 
 	@Source("style.css")
