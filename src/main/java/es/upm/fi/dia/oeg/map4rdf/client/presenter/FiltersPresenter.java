@@ -90,9 +90,8 @@ public class FiltersPresenter extends  ControlPresenter<FiltersPresenter.Display
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				getDisplay().getDrawButton().setDown(false);
-				Boolean drawValue = getDisplay().getDrawButton().isDown();
-				eventBus.fireEvent(new DrawingModeChangeEvent(drawValue));	
+				clear();
+				eventBus.fireEvent(new DrawingModeChangeEvent(false));	
 				eventBus.fireEvent(new AreaFilterClearEvent());	
 			}
 		});
@@ -106,6 +105,10 @@ public class FiltersPresenter extends  ControlPresenter<FiltersPresenter.Display
 		});
 	}
 
+	public void clear() {
+		getDisplay().getDrawButton().setDown(false);
+	}
+	
 	@Override
 	protected void onUnbind() {
 		// TODO Auto-generated method stub

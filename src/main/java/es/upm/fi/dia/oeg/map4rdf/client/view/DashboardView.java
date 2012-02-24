@@ -82,7 +82,11 @@ public class DashboardView extends ResizeComposite implements DashboardPresenter
 	public void stopProcessing() {
 		// empty
 	}
-
+	@Override
+	public void clear() {
+		leftPanel.showWidget(0);
+	}
+	
 	/* ------------------- Helper methods -- */
 	private Widget createUi(BrowserResources resources) {
 		centerPanel.add(mapPanel);

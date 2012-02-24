@@ -118,6 +118,10 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 	public void clear() {
 		getDisplay().clear();
 	}
+	
+	public void clearDrawing(){
+		getDisplay().clearDrawing();
+	}
 
 	@Override
 	public void onFacetConstraintsChanged(FacetConstraintsChangedEvent event) {
@@ -171,7 +175,6 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 	@Override
 	public void revealDisplay() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

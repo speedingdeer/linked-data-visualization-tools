@@ -99,6 +99,7 @@ public class OpenLayersMapView implements MapView {
         //Drawing part
         regularPolygonHandler = new RegularPolygonHandler();
         drawingVector = new Vector("drawingVector");
+        drawingVector.setDisplayInLayerSwitcher(false);
         map.addLayer(drawingVector);
         drawingVector.addVectorBeforeFeatureAddedListener(new VectorBeforeFeatureAddedListener(){
 			@Override

@@ -84,4 +84,10 @@ public interface BrowserResources extends ClientBundle {
 
 	@Source("stats.png")
 	ImageResource statsButton();
+
+	@Source("back.png")
+	ImageResource backButton();
+	
+	@Source("save.png")
+	ImageResource saveButton();
 }

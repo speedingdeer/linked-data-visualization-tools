@@ -69,6 +69,7 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
     public interface Display extends WidgetDisplay {
         HasWidgets getMapPanel();
         void addWestWidget(Widget widget, String header);
+        void clear();
     }
     private final ResultsPresenter resultsPresenter;
     private final MapPresenter mapPresenter;
@@ -151,7 +152,10 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
         mapPresenter.clear();
         resultsPresenter.clear();
         facetPresenter.clear();
+        filtersPresenter.clear();
+        mapPresenter.clearDrawing();
         loadResources(mapPresenter.getVisibleBox(), null);
+        getDisplay().clear();
     }
 
     /* --------------- helper methods --- */
