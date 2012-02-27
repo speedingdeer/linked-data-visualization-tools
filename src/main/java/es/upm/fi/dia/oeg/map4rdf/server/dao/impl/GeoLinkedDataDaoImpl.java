@@ -401,7 +401,6 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 	}
 	
 	private String createGetLabelQuery(String uri) {
-		// TODO Auto-generated method stub
 		StringBuilder query = new StringBuilder("SELECT ?label WHERE {");
 		query.append(" <" + uri +"> <" + RDFS.label + "> ?label.");
 		query.append("}");

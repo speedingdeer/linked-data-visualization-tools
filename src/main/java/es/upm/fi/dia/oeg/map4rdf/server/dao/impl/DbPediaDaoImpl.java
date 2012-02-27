@@ -40,11 +40,13 @@ import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Literal;
+import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
 import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.DaoException;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
+import es.upm.fi.dia.oeg.map4rdf.server.util.DescriptionsFactory;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Geo;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.Facet;
@@ -126,6 +128,45 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		// TODO What can be done here?
 		return Collections.emptyList();
 	}
+	
+	@Override
+	public List<SubjectDescription> getSubjectDescription(String subject)
+			throws DaoException {
+		QueryExecution execution = QueryExecutionFactory.sparqlService(endpointUri, createGetSubjectDescriptionString(subject));
+		ArrayList<SubjectDescription> result = new ArrayList<SubjectDescription>();
+		try {
+			ResultSet queryResult = execution.execSelect();
+			while (queryResult.hasNext()) {
+				QuerySolution solution = queryResult.next();
+				result.add(DescriptionsFactory.getSubjectDescription(solution));
+			}
+			return result;
+		} catch (Exception e) {
+			throw new DaoException("Unable to execute SPARQL query", e);
+		} finally {
+			execution.close();
+		}
+	}
+
+	@Override
+	public String getLabel(String uri) throws DaoException {
+		String result = "";
+		QueryExecution execution = QueryExecutionFactory.sparqlService(endpointUri, createGetLabelQuery(uri));
+		try {
+			ResultSet queryResult = execution.execSelect();
+			while (queryResult.hasNext()) {
+				QuerySolution solution = queryResult.next();
+				Literal l = solution.getLiteral("?label");
+				result = l.getLexicalForm();
+			}
+		} catch (Exception e) {
+			throw new DaoException("Unable to execute SPARQL query", e);
+		} finally {
+			execution.close();
+		}
+		return result;
+	}
+	
 
 	@Override
 	public List<Facet> getFacets(String predicateUri, BoundingBox boundingBox) throws DaoException {
@@ -196,7 +237,7 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 				try {
 					String uri = solution.getResource("r").getURI();
 					double lat = solution.getLiteral("lat").getDouble();
-					double lng = solution.getLiteral("lng").getDouble();
+					double lng = solution.getLiteral("lon").getDouble();
 
 					GeoResource resource = result.get(uri);
 					if (resource == null) {
@@ -226,6 +267,7 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 	 * @param max
 	 * @return
 	 */
+	/*
 	private String createGetResourcesQuery(BoundingBox boundingBox, Set<FacetConstraint> constraints, Integer limit) {
 		StringBuilder query = new StringBuilder("SELECT distinct ?r ?lat ?lng ?label ");
 		query.append("WHERE { ");
@@ -244,6 +286,32 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		}
 		return query.toString();
 	}
+	*/
+	private String createGetResourcesQuery(BoundingBox boundingBox, Set<FacetConstraint> constraints, Integer limit) {
+		StringBuilder query = new StringBuilder("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT distinct ?r ?label ?lat ?lon ");
+		query.append("WHERE { ");
+		query.append("?r <" + Geo.lat + "> ?lat. ");
+		query.append("?r <" + Geo.lng + "> ?lon . ");
+		query.append("OPTIONAL { ?r <" + RDFS.label + "> ?label } .");
+		if (constraints != null) {
+			for (FacetConstraint constraint : constraints) {
+				query.append("{ ?r <" + constraint.getFacetId() + "> <" + constraint.getFacetValueId() + ">. } UNION");
+			}
+			query.delete(query.length() - 5, query.length());
+		}
+		
+		//filters
+		if (boundingBox!=null) {
+			query = addBoundingBoxFilter(query, boundingBox);
+		}
+		
+		query.append("}");
+		if (limit != null) {
+			query.append(" LIMIT " + limit);
+		}
+		return query.toString();
+	}
+	
 
 	private String createGetResourceQuery(String uri) {
 		StringBuilder query = new StringBuilder("SELECT distinct ?lat ?lng ?label ");
@@ -255,17 +323,124 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		return query.toString();
 	}
 
-	@Override
-	public List<SubjectDescription> getSubjectDescription(String subject)
-			throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
+	private String createGetLabelQuery(String uri) {
+		StringBuilder query = new StringBuilder("SELECT ?label WHERE {");
+		query.append(" <" + uri +"> <" + RDFS.label + "> ?label.");
+		query.append("}");
+		return query.toString();
+	}
+	
+	private String createGetSubjectDescriptionString(String subject) {
+		StringBuilder query = new StringBuilder("SELECT ?p ?o WHERE {");
+		query.append("<" +subject+ ">");
+		query.append(" ?p ?o .");
+		query.append("}");
+		return query.toString();
 	}
 
-	@Override
-	public String getLabel(String uri) throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
+	private StringBuilder addBoundingBoxFilter(StringBuilder query, BoundingBox boundingBox) {
+		query.append(" FILTER(");
+	    query.append("(");
+		
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getTop().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getLeft().getX() + ")" + "-" + "(" + boundingBox.getTop().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getTop().getX() + ")*(" + boundingBox.getLeft().getY() + ") - (" + boundingBox.getTop().getY() + ")*(" + boundingBox.getLeft().getX() + "))");
+		query.append(") >= 0");
+		
+		query.append("&&");
+		
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getRight().getX() + ")" + "-" + "(" + boundingBox.getLeft().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getLeft().getX() + ")*(" + boundingBox.getRight().getY() + ") - (" + boundingBox.getLeft().getY() + ")*(" + boundingBox.getRight().getX() + "))");
+		query.append(") >= 0");
+		
+		query.append("&&");
+		
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getTop().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getTop().getX() + ")" + "-" + "(" + boundingBox.getRight().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getRight().getX() + ")*(" + boundingBox.getTop().getY() + ") - (" + boundingBox.getRight().getY() + ")*(" + boundingBox.getTop().getX() + "))");
+		query.append(") >= 0");
+		
+		query.append(") || (");
+				
+		//d1 = px*(ay-by) + py*(bx-ax) + (ax*by-ay*bx);        
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getBottom().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getLeft().getX() + ")" + "-" + "(" + boundingBox.getBottom().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getBottom().getX() + ")*(" + boundingBox.getLeft().getY() + ") - (" + boundingBox.getBottom().getY() + ")*(" + boundingBox.getLeft().getX() + "))");
+		query.append(") >= 0");
+		
+		query.append("&&");
+		//d2 = px*(by-cy) + py*(cx-bx) + (bx*cy-by*cx);
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getRight().getX() + ")" + "-" + "(" + boundingBox.getLeft().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getLeft().getX() + ")*(" + boundingBox.getRight().getY() + ") - (" + boundingBox.getLeft().getY() + ")*(" + boundingBox.getRight().getX() + "))");
+		query.append(") >= 0");
+		
+		query.append("&&");
+	    //d3 = px*(cy-ay) + py*(ax-cx) + (cx*ay-cy*ax);
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getBottom().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getBottom().getX() + ")" + "-" + "(" + boundingBox.getRight().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getRight().getX() + ")*(" + boundingBox.getBottom().getY() + ") - (" + boundingBox.getRight().getY() + ")*(" + boundingBox.getBottom().getX() + "))");
+		query.append(") >= 0");
+		
+		query.append(") || (");
+		
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getTop().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getLeft().getX() + ")" + "-" + "(" + boundingBox.getTop().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getTop().getX() + ")*(" + boundingBox.getLeft().getY() + ") - (" + boundingBox.getTop().getY() + ")*(" + boundingBox.getLeft().getX() + "))");
+		query.append(") <= 0");
+		
+		query.append("&&");
+		
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getRight().getX() + ")" + "-" + "(" + boundingBox.getLeft().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getLeft().getX() + ")*(" + boundingBox.getRight().getY() + ") - (" + boundingBox.getLeft().getY() + ")*(" + boundingBox.getRight().getX() + "))");
+		query.append(") <= 0");
+		
+		query.append("&&");
+		
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getTop().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getTop().getX() + ")" + "-" + "(" + boundingBox.getRight().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getRight().getX() + ")*(" + boundingBox.getTop().getY() + ") - (" + boundingBox.getRight().getY() + ")*(" + boundingBox.getTop().getX() + "))");
+		query.append(") <= 0");
+		
+		query.append(") || (");
+		
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getBottom().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getLeft().getX() + ")" + "-" + "(" + boundingBox.getBottom().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getBottom().getX() + ")*(" + boundingBox.getLeft().getY() + ") - (" + boundingBox.getBottom().getY() + ")*(" + boundingBox.getLeft().getX() + "))");
+		query.append(") <= 0");
+		
+		query.append("&&");
+		//d2 = px*(by-cy) + py*(cx-bx) + (bx*cy-by*cx);
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getRight().getX() + ")" + "-" + "(" + boundingBox.getLeft().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getLeft().getX() + ")*(" + boundingBox.getRight().getY() + ") - (" + boundingBox.getLeft().getY() + ")*(" + boundingBox.getRight().getX() + "))");
+		query.append(") <= 0");
+		
+		query.append("&&");
+	    //d3 = px*(cy-ay) + py*(ax-cx) + (cx*ay-cy*ax);
+		query.append("(");
+		query.append("xsd:double(?lon) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getBottom().getY() + "))"+ "+");
+		query.append("xsd:double(?lat) * " + "((" + boundingBox.getBottom().getX() + ")" + "-" + "(" + boundingBox.getRight().getX() + "))"+ "+");
+		query.append("((" + boundingBox.getRight().getX() + ")*(" + boundingBox.getBottom().getY() + ") - (" + boundingBox.getRight().getY() + ")*(" + boundingBox.getBottom().getX() + "))");
+		query.append(") <= 0");
+		
+		query.append(")");
+		
+		query.append(").");
+		return query;
 	}
-
+	
 }
