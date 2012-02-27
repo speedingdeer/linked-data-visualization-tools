@@ -31,13 +31,19 @@ import java.util.HashMap;
 import net.customware.gwt.dispatch.client.DispatchAsync;
 import net.customware.gwt.presenter.client.EventBus;
 import net.customware.gwt.presenter.client.place.Place;
+import net.customware.gwt.presenter.client.place.PlaceChangedEvent;
+import net.customware.gwt.presenter.client.place.PlaceManager;
 import net.customware.gwt.presenter.client.place.PlaceRequest;
+import net.customware.gwt.presenter.client.place.PlaceRequestEvent;
 import net.customware.gwt.presenter.client.widget.WidgetDisplay;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.inject.Inject;
@@ -76,15 +82,33 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
         public Tree getTree();
         public void openLoadWidget();
         public void closeLoadWidget();
+        public PushButton getBackButton();
+        public PushButton getSaveButon();
     }
     
 	private final DispatchAsync dispatchAsync;
 
 	@Inject
-	public EditResourcePresenter(Display display, EventBus eventBus, final DispatchAsync dispatchAsync) {
+	public EditResourcePresenter(Display display, final EventBus eventBus, final DispatchAsync dispatchAsync) {
 		super(display, eventBus);
 		this.dispatchAsync = dispatchAsync;
 		eventBus.addHandler(UrlParametersChangeEvent.getType(), this);
+		getDisplay().getBackButton().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				//PlaceManager placeManager = new PlaceManager(eventBus);
+				eventBus.fireEvent(new PlaceChangedEvent(Places.DEFAULT.request()));
+				eventBus.fireEvent(new PlaceRequestEvent(new PlaceRequest(Places.DEFAULT)));
+			}
+		});
+		getDisplay().getSaveButon().addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				Window.alert("Not implemented yet");
+			}
+		});
     }
 
 	/* -------------- Presenter callbacks -- */
@@ -117,7 +141,7 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
     protected void onPlaceRequest(PlaceRequest request) {
     }
 
-	@Override
+	@Override //init site
 	public void onParametersChange(UrlParametersChangeEvent event) {
 		clear();
 		parameters = event.getParamaters();

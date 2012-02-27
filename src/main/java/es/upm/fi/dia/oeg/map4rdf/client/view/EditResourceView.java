@@ -142,4 +142,14 @@ public class EditResourceView extends Composite implements EditResourcePresenter
 	public void closeLoadWidget() {
 		loadingWidget.hide();
 	}
+
+	@Override
+	public PushButton getBackButton() {
+		return backButton;
+	}
+
+	@Override
+	public PushButton getSaveButon() {
+		return saveButton;
+	}
 }
