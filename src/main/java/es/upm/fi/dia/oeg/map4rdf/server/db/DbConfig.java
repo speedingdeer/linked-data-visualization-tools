@@ -28,8 +28,8 @@ public class DbConfig {
     public static final String DB_NAME = "map4rdf.db";
     public static final Map<String, String> DB_SEED = new HashMap<String, String>(){
         {
-            put(ParameterNames.ENDPOINT_URL, "http://dbpedia.linkeddata.es/sparql");
-            put(ParameterNames.GEOMETRY_MODEL, "DBPEDIA");
+            put(ParameterNames.ENDPOINT_URL, "http://linkeddata.uriburner.com/sparql");
+            put(ParameterNames.GEOMETRY_MODEL, "VCARD");
             put(ParameterNames.GOOGLE_MAPS_API_KEY, "ABQIAAAAzLYqFkZVLHv0seO36vhZahTVXfBc-erLsJZtZLx-fZLjxiIMWBTUgr5s9aY_jQ5Fyqku0qQKuoGE8A");
             put(ParameterNames.FACETS_AUTO, "true");
             put(ParameterNames.ADMIN, "password");

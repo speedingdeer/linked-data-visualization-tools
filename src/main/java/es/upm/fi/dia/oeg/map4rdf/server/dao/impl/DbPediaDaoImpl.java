@@ -237,7 +237,7 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 				try {
 					String uri = solution.getResource("r").getURI();
 					double lat = solution.getLiteral("lat").getDouble();
-					double lng = solution.getLiteral("lon").getDouble();
+					double lng = solution.getLiteral("lng").getDouble();
 
 					GeoResource resource = result.get(uri);
 					if (resource == null) {
@@ -267,31 +267,12 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 	 * @param max
 	 * @return
 	 */
-	/*
+	
 	private String createGetResourcesQuery(BoundingBox boundingBox, Set<FacetConstraint> constraints, Integer limit) {
-		StringBuilder query = new StringBuilder("SELECT distinct ?r ?lat ?lng ?label ");
+		StringBuilder query = new StringBuilder("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT distinct ?r ?label ?lat ?lng ");
 		query.append("WHERE { ");
 		query.append("?r <" + Geo.lat + "> ?lat. ");
 		query.append("?r <" + Geo.lng + "> ?lng . ");
-		query.append("OPTIONAL { ?r <" + RDFS.label + "> ?label } .");
-		if (constraints != null) {
-			for (FacetConstraint constraint : constraints) {
-				query.append("{ ?r <" + constraint.getFacetId() + "> <" + constraint.getFacetValueId() + ">. } UNION");
-			}
-			query.delete(query.length() - 5, query.length());
-		}
-		query.append("}");
-		if (limit != null) {
-			query.append(" LIMIT " + limit);
-		}
-		return query.toString();
-	}
-	*/
-	private String createGetResourcesQuery(BoundingBox boundingBox, Set<FacetConstraint> constraints, Integer limit) {
-		StringBuilder query = new StringBuilder("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT distinct ?r ?label ?lat ?lon ");
-		query.append("WHERE { ");
-		query.append("?r <" + Geo.lat + "> ?lat. ");
-		query.append("?r <" + Geo.lng + "> ?lon . ");
 		query.append("OPTIONAL { ?r <" + RDFS.label + "> ?label } .");
 		if (constraints != null) {
 			for (FacetConstraint constraint : constraints) {
@@ -343,7 +324,7 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 	    query.append("(");
 		
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getTop().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getTop().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getLeft().getX() + ")" + "-" + "(" + boundingBox.getTop().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getTop().getX() + ")*(" + boundingBox.getLeft().getY() + ") - (" + boundingBox.getTop().getY() + ")*(" + boundingBox.getLeft().getX() + "))");
 		query.append(") >= 0");
@@ -351,7 +332,7 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		query.append("&&");
 		
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getRight().getX() + ")" + "-" + "(" + boundingBox.getLeft().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getLeft().getX() + ")*(" + boundingBox.getRight().getY() + ") - (" + boundingBox.getLeft().getY() + ")*(" + boundingBox.getRight().getX() + "))");
 		query.append(") >= 0");
@@ -359,7 +340,7 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		query.append("&&");
 		
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getTop().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getTop().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getTop().getX() + ")" + "-" + "(" + boundingBox.getRight().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getRight().getX() + ")*(" + boundingBox.getTop().getY() + ") - (" + boundingBox.getRight().getY() + ")*(" + boundingBox.getTop().getX() + "))");
 		query.append(") >= 0");
@@ -368,7 +349,7 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 				
 		//d1 = px*(ay-by) + py*(bx-ax) + (ax*by-ay*bx);        
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getBottom().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getBottom().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getLeft().getX() + ")" + "-" + "(" + boundingBox.getBottom().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getBottom().getX() + ")*(" + boundingBox.getLeft().getY() + ") - (" + boundingBox.getBottom().getY() + ")*(" + boundingBox.getLeft().getX() + "))");
 		query.append(") >= 0");
@@ -376,7 +357,7 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		query.append("&&");
 		//d2 = px*(by-cy) + py*(cx-bx) + (bx*cy-by*cx);
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getRight().getX() + ")" + "-" + "(" + boundingBox.getLeft().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getLeft().getX() + ")*(" + boundingBox.getRight().getY() + ") - (" + boundingBox.getLeft().getY() + ")*(" + boundingBox.getRight().getX() + "))");
 		query.append(") >= 0");
@@ -384,7 +365,7 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		query.append("&&");
 	    //d3 = px*(cy-ay) + py*(ax-cx) + (cx*ay-cy*ax);
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getBottom().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getBottom().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getBottom().getX() + ")" + "-" + "(" + boundingBox.getRight().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getRight().getX() + ")*(" + boundingBox.getBottom().getY() + ") - (" + boundingBox.getRight().getY() + ")*(" + boundingBox.getBottom().getX() + "))");
 		query.append(") >= 0");
@@ -392,7 +373,7 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		query.append(") || (");
 		
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getTop().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getTop().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getLeft().getX() + ")" + "-" + "(" + boundingBox.getTop().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getTop().getX() + ")*(" + boundingBox.getLeft().getY() + ") - (" + boundingBox.getTop().getY() + ")*(" + boundingBox.getLeft().getX() + "))");
 		query.append(") <= 0");
@@ -400,7 +381,7 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		query.append("&&");
 		
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getRight().getX() + ")" + "-" + "(" + boundingBox.getLeft().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getLeft().getX() + ")*(" + boundingBox.getRight().getY() + ") - (" + boundingBox.getLeft().getY() + ")*(" + boundingBox.getRight().getX() + "))");
 		query.append(") <= 0");
@@ -408,7 +389,7 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		query.append("&&");
 		
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getTop().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getTop().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getTop().getX() + ")" + "-" + "(" + boundingBox.getRight().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getRight().getX() + ")*(" + boundingBox.getTop().getY() + ") - (" + boundingBox.getRight().getY() + ")*(" + boundingBox.getTop().getX() + "))");
 		query.append(") <= 0");
@@ -416,7 +397,7 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		query.append(") || (");
 		
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getBottom().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getBottom().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getLeft().getX() + ")" + "-" + "(" + boundingBox.getBottom().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getBottom().getX() + ")*(" + boundingBox.getLeft().getY() + ") - (" + boundingBox.getBottom().getY() + ")*(" + boundingBox.getLeft().getX() + "))");
 		query.append(") <= 0");
@@ -424,7 +405,7 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		query.append("&&");
 		//d2 = px*(by-cy) + py*(cx-bx) + (bx*cy-by*cx);
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getRight().getX() + ")" + "-" + "(" + boundingBox.getLeft().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getLeft().getX() + ")*(" + boundingBox.getRight().getY() + ") - (" + boundingBox.getLeft().getY() + ")*(" + boundingBox.getRight().getX() + "))");
 		query.append(") <= 0");
@@ -432,7 +413,7 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		query.append("&&");
 	    //d3 = px*(cy-ay) + py*(ax-cx) + (cx*ay-cy*ax);
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getBottom().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getBottom().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getBottom().getX() + ")" + "-" + "(" + boundingBox.getRight().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getRight().getX() + ")*(" + boundingBox.getBottom().getY() + ") - (" + boundingBox.getRight().getY() + ")*(" + boundingBox.getBottom().getX() + "))");
 		query.append(") <= 0");

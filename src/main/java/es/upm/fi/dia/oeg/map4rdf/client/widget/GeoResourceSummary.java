@@ -61,7 +61,9 @@ public class GeoResourceSummary extends Composite {
 	private Anchor link;
 	private Panel locationPanel;
 	private Hyperlink editLink;
-
+	InlineLabel moreInfo;
+	InlineLabel editInfo;
+	
 	public GeoResourceSummary(BrowserMessages messages, BrowserResources appResources) {
 		this.messages = messages;
 		style = appResources.css();
@@ -83,10 +85,27 @@ public class GeoResourceSummary extends Composite {
 		} else {
 			locationPanel.setVisible(false);
 		}
-		link.setHref(resource.getUri());
-		editLink.setTargetHistoryToken(Places.EDIT_RESOURCE.toString() + "?"+ UrlParamtersDict.RESOURCE_EDIT_PARAMTERES + "=" + resource.getUri());
+		if (resource.getUri()!=null) {
+			showMoreInfo();
+			link.setHref(resource.getUri());
+			editLink.setTargetHistoryToken(Places.EDIT_RESOURCE.toString() + "?"+ UrlParamtersDict.RESOURCE_EDIT_PARAMTERES + "=" + resource.getUri());
+		} else {
+			hideMoreInfo();
+		}
 	}
 
+	private void hideMoreInfo() {
+		editInfo.setVisible(false);
+		editLink.setVisible(false);
+		link.setVisible(false);
+		moreInfo.setVisible(false);
+	}
+	private void showMoreInfo() {
+		editInfo.setVisible(true);
+		editLink.setVisible(true);
+		link.setVisible(true);
+		moreInfo.setVisible(true);
+	}
 	private Widget createUi() {
 		FlowPanel panel = new FlowPanel();
 		label = new Label();
@@ -114,13 +133,13 @@ public class GeoResourceSummary extends Composite {
 
 		panel.add(locationPanel);
 
-		InlineLabel moreInfo = new InlineLabel(messages.information() + " ");
+		moreInfo = new InlineLabel(messages.information() + " ");
 		panel.add(moreInfo);
 
 		link = new Anchor(messages.here(), "", "_blank");
 		panel.add(link);
 		
-		InlineLabel editInfo = new InlineLabel(messages.edit() + " ");	
+		editInfo = new InlineLabel(messages.edit() + " ");	
 		editLink = new InlineHyperlink(messages.here(),Places.DASHBOARD.toString() );
 		panel.add(new InlineHTML("<br />"));		
 		panel.add(editInfo);

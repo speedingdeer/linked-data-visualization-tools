@@ -451,11 +451,11 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 	}
 
 	private String createGetResourcesQuery(BoundingBox boundingBox, Set<FacetConstraint> constraints, Integer limit) {
-		StringBuilder query = new StringBuilder("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT distinct ?r ?label ?geo ?geoType ?lat ?lon ");
+		StringBuilder query = new StringBuilder("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT distinct ?r ?label ?geo ?geoType ?lat ?lng ");
 		query.append("WHERE { ");
 		query.append("?r <" + Geo.geometry + ">  ?geo. ");
 		query.append("?geo <" + RDF.type + "> ?geoType . ");
-		query.append("?geo" + "<"+ Geo.lat + ">" +  " ?lat;"  + "<" + Geo.lng + ">" + " ?lon" + ".");
+		query.append("?geo" + "<"+ Geo.lat + ">" +  " ?lat;"  + "<" + Geo.lng + ">" + " ?lng" + ".");
 		query.append("OPTIONAL { ?r <" + RDFS.label + "> ?label } .");
 		if (constraints != null) {
 			for (FacetConstraint constraint : constraints) {
@@ -526,7 +526,7 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 	    query.append("(");
 		
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getTop().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getTop().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getLeft().getX() + ")" + "-" + "(" + boundingBox.getTop().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getTop().getX() + ")*(" + boundingBox.getLeft().getY() + ") - (" + boundingBox.getTop().getY() + ")*(" + boundingBox.getLeft().getX() + "))");
 		query.append(") >= 0");
@@ -534,7 +534,7 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 		query.append("&&");
 		
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getRight().getX() + ")" + "-" + "(" + boundingBox.getLeft().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getLeft().getX() + ")*(" + boundingBox.getRight().getY() + ") - (" + boundingBox.getLeft().getY() + ")*(" + boundingBox.getRight().getX() + "))");
 		query.append(") >= 0");
@@ -542,7 +542,7 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 		query.append("&&");
 		
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getTop().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getTop().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getTop().getX() + ")" + "-" + "(" + boundingBox.getRight().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getRight().getX() + ")*(" + boundingBox.getTop().getY() + ") - (" + boundingBox.getRight().getY() + ")*(" + boundingBox.getTop().getX() + "))");
 		query.append(") >= 0");
@@ -551,7 +551,7 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 				
 		//d1 = px*(ay-by) + py*(bx-ax) + (ax*by-ay*bx);        
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getBottom().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getBottom().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getLeft().getX() + ")" + "-" + "(" + boundingBox.getBottom().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getBottom().getX() + ")*(" + boundingBox.getLeft().getY() + ") - (" + boundingBox.getBottom().getY() + ")*(" + boundingBox.getLeft().getX() + "))");
 		query.append(") >= 0");
@@ -559,7 +559,7 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 		query.append("&&");
 		//d2 = px*(by-cy) + py*(cx-bx) + (bx*cy-by*cx);
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getRight().getX() + ")" + "-" + "(" + boundingBox.getLeft().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getLeft().getX() + ")*(" + boundingBox.getRight().getY() + ") - (" + boundingBox.getLeft().getY() + ")*(" + boundingBox.getRight().getX() + "))");
 		query.append(") >= 0");
@@ -567,7 +567,7 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 		query.append("&&");
 	    //d3 = px*(cy-ay) + py*(ax-cx) + (cx*ay-cy*ax);
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getBottom().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getBottom().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getBottom().getX() + ")" + "-" + "(" + boundingBox.getRight().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getRight().getX() + ")*(" + boundingBox.getBottom().getY() + ") - (" + boundingBox.getRight().getY() + ")*(" + boundingBox.getBottom().getX() + "))");
 		query.append(") >= 0");
@@ -575,7 +575,7 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 		query.append(") || (");
 		
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getTop().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getTop().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getLeft().getX() + ")" + "-" + "(" + boundingBox.getTop().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getTop().getX() + ")*(" + boundingBox.getLeft().getY() + ") - (" + boundingBox.getTop().getY() + ")*(" + boundingBox.getLeft().getX() + "))");
 		query.append(") <= 0");
@@ -583,7 +583,7 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 		query.append("&&");
 		
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getRight().getX() + ")" + "-" + "(" + boundingBox.getLeft().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getLeft().getX() + ")*(" + boundingBox.getRight().getY() + ") - (" + boundingBox.getLeft().getY() + ")*(" + boundingBox.getRight().getX() + "))");
 		query.append(") <= 0");
@@ -591,7 +591,7 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 		query.append("&&");
 		
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getTop().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getTop().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getTop().getX() + ")" + "-" + "(" + boundingBox.getRight().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getRight().getX() + ")*(" + boundingBox.getTop().getY() + ") - (" + boundingBox.getRight().getY() + ")*(" + boundingBox.getTop().getX() + "))");
 		query.append(") <= 0");
@@ -599,7 +599,7 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 		query.append(") || (");
 		
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getBottom().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getBottom().getY() + ")" + "-" + "(" + boundingBox.getLeft().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getLeft().getX() + ")" + "-" + "(" + boundingBox.getBottom().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getBottom().getX() + ")*(" + boundingBox.getLeft().getY() + ") - (" + boundingBox.getBottom().getY() + ")*(" + boundingBox.getLeft().getX() + "))");
 		query.append(") <= 0");
@@ -607,7 +607,7 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 		query.append("&&");
 		//d2 = px*(by-cy) + py*(cx-bx) + (bx*cy-by*cx);
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getLeft().getY() + ")" + "-" + "(" + boundingBox.getRight().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getRight().getX() + ")" + "-" + "(" + boundingBox.getLeft().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getLeft().getX() + ")*(" + boundingBox.getRight().getY() + ") - (" + boundingBox.getLeft().getY() + ")*(" + boundingBox.getRight().getX() + "))");
 		query.append(") <= 0");
@@ -615,7 +615,7 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 		query.append("&&");
 	    //d3 = px*(cy-ay) + py*(ax-cx) + (cx*ay-cy*ax);
 		query.append("(");
-		query.append("xsd:double(?lon) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getBottom().getY() + "))"+ "+");
+		query.append("xsd:double(?lng) * " + "((" + boundingBox.getRight().getY() + ")" + "-" + "(" + boundingBox.getBottom().getY() + "))"+ "+");
 		query.append("xsd:double(?lat) * " + "((" + boundingBox.getBottom().getX() + ")" + "-" + "(" + boundingBox.getRight().getX() + "))"+ "+");
 		query.append("((" + boundingBox.getRight().getX() + ")*(" + boundingBox.getBottom().getY() + ") - (" + boundingBox.getRight().getY() + ")*(" + boundingBox.getBottom().getX() + "))");
 		query.append(") <= 0");
