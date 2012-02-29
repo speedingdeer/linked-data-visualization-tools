@@ -20,6 +20,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.presenter.AdminPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.share.ConfigPropertie;
 import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +45,11 @@ public class AdminView extends Composite implements AdminPresenter.Display {
     private PasswordTextBox newPasswordTextBox;
     private Label confirmPasswordLabel;
     private PasswordTextBox confirmPasswordTextBox;
-
+    private Label editDepthLabel;
+    private TextBox editDepthTextBox;
+    private Label rdfPathLabel;
+    private TextBox rdfPathTextBox;
+    
     @Inject
     public AdminView(BrowserResources resources) {
 
@@ -96,6 +101,16 @@ public class AdminView extends Composite implements AdminPresenter.Display {
         facetConfTextBox = new TextBox();
         mainPanel.add(facetConfTextBox);
 
+        editDepthLabel = new Label("edit tree depth:");
+        mainPanel.add(editDepthLabel);
+        editDepthTextBox = new TextBox();
+        mainPanel.add(editDepthTextBox);
+        
+        rdfPathLabel = new Label("rdf storing path:");
+        mainPanel.add(rdfPathLabel);
+        rdfPathTextBox = new TextBox();
+        mainPanel.add(rdfPathTextBox);
+        
         newPasswordLabel = new Label("new password:");
         mainPanel.add(newPasswordLabel);
         newPasswordTextBox = new PasswordTextBox();
@@ -142,6 +157,10 @@ public class AdminView extends Composite implements AdminPresenter.Display {
                 geometryTextBox.setText(prop.getValue());
             } else if (prop.getKey().equals(ParameterNames.GOOGLE_MAPS_API_KEY)) {
                 apiKeyTextBox.setText(prop.getValue());
+            } else if (prop.getKey().equals(ParameterNames.EDIT_DEPTH)) {
+                editDepthTextBox.setText(prop.getValue());
+            } else if (prop.getKey().equals(ParameterNames.RDF_STORE_PATH)) {
+            	rdfPathTextBox.setText(prop.getValue());
             }
         }
     }
@@ -166,6 +185,8 @@ public class AdminView extends Composite implements AdminPresenter.Display {
         resultList.add(new ConfigPropertie(ParameterNames.FACETS_AUTO, facetConfTextBox.getText()));
         resultList.add(new ConfigPropertie(ParameterNames.GEOMETRY_MODEL, geometryTextBox.getText()));
         resultList.add(new ConfigPropertie(ParameterNames.GOOGLE_MAPS_API_KEY, apiKeyTextBox.getText()));
+        resultList.add(new ConfigPropertie(ParameterNames.EDIT_DEPTH, editDepthTextBox.getText()));
+        resultList.add(new ConfigPropertie(ParameterNames.RDF_STORE_PATH, rdfPathTextBox.getText()));
         return  resultList;
     }
 

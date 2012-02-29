@@ -40,7 +40,7 @@ public class EditResourceView extends Composite implements EditResourcePresenter
     private Tree tree;
     private TreeItem root;
     //@TODO refactor as a db parameter
-    private Integer maxDepth = 3; 
+    private Integer maxDepth = 3; //default 
     private final LoadingWidget loadingWidget;
     private BrowserResources resources;
     private PushButton saveButton;
@@ -136,6 +136,7 @@ public class EditResourceView extends Composite implements EditResourcePresenter
 	@Override
 	public void openLoadWidget() {
 		loadingWidget.center();
+
 	}
 
 	@Override
@@ -151,5 +152,10 @@ public class EditResourceView extends Composite implements EditResourcePresenter
 	@Override
 	public PushButton getSaveButon() {
 		return saveButton;
+	}
+
+	@Override
+	public void setDepth(Integer depth) {
+		this.maxDepth = depth;
 	}
 }

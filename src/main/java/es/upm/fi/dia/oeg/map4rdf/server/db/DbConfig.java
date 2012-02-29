@@ -33,6 +33,8 @@ public class DbConfig {
             put(ParameterNames.GOOGLE_MAPS_API_KEY, "ABQIAAAAzLYqFkZVLHv0seO36vhZahTVXfBc-erLsJZtZLx-fZLjxiIMWBTUgr5s9aY_jQ5Fyqku0qQKuoGE8A");
             put(ParameterNames.FACETS_AUTO, "true");
             put(ParameterNames.ADMIN, "password");
+            put(ParameterNames.EDIT_DEPTH, "3");
+            put(ParameterNames.RDF_STORE_PATH, "/home/filip/code/tmp/rdf/");
         }
     };
     

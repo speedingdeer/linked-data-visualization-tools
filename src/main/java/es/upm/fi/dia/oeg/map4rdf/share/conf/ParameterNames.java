@@ -40,5 +40,9 @@ public class ParameterNames {
 	public static final String LOGO_IMG_SRC = "ui.logo_src";
 
 	public static final String FACETS_AUTO = "facets.automactic";
+	
+	public static final String EDIT_DEPTH = "edit_depth";
+	
+	public static final String RDF_STORE_PATH = "rdf_store_path";
 
 }

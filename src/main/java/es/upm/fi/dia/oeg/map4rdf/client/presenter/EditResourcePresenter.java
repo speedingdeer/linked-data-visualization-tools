@@ -27,6 +27,7 @@ package es.upm.fi.dia.oeg.map4rdf.client.presenter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import net.customware.gwt.dispatch.client.DispatchAsync;
 import net.customware.gwt.presenter.client.EventBus;
@@ -37,6 +38,7 @@ import net.customware.gwt.presenter.client.place.PlaceRequest;
 import net.customware.gwt.presenter.client.place.PlaceRequestEvent;
 import net.customware.gwt.presenter.client.widget.WidgetDisplay;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
@@ -46,6 +48,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
+import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -56,10 +59,15 @@ import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
 import es.upm.fi.dia.oeg.map4rdf.client.event.UrlParametersChangeEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.UrlParametersChangeEventHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
+import es.upm.fi.dia.oeg.map4rdf.client.services.IDBService;
+import es.upm.fi.dia.oeg.map4rdf.client.services.IDBServiceAsync;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.DescriptionTreeItem;
 
+import es.upm.fi.dia.oeg.map4rdf.server.db.SQLconnector;
+import es.upm.fi.dia.oeg.map4rdf.share.ConfigPropertie;
 import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
 import es.upm.fi.dia.oeg.map4rdf.share.URLSafety;
+import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
 import es.upm.fi.dia.oeg.map4rdf.share.conf.UrlParamtersDict;
 import name.alexdeleon.lib.gwtblocks.client.PagePresenter;
 
@@ -73,7 +81,10 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 	private URLSafety subjectUrl;
 	private String subjectLabel;
     private ArrayList<DescriptionTreeItem> descriptions = new ArrayList<DescriptionTreeItem>();
-
+    private String rdfStorePath;
+    private IDBServiceAsync dbService;
+    
+    
     public interface Display extends WidgetDisplay {
         public void clear();
         public void setCore(String core);
@@ -84,15 +95,47 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
         public void closeLoadWidget();
         public PushButton getBackButton();
         public PushButton getSaveButon();
+        public void setDepth(Integer depth);
     }
     
 	private final DispatchAsync dispatchAsync;
 
 	@Inject
 	public EditResourcePresenter(Display display, final EventBus eventBus, final DispatchAsync dispatchAsync) {
+		
 		super(display, eventBus);
 		this.dispatchAsync = dispatchAsync;
 		eventBus.addHandler(UrlParametersChangeEvent.getType(), this);
+        dbService = GWT.create(IDBService.class);
+        ArrayList<String> paramList = new ArrayList<String>();
+        paramList.add(ParameterNames.EDIT_DEPTH);
+        paramList.add(ParameterNames.RDF_STORE_PATH);
+        dbService.getValues(paramList, new AsyncCallback<List<ConfigPropertie>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				rdfStorePath = "";
+				getDisplay().setDepth(3);
+			}
+
+			@Override
+			public void onSuccess(List<ConfigPropertie> result) {
+				for(ConfigPropertie conf : result) {
+					if (conf.getKey().equals(ParameterNames.EDIT_DEPTH)) {
+						getDisplay().setDepth(new Integer(conf.getValue()));
+					} else if (conf.getKey().equals(ParameterNames.RDF_STORE_PATH)) {
+						rdfStorePath = conf.getValue();
+					}
+				}
+			}
+		
+        });
+		onBind();
+    }
+
+	/* -------------- Presenter callbacks -- */
+	@Override
+	protected void onBind() {
 		getDisplay().getBackButton().addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -109,11 +152,6 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 				Window.alert("Not implemented yet");
 			}
 		});
-    }
-
-	/* -------------- Presenter callbacks -- */
-	@Override
-	protected void onBind() {
 	}
 
 	@Override
