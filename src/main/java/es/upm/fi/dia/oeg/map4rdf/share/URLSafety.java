@@ -19,11 +19,17 @@ public class URLSafety implements Serializable{
 	
 
 	public String getUrlSafty() {
+		if (url==null) {
+			return "";
+		}
 		return url.replaceAll(",","%2C").replaceAll("\\^", "%5E").replaceAll(" ","%20");
 	}
 
 	public String getUrl() {
-		return URL.decode(url).toString().replaceAll("%2C",",").replaceAll("%5E", "\\^");
+		if (url==null){
+			return "";
+		}
+		return (URL.decode(url).toString().replaceAll("%2C",",").replaceAll("%5E", "\\^")).toString();
 	}
 	
 	public void setUrl(String url) {

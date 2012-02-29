@@ -14,6 +14,8 @@ import com.google.inject.Singleton;
 import es.upm.fi.dia.oeg.map4rdf.client.services.IDBService;
 import es.upm.fi.dia.oeg.map4rdf.server.db.SQLconnector;
 import es.upm.fi.dia.oeg.map4rdf.share.ConfigPropertie;
+import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
+
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.tmatesoft.sqljet.core.SqlJetException;
@@ -24,7 +26,7 @@ public class DBServiceServlet extends RemoteServiceServlet implements IDBService
     @Override
     public List<ConfigPropertie> getValues(List<String> keys) {
             HttpSession session = this.getThreadLocalRequest().getSession(true);
-            if (session.getAttribute("admin") == null || !session.getAttribute("admin").toString().equals("true")) {
+            if (containProtectedResource(keys) && (session.getAttribute("admin") == null || !session.getAttribute("admin").toString().equals("true"))) {
                 return null;
             }
             SQLconnector dbConnector = Guice.createInjector().getInstance(SQLconnector.class);
@@ -40,5 +42,14 @@ public class DBServiceServlet extends RemoteServiceServlet implements IDBService
         }
         SQLconnector dbConnector = Guice.createInjector().getInstance(SQLconnector.class);
         return dbConnector.setProperties(propertiesList);
+    }
+    
+    private Boolean containProtectedResource(List<String> keys){
+    	for (String s : keys) { 
+    		if (s.equals(ParameterNames.ADMIN)) {
+    			return Boolean.TRUE;
+    		}
+    	}
+    	return Boolean.FALSE;
     }
 }

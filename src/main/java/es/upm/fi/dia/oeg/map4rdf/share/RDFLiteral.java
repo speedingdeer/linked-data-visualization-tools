@@ -6,15 +6,17 @@ public class RDFLiteral implements BasicRDFInformation{
 	
 	private URLSafety dataTypeURI;
 	private String lexicalForm;
+	private String fullName;
 	private Boolean isLiteral;
-
+	
 	public RDFLiteral(){
 		//for serialization
 	}
 	
-	public RDFLiteral(String dataTypeURI, String lexicalForm){
+	public RDFLiteral(String dataTypeURI, String lexicalForm, String fullName){
 		this.setDataTypeURI(new URLSafety(dataTypeURI));
-		this.setLexicalForm(lexicalForm);	
+		this.setLexicalForm(lexicalForm);
+		this.fullName = fullName;
 	}
 
 	public URLSafety getDataTypeURI() {
@@ -43,7 +45,7 @@ public class RDFLiteral implements BasicRDFInformation{
 
 	@Override
 	public String getText() {
-		return lexicalForm;
+		return fullName;
 	}
 
 	@Override
@@ -60,5 +62,4 @@ public class RDFLiteral implements BasicRDFInformation{
 	public Boolean isLiteral() {
 		return true;
 	}
-
 }

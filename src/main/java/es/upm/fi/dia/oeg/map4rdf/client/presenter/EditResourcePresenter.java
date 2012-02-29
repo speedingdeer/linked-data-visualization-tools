@@ -25,7 +25,12 @@
 package es.upm.fi.dia.oeg.map4rdf.client.presenter;
 
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -51,16 +56,19 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.smartgwt.client.docs.Data;
 
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetSubjectDescriptions;
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetSubjectLabel;
 import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
+import es.upm.fi.dia.oeg.map4rdf.client.action.SaveRdfFile;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
 import es.upm.fi.dia.oeg.map4rdf.client.event.UrlParametersChangeEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.UrlParametersChangeEventHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
 import es.upm.fi.dia.oeg.map4rdf.client.services.IDBService;
 import es.upm.fi.dia.oeg.map4rdf.client.services.IDBServiceAsync;
+import es.upm.fi.dia.oeg.map4rdf.client.widget.DataToolBar;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.DescriptionTreeItem;
 
 import es.upm.fi.dia.oeg.map4rdf.server.db.SQLconnector;
@@ -81,7 +89,6 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 	private URLSafety subjectUrl;
 	private String subjectLabel;
     private ArrayList<DescriptionTreeItem> descriptions = new ArrayList<DescriptionTreeItem>();
-    private String rdfStorePath;
     private IDBServiceAsync dbService;
     
     
@@ -109,12 +116,10 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
         dbService = GWT.create(IDBService.class);
         ArrayList<String> paramList = new ArrayList<String>();
         paramList.add(ParameterNames.EDIT_DEPTH);
-        paramList.add(ParameterNames.RDF_STORE_PATH);
         dbService.getValues(paramList, new AsyncCallback<List<ConfigPropertie>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				rdfStorePath = "";
 				getDisplay().setDepth(3);
 			}
 
@@ -123,14 +128,11 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 				for(ConfigPropertie conf : result) {
 					if (conf.getKey().equals(ParameterNames.EDIT_DEPTH)) {
 						getDisplay().setDepth(new Integer(conf.getValue()));
-					} else if (conf.getKey().equals(ParameterNames.RDF_STORE_PATH)) {
-						rdfStorePath = conf.getValue();
 					}
 				}
 			}
 		
         });
-		onBind();
     }
 
 	/* -------------- Presenter callbacks -- */
@@ -149,7 +151,7 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				Window.alert("Not implemented yet");
+				storeData();
 			}
 		});
 	}
@@ -291,6 +293,39 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
     private void clear(){
         descriptions.clear();
         getDisplay().clear();
+    }
+    
+    private void storeData(){
+    	
+    	String fileName = subjectUrl.getUrl().replaceAll("/","|");
+    	Date rightNow =  new Date();
+    	fileName+="--" + rightNow.toString().replaceAll(" ","_");
+    	String fileContent = "";
+    	for (DescriptionTreeItem d : descriptions) {
+    		//if parent is a root of tree (subject)
+    		if(d.getParent() == null) {
+    			fileContent+="<"+subjectUrl.getUrl()+">";
+    		}
+    		else {
+    			fileContent+="<" +d.getParent().getObjectText()+">";
+    		}
+    		fileContent+=" " + "<"+d.getPredicateText()+">" + " ";
+			fileContent+="<"+d.getObjectText()+">" + " ";
+			fileContent+=".\n";
+    	}
+    	
+    	dispatchAsync.execute(new SaveRdfFile(fileName, fileContent), new AsyncCallback<SingletonResult<String>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Unexcepted error occured");
+			}
+
+			@Override
+			public void onSuccess(SingletonResult<String> result) {
+				Window.alert("Your changes were saved");
+			}
+		});
     }
 
 }

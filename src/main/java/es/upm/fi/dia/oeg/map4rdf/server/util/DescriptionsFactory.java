@@ -15,7 +15,7 @@ public class DescriptionsFactory {
 		if(querySolution.get("p").isLiteral()){
 			subjectDescription.setPredicate(
 					new RDFLiteral(querySolution.getLiteral("p").getDatatypeURI(),
-							querySolution.getLiteral("p").getLexicalForm()));
+							querySolution.getLiteral("p").getLexicalForm(),querySolution.getLiteral("o").toString()));
 		} else {
 			subjectDescription.setPredicate(
 					new RDFResource(querySolution.getResource("p").getLocalName(),
@@ -25,7 +25,7 @@ public class DescriptionsFactory {
 		if(querySolution.get("o").isLiteral()){
 			subjectDescription.setObject(
 					new RDFLiteral(querySolution.getLiteral("o").getDatatypeURI(),
-							querySolution.getLiteral("o").getLexicalForm()));
+							querySolution.getLiteral("o").getLexicalForm(),querySolution.getLiteral("o").toString()));
 		} else {
 			subjectDescription.setObject(
 					new RDFResource(querySolution.getResource("o").getLocalName(),
