@@ -70,7 +70,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.conf.UrlParamtersDict;
 import name.alexdeleon.lib.gwtblocks.client.PagePresenter;
 
 /**
- * @author Alexander De Leon
+ * @author Filip
  */
 @Singleton
 public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.Display> implements UrlParametersChangeEventHandler{
@@ -90,8 +90,6 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
         //add to the leafs 
         public void addDescription(TreeItem treeItem, DescriptionTreeItem description);
         public Tree getTree();
-        public void openLoadWidget();
-        public void closeLoadWidget();
         public PushButton getBackButton();
         public PushButton getSaveButon();
         //set parameter
@@ -113,7 +111,7 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 
 			@Override
 			public void onFailure(Throwable caught) {
-				getDisplay().setDepth(3);
+				//the default value will be used
 			}
 
 			@Override
@@ -180,7 +178,7 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 		parameters = event.getParamaters();
 		if (parameters.containsKey(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES)) { 
 			//geoResouceUri = URLSafty.encode((parameters.get(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES)));
-			getDisplay().openLoadWidget();
+			getDisplay().startProcessing();
 			subjectUrl = new URLSafety((parameters.get(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES)));
 			
 			GetSubjectLabel action = new GetSubjectLabel(subjectUrl.getUrlSafty());
@@ -198,7 +196,7 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 				}
 				
 			});
-			getDisplay().closeLoadWidget();
+			getDisplay().stopProcessing();
 		}
 		
 	}
@@ -231,10 +229,10 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 			
 			@Override
 			public void onOpen(final OpenEvent<TreeItem> event) {
-				getDisplay().openLoadWidget();
+				getDisplay().startProcessing();
 				//if the node is not opened for the first time, ignore the action				
 				if (! isEmpty(getDescription(event.getTarget()))) {
-					getDisplay().closeLoadWidget();
+					getDisplay().stopProcessing();
 					return;
 				}
 				
@@ -259,7 +257,7 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 						}
 			        });
 				}
-				getDisplay().closeLoadWidget();
+				getDisplay().stopProcessing();
 			}
 		});
     }

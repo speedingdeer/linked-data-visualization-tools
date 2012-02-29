@@ -6,14 +6,10 @@ package es.upm.fi.dia.oeg.map4rdf.client.view;
 
 import name.alexdeleon.lib.gwtblocks.client.widget.loading.LoadingWidget;
 
-import com.google.gwt.event.logical.shared.SelectionEvent;
-import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Tree;
@@ -21,8 +17,6 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
-import com.smartgwt.client.docs.Toolbar;
-
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.EditResourcePresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.DescriptionTreeItem;
@@ -39,7 +33,6 @@ public class EditResourceView extends Composite implements EditResourcePresenter
     
     private Tree tree;
     private TreeItem root;
-    //@TODO refactor as a db parameter
     private Integer maxDepth = 3; //default 
     private final LoadingWidget loadingWidget;
     private BrowserResources resources;
@@ -70,12 +63,12 @@ public class EditResourceView extends Composite implements EditResourcePresenter
     
     @Override
     public void startProcessing() {
-        throw new UnsupportedOperationException("Not supported yet.");
+		loadingWidget.center();
     }
     
     @Override
     public void stopProcessing() {
-        throw new UnsupportedOperationException("Not supported yet.");
+		loadingWidget.hide();       
     }
     
     private Widget createUi() {
@@ -100,7 +93,6 @@ public class EditResourceView extends Composite implements EditResourcePresenter
 
     	container.add(tree);
     	container.add(toolbar);
-    	
     	mainPanel.add(container);
         return mainPanel;
     }
@@ -133,16 +125,6 @@ public class EditResourceView extends Composite implements EditResourcePresenter
 		treeItem.addItem(leaf);
 	}
 
-	@Override
-	public void openLoadWidget() {
-		loadingWidget.center();
-
-	}
-
-	@Override
-	public void closeLoadWidget() {
-		loadingWidget.hide();
-	}
 
 	@Override
 	public PushButton getBackButton() {
