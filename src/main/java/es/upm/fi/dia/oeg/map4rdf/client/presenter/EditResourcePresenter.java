@@ -24,11 +24,6 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.presenter;
 
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -38,7 +33,6 @@ import net.customware.gwt.dispatch.client.DispatchAsync;
 import net.customware.gwt.presenter.client.EventBus;
 import net.customware.gwt.presenter.client.place.Place;
 import net.customware.gwt.presenter.client.place.PlaceChangedEvent;
-import net.customware.gwt.presenter.client.place.PlaceManager;
 import net.customware.gwt.presenter.client.place.PlaceRequest;
 import net.customware.gwt.presenter.client.place.PlaceRequestEvent;
 import net.customware.gwt.presenter.client.widget.WidgetDisplay;
@@ -53,10 +47,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
-import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.smartgwt.client.docs.Data;
 
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetSubjectDescriptions;
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetSubjectLabel;
@@ -68,10 +60,8 @@ import es.upm.fi.dia.oeg.map4rdf.client.event.UrlParametersChangeEventHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
 import es.upm.fi.dia.oeg.map4rdf.client.services.IDBService;
 import es.upm.fi.dia.oeg.map4rdf.client.services.IDBServiceAsync;
-import es.upm.fi.dia.oeg.map4rdf.client.widget.DataToolBar;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.DescriptionTreeItem;
 
-import es.upm.fi.dia.oeg.map4rdf.server.db.SQLconnector;
 import es.upm.fi.dia.oeg.map4rdf.share.ConfigPropertie;
 import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
 import es.upm.fi.dia.oeg.map4rdf.share.URLSafety;
@@ -95,13 +85,16 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
     public interface Display extends WidgetDisplay {
         public void clear();
         public void setCore(String core);
+        //add to the root
         public void addDescription(DescriptionTreeItem description);
+        //add to the leafs 
         public void addDescription(TreeItem treeItem, DescriptionTreeItem description);
         public Tree getTree();
         public void openLoadWidget();
         public void closeLoadWidget();
         public PushButton getBackButton();
         public PushButton getSaveButon();
+        //set parameter
         public void setDepth(Integer depth);
     }
     
