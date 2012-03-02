@@ -29,6 +29,7 @@ import es.upm.fi.dia.oeg.map4rdf.server.command.GetFacetDefinitionsHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetGeoResourceHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetGeoResourceOverlaysHandler;
 //import es.upm.fi.dia.oeg.map4rdf.server.command.GetGeoResourcesAsKmlUrlHandler;
+import es.upm.fi.dia.oeg.map4rdf.server.command.GetConfigurationParameterHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetGeoResourcesAsKmlUrlHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetGeoResourcesHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetStatisticDatasetsHandler;
@@ -53,5 +54,6 @@ public class BrowserActionHandlerModule extends ActionHandlerModule {
 		bindHandler(GetSubjectLabelHandler.class);
 		bindHandler(GetGeoResourcesAsKmlUrlHandler.class);
 		bindHandler(SaveRdfFIleHandler.class);
+		bindHandler(GetConfigurationParameterHandler.class);
 	}
 }

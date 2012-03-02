@@ -50,6 +50,7 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+import es.upm.fi.dia.oeg.map4rdf.client.action.GetConfigurationParameter;
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetSubjectDescriptions;
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetSubjectLabel;
 import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
@@ -62,6 +63,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.widget.DescriptionTreeItem;
 
 import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
 import es.upm.fi.dia.oeg.map4rdf.share.URLSafety;
+import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
 import es.upm.fi.dia.oeg.map4rdf.share.conf.UrlParamtersDict;
 import name.alexdeleon.lib.gwtblocks.client.PagePresenter;
 
@@ -99,6 +101,18 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 		super(display, eventBus);
 		this.dispatchAsync = dispatchAsync;
 		eventBus.addHandler(UrlParametersChangeEvent.getType(), this);
+		dispatchAsync.execute(new GetConfigurationParameter(ParameterNames.EDIT_DEPTH), new AsyncCallback<SingletonResult<String>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				
+			}
+
+			@Override
+			public void onSuccess(SingletonResult<String> result) {
+				getDisplay().setDepth(new Integer(result.getValue()));
+			}
+		});
     }
 
 	/* -------------- Presenter callbacks -- */
