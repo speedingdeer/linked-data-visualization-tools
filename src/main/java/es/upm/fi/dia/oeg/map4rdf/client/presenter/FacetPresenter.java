@@ -53,7 +53,8 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 	public interface Display extends WidgetDisplay {
 
         public void clear();
-
+        public Boolean isEmpty();
+        
 		interface FacetSelectionHandler {
 			void onFacetSelectionChanged(String facetId, String facetValueId, boolean selected);
 		}
@@ -106,7 +107,11 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 
 	@Override
 	public void revealDisplay() {
-        loadFacets();
+		if (getDisplay().isEmpty()) {
+			loadFacets();
+		} //else {
+		//	eventBus.fireEvent(new FacetConstraintsChangedEvent(constraints));
+		//}
 	}
 
 	void loadFacets() {
