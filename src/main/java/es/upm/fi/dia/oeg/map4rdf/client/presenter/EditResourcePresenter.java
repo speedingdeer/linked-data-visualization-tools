@@ -59,6 +59,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
 import es.upm.fi.dia.oeg.map4rdf.client.event.UrlParametersChangeEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.UrlParametersChangeEventHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
+import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.DescriptionTreeItem;
 
 import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
@@ -77,7 +78,7 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 	private URLSafety subjectUrl;
 	private String subjectLabel;
     private ArrayList<DescriptionTreeItem> descriptions = new ArrayList<DescriptionTreeItem>();
-    
+    private BrowserMessages browserMessages;
     
     public interface Display extends WidgetDisplay {
         public void clear();
@@ -96,11 +97,12 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 	private final DispatchAsync dispatchAsync;
 
 	@Inject
-	public EditResourcePresenter(Display display, final EventBus eventBus, final DispatchAsync dispatchAsync) {
+	public EditResourcePresenter(Display display, final EventBus eventBus, final DispatchAsync dispatchAsync, final BrowserMessages browserMessages) {
 		
 		super(display, eventBus);
 		this.dispatchAsync = dispatchAsync;
 		eventBus.addHandler(UrlParametersChangeEvent.getType(), this);
+		this.browserMessages = browserMessages;
 		dispatchAsync.execute(new GetConfigurationParameter(ParameterNames.EDIT_DEPTH), new AsyncCallback<SingletonResult<String>>() {
 
 			@Override
@@ -161,7 +163,7 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
     protected void onPlaceRequest(PlaceRequest request) {
     }
 
-	@Override //init site
+	@Override //init siteUrl parameter is not valid
 	public void onParametersChange(UrlParametersChangeEvent event) {
 		clear();
 		parameters = event.getParamaters();
@@ -175,7 +177,7 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 
 				@Override
 				public void onFailure(Throwable caught) {
-					
+					getDisplay().stopProcessing();
 				}
 
 				@Override
@@ -185,7 +187,6 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 				}
 				
 			});
-			getDisplay().stopProcessing();
 		}
 		
 	}
@@ -199,7 +200,8 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
         
 		@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("Url parameter is not valid");
+				Window.alert(browserMessages.canNotLoaddescription());
+				getDisplay().stopProcessing();
 			}
 
 			@Override
@@ -209,8 +211,8 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 					descriptions.add(editableDescription);
 					getDisplay().addDescription(editableDescription);
 				}
+				getDisplay().stopProcessing();
 			}
-
 			
         });
         
@@ -220,7 +222,7 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 			public void onOpen(final OpenEvent<TreeItem> event) {
 				getDisplay().startProcessing();
 				//if the node is not opened for the first time, ignore the action				
-				if (! isEmpty(getDescription(event.getTarget()))) {
+				if (! isEmpty(getDescription(event.getTarget())) || event.getTarget().equals(getDisplay().getTree().getItem(0)) ) {
 					getDisplay().stopProcessing();
 					return;
 				}
@@ -232,7 +234,8 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 			        
 			        	@Override
 						public void onFailure(Throwable caught) {
-							Window.alert("Url parameter is not valid");
+							Window.alert(browserMessages.canNotLoaddescription());
+							getDisplay().stopProcessing();
 						}
 
 						@Override
@@ -243,10 +246,10 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 								descriptions.add(editableDescription);
 								getDisplay().addDescription(event.getTarget(), editableDescription);
 							}
+							getDisplay().stopProcessing();
 						}
 			        });
 				}
-				getDisplay().stopProcessing();
 			}
 		});
     }

@@ -54,4 +54,6 @@ public interface BrowserMessages extends Messages {
 	String clear();
 
 	String draw();
+	
+	String canNotLoaddescription();
 }

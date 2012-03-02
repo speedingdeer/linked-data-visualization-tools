@@ -10,6 +10,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Tree;
@@ -34,14 +36,15 @@ public class EditResourceView extends Composite implements EditResourcePresenter
     private Tree tree;
     private TreeItem root;
     private Integer maxDepth = 3; //default 
-    private final LoadingWidget loadingWidget;
+    private LoadingWidget loadingWidget;
     private BrowserResources resources;
     private PushButton saveButton;
     private PushButton backButton;
+    WidgetFactory widgetFactory;
     
     @Inject
     public EditResourceView(WidgetFactory widgetFactory, BrowserResources resources) {
-        loadingWidget = widgetFactory.getLoadingWidget();
+        this.widgetFactory = widgetFactory;
         this.resources = resources;
         initWidget(createUi());
     }
@@ -63,12 +66,13 @@ public class EditResourceView extends Composite implements EditResourcePresenter
     
     @Override
     public void startProcessing() {
-		loadingWidget.center();
+    	loadingWidget = widgetFactory.getLoadingWidget();
+    	loadingWidget.center();
     }
     
     @Override
     public void stopProcessing() {
-		loadingWidget.hide();       
+		loadingWidget.hide();
     }
     
     private Widget createUi() {
