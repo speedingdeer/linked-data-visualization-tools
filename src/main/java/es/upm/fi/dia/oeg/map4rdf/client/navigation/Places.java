@@ -31,7 +31,6 @@ import net.customware.gwt.presenter.client.place.Place;
  */
 public class Places {
 
-    public static final Place ADMIN = new Place("admin");
 	public static final Place DASHBOARD = new Place("dashboard");
 	public static final Place LOGIN = new Place("login");
 	public static final Place EDIT_RESOURCE = new Place("edit_resource");

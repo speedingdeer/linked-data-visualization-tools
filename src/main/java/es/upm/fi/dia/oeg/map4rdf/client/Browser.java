@@ -54,7 +54,7 @@ public class Browser implements EntryPoint {
 			injector = null;
 		}
 		AppController controller = new AppController(injector.getBrowserUi(), injector.getEventBus(),
-                injector.getDashboard(),injector.getAdminPresenter(),injector.getLoginPresenter(),injector.getEditResourcePresenter());
+                injector.getDashboard(),injector.getEditResourcePresenter());
             
 		controller.bind();
 		

@@ -25,7 +25,6 @@
 package es.upm.fi.dia.oeg.map4rdf.server.conf;
 
 import com.google.inject.Guice;
-import es.upm.fi.dia.oeg.map4rdf.server.db.SQLconnector;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -51,14 +50,11 @@ public class Configuration {
 	}
 
 	public String getConfigurationParamValue(String param) {
-		SQLconnector dbConnector = Guice.createInjector().getInstance(SQLconnector.class);
-        return dbConnector.getValue(param);
-        //return properties.getProperty(param);
+		return properties.getProperty(param);
 	}
 
 	public boolean containsConfigurationParam(String param) {
-        SQLconnector dbConnector = Guice.createInjector().getInstance(SQLconnector.class);
-		return (!dbConnector.getValue(param).equals(""));
+		return properties.contains(param);
 	}
 
 }

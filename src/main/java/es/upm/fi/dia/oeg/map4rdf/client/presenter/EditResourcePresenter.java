@@ -58,14 +58,10 @@ import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
 import es.upm.fi.dia.oeg.map4rdf.client.event.UrlParametersChangeEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.UrlParametersChangeEventHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
-import es.upm.fi.dia.oeg.map4rdf.client.services.IDBService;
-import es.upm.fi.dia.oeg.map4rdf.client.services.IDBServiceAsync;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.DescriptionTreeItem;
 
-import es.upm.fi.dia.oeg.map4rdf.share.ConfigPropertie;
 import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
 import es.upm.fi.dia.oeg.map4rdf.share.URLSafety;
-import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
 import es.upm.fi.dia.oeg.map4rdf.share.conf.UrlParamtersDict;
 import name.alexdeleon.lib.gwtblocks.client.PagePresenter;
 
@@ -79,7 +75,6 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 	private URLSafety subjectUrl;
 	private String subjectLabel;
     private ArrayList<DescriptionTreeItem> descriptions = new ArrayList<DescriptionTreeItem>();
-    private IDBServiceAsync dbService;
     
     
     public interface Display extends WidgetDisplay {
@@ -104,26 +99,6 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 		super(display, eventBus);
 		this.dispatchAsync = dispatchAsync;
 		eventBus.addHandler(UrlParametersChangeEvent.getType(), this);
-        dbService = GWT.create(IDBService.class);
-        ArrayList<String> paramList = new ArrayList<String>();
-        paramList.add(ParameterNames.EDIT_DEPTH);
-        dbService.getValues(paramList, new AsyncCallback<List<ConfigPropertie>>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				//the default value will be used
-			}
-
-			@Override
-			public void onSuccess(List<ConfigPropertie> result) {
-				for(ConfigPropertie conf : result) {
-					if (conf.getKey().equals(ParameterNames.EDIT_DEPTH)) {
-						getDisplay().setDepth(new Integer(conf.getValue()));
-					}
-				}
-			}
-		
-        });
     }
 
 	/* -------------- Presenter callbacks -- */

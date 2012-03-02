@@ -44,8 +44,6 @@ public interface Injector extends Ginjector {
 
 	DashboardPresenter getDashboard();
     EditResourcePresenter getEditResourcePresenter();
-	AdminPresenter getAdminPresenter();
-    LoginPresenter getLoginPresenter();
     EventBus getEventBus();
 	BrowserUi getBrowserUi();
        
