@@ -20,9 +20,7 @@ public class DescriptionTreeItem {
 	public DescriptionTreeItem(SubjectDescription subjectDescription, DescriptionTreeItem parent) {
 		this.subjectDescription = subjectDescription;
 		this.parent = parent;
-
 		grid = new Grid(1, 2);
-		
 		this.predicate = new TextBox();
 		this.predicate.setWidth("330px");
 		this.predicate.setText(subjectDescription.getPredicate().getText());
