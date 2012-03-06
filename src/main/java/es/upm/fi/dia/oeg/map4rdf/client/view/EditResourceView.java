@@ -107,21 +107,20 @@ public class EditResourceView extends Composite implements EditResourcePresenter
 	}
 
 	@Override
-	public void addDescription(DescriptionTreeItem description) {
-		TreeItem treeItem = new TreeItem(description.getWidget());
-		if (description.getSubjectDescriptions().getObject().isResource() && description.getDepth() < maxDepth) {
-			treeItem.addItem("");
-		}
-		root.addItem(treeItem);
-	}
-
-	@Override
 	public Tree getTree() {
 		return tree;
 	}
 
 	@Override
-	public void addDescription(TreeItem treeItem, DescriptionTreeItem description ) {
+	public void addDescription(DescriptionTreeItem description) {
+		addDescription(description, null);
+	}
+	
+	@Override
+	public void addDescription(DescriptionTreeItem description,TreeItem treeItem ) {
+		if (treeItem == null) {
+			treeItem = root;
+		}
 		TreeItem leaf = new TreeItem(description.getWidget());
 		if (description.getSubjectDescriptions().getObject().isResource() && description.getDepth() < maxDepth) {
 			leaf.addItem("");

@@ -82,15 +82,12 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
     
     public interface Display extends WidgetDisplay {
         public void clear();
-        public void setCore(String core);
-        //add to the root
         public void addDescription(DescriptionTreeItem description);
-        //add to the leafs 
-        public void addDescription(TreeItem treeItem, DescriptionTreeItem description);
+        public void addDescription(DescriptionTreeItem description, TreeItem treeItem);
         public Tree getTree();
         public PushButton getBackButton();
         public PushButton getSaveButon();
-        //set parameter
+        public void setCore(String core);
         public void setDepth(Integer depth);
     }
     
@@ -101,15 +98,16 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 		
 		super(display, eventBus);
 		this.dispatchAsync = dispatchAsync;
-		eventBus.addHandler(UrlParametersChangeEvent.getType(), this);
 		this.browserMessages = browserMessages;
+		
+		eventBus.addHandler(UrlParametersChangeEvent.getType(), this);
+		//set max  depth parameter
 		dispatchAsync.execute(new GetConfigurationParameter(ParameterNames.EDIT_DEPTH), new AsyncCallback<SingletonResult<String>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				
+				//parameter will stay default 
 			}
-
 			@Override
 			public void onSuccess(SingletonResult<String> result) {
 				getDisplay().setDepth(new Integer(result.getValue()));
@@ -121,16 +119,14 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 	@Override
 	protected void onBind() {
 		getDisplay().getBackButton().addClickHandler(new ClickHandler() {
-			
+			//bind buttons
 			@Override
 			public void onClick(ClickEvent event) {
-				//PlaceManager placeManager = new PlaceManager(eventBus);
 				eventBus.fireEvent(new PlaceChangedEvent(Places.DEFAULT.request()));
 				eventBus.fireEvent(new PlaceRequestEvent(new PlaceRequest(Places.DEFAULT)));
 			}
 		});
 		getDisplay().getSaveButon().addClickHandler(new ClickHandler() {
-			
 			@Override
 			public void onClick(ClickEvent event) {
 				storeData();
@@ -140,13 +136,10 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 
 	@Override
 	protected void onUnbind() {
-		// TODO Auto-generated method stub
-
 	}
     
         @Override
     protected void onRefreshDisplay() {
-        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -163,59 +156,60 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
     protected void onPlaceRequest(PlaceRequest request) {
     }
 
-	@Override //init siteUrl parameter is not valid
+    
+	@Override 
+	//set all parameters, collect all data
 	public void onParametersChange(UrlParametersChangeEvent event) {
 		clear();
 		parameters = event.getParamaters();
 		if (parameters.containsKey(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES)) { 
-			//geoResouceUri = URLSafty.encode((parameters.get(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES)));
 			getDisplay().startProcessing();
 			subjectUrl = new URLSafety((parameters.get(UrlParamtersDict.RESOURCE_EDIT_PARAMTERES)));
-			
 			GetSubjectLabel action = new GetSubjectLabel(subjectUrl.getUrlSafty());
+			//collect all information
 			dispatchAsync.execute(action, new AsyncCallback<SingletonResult<String>>(){
-
 				@Override
 				public void onFailure(Throwable caught) {
 					getDisplay().stopProcessing();
 				}
-
 				@Override
 				public void onSuccess(SingletonResult<String> result) {
 					subjectLabel = result.getValue();
-					fullfilContent();
+					fillUpContent();
 				}
-				
 			});
 		}
 		
 	}
 	
-	private void fullfilContent() {
+	private void fillUpContent() {
 		
 		getDisplay().setCore(subjectLabel+" "+ "("+subjectUrl.getUrl()+")");
 		
 		GetSubjectDescriptions action = new GetSubjectDescriptions(subjectUrl.getUrlSafty());
         dispatchAsync.execute(action, new AsyncCallback<ListResult<SubjectDescription>>() {
-        
 		@Override
 			public void onFailure(Throwable caught) {
 				Window.alert(browserMessages.canNotLoaddescription());
 				getDisplay().stopProcessing();
 			}
-
 			@Override
 			public void onSuccess(ListResult<SubjectDescription>result) {
-				for(SubjectDescription d : result) {	
-					DescriptionTreeItem editableDescription = new DescriptionTreeItem(d,null);
-					descriptions.add(editableDescription);
-					getDisplay().addDescription(editableDescription);
-				}
+				addDescriptions(result, null);
 				getDisplay().stopProcessing();
 			}
 			
         });
+        addOpenHandler();
         
+    }
+    
+    private void clear(){
+        descriptions.clear();
+        getDisplay().clear();
+    }
+    
+    private void addOpenHandler() {
         getDisplay().getTree().addOpenHandler(new OpenHandler<TreeItem>() {
 			
 			@Override
@@ -240,42 +234,13 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 
 						@Override
 						public void onSuccess(ListResult<SubjectDescription>result) {
-							for(SubjectDescription d : result) {	
-								
-								DescriptionTreeItem editableDescription = new DescriptionTreeItem(d,getDescription(event.getTarget()));
-								descriptions.add(editableDescription);
-								getDisplay().addDescription(event.getTarget(), editableDescription);
-							}
+							addDescriptions(result,event.getTarget());
 							getDisplay().stopProcessing();
 						}
 			        });
 				}
 			}
 		});
-    }
-	
-    private DescriptionTreeItem getDescription(TreeItem treeItem) {
-    
-    	for (DescriptionTreeItem d : descriptions) {    		 
-    		 
-    		if(treeItem.getWidget() != null && treeItem.getWidget().equals(d.getWidget())){
-    			return d;
-    		}
-    	}
-    	return null;
-    }
-    private Boolean isEmpty(DescriptionTreeItem parent) {
-    	for (DescriptionTreeItem d: descriptions) {
-    		if (d.getParent()!= null && d.getParent().equals(parent)) {
-    			return false;
-    		}
-    	}
-    	return true;
-    }
-    
-    private void clear(){
-        descriptions.clear();
-        getDisplay().clear();
     }
     
     private void storeData(){
@@ -310,5 +275,27 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 			}
 		});
     }
-
+    private void addDescriptions(ListResult<SubjectDescription>result, TreeItem target) {
+		for(SubjectDescription d : result) {	
+			DescriptionTreeItem editableDescription = new DescriptionTreeItem(d,getDescription(target));
+			descriptions.add(editableDescription);
+			getDisplay().addDescription(editableDescription,target);
+		}
+    }
+    private DescriptionTreeItem getDescription(TreeItem treeItem) {
+    	for (DescriptionTreeItem d : descriptions) {    		 
+    		if(treeItem != null && treeItem.getWidget() != null && treeItem.getWidget().equals(d.getWidget())){
+    			return d;
+    		}
+    	}
+    	return null;
+    }
+    private Boolean isEmpty(DescriptionTreeItem parent) {
+    	for (DescriptionTreeItem d: descriptions) {
+    		if (d.getParent()!= null && d.getParent().equals(parent)) {
+    			return false;
+    		}
+    	}
+    	return true;
+    }
 }
