@@ -54,7 +54,7 @@ public class Browser implements EntryPoint {
 			injector = null;
 		}
 		AppController controller = new AppController(injector.getBrowserUi(), injector.getEventBus(),
-                injector.getDashboard(),injector.getEditResourcePresenter());
+                injector.getDashboard(),injector.getEditResourcePresenter(),injector.getLoginPresenter(),injector.getAdminPresenter());
             
 		controller.bind();
 		
@@ -65,7 +65,6 @@ public class Browser implements EntryPoint {
 			injector.getEventBus().fireEvent(new PlaceChangedEvent(Places.DEFAULT.request()));
 		}
 		// Trigger history tokens.
-		
 		String parameters[] = Window.Location.getQueryString().substring(1).split("&");
 		for (String param : parameters) {
 			String[] parts = param.split("=");

@@ -56,6 +56,7 @@ import es.upm.fi.dia.oeg.map4rdf.server.conf.Configuration;
 import es.upm.fi.dia.oeg.map4rdf.server.conf.Constants;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.DaoException;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
+import es.upm.fi.dia.oeg.map4rdf.server.db.SQLconnector;
 import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
 import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
 
@@ -67,23 +68,17 @@ public class SaveRdfFIleHandler implements
 		ActionHandler<SaveRdfFile, SingletonResult<String> > {
 
 	private ServletContext servletContext;
-	private Configuration config;
-	
+	private SQLconnector sqlConnector;
 	@Override
 	public Class<SaveRdfFile> getActionType() {
 		return SaveRdfFile.class;
 	}
 	
 	@Inject
-	public SaveRdfFIleHandler(Provider<ServletContext> provider) {
+	public SaveRdfFIleHandler(Provider<ServletContext> provider, SQLconnector sqlConnector) {
 		super();
 		servletContext = provider.get();
-		InputStream propIn = servletContext.getResourceAsStream(Constants.CONFIGURATION_FILE);
-        try {
-            config = new Configuration(propIn);
-        } catch (IOException ex) {
-            Logger.getLogger(Bootstrapper.class.getName()).log(Level.SEVERE, null, ex);
-        }
+		this.sqlConnector = sqlConnector;
 		
 	}
 
@@ -91,7 +86,7 @@ public class SaveRdfFIleHandler implements
 	public SingletonResult<String> execute(SaveRdfFile action,
 			ExecutionContext context) throws ActionException {
 		
-		String path = config.getConfigurationParamValue(ParameterNames.RDF_STORE_PATH);
+		String path = sqlConnector.getValue(ParameterNames.RDF_STORE_PATH);
 		
 		File file = new File(path + action.getFileName());
     	if (file.exists()) {

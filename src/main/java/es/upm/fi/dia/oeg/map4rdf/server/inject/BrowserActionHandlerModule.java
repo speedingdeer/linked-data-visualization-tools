@@ -25,6 +25,8 @@
 package es.upm.fi.dia.oeg.map4rdf.server.inject;
 
 import net.customware.gwt.dispatch.server.guice.ActionHandlerModule;
+import es.upm.fi.dia.oeg.map4rdf.client.action.db.GetValues;
+import es.upm.fi.dia.oeg.map4rdf.client.action.db.SaveValues;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetFacetDefinitionsHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetGeoResourceHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetGeoResourceOverlaysHandler;
@@ -37,6 +39,11 @@ import es.upm.fi.dia.oeg.map4rdf.server.command.GetStatisticYearsHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetSubjectDescriptionsHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetSubjectLabelHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.SaveRdfFIleHandler;
+import es.upm.fi.dia.oeg.map4rdf.server.command.db.GetValuesHandler;
+import es.upm.fi.dia.oeg.map4rdf.server.command.db.IsLoggedHandler;
+import es.upm.fi.dia.oeg.map4rdf.server.command.db.LoginHandler;
+import es.upm.fi.dia.oeg.map4rdf.server.command.db.LogoutHandler;
+import es.upm.fi.dia.oeg.map4rdf.server.command.db.SaveValuesHandler;
 /**
  * @author Alexander De Leon
  */
@@ -55,5 +62,10 @@ public class BrowserActionHandlerModule extends ActionHandlerModule {
 		bindHandler(GetGeoResourcesAsKmlUrlHandler.class);
 		bindHandler(SaveRdfFIleHandler.class);
 		bindHandler(GetConfigurationParameterHandler.class);
+		bindHandler(LoginHandler.class);
+		bindHandler(IsLoggedHandler.class);
+		bindHandler(LogoutHandler.class);
+		bindHandler(GetValuesHandler.class);
+		bindHandler(SaveValuesHandler.class);
 	}
 }

@@ -24,6 +24,9 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.share.conf;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * @author Alexander De Leon
  */

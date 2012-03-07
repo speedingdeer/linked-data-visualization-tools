@@ -56,12 +56,14 @@ import es.upm.fi.dia.oeg.map4rdf.client.action.GetSubjectLabel;
 import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SaveRdfFile;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
+import es.upm.fi.dia.oeg.map4rdf.client.action.db.GetValues;
 import es.upm.fi.dia.oeg.map4rdf.client.event.UrlParametersChangeEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.UrlParametersChangeEventHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.DescriptionTreeItem;
 
+import es.upm.fi.dia.oeg.map4rdf.share.ConfigPropertie;
 import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
 import es.upm.fi.dia.oeg.map4rdf.share.URLSafety;
 import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
@@ -102,15 +104,30 @@ public class EditResourcePresenter extends  PagePresenter<EditResourcePresenter.
 		
 		eventBus.addHandler(UrlParametersChangeEvent.getType(), this);
 		//set max  depth parameter
-		dispatchAsync.execute(new GetConfigurationParameter(ParameterNames.EDIT_DEPTH), new AsyncCallback<SingletonResult<String>>() {
-
+		//dispatchAsync.execute(new GetConfigurationParameter(ParameterNames.EDIT_DEPTH), new AsyncCallback<SingletonResult<String>>() {
+        //
+	   	//	@Override
+		//	public void onFailure(Throwable caught) {
+		//		//parameter will stay default 
+		//	}
+		//	@Override
+		//	public void onSuccess(SingletonResult<String> result) {
+		//		getDisplay().setDepth(new Integer(result.getValue()));
+		//	}
+		//});
+		dispatchAsync.execute(new GetValues(ParameterNames.EDIT_DEPTH), new AsyncCallback<ListResult<ConfigPropertie>>() {
 			@Override
 			public void onFailure(Throwable caught) {
-				//parameter will stay default 
 			}
+
 			@Override
-			public void onSuccess(SingletonResult<String> result) {
-				getDisplay().setDepth(new Integer(result.getValue()));
+			public void onSuccess(ListResult<ConfigPropertie> result) {
+				try {
+					Integer value = new Integer(result.iterator().next().getValue());
+					getDisplay().setDepth(value);
+				} catch (Exception e) {
+					
+				}
 			}
 		});
     }

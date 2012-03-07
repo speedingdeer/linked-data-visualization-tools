@@ -56,4 +56,10 @@ public interface BrowserMessages extends Messages {
 	String draw();
 	
 	String canNotLoaddescription();
+	
+	String incorrectPassword();
+	
+	String databaseConenctionProblem();
+	
+	String passwordsDoesNotMatch();
 }

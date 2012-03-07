@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
- * Facultad de Inform‡tica, Universidad 
- * PolitŽcnica de Madrid, Spain
+ * Facultad de Informatica, Universidad 
+ * Politecnica de Madrid, Spain
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,48 +22,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.server.conf;
+package es.upm.fi.dia.oeg.map4rdf.client.action.db;
 
-import com.google.inject.Guice;
-import com.google.inject.Inject;
+import java.io.Serializable;
+import java.util.ArrayList;
 
-import es.upm.fi.dia.oeg.map4rdf.server.db.SQLconnector;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
+import net.customware.gwt.dispatch.shared.Action;
+import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
+import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
+import es.upm.fi.dia.oeg.map4rdf.share.ConfigPropertie;
 /**
- * @author Alexander De Leon
+ * @author Filip
  */
-public class Configuration {
+public class GetValues implements Serializable, Action<ListResult<ConfigPropertie>> {
 
-	private final Properties properties ;
-	private SQLconnector sqlConnector;
+	private ArrayList<String> keys;
+
+	public GetValues() {
+		//serialization
+	}
+
+	public GetValues(ArrayList<String> keys) {
+		this.keys=keys;
+	}
+	public GetValues(String key){
+		this.keys = new ArrayList<String>();
+		keys.add(key);
+	}
 	
-	
-    public  Configuration() {
-        properties = null;
-        this.sqlConnector = Guice.createInjector().getInstance(SQLconnector.class);
-    }
-    
-	public Configuration(Properties properties) {
-		this.properties = properties;
-	}
-
-	public Configuration(InputStream propIn) throws IOException {
-		properties = new Properties();
-		properties.load(propIn);
-	}
-
-	public String getConfigurationParamValue(String param) {
-		return sqlConnector.getValue(param);
-		//return properties.getProperty(param);
-	}
-
-	public boolean containsConfigurationParam(String param) {
-		return !("".equals(sqlConnector.getValue(param)));	
-		//return properties.contains(param);
+	public ArrayList<String>getKeys(){
+		return keys;
 	}
 
 }
