@@ -24,7 +24,6 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.presenter;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 

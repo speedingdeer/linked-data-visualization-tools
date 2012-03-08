@@ -139,8 +139,8 @@ public class AdminView extends Composite implements AdminPresenter.Display {
         //mainPanel.add(logoutButton);
         
         Grid grid = new Grid(1, 2);
-        grid.add(saveButton);
-        grid.add(logoutButton);
+        grid.setWidget(0,0,saveButton);
+        grid.setWidget(0,1,logoutButton);
         grid.setCellSpacing(3);
         mainPanel.add(grid);
         mainPanel.setVisible(true);
