@@ -227,11 +227,13 @@ public class OpenLayersMapView implements MapView {
         wmsParams.setLayers("Todas");
         WMSOptions wmsLayerParams = new WMSOptions();
 
+        
         wmsLayerParams.setTransitionEffect(TransitionEffect.RESIZE);
         wmsLayerParams.setAttribution("Maps provided by <a href =\"http://www.idee.es\">IDEE</a>");
        //wmsLayerParams.setResolutions(resolutions);
 
-        WMS wmsLayer = new WMS("IDEE", WMS_URL, wmsParams, wmsLayerParams);
+        //WMS wmsLayer = new WMS("IDEE", WMS_URL, wmsParams, wmsLayerParams);
+        WMS wmsLayer = new WMS("test", "http://194.224.247.165:8081/deegree-wms/services?SERVICE=WMS&REQUEST=GetCapabilities", new WMSParams());
         layerSwitcher = new LayerSwitcher();
         
         map.addControl(layerSwitcher);
@@ -255,7 +257,7 @@ public class OpenLayersMapView implements MapView {
         googleOptions.setNumZoomLevels(20);
         Google google = new Google("Google Maps", googleOptions);
         OSM openStreetMap = OSM.Osmarender("Open Street Maps");
-        map.addLayers(new Layer[]{google, openStreetMap});
+        map.addLayers(new Layer[]{google, openStreetMap});//, wmsLayer});
         DEFAULT_CENTER.transform("EPSG:4326", map.getProjection());
         map.setCenter(DEFAULT_CENTER, DEFAULT_ZOOM_LEVEL);
         panel.add(mapWidget);
