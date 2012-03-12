@@ -42,17 +42,14 @@ import org.gwtopenmaps.openlayers.client.layer.VectorOptions;
 import org.gwtopenmaps.openlayers.client.popup.Popup;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.style.StyleMapShape;
 import es.upm.fi.dia.oeg.map4rdf.share.Circle;
 import es.upm.fi.dia.oeg.map4rdf.share.OpenLayersAdapter;
@@ -60,8 +57,6 @@ import es.upm.fi.dia.oeg.map4rdf.share.Point;
 import es.upm.fi.dia.oeg.map4rdf.share.PointBean;
 import es.upm.fi.dia.oeg.map4rdf.share.PolyLine;
 import es.upm.fi.dia.oeg.map4rdf.share.Polygon;
-import javax.mail.search.SizeTerm;
-import org.junit.experimental.theories.PotentialAssignment;
 
 /**
  * @author Alexander De Leon
@@ -93,7 +88,6 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 	public HasClickHandlers draw(Point point) {
                 LonLat ll = new LonLat(point.getX(), point.getY());
                 ll.transform("EPSG:4326",map.getProjection() );
-             
                 org.gwtopenmaps.openlayers.client.geometry.Point olPoint = new org.gwtopenmaps.openlayers.client.geometry.Point(
 				ll.lon(),ll.lat());
                 return addFeature(olPoint, getStyle(olPoint));
@@ -102,14 +96,28 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 
 	@Override
 	public HasClickHandlers drawPolygon(StyleMapShape<Polygon> polygon) {
-		LinearRing ring = new LinearRing(getPoints(polygon.getMapShape().getPoints()));
+		List<Point> points = polygon.getMapShape().getPoints();
+		List<Point> tranformedPoints = new ArrayList<Point>();
+		for(Point p : points) {
+		     LonLat ll = new LonLat(p.getX(), p.getY());
+			 ll.transform("EPSG:4326",map.getProjection());
+			 tranformedPoints.add(new PointBean(p.getUri(), ll.lon(), ll.lat()));
+		}
+		LinearRing ring = new LinearRing(getPoints(tranformedPoints));
 		return addFeature(new org.gwtopenmaps.openlayers.client.geometry.Polygon(new LinearRing[] { ring }),
 				getStyle(polygon));
 	}
 
 	@Override
 	public HasClickHandlers drawPolyline(StyleMapShape<PolyLine> polyline) {
-		LineString lineString = new LineString(getPoints(polyline.getMapShape().getPoints()));
+		List<Point> points = polyline.getMapShape().getPoints();
+		List<Point> tranformedPoints = new ArrayList<Point>();
+		for(Point p : points) {
+		     LonLat ll = new LonLat(p.getX(), p.getY());
+			 ll.transform("EPSG:4326",map.getProjection());
+			 tranformedPoints.add(new PointBean(p.getUri(), ll.lon(), ll.lat()));
+		}
+		LineString lineString = new LineString(getPoints(tranformedPoints));
 		return addFeature(lineString, getStyle(polyline));
 	}
 
@@ -132,6 +140,9 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 							Math.cos(d) - Math.sin(lat1) * Math.sin(lat2));
 			circlePoints[i] = new org.gwtopenmaps.openlayers.client.geometry.Point(Math.toDegrees(lng2),
 					Math.toDegrees(lat2));
+			LonLat ll = new LonLat(circlePoints[i].getX(), circlePoints[i].getY());
+            ll.transform("EPSG:4326",map.getProjection() );
+            circlePoints[i]=new org.gwtopenmaps.openlayers.client.geometry.Point(ll.lon(),ll.lat());
 			a += step;
 		}
 		LinearRing ring = new LinearRing(circlePoints);
@@ -158,6 +169,9 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 							Math.cos(d) - Math.sin(lat1) * Math.sin(lat2));
 			circlePoints[i] = new org.gwtopenmaps.openlayers.client.geometry.Point(Math.toDegrees(lng2),
 					Math.toDegrees(lat2));
+			LonLat ll = new LonLat(circlePoints[i].getX(), circlePoints[i].getY());
+            ll.transform("EPSG:4326",map.getProjection() );
+            circlePoints[i]=new org.gwtopenmaps.openlayers.client.geometry.Point(ll.lon(),ll.lat());
 			a += step;
 		}
 		LinearRing ring = new LinearRing(circlePoints);
