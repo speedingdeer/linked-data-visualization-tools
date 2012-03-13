@@ -78,6 +78,8 @@ public class StatisticsPresenter extends ControlPresenter<StatisticsPresenter.Di
 		void hideTimeline();
 
 		void clear();
+		
+		void refreshTimeline();
 
 	}
 
@@ -144,16 +146,7 @@ public class StatisticsPresenter extends ControlPresenter<StatisticsPresenter.Di
 
 		});
 
-		getDisplay().setTimelineValueChangeHandler(new ValueChangeHandler<Year>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<Year> event) {
-				currentStatistic.getDimensions().clear();
-				currentStatistic.getDimensions().add(event.getValue().getUri());
-				getDisplay().clear();
-				drawStatistics();
-
-			}
-		});
+		refreshTimeline();
 	}
 
 	@Override
@@ -165,6 +158,7 @@ public class StatisticsPresenter extends ControlPresenter<StatisticsPresenter.Di
 	/* --------------------------------- Helper methods -- */
 	private void setStatistic(final StatisticDefinition statistic) {
 		currentStatistic = statistic;
+		refreshTimeline();
 		GetStatisticYears action = new GetStatisticYears(statistic.getDataset());
 		getDisplay().startProcessing();
 		dispatchAsync.execute(action, new AsyncCallback<ListResult<Year>>() {
@@ -221,6 +215,19 @@ public class StatisticsPresenter extends ControlPresenter<StatisticsPresenter.Di
 				}
 				getDisplay().stopProcessing();
 			};
+		});
+	}
+	private void refreshTimeline() {
+		getDisplay().refreshTimeline();
+		getDisplay().setTimelineValueChangeHandler(new ValueChangeHandler<Year>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Year> event) {
+				currentStatistic.getDimensions().clear();
+				currentStatistic.getDimensions().add(event.getValue().getUri());
+				getDisplay().clear();
+				drawStatistics();
+
+			}
 		});
 	}
 }
