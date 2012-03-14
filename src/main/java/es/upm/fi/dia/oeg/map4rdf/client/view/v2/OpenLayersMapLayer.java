@@ -79,7 +79,7 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
                 VectorOptions vectorBckgOptions = new VectorOptions();
                 
 		vectorLayer = new Vector(name + "_vectors", vectorOptions);
-                vectorLayer.setDisplayInLayerSwitcher(false);
+                vectorLayer.setDisplayInLayerSwitcher(true);
 
                 map.addLayer(vectorLayer);
 	}

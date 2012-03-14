@@ -45,7 +45,6 @@ import com.hp.hpl.jena.vocabulary.RDFS;
 import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.DaoException;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
-import es.upm.fi.dia.oeg.map4rdf.server.util.DescriptionsFactory;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Geo;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.GeoLinkedDataEsOwlVocabulary;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Scovo;
@@ -57,7 +56,6 @@ import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResourceOverlay;
 import es.upm.fi.dia.oeg.map4rdf.share.PointBean;
 import es.upm.fi.dia.oeg.map4rdf.share.Resource;
-import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
 import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
 import es.upm.fi.dia.oeg.map4rdf.share.Year;
 

@@ -49,11 +49,14 @@ public class StatisticsView extends SimplePanel implements StatisticsPresenter.D
 	private final StatisticsSelectionDialog selectionDialog;
 	private final LoadingWidget loadingWidget;
 	private MapLayer mapLayer;
-	private final Timeline timeline;
-
+	private Timeline timeline;
+	private WidgetFactory widgetFactory;
+	private AbsolutePanel mapContainer;
+	
 	@Inject
 	public StatisticsView(StatisticsSelectionDialog selectionDialog, WidgetFactory widgetFactory) {
 		this.selectionDialog = selectionDialog;
+		this.widgetFactory = widgetFactory;
 		loadingWidget = widgetFactory.getLoadingWidget();
 		timeline = widgetFactory.createTimeline();
 
@@ -78,13 +81,7 @@ public class StatisticsView extends SimplePanel implements StatisticsPresenter.D
 	@Override
 	public void setMapLayer(MapLayer mapLayer) {
 		this.mapLayer = mapLayer;
-		final AbsolutePanel mapContainer = mapLayer.getMapView().getContainer();
-		mapContainer.add(timeline);
-		Element h = timeline.getElement();
-		DOM.setStyleAttribute(h, "position", "absolute");
-		DOM.setStyleAttribute(h, "right", 22 + "px");
-		DOM.setStyleAttribute(h, "bottom", 22 + "px");
-		DOM.setStyleAttribute(h, "zIndex", "2024");
+		mapContainer = mapLayer.getMapView().getContainer();
 	}
 
 	@Override
@@ -128,5 +125,16 @@ public class StatisticsView extends SimplePanel implements StatisticsPresenter.D
 	@Override
 	public void hideTimeline() {
 		timeline.hide();
+	}
+
+	@Override
+	public void refreshTimeline() {
+		timeline = widgetFactory.createTimeline();
+		mapContainer.add(timeline);
+		Element h = timeline.getElement();
+		DOM.setStyleAttribute(h, "position", "absolute");
+		DOM.setStyleAttribute(h, "right", 22 + "px");
+		DOM.setStyleAttribute(h, "bottom", 22 + "px");
+		DOM.setStyleAttribute(h, "zIndex", "2024");
 	}
 }

@@ -42,6 +42,8 @@ import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResourceOverlays;
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetStatisticDatasets;
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetStatisticYears;
 import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
+import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterChangedEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterChangedHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.event.MapletEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.MyMapletEventHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
@@ -57,7 +59,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.Year;
 /**
  * @author Alexander De Leon
  */
-public class StatisticsPresenter extends ControlPresenter<StatisticsPresenter.Display> {
+public class StatisticsPresenter extends ControlPresenter<StatisticsPresenter.Display> implements AreaFilterChangedHandler {
 
 	public interface Display extends WidgetDisplay {
 
@@ -78,19 +80,23 @@ public class StatisticsPresenter extends ControlPresenter<StatisticsPresenter.Di
 		void hideTimeline();
 
 		void clear();
+		
+		void refreshTimeline();
 
 	}
 
 	private final DispatchAsync dispatchAsync;
 	private StatisticDefinition currentStatistic;
 	private final MapLayer mapLayer;
-
+	private final MapPresenter mapPresenter;
 	@Inject
 	public StatisticsPresenter(Display view, EventBus eventBus, MapPresenter mapPresenter, DispatchAsync dispatchAsync) {
 		super(view, eventBus);
 		this.dispatchAsync = dispatchAsync;
+		this.mapPresenter =  mapPresenter;
 		mapLayer = mapPresenter.getDisplay().createLayer("statistics");
 		view.setMapLayer(mapLayer);
+		eventBus.addHandler(AreaFilterChangedEvent.getType() ,this);
 	}
 
 	@Override
@@ -144,16 +150,7 @@ public class StatisticsPresenter extends ControlPresenter<StatisticsPresenter.Di
 
 		});
 
-		getDisplay().setTimelineValueChangeHandler(new ValueChangeHandler<Year>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<Year> event) {
-				currentStatistic.getDimensions().clear();
-				currentStatistic.getDimensions().add(event.getValue().getUri());
-				getDisplay().clear();
-				drawStatistics();
-
-			}
-		});
+		refreshTimeline();
 	}
 
 	@Override
@@ -165,6 +162,8 @@ public class StatisticsPresenter extends ControlPresenter<StatisticsPresenter.Di
 	/* --------------------------------- Helper methods -- */
 	private void setStatistic(final StatisticDefinition statistic) {
 		currentStatistic = statistic;
+		
+		refreshTimeline();
 		GetStatisticYears action = new GetStatisticYears(statistic.getDataset());
 		getDisplay().startProcessing();
 		dispatchAsync.execute(action, new AsyncCallback<ListResult<Year>>() {
@@ -181,7 +180,6 @@ public class StatisticsPresenter extends ControlPresenter<StatisticsPresenter.Di
 				getDisplay().setTimelineIndex(yearsList.size() - 1);
 			};
 		});
-
 	}
 
 	private void drawStatistics() {
@@ -222,5 +220,25 @@ public class StatisticsPresenter extends ControlPresenter<StatisticsPresenter.Di
 				getDisplay().stopProcessing();
 			};
 		});
+	}
+	private void refreshTimeline() {
+		getDisplay().refreshTimeline();
+		getDisplay().setTimelineValueChangeHandler(new ValueChangeHandler<Year>() {
+			@Override
+			public void onValueChange(ValueChangeEvent<Year> event) {
+				currentStatistic.getDimensions().clear();
+				currentStatistic.getDimensions().add(event.getValue().getUri());
+				getDisplay().clear();
+				drawStatistics();
+
+			}
+		});
+	}
+
+	@Override
+	public void onAreaFilterChanged(
+			AreaFilterChangedEvent areaFilterChangedEvent) {
+		getDisplay().clear();
+		drawStatistics();
 	}
 }
