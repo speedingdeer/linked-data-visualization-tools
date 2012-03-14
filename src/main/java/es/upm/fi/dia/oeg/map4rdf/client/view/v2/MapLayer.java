@@ -47,7 +47,7 @@ public interface MapLayer {
 	PopupWindow createPopupWindow();
 
 	void clear();
-
+	
 	MapView getMapView();
 
 	interface PopupWindow extends HasWidgets {

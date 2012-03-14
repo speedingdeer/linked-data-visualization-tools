@@ -427,6 +427,7 @@ public class GeoLinkedDataDaoImpl extends CommonDaoImpl implements Map4rdfDao {
 			}
 			query.delete(query.length() - 5, query.length());
 		}
+		
 		query.append("}");
 		if (limit != null) {
 			query.append(" LIMIT " + limit);
@@ -435,16 +436,23 @@ public class GeoLinkedDataDaoImpl extends CommonDaoImpl implements Map4rdfDao {
 	}
 
 	private String createGetStatisticsQuery(BoundingBox boundingBox, StatisticDefinition statisticDefinition) {
-		StringBuilder query = new StringBuilder("SELECT distinct ?r ?stat ?statValue ");
+		StringBuilder query = new StringBuilder("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT distinct ?r ?stat ?statValue ?geo ?lat ?lng ");
 		query.append("WHERE { ");
 		query.append("?stat <" + Scovo.dimension + "> ?r. ");
 		query.append("?r <" + Geo.geometry + "> _:geo. ");
+		query.append("?r <" + Geo.geometry + ">  ?geo. ");
+		query.append("?geo" + "<"+ Geo.lat + ">" +  " ?lat;"  + "<" + Geo.lng + ">" + " ?lng" + ".");
 		query.append("?stat <" + Scovo.dataset + "> <" + statisticDefinition.getDataset() + "> .");
 		for (String dimension : statisticDefinition.getDimensions()) {
 			query.append("?stat <" + Scovo.dimension + "> <" + dimension + ">. ");
 		}
 		query.append("?stat <" + RDF.value + "> ?statValue. ");
 
+		//filters
+		if (boundingBox!=null) {
+			query = addBoundingBoxFilter(query, boundingBox);
+		}
+		
 		query.append("} LIMIT 1000");
 		return query.toString();
 	}

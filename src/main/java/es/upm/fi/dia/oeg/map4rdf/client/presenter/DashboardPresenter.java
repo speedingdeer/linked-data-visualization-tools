@@ -51,6 +51,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.event.LoadResourceEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.LoadResourceEventHandler;
+import es.upm.fi.dia.oeg.map4rdf.client.maplet.stats.StatisticsPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
 import es.upm.fi.dia.oeg.map4rdf.client.util.GeoUtils;
@@ -58,6 +59,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.widget.DataToolBar;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
+import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
 
 /**
  * @author Alexander De Leon
@@ -78,7 +80,7 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
     private final DispatchAsync dispatchAsync;
     private final DataToolBar dataToolBar;
     private final BrowserMessages messages;
-
+    
     @Inject
     public DashboardPresenter(Display display, EventBus eventBus, FacetPresenter facetPresenter,
             MapPresenter mapPresenter, FiltersPresenter filtersPresenter, ResultsPresenter resultsPresenter, DispatchAsync dispatchAsync,
@@ -91,7 +93,7 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
         this.dispatchAsync = dispatchAsync;
         this.dataToolBar = dataToolBar;
         this.filtersPresenter = filtersPresenter;
-
+        
         addControl(mapPresenter);
         addControl(facetPresenter);
 
@@ -126,8 +128,8 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
     protected void onBind() {
         // attach children
         getDisplay().addWestWidget(facetPresenter.getDisplay().asWidget(), "Facets");
-        getDisplay().addWestWidget(filtersPresenter.getDisplay().asWidget(), messages.filtres());
         getDisplay().addWestWidget(dataToolBar, messages.overlays());
+        getDisplay().addWestWidget(filtersPresenter.getDisplay().asWidget(), messages.filtres());
         getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
         getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());
         //set filter listeners
@@ -207,5 +209,6 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
 			AreaFilterChangedEvent areaFilterChangedEvent) {
 			FacetConstraintsChangedEvent event = new FacetConstraintsChangedEvent(facetPresenter.getConstraints());
 			eventBus.fireEvent(event);
+			
 	}
 }
