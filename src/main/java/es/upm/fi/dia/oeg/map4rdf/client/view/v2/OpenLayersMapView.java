@@ -257,7 +257,7 @@ public class OpenLayersMapView implements MapView {
         googleOptions.setNumZoomLevels(20);
         Google google = new Google("Google Maps", googleOptions);
         OSM openStreetMap = OSM.Osmarender("Open Street Maps");
-        map.addLayers(new Layer[]{google, openStreetMap});//, wmsLayer});
+        map.addLayers(new Layer[]{openStreetMap,google});//, wmsLayer});
         DEFAULT_CENTER.transform("EPSG:4326", map.getProjection());
         map.setCenter(DEFAULT_CENTER, DEFAULT_ZOOM_LEVEL);
         panel.add(mapWidget);
