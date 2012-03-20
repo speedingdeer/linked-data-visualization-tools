@@ -18,43 +18,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.client.widget;
+package es.upm.fi.dia.oeg.map4rdf.client.view.v2;
 
-import name.alexdeleon.lib.gwtblocks.client.widget.loading.LoadingWidget;
+import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.user.client.ui.HasWidgets;
 
-import com.google.inject.Inject;
-
-import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
-import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
+import es.upm.fi.dia.oeg.map4rdf.client.style.StyleMapShape;
+import es.upm.fi.dia.oeg.map4rdf.share.Circle;
+import es.upm.fi.dia.oeg.map4rdf.share.Point;
+import es.upm.fi.dia.oeg.map4rdf.share.PolyLine;
+import es.upm.fi.dia.oeg.map4rdf.share.Polygon;
 
 /**
  * @author Alexander De Leon
  */
-public class WidgetFactory {
+public interface MapLayer {
 
-	private final BrowserMessages messages;
-	private final BrowserResources resources;
+	HasClickHandlers draw(Point point);
+        HasClickHandlers drawFlat(Point point);
+        
+	HasClickHandlers drawPolygon(StyleMapShape<Polygon> polygon);
 
-	private static LoadingWidget loadingWidget;
+	HasClickHandlers drawPolyline(StyleMapShape<PolyLine> polyline);
 
-	@Inject
-	public WidgetFactory(BrowserMessages messages, BrowserResources resources) {
-		this.messages = messages;
-		this.resources = resources;
-	}
+	HasClickHandlers drawCircle(StyleMapShape<Circle> circle);
 
-	public GeoResourceSummary createGeoResourceSummary() {
-		return new GeoResourceSummary(messages, resources);
-	}
+	HasClickHandlers drawCircle(StyleMapShape<Circle> circle, String text);
 
-	public Timeline createTimeline() {
-		return new Timeline(resources.css());
-	}
+	PopupWindow createPopupWindow();
 
-	public LoadingWidget getLoadingWidget() {
-		if (loadingWidget == null) {
-			loadingWidget = new LoadingWidget(resources.loadingIcon(), messages.loading(), resources.css());
-		}
-		return loadingWidget;
+	void clear();
+
+	MapView getMapView();
+
+	interface PopupWindow extends HasWidgets {
+
+		void open(Point location);
+
+		void close();
+
 	}
 }

@@ -29,13 +29,7 @@ import java.util.Collection;
 /**
  * @author Alexander De Leon
  */
-public interface Geometry extends HasUri {
-
-	enum Type {
-		POINT, POLYLINE, POLYGON;
-	}
-
-	Type getType();
+public interface Geometry extends HasUri, MapShape {
 
 	Collection<Point> getPoints();
 

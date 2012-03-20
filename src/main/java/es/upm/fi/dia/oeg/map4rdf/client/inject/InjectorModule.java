@@ -27,6 +27,10 @@ package es.upm.fi.dia.oeg.map4rdf.client.inject;
 import net.customware.gwt.presenter.client.DefaultEventBus;
 import net.customware.gwt.presenter.client.EventBus;
 import net.customware.gwt.presenter.client.gin.AbstractPresenterModule;
+import es.upm.fi.dia.oeg.map4rdf.client.maplet.Maplet;
+import es.upm.fi.dia.oeg.map4rdf.client.maplet.stats.StatisticsMaplet;
+import es.upm.fi.dia.oeg.map4rdf.client.maplet.stats.StatisticsPresenter;
+import es.upm.fi.dia.oeg.map4rdf.client.maplet.stats.StatisticsView;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.DashboardPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.FacetPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapOverlaysPresenter;
@@ -35,7 +39,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.presenter.ResultsPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.view.DashboardView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.FacetView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.MapOverlaysView;
-import es.upm.fi.dia.oeg.map4rdf.client.view.MapView;
+import es.upm.fi.dia.oeg.map4rdf.client.view.OpenLayersMapView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.ResultsView;
 
 /**
@@ -48,12 +52,19 @@ public class InjectorModule extends AbstractPresenterModule {
 
 		// Events
 		bind(EventBus.class).to(DefaultEventBus.class);
-
+                
 		// MVP
 		bindDisplay(DashboardPresenter.Display.class, DashboardView.class);
 		bindDisplay(FacetPresenter.Display.class, FacetView.class);
-		bindDisplay(MapPresenter.Display.class, MapView.class);
+		bindDisplay(MapPresenter.Display.class, OpenLayersMapView.class);
 		bindDisplay(ResultsPresenter.Display.class, ResultsView.class);
 		bindDisplay(MapOverlaysPresenter.Display.class, MapOverlaysView.class);
+<<<<<<< HEAD
+=======
+		bindDisplay(StatisticsPresenter.Display.class, StatisticsView.class);
+                
+		// Maplets
+		bind(Maplet.class).to(StatisticsMaplet.class).asEagerSingleton();
+>>>>>>> 51596f2087e325a588e699c95b465a212fdc8c50
 	}
 }

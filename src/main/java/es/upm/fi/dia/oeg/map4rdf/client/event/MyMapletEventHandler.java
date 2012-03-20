@@ -18,43 +18,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.client.widget;
-
-import name.alexdeleon.lib.gwtblocks.client.widget.loading.LoadingWidget;
-
-import com.google.inject.Inject;
-
-import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
-import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
+package es.upm.fi.dia.oeg.map4rdf.client.event;
 
 /**
  * @author Alexander De Leon
  */
-public class WidgetFactory {
+public abstract class MyMapletEventHandler implements MapletEventHandler {
 
-	private final BrowserMessages messages;
-	private final BrowserResources resources;
+	private final String mapletId;
 
-	private static LoadingWidget loadingWidget;
-
-	@Inject
-	public WidgetFactory(BrowserMessages messages, BrowserResources resources) {
-		this.messages = messages;
-		this.resources = resources;
+	public MyMapletEventHandler(String mapletId) {
+		this.mapletId = mapletId;
 	}
 
-	public GeoResourceSummary createGeoResourceSummary() {
-		return new GeoResourceSummary(messages, resources);
-	}
-
-	public Timeline createTimeline() {
-		return new Timeline(resources.css());
-	}
-
-	public LoadingWidget getLoadingWidget() {
-		if (loadingWidget == null) {
-			loadingWidget = new LoadingWidget(resources.loadingIcon(), messages.loading(), resources.css());
+	@Override
+	public void mapletActivated(MapletEvent event) {
+		if (event.getMapletId().equals(mapletId)) {
+			myMapletActivated(event);
 		}
-		return loadingWidget;
 	}
+
+	@Override
+	public void mapletDeactivated(MapletEvent event) {
+		if (event.getMapletId().equals(mapletId)) {
+			myMapletDeactivated(event);
+		}
+	}
+
+	protected abstract void myMapletActivated(MapletEvent event);
+
+	protected abstract void myMapletDeactivated(MapletEvent event);
+
 }

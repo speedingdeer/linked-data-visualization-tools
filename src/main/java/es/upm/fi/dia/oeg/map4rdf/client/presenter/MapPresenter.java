@@ -36,8 +36,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
-import com.google.gwt.maps.client.MapWidget;
-import com.google.gwt.maps.client.geom.LatLng;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.inject.Inject;
@@ -47,10 +45,10 @@ import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResourcesAsKmlUrl;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
 import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedHandler;
+import es.upm.fi.dia.oeg.map4rdf.client.view.v2.MapView;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
-import es.upm.fi.dia.oeg.map4rdf.share.GoogleMapsAdapters;
 import es.upm.fi.dia.oeg.map4rdf.share.TwoDimentionalCoordinate;
 
 /**
@@ -62,8 +60,13 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 	private Set<FacetConstraint> facetConstraints;
 	private final DispatchAsync dispatchAsync;
 
-	public interface Display extends WidgetDisplay {
-		MapWidget getMap();
+	public interface Display extends WidgetDisplay, MapView {
+
+		TwoDimentionalCoordinate getCurrentCenter();
+
+		BoundingBox getVisibleBox();
+
+		void setVisibleBox(BoundingBox boundingBox);
 
 		void drawGeoResouces(List<GeoResource> resources);
 
@@ -80,18 +83,15 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 	}
 
 	public TwoDimentionalCoordinate getCurrentCenter() {
-		LatLng googleLatLng = getDisplay().getMap().getCenter();
-		return GoogleMapsAdapters.getTwoDimentionalCoordinate(googleLatLng);
+		return getDisplay().getCurrentCenter();
 	}
 
 	public BoundingBox getVisibleBox() {
-		return GoogleMapsAdapters.getBoundingBox(getDisplay().getMap().getBounds());
+		return getDisplay().getVisibleBox();
 	}
 
 	public void setVisibleBox(BoundingBox boundingBox) {
-		int zoomLevel = getDisplay().getMap().getBoundsZoomLevel(GoogleMapsAdapters.getLatLngBounds(boundingBox));
-		getDisplay().getMap().setCenter(GoogleMapsAdapters.getLatLng(boundingBox.getCenter()));
-		getDisplay().getMap().setZoomLevel(zoomLevel);
+		getDisplay().setVisibleBox(boundingBox);
 	}
 
 	public void drawGeoResouces(List<GeoResource> resources) {

@@ -55,13 +55,9 @@ public class Resource implements HasUri, Serializable {
 
 	public String getLabel(String language) {
 		if (labels == null) {
-			return getUri();
+			return null;
 		}
-		String label = labels.get(language);
-		if (label == null) {
-			return getUri();
-		}
-		return label;
+		return labels.get(language);
 	}
 
 	public void addLabel(String language, String label) {

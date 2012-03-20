@@ -18,43 +18,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.client.widget;
+package es.upm.fi.dia.oeg.map4rdf.client.view.v2;
 
-import name.alexdeleon.lib.gwtblocks.client.widget.loading.LoadingWidget;
+import net.customware.gwt.presenter.client.widget.WidgetDisplay;
 
-import com.google.inject.Inject;
+import com.google.gwt.user.client.ui.AbsolutePanel;
 
-import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
-import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
+import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
+import es.upm.fi.dia.oeg.map4rdf.share.TwoDimentionalCoordinate;
 
 /**
  * @author Alexander De Leon
  */
-public class WidgetFactory {
+public interface MapView extends WidgetDisplay {
 
-	private final BrowserMessages messages;
-	private final BrowserResources resources;
+	TwoDimentionalCoordinate getCurrentCenter();
 
-	private static LoadingWidget loadingWidget;
+	BoundingBox getVisibleBox();
 
-	@Inject
-	public WidgetFactory(BrowserMessages messages, BrowserResources resources) {
-		this.messages = messages;
-		this.resources = resources;
-	}
+	void setVisibleBox(BoundingBox boundingBox);
 
-	public GeoResourceSummary createGeoResourceSummary() {
-		return new GeoResourceSummary(messages, resources);
-	}
+	MapLayer getDefaultLayer();
 
-	public Timeline createTimeline() {
-		return new Timeline(resources.css());
-	}
+	MapLayer createLayer(String name);
 
-	public LoadingWidget getLoadingWidget() {
-		if (loadingWidget == null) {
-			loadingWidget = new LoadingWidget(resources.loadingIcon(), messages.loading(), resources.css());
-		}
-		return loadingWidget;
-	}
+	AbsolutePanel getContainer();
+
 }

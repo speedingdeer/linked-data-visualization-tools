@@ -10,8 +10,14 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="gwt:property" content="locale=<%=request.getLocale()%>">
     <title>Map4RDF</title>
-    
+    <%--
+    We need to user api v2 (it seems tha even google does not suport gwt any more)
+    --%> 
+
     <script type="text/javascript" language="javascript" src="http://maps.google.com/maps?gwt=1&amp;file=api&amp;v=2&amp;sensor=true&amp;key=<%=googleMapsKey%>" ></script>
+    <script src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
+    <script src="http://www.openstreetmap.org/openlayers/OpenStreetMap.js"></script>
+
     <script type="text/javascript" language="javascript" src="es.upm.fi.dia.oeg.map4rdf.map4rdf/es.upm.fi.dia.oeg.map4rdf.map4rdf.nocache.js"></script>
   </head>
 

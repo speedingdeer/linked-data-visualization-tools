@@ -18,43 +18,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.client.widget;
+package es.upm.fi.dia.oeg.map4rdf.client.util;
 
-import name.alexdeleon.lib.gwtblocks.client.widget.loading.LoadingWidget;
-
-import com.google.inject.Inject;
-
-import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
-import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
+import org.gwtopenmaps.openlayers.client.util.JSObject;
 
 /**
  * @author Alexander De Leon
  */
-public class WidgetFactory {
+public class GMapType extends org.gwtopenmaps.openlayers.client.layer.GMapType {
 
-	private final BrowserMessages messages;
-	private final BrowserResources resources;
-
-	private static LoadingWidget loadingWidget;
-
-	@Inject
-	public WidgetFactory(BrowserMessages messages, BrowserResources resources) {
-		this.messages = messages;
-		this.resources = resources;
+	/**
+	 * @param element
+	 */
+	protected GMapType(JSObject element) {
+		super(element);
 	}
 
-	public GeoResourceSummary createGeoResourceSummary() {
-		return new GeoResourceSummary(messages, resources);
-	}
+	static final public org.gwtopenmaps.openlayers.client.layer.GMapType G_TERRAIN_MAP = narrowToGMapType(G_TERRAIN_MAP());
 
-	public Timeline createTimeline() {
-		return new Timeline(resources.css());
-	}
-
-	public LoadingWidget getLoadingWidget() {
-		if (loadingWidget == null) {
-			loadingWidget = new LoadingWidget(resources.loadingIcon(), messages.loading(), resources.css());
-		}
-		return loadingWidget;
-	}
+	native static public JSObject G_TERRAIN_MAP()/*-{
+		return $wnd.G_TERRAIN_MAP ? $wnd.G_TERRAIN_MAP : null;
+	}-*/;
 }

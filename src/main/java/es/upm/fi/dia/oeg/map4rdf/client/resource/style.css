@@ -1,8 +1,9 @@
-body {
-	margin: 0px;
+body{
 	font-family: Verdana, Arial, sans-serif;
-    font-size: .6em;
+	font-size: 0.6em;
+	margin: 0px;
 }
+
 
 @sprite .header{
 	gwt-image: 'topBackground';
@@ -113,3 +114,19 @@ body {
 	\-webkit-border-bottom-left-radius: 8px;
 	\-webkit-border-bottom-right-radius: 8px;
 }
+
+.summaryLabelStyle{
+	font-weight: bold;
+}
+
+.summaryPropertyName{
+	font-weight: bold;
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 0.6em;
+}
+
+.summaryPropertyValue{
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 0.6em;
+}
+

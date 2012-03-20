@@ -35,7 +35,11 @@ import com.google.gwt.resources.client.ImageResource.RepeatStyle;
 
 import es.upm.fi.dia.oeg.map4rdf.client.widget.DataToolBar;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.FacetWidget;
+<<<<<<< HEAD
 import es.upm.fi.dia.oeg.map4rdf.client.widget.ShapeFileBar;
+=======
+import es.upm.fi.dia.oeg.map4rdf.client.widget.GeoResourceSummary;
+>>>>>>> 51596f2087e325a588e699c95b465a212fdc8c50
 import es.upm.fi.dia.oeg.map4rdf.client.widget.Timeline;
 
 /**
@@ -43,10 +47,15 @@ import es.upm.fi.dia.oeg.map4rdf.client.widget.Timeline;
  */
 public interface BrowserResources extends ClientBundle {
 
+<<<<<<< HEAD
 	interface BrowserCss extends LoadingWidget.Stylesheet,
             ToggleButton.Stylesheet, FacetWidget.Stylesheet,
 			DataToolBar.Stylesheet, Timeline.Stylesheet,
             ShapeFileBar.Stylesheet, CssResource {
+=======
+	interface BrowserCss extends LoadingWidget.Stylesheet, ToggleButton.Stylesheet, FacetWidget.Stylesheet,
+			DataToolBar.Stylesheet, Timeline.Stylesheet, GeoResourceSummary.Stylesheet, CssResource {
+>>>>>>> 51596f2087e325a588e699c95b465a212fdc8c50
 		String header();
 
 		String footer();
@@ -54,7 +63,6 @@ public interface BrowserResources extends ClientBundle {
 		String facets();
 
 		String leftMenu();
-
 	}
 
 	@Source("style.css")

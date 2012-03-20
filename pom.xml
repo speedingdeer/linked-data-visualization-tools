@@ -11,7 +11,7 @@
 
 	<groupId>es.upm.oeg.geolinkeddata</groupId>
 	<artifactId>map4rdf</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<version>0.0.3-OL-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Map4RDF</name>
 
@@ -66,7 +66,8 @@
 			<groupId>com.hp.hpl.jena</groupId>
 			<artifactId>arq</artifactId>
 			<version>2.8.3</version>
-		</dependency>
+		</dependency>         
+		
 		<dependency>
 				<groupId>log4j</groupId>
 				<artifactId>log4j</artifactId>
@@ -102,6 +103,12 @@
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-incubator</artifactId>
 			<version>2.0.1</version>
+		</dependency>
+		
+		<dependency>
+        	<groupId>org.gwtopenmaps.openlayers</groupId>
+        	<artifactId>gwt-openlayers-client</artifactId>
+        	<version>0.5</version>
 		</dependency>
 	</dependencies>
 

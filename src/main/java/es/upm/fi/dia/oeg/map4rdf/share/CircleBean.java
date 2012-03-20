@@ -18,43 +18,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.client.widget;
-
-import name.alexdeleon.lib.gwtblocks.client.widget.loading.LoadingWidget;
-
-import com.google.inject.Inject;
-
-import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
-import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
+package es.upm.fi.dia.oeg.map4rdf.share;
 
 /**
  * @author Alexander De Leon
  */
-public class WidgetFactory {
+public class CircleBean implements Circle {
 
-	private final BrowserMessages messages;
-	private final BrowserResources resources;
+	private double radius;
+	private TwoDimentionalCoordinate center;
 
-	private static LoadingWidget loadingWidget;
-
-	@Inject
-	public WidgetFactory(BrowserMessages messages, BrowserResources resources) {
-		this.messages = messages;
-		this.resources = resources;
+	CircleBean() {
+		// for serialization
 	}
 
-	public GeoResourceSummary createGeoResourceSummary() {
-		return new GeoResourceSummary(messages, resources);
+	public CircleBean(TwoDimentionalCoordinate center, double radius) {
+		this.center = center;
+		this.radius = radius;
 	}
 
-	public Timeline createTimeline() {
-		return new Timeline(resources.css());
+	@Override
+	public Type getType() {
+		return Type.CIRCLE;
 	}
 
-	public LoadingWidget getLoadingWidget() {
-		if (loadingWidget == null) {
-			loadingWidget = new LoadingWidget(resources.loadingIcon(), messages.loading(), resources.css());
-		}
-		return loadingWidget;
+	@Override
+	public double getRadius() {
+		return radius;
 	}
+
+	@Override
+	public TwoDimentionalCoordinate getCenter() {
+		return center;
+	}
+
 }

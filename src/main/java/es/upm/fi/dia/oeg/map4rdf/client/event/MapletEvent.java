@@ -1,9 +1,5 @@
 /**
- * Copyright (c) 2011 Ontology Engineering Group, 
- * Departamento de Inteligencia Artificial,
- * Facultad de Informática, Universidad 
- * Politécnica de Madrid, Spain
- * 
+ * Copyright (c) 2011 Alexander De Leon Battista
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -22,36 +18,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.client.widget.mapcontrol;
+package es.upm.fi.dia.oeg.map4rdf.client.event;
 
-import com.google.gwt.maps.client.MapWidget;
-import com.google.gwt.maps.client.control.ControlAnchor;
-import com.google.gwt.maps.client.control.ControlPosition;
-import com.google.gwt.maps.client.control.Control.CustomControl;
-import com.google.gwt.user.client.ui.Widget;
-
-import es.upm.fi.dia.oeg.map4rdf.client.widget.Timeline;
+import com.google.gwt.event.shared.GwtEvent;
 
 /**
  * @author Alexander De Leon
  */
-public class TimelineControl extends CustomControl {
+public abstract class MapletEvent extends GwtEvent<MapletEventHandler> {
 
-	private final Timeline timeline;
+	private static GwtEvent.Type<MapletEventHandler> TYPE;
+	private final String MapletId;
 
-	public TimelineControl(Timeline timeline) {
-		super(new ControlPosition(ControlAnchor.BOTTOM_RIGHT, 20, 30), false, false);
-		this.timeline = timeline;
+	public static GwtEvent.Type<MapletEventHandler> getType() {
+		if (TYPE == null) {
+			TYPE = new Type<MapletEventHandler>();
+		}
+		return TYPE;
+	}
+
+	MapletEvent(String mapletId) {
+		super();
+		MapletId = mapletId;
+	}
+
+	public String getMapletId() {
+		return MapletId;
 	}
 
 	@Override
-	protected Widget initialize(MapWidget map) {
-		return timeline;
-	}
-
-	@Override
-	public boolean isSelectable() {
-		return false;
+	public com.google.gwt.event.shared.GwtEvent.Type<MapletEventHandler> getAssociatedType() {
+		return getType();
 	}
 
 }

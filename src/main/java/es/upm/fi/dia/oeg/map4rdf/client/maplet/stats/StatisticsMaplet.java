@@ -1,9 +1,5 @@
 /**
- * Copyright (c) 2011 Ontology Engineering Group, 
- * Departamento de Inteligencia Artificial,
- * Facultad de Informática, Universidad 
- * Politécnica de Madrid, Spain
- * 
+ * Copyright (c) 2011 Alexander De Leon Battista
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -22,19 +18,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.client.widget.mapcontrol;
+package es.upm.fi.dia.oeg.map4rdf.client.maplet.stats;
 
-import net.customware.gwt.presenter.client.Display;
+import com.google.inject.Inject;
 
-import com.google.gwt.maps.client.control.Control.CustomControl;
+import es.upm.fi.dia.oeg.map4rdf.client.maplet.Maplet;
 
 /**
  * @author Alexander De Leon
  */
-public interface MapControl {
+public class StatisticsMaplet implements Maplet {
 
-	void setDisplay(Display display);
+	public static final String getMapletId() {
+		return StatisticsMaplet.class.getName();
+	}
 
-	CustomControl getCustomControl();
+	@Inject
+	public StatisticsMaplet(StatisticsPresenter presenter) {
+		presenter.bind();
+	}
 
+	@Override
+	public String getId() {
+		return getMapletId();
+	}
 }
