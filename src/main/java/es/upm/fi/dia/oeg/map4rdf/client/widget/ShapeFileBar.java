@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011 Ontology Engineering Group,
+ * Copyright (c) 2012 Ontology Engineering Group,
  * Departamento de Inteligencia Artificial,
  * Facultad de Informática, Universidad
  * Politécnica de Madrid, Spain
@@ -42,18 +42,18 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
-import es.upm.fi.dia.oeg.map4rdf.client.action.GetStatisticDatasets;
+import es.upm.fi.dia.oeg.map4rdf.client.action.GetShapeFileDatasets;
 import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
+import es.upm.fi.dia.oeg.map4rdf.client.widget.mapcontrol.ShapeFileMapControl;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.mapcontrol.StatisticsMapControl;
 import es.upm.fi.dia.oeg.map4rdf.share.Resource;
-import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
 
 /**
- * @author Alexander De Leon
+ * @author Jonathan Gonzalez
  */
-public class DataToolBar extends Composite {
+public class ShapeFileBar extends Composite {
 
 	/**
 	 * Stylesheet contract
@@ -62,44 +62,36 @@ public class DataToolBar extends Composite {
 		String toolbar();
 	}
 
-	private Image statsButton;
+	private Image shapeFileButton;
 	private final Stylesheet stylesheet;
-	private final StatisticsMapControl mapControl;
+	private final ShapeFileMapControl mapControl;
 	private final DispatchAsync dispatchAsync;
 	private final BrowserMessages messages;
 
 	@Inject
-	public DataToolBar(
-            BrowserResources resources, StatisticsMapControl mapControl,
+	public ShapeFileBar(
+            BrowserResources resources, ShapeFileMapControl mapControl,
             DispatchAsync dispatchAsync, BrowserMessages messages) {
 		this.mapControl = mapControl;
 		this.dispatchAsync = dispatchAsync;
 		this.messages = messages;
-		stylesheet = resources.css();
+		stylesheet = (Stylesheet) resources.css();
 		initWidget(createUi(resources));
 	}
 
 	private void showSelectionDialog() {
-		dispatchAsync.execute(new GetStatisticDatasets(),
+		dispatchAsync.execute(new GetShapeFileDatasets(),
                 new AsyncCallback<ListResult<Resource>>() {
 
 			@Override
 			public void onSuccess(ListResult<Resource> result) {
-				StatisticsSelectionDialog selectionDialog =
-                        new StatisticsSelectionDialog(result.asList(), messages);
-				selectionDialog.addSelectionHandler(new SelectionHandler<StatisticDefinition>() {
-					@Override
-					public void onSelection(SelectionEvent<StatisticDefinition> event) {
-						StatisticDefinition stat = event.getSelectedItem();
-						mapControl.setStatistics(stat);
-					}
-				});
-				selectionDialog.center();
+              Window.alert("Loading ShapeFile Dialog");
+              // TODO(jonathangsc): Complete this code.
 			}
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("Error loading statistics datasets");
+				Window.alert("Error loading shapefiles options");
 			}
 		});
 	}
@@ -108,11 +100,11 @@ public class DataToolBar extends Composite {
 		FlowPanel panel = new FlowPanel();
 		panel.setStyleName(stylesheet.toolbar());
 
-		panel.add(new DataToolBarButton(resources.statsButton(), this.messages.statistics(), resources.css(), new ToggleHandler() {
+		panel.add(new ShapeFileBarButton(resources.shapeFileButton(),
+                this.messages.shapeFile(), resources.css(), new ToggleHandler() {
 			@Override
 			public void onToggle(ToggleEvent event) {
 				if (event.isPressed()) {
-
 					showSelectionDialog();
 				} else {
 					mapControl.disable();
@@ -123,14 +115,15 @@ public class DataToolBar extends Composite {
 		return panel;
 	}
 
-	class DataToolBarButton extends ToggleButton {
+	class ShapeFileBarButton extends ToggleButton {
 
-		public DataToolBarButton(ImageResource imageResource, String name, Stylesheet style, ToggleHandler handler) {
+		public ShapeFileBarButton(ImageResource imageResource,
+                String name, Stylesheet style, ToggleHandler handler) {
 			this(imageResource, name, style);
 			addToggleHandler(handler);
 		}
 
-		public DataToolBarButton(ImageResource imageResource, String name, Stylesheet style) {
+		public ShapeFileBarButton(ImageResource imageResource, String name, Stylesheet style) {
 			super(style);
 			FlowPanel button = new FlowPanel();
 			Image icon = new Image(imageResource);

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011 Ontology Engineering Group,
+ * Copyright (c) 2012 Ontology Engineering Group,
  * Departamento de Inteligencia Artificial,
  * Facultad de Informática, Universidad
  * Politécnica de Madrid, Spain
@@ -22,59 +22,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.client.view;
+package es.upm.fi.dia.oeg.map4rdf.share;
 
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.Widget;
-
-import es.upm.fi.dia.oeg.map4rdf.client.presenter.ResultsPresenter;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * @author Alexander De Leon
+ * @author Jonathan Gonzalez
  */
-public class ResultsView extends Composite implements ResultsPresenter.Display {
+public class ShapeFileDefinition implements Serializable {
 
-	private final FlowPanel table;
+	private String dataset;
+	private ArrayList<String> dimensions = new ArrayList<String>();
 
-	public ResultsView() {
-		table = new FlowPanel();
-		initWidget(createUi());
+	ShapeFileDefinition() {
+		// for serialization
 	}
 
-	private Widget createUi() {
-		return new ScrollPanel(table);
+	public ShapeFileDefinition(String dataset) {
+		this(dataset, null);
 	}
 
-	@Override
-	public void addResourceLink(String name, String uri) {
-		Anchor a = new Anchor(name, uri);
-		a.setTarget("_blank");
-		FlowPanel anchorContainer = new FlowPanel();
-		anchorContainer.add(a);
-		table.add(anchorContainer);
+	public ShapeFileDefinition(String dataset, List<String> dimensions) {
+		this.dataset = dataset;
+		if (dimensions != null) {
+			this.dimensions.addAll(dimensions);
+		}
 	}
 
-	@Override
-	public void clear() {
-		table.clear();
+	public String getDataset() {
+		return dataset;
 	}
 
-	@Override
-	public Widget asWidget() {
-		return this;
+	public List<String> getDimensions() {
+		return dimensions;
 	}
 
-	@Override
-	public void startProcessing() {
-		// TODO Auto-generated method stub
+	protected void setDimensions(ArrayList<String> dimensions) {
+		this.dimensions = dimensions;
 	}
-
-	@Override
-	public void stopProcessing() {
-		// TODO Auto-generated method stub
-	}
-
 }
