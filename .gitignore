@@ -3,3 +3,7 @@
 target/*
 context.xml
 *.war
+<<<<<<< HEAD
+
+=======
+>>>>>>> 51596f2087e325a588e699c95b465a212fdc8c50

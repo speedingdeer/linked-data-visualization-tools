@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2011 Ontology Engineering Group,
+ * Copyright (c) 2012 Ontology Engineering Group,
  * Departamento de Inteligencia Artificial,
  * Facultad de Informática, Universidad
  * Politécnica de Madrid, Spain
@@ -28,10 +28,13 @@ import name.alexdeleon.lib.gwtblocks.client.event.ToggleEvent;
 import name.alexdeleon.lib.gwtblocks.client.event.ToggleHandler;
 import name.alexdeleon.lib.gwtblocks.client.widget.togglebutton.ToggleButton;
 import net.customware.gwt.dispatch.client.DispatchAsync;
-import net.customware.gwt.presenter.client.EventBus;
 
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -39,17 +42,18 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
-import es.upm.fi.dia.oeg.map4rdf.client.event.MapletActivatedEvent;
-import es.upm.fi.dia.oeg.map4rdf.client.event.MapletDeactivatedEvent;
-import es.upm.fi.dia.oeg.map4rdf.client.maplet.stats.StatisticsMaplet;
-import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
+import es.upm.fi.dia.oeg.map4rdf.client.action.GetShapeFileDatasets;
+import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
+import es.upm.fi.dia.oeg.map4rdf.client.widget.mapcontrol.ShapeFileMapControl;
+import es.upm.fi.dia.oeg.map4rdf.client.widget.mapcontrol.StatisticsMapControl;
+import es.upm.fi.dia.oeg.map4rdf.share.Resource;
 
 /**
- * @author Alexander De Leon
+ * @author Jonathan Gonzalez
  */
-public class DataToolBar extends Composite {
+public class ShapeFileBar extends Composite {
 
 	/**
 	 * Stylesheet contract
@@ -58,91 +62,68 @@ public class DataToolBar extends Composite {
 		String toolbar();
 	}
 
-	private Image statsButton;
+	private Image shapeFileButton;
 	private final Stylesheet stylesheet;
-	private final MapPresenter.Display mapView;
+	private final ShapeFileMapControl mapControl;
 	private final DispatchAsync dispatchAsync;
 	private final BrowserMessages messages;
-	private final EventBus eventBus;
 
 	@Inject
-<<<<<<< HEAD
-	public DataToolBar(
-            BrowserResources resources, StatisticsMapControl mapControl,
+	public ShapeFileBar(
+            BrowserResources resources, ShapeFileMapControl mapControl,
             DispatchAsync dispatchAsync, BrowserMessages messages) {
 		this.mapControl = mapControl;
-=======
-	public DataToolBar(BrowserResources resources, MapPresenter.Display mapView, DispatchAsync dispatchAsync,
-			BrowserMessages messages, EventBus eventBus) {
-		this.eventBus = eventBus;
-		this.mapView = mapView;
->>>>>>> 51596f2087e325a588e699c95b465a212fdc8c50
 		this.dispatchAsync = dispatchAsync;
 		this.messages = messages;
-		stylesheet = resources.css();
+		stylesheet = (Stylesheet) resources.css();
 		initWidget(createUi(resources));
-<<<<<<< HEAD
 	}
 
 	private void showSelectionDialog() {
-		dispatchAsync.execute(new GetStatisticDatasets(),
+		dispatchAsync.execute(new GetShapeFileDatasets(),
                 new AsyncCallback<ListResult<Resource>>() {
 
 			@Override
 			public void onSuccess(ListResult<Resource> result) {
-				StatisticsSelectionDialog selectionDialog =
-                        new StatisticsSelectionDialog(result.asList(), messages);
-				selectionDialog.addSelectionHandler(new SelectionHandler<StatisticDefinition>() {
-					@Override
-					public void onSelection(SelectionEvent<StatisticDefinition> event) {
-						StatisticDefinition stat = event.getSelectedItem();
-						mapControl.setStatistics(stat);
-					}
-				});
-				selectionDialog.center();
+              Window.alert("Loading ShapeFile Dialog");
+              // TODO(jonathangsc): Complete this code.
 			}
 
 			@Override
 			public void onFailure(Throwable caught) {
-				Window.alert("Error loading statistics datasets");
+				Window.alert("Error loading shapefiles options");
 			}
 		});
-=======
-
-	}
-
-	private void showSelectionDialog() {
-
->>>>>>> 51596f2087e325a588e699c95b465a212fdc8c50
 	}
 
 	private Widget createUi(BrowserResources resources) {
 		FlowPanel panel = new FlowPanel();
 		panel.setStyleName(stylesheet.toolbar());
 
-		panel.add(new DataToolBarButton(resources.statsButton(), messages.statistics(), resources.css(),
-				new ToggleHandler() {
-					@Override
-					public void onToggle(ToggleEvent event) {
-						if (event.isPressed()) {
-							eventBus.fireEvent(new MapletActivatedEvent(StatisticsMaplet.getMapletId()));
-						} else {
-							eventBus.fireEvent(new MapletDeactivatedEvent(StatisticsMaplet.getMapletId()));
-						}
-					}
-				}));
+		panel.add(new ShapeFileBarButton(resources.shapeFileButton(),
+                this.messages.shapeFile(), resources.css(), new ToggleHandler() {
+			@Override
+			public void onToggle(ToggleEvent event) {
+				if (event.isPressed()) {
+					showSelectionDialog();
+				} else {
+					mapControl.disable();
+				}
+			}
+		}));
 
 		return panel;
 	}
 
-	class DataToolBarButton extends ToggleButton {
+	class ShapeFileBarButton extends ToggleButton {
 
-		public DataToolBarButton(ImageResource imageResource, String name, Stylesheet style, ToggleHandler handler) {
+		public ShapeFileBarButton(ImageResource imageResource,
+                String name, Stylesheet style, ToggleHandler handler) {
 			this(imageResource, name, style);
 			addToggleHandler(handler);
 		}
 
-		public DataToolBarButton(ImageResource imageResource, String name, Stylesheet style) {
+		public ShapeFileBarButton(ImageResource imageResource, String name, Stylesheet style) {
 			super(style);
 			FlowPanel button = new FlowPanel();
 			Image icon = new Image(imageResource);

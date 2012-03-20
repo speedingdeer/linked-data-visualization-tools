@@ -1,19 +1,19 @@
 /**
- * Copyright (c) 2011 Ontology Engineering Group, 
+ * Copyright (c) 2011 Ontology Engineering Group,
  * Departamento de Inteligencia Artificial,
- * Facultad de Informática, Universidad 
+ * Facultad de Informática, Universidad
  * Politécnica de Madrid, Spain
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -52,6 +52,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
 import es.upm.fi.dia.oeg.map4rdf.client.util.GeoUtils;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.DataToolBar;
+import es.upm.fi.dia.oeg.map4rdf.client.widget.ShapeFileBar;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
@@ -70,6 +71,7 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
 		void addWestWidget(Widget widget, String header);
 	}
 
+    private final ShapeFileBar shapeFileBar;
 	private final ResultsPresenter resultsPresenter;
 	private final MapPresenter mapPresenter;
 	private final FacetPresenter facetPresenter;
@@ -78,14 +80,18 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
 	private final BrowserMessages messages;
 
 	@Inject
-	public DashboardPresenter(Display display, EventBus eventBus, FacetPresenter facetPresenter,
-			MapPresenter mapPresenter, ResultsPresenter resultsPresenter, DispatchAsync dispatchAsync,
+	public DashboardPresenter(
+            Display display, EventBus eventBus, FacetPresenter facetPresenter,
+			MapPresenter mapPresenter, ResultsPresenter resultsPresenter,
+            ShapeFileBar shapeFileBar,
+            DispatchAsync dispatchAsync,
 			DataToolBar dataToolBar, BrowserMessages messages) {
 		super(display, eventBus);
 		this.messages = messages;
 		this.mapPresenter = mapPresenter;
 		this.facetPresenter = facetPresenter;
 		this.resultsPresenter = resultsPresenter;
+        this.shapeFileBar = shapeFileBar;
 		this.dispatchAsync = dispatchAsync;
 		this.dataToolBar = dataToolBar;
 
@@ -121,11 +127,12 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
 	@Override
 	protected void onBind() {
 		// attach children
-		getDisplay().addWestWidget(facetPresenter.getDisplay().asWidget(), "Facets");
+		getDisplay().addWestWidget(facetPresenter.getDisplay().asWidget(),
+                "Facets");
 		getDisplay().addWestWidget(dataToolBar, messages.overlays());
-		getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
-
-		// getDisplay().getOverlayPanel().add(overlayPresenter.getDisplay().asWidget());
+		getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(),
+                messages.results());
+        getDisplay().addWestWidget(shapeFileBar, messages.shapeFiles());
 		getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());
 
 	}
@@ -190,7 +197,9 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
 			@Override
 			public void onSuccess(SingletonResult<GeoResource> result) {
 				mapPresenter.drawGeoResouces(Collections.singletonList(result.getValue()));
-				mapPresenter.setVisibleBox(GeoUtils.computeBoundingBoxFromGeometries(result.getValue().getGeometries()));
+				mapPresenter.setVisibleBox(
+                        GeoUtils.computeBoundingBoxFromGeometries(
+                        result.getValue().getGeometries()));
 				mapPresenter.getDisplay().stopProcessing();
 			}
 		});

@@ -1,12 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+        <properties>
+            <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+        </properties>
 	<parent>
 		<artifactId>parent-pom-os</artifactId>
 		<groupId>es.upm.oeg</groupId>
 		<version>1.0</version>
 	</parent>
-	
+
 	<groupId>es.upm.oeg.geolinkeddata</groupId>
 	<artifactId>map4rdf</artifactId>
 	<version>0.0.3-OL-SNAPSHOT</version>
@@ -18,12 +20,12 @@
 		<developerConnection>scm:svn:https://map4rdf.googlecode.com/svn/trunk/</developerConnection>
 		<url>https://map4rdf.googlecode.com/svn/trunk/</url>
 	</scm>
-	
+
 	<issueManagement>
-  		<system>Map4RDF Goggle Code</system>
+  		<system>Map4RDF Google Code</system>
   		<url>http://code.google.com/p/map4rdf/issues/list</url>
   	</issueManagement>
-	
+
 	<dependencies>
 		<dependency>
 	      <groupId>de.micromata.jak</groupId>
@@ -85,13 +87,13 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-			
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.5.6</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
@@ -148,7 +150,7 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<repositories>
 		<repository>
 			<id>oeg-maven</id>
