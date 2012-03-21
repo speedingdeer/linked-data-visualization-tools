@@ -68,201 +68,203 @@ import org.gwtopenmaps.openlayers.client.handler.RegularPolygonHandlerOptions;
 // TODO : Remove hard coded values!!!
 public class OpenLayersMapView implements MapView {
 
-    /**
-     * By default the map is centered in Puerta del Sol, Madrid
-     */
-    private static LonLat DEFAULT_CENTER = new LonLat(-3.703637, 40.416645);
-    private static final int DEFAULT_ZOOM_LEVEL = 6;
-    public static final String WMS_URL =
-            "http://www.idee.es/wms-c/IDEE-Base/IDEE-Base";
+	/**
+	 * By default the map is centered in Puerta del Sol, Madrid
+	 */
+	private static LonLat DEFAULT_CENTER = new LonLat(-3.703637, 40.416645);
+	private static final int DEFAULT_ZOOM_LEVEL = 6;
+	public static final String WMS_URL = "http://www.idee.es/wms-c/IDEE-Base/IDEE-Base";
 
-    private final LoadingWidget loadingWidget;
-    private Map map;
-    private final OpenLayersMapLayer defaultLayer;
-    private AbsolutePanel panel;
-    private LayerSwitcher layerSwitcher;
-    
-    //drawing
-    private Vector drawingVector;
-    private RegularPolygonHandler regularPolygonHandler;	
-    private VectorFeature feature;
-    private DrawFeature df;
-    
-    public OpenLayersMapView(WidgetFactory widgetFactory) {
-        loadingWidget = widgetFactory.getLoadingWidget();
-        createUi();
+	private final LoadingWidget loadingWidget;
+	private Map map;
+	private final OpenLayersMapLayer defaultLayer;
+	private AbsolutePanel panel;
+	private LayerSwitcher layerSwitcher;
 
-        defaultLayer = (OpenLayersMapLayer) createLayer("default");
-        addNotice();
-        
-        
-        //Drawing part
-        regularPolygonHandler = new RegularPolygonHandler();
-        drawingVector = new Vector("drawingVector");
-        drawingVector.setDisplayInLayerSwitcher(false);
-        map.addLayer(drawingVector);
-        drawingVector.addVectorBeforeFeatureAddedListener(new VectorBeforeFeatureAddedListener(){
-			@Override
-			public void onBeforeFeatureAdded(BeforeFeatureAddedEvent eventObject) {
-				drawingVector.destroyFeatures();
-			}
-        });
-        
-        DrawFeatureOptions drawFeatureOptions = new DrawFeatureOptions();
-        df = new DrawFeature(drawingVector, regularPolygonHandler, drawFeatureOptions );
-        map.addControl(df);
+	// drawing
+	private Vector drawingVector;
+	private RegularPolygonHandler regularPolygonHandler;
+	private VectorFeature feature;
+	private DrawFeature df;
 
-    }
+	public OpenLayersMapView(WidgetFactory widgetFactory) {
+		loadingWidget = widgetFactory.getLoadingWidget();
+		createUi();
 
-    private void addNotice() {
-    }
+		defaultLayer = (OpenLayersMapLayer) createLayer("default");
+		addNotice();
 
-    @Override
-    public Widget asWidget() {
-        return panel;
-    }
+		// Drawing part
+		regularPolygonHandler = new RegularPolygonHandler();
+		drawingVector = new Vector("drawingVector");
+		drawingVector.setDisplayInLayerSwitcher(false);
+		map.addLayer(drawingVector);
+		drawingVector
+				.addVectorBeforeFeatureAddedListener(new VectorBeforeFeatureAddedListener() {
+					@Override
+					public void onBeforeFeatureAdded(
+							BeforeFeatureAddedEvent eventObject) {
+						drawingVector.destroyFeatures();
+					}
+				});
 
-    @Override
-    public void startProcessing() {
-        loadingWidget.center();
-    }
-    
-    //presenter
-    public Vector getDrawingVector() {
+		DrawFeatureOptions drawFeatureOptions = new DrawFeatureOptions();
+		df = new DrawFeature(drawingVector, regularPolygonHandler,
+				drawFeatureOptions);
+		map.addControl(df);
+
+	}
+
+	private void addNotice() {
+	}
+
+	@Override
+	public Widget asWidget() {
+		return panel;
+	}
+
+	@Override
+	public void startProcessing() {
+		loadingWidget.center();
+	}
+
+	// presenter
+	public Vector getDrawingVector() {
 		return this.drawingVector;
 	}
-  
-    public void setDrawing(Boolean value) {
-    	if (value) {
-    		df.activate();
-    	} else {
-    		df.deactivate();
-    	}
-    }
-    
-    public void clearDrawing() {
-    	drawingVector.destroyFeatures();
-    }
-    
-    @Override
-    public void stopProcessing() {
-        loadingWidget.hide();
-    }
 
-    @Override
-    public TwoDimentionalCoordinate getCurrentCenter() {
-        return OpenLayersAdapter.getTwoDimentionalCoordinate(map.getCenter());
-    }
+	public void setDrawing(Boolean value) {
+		if (value) {
+			df.activate();
+		} else {
+			df.deactivate();
+		}
+	}
 
-    @Override
-    public BoundingBox getVisibleBox() {
-    	if(drawingVector!=null) {
-    		if(drawingVector.getNumberOfFeatures() > 0 ) {
-    			
-    			feature = drawingVector.getFeatures()[0];
-    			Geometry g = feature.getGeometry();
-    			if (g.getClassName().equals(Geometry.POLYGON_CLASS_NAME)) {
-    				Polygon p = Polygon.narrowToPolygon(g.getJSObject());
-    				BoundingBox b = OpenLayersAdapter.getBoudingBox(p);
-    				b.transform(map.getProjection(),"EPSG:4326");
-    				return b;
+	public void clearDrawing() {
+		drawingVector.destroyFeatures();
+	}
+
+	@Override
+	public void stopProcessing() {
+		loadingWidget.hide();
+	}
+
+	@Override
+	public TwoDimentionalCoordinate getCurrentCenter() {
+		return OpenLayersAdapter.getTwoDimentionalCoordinate(map.getCenter());
+	}
+
+	@Override
+	public BoundingBox getVisibleBox() {
+		if (drawingVector != null) {
+			if (drawingVector.getNumberOfFeatures() > 0) {
+
+				feature = drawingVector.getFeatures()[0];
+				Geometry g = feature.getGeometry();
+				if (g.getClassName().equals(Geometry.POLYGON_CLASS_NAME)) {
+					Polygon p = Polygon.narrowToPolygon(g.getJSObject());
+					BoundingBox b = OpenLayersAdapter.getBoudingBox(p);
+					b.transform(map.getProjection(), "EPSG:4326");
+					return b;
 				}
-    		}
-    	}
-    	return null;
-    	//why??
-    	//return OpenLayersAdapter.getBoundingBox(map.getExtent());
-    }
+			}
+		}
+		return null;
+		// why??
+		// return OpenLayersAdapter.getBoundingBox(map.getExtent());
+	}
 
-    @Override
-    public void setVisibleBox(BoundingBox boundingBox) {
-        map.zoomToExtent(OpenLayersAdapter.getLatLngBounds(boundingBox));
-    }
+	@Override
+	public void setVisibleBox(BoundingBox boundingBox) {
+		map.zoomToExtent(OpenLayersAdapter.getLatLngBounds(boundingBox));
+	}
 
-    @Override
-    public MapLayer getDefaultLayer() {
-        return defaultLayer;
-    }
+	@Override
+	public MapLayer getDefaultLayer() {
+		return defaultLayer;
+	}
 
-    @Override
-    public MapLayer createLayer(String name) {
-        // TODO save layer
-        return new OpenLayersMapLayer(this, map, name);
-    }
+	@Override
+	public MapLayer createLayer(String name) {
+		// TODO save layer
+		return new OpenLayersMapLayer(this, map, name);
+	}
 
-    @Override
-    public AbsolutePanel getContainer() {
-        return panel;
-    }
+	@Override
+	public AbsolutePanel getContainer() {
+		return panel;
+	}
 
-    /* ----------------------------- helper methods -- */
-    private void createUi() {
-        panel = new AbsolutePanel() {
+	/* ----------------------------- helper methods -- */
+	private void createUi() {
+		panel = new AbsolutePanel() {
 
-            @Override
-            protected void onLoad() {
-                defaultLayer.bind();
-            }
-        ;
-        };
-       Bounds bounds = new Bounds(-20037508.34, -20037508.34,
-                20037508.34, 20037508.34);
-        MapOptions options = new MapOptions();
-        double[] resolutions = new double[]{0.703125, 0.3515625,
-            0.17578125, 0.087890625, 0.0439453125,
-            0.02197265625, 0.010986328125, 0.0054931640625,
-            0.00274658203125, 0.001373291015625,
-            0.0006866455078125, 0.00034332275390625,
-            0.000171661376953125, 8.58306884765625e-005,
-            4.291534423828125e-005, 2.1457672119140625e-005,
-            1.0728836059570313e-005, 5.3644180297851563e-006,
-            2.6822090148925781e-006, 1.3411045074462891e-006};
+			@Override
+			protected void onLoad() {
+				defaultLayer.bind();
+			};
+		};
+		Bounds bounds = new Bounds(-20037508.34, -20037508.34, 20037508.34,
+				20037508.34);
 
-        MapWidget mapWidget = new MapWidget("100%", "100%", options);
-        map = mapWidget.getMap();
+		MapOptions options = new MapOptions();
+		double[] resolutions = new double[] { 0.703125, 0.3515625, 0.17578125,
+				0.087890625, 0.0439453125, 0.02197265625, 0.010986328125,
+				0.0054931640625, 0.00274658203125, 0.001373291015625,
+				0.0006866455078125, 0.00034332275390625, 0.000171661376953125,
+				8.58306884765625e-005, 4.291534423828125e-005,
+				2.1457672119140625e-005, 1.0728836059570313e-005,
+				5.3644180297851563e-006, 2.6822090148925781e-006,
+				1.3411045074462891e-006 };
 
-        // Defining a WMSLayer and adding it to a Map
-        WMSParams wmsParams = new WMSParams();
-        wmsParams.setFormat("image/png");
-        wmsParams.setLayers("Todas");
-        WMSOptions wmsLayerParams = new WMSOptions();
+		MapWidget mapWidget = new MapWidget("100%", "100%", options);
+		map = mapWidget.getMap();
 
-        
-        wmsLayerParams.setTransitionEffect(TransitionEffect.RESIZE);
-        wmsLayerParams.setAttribution("Maps provided by <a href =\"http://www.idee.es\">IDEE</a>");
-       //wmsLayerParams.setResolutions(resolutions);
+		// Defining a WMSLayer and adding it to a Map
+		WMSParams wmsParams = new WMSParams();
+		wmsParams.setFormat("image/png");
+		wmsParams.setLayers("Todas");
+		WMSOptions wmsLayerParams = new WMSOptions();
 
-        //WMS wmsLayer = new WMS("IDEE", WMS_URL, wmsParams, wmsLayerParams);
-        WMS wmsLayer = new WMS("test", "http://194.224.247.165:8081/deegree-wms/services?SERVICE=WMS&REQUEST=GetCapabilities", new WMSParams());
-        layerSwitcher = new LayerSwitcher();
-        
-        map.addControl(layerSwitcher);
-        
-        /*
-         * Because map.pan makes an error we can sitch between two types of maps (in this case IDEE and Google) 
-         * The wraper has bug?
-         */
-        //map.addMapLayerChangedListener(new MapLayerChangedListener() {
-        //    @Override
-        //    public void onLayerChanged(MapLayerChangedEvent eventObject) {
-        //    	//map.pan(0, 0)
-        //    	Window.alert("switch");
-        //    }
-        //});
-        
-        GoogleOptions googleOptions = new GoogleOptions();
-        googleOptions.setSphericalMercator(true);
-        googleOptions.setType(GMapType.G_NORMAL_MAP);
-        googleOptions.setMaxExtent(bounds);
-        googleOptions.setNumZoomLevels(20);
-        Google google = new Google("Google Maps", googleOptions);
-        OSM openStreetMap = OSM.Osmarender("Open Street Maps");
-        map.addLayers(new Layer[]{openStreetMap,google});//, wmsLayer});
-        DEFAULT_CENTER.transform("EPSG:4326", map.getProjection());
-        map.setCenter(DEFAULT_CENTER, DEFAULT_ZOOM_LEVEL);
-        panel.add(mapWidget);
-        DOM.setStyleAttribute(panel.getElement(), "zIndex", "0");
-        
+		wmsLayerParams.setTransitionEffect(TransitionEffect.RESIZE);
+		wmsLayerParams
+				.setAttribution("Maps provided by <a href =\"http://www.idee.es\">IDEE</a>");
+		// wmsLayerParams.setResolutions(resolutions);
 
-   }
+		// WMS wmsLayer = new WMS("IDEE", WMS_URL, wmsParams, wmsLayerParams);
+		WMS wmsLayer = new WMS(
+				"test",
+				"http://194.224.247.165:8081/deegree-wms/services?SERVICE=WMS&REQUEST=GetCapabilities",
+				new WMSParams());
+		layerSwitcher = new LayerSwitcher();
+
+		map.addControl(layerSwitcher);
+
+		/*
+		 * Because map.pan makes an error we can sitch between two types of maps
+		 * (in this case IDEE and Google) The wraper has bug?
+		 */
+		// map.addMapLayerChangedListener(new MapLayerChangedListener() {
+		// @Override
+		// public void onLayerChanged(MapLayerChangedEvent eventObject) {
+		// //map.pan(0, 0)
+		// Window.alert("switch");
+		// }
+		// });
+
+		GoogleOptions googleOptions = new GoogleOptions();
+		googleOptions.setSphericalMercator(true);
+		googleOptions.setType(GMapType.G_NORMAL_MAP);
+		googleOptions.setMaxExtent(bounds);
+		googleOptions.setNumZoomLevels(20);
+		Google google = new Google("Google Maps", googleOptions);
+		OSM openStreetMap = OSM.Osmarender("Open Street Maps");
+		map.addLayers(new Layer[] { openStreetMap, google });// , wmsLayer});
+		DEFAULT_CENTER.transform("EPSG:4326", map.getProjection());
+		map.setCenter(DEFAULT_CENTER, DEFAULT_ZOOM_LEVEL);
+		panel.add(mapWidget);
+		DOM.setStyleAttribute(panel.getElement(), "zIndex", "0");
+
+	}
 }
