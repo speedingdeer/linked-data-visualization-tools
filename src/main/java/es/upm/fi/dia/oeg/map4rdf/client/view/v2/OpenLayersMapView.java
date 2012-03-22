@@ -21,24 +21,18 @@
 package es.upm.fi.dia.oeg.map4rdf.client.view.v2;
 
 import name.alexdeleon.lib.gwtblocks.client.widget.loading.LoadingWidget;
+import net.customware.gwt.dispatch.client.DispatchAsync;
 
-import org.antlr.runtime.DFA;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapWidget;
 import org.gwtopenmaps.openlayers.client.event.VectorBeforeFeatureAddedListener;
-import org.gwtopenmaps.openlayers.client.event.VectorFeatureAddedListener;
-import org.gwtopenmaps.openlayers.client.event.VectorVertexModifiedListener;
 import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 import org.gwtopenmaps.openlayers.client.layer.Google;
-import org.gwtopenmaps.openlayers.client.layer.GoogleOptions;
 import org.gwtopenmaps.openlayers.client.layer.OSM;
 import org.gwtopenmaps.openlayers.client.layer.Layer;
-import org.gwtopenmaps.openlayers.client.layer.TransitionEffect;
 import org.gwtopenmaps.openlayers.client.layer.Vector;
 import org.gwtopenmaps.openlayers.client.layer.WMS;
-import org.gwtopenmaps.openlayers.client.layer.WMSOptions;
-import org.gwtopenmaps.openlayers.client.layer.WMSParams;
 import org.gwtopenmaps.openlayers.client.LonLat;
 import org.gwtopenmaps.openlayers.client.Bounds;
 import org.gwtopenmaps.openlayers.client.geometry.Geometry;
@@ -46,13 +40,14 @@ import org.gwtopenmaps.openlayers.client.geometry.Polygon;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
-import es.upm.fi.dia.oeg.map4rdf.client.util.GMapType;
+import es.upm.fi.dia.oeg.map4rdf.client.action.GetConfigurationParameter;
+import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
-import es.upm.fi.dia.oeg.map4rdf.share.BoundingBoxBean;
 import es.upm.fi.dia.oeg.map4rdf.share.OpenLayersAdapter;
 import es.upm.fi.dia.oeg.map4rdf.share.TwoDimentionalCoordinate;
 
@@ -60,7 +55,6 @@ import org.gwtopenmaps.openlayers.client.control.DrawFeature;
 import org.gwtopenmaps.openlayers.client.control.DrawFeatureOptions;
 import org.gwtopenmaps.openlayers.client.control.LayerSwitcher;
 import org.gwtopenmaps.openlayers.client.handler.RegularPolygonHandler;
-import org.gwtopenmaps.openlayers.client.handler.RegularPolygonHandlerOptions;
 
 /**
  * @author Alexander De Leon
@@ -87,32 +81,29 @@ public class OpenLayersMapView implements MapView {
 	private VectorFeature feature;
 	private DrawFeature df;
 
-	public OpenLayersMapView(WidgetFactory widgetFactory) {
+	public OpenLayersMapView(WidgetFactory widgetFactory, DispatchAsync dispatchAsync) {
 		loadingWidget = widgetFactory.getLoadingWidget();
 		createUi();
-
 		defaultLayer = (OpenLayersMapLayer) createLayer("default");
 		addNotice();
+		addDrawingTools();
+		
+		GetConfigurationParameter action = new GetConfigurationParameter("spherical_mercator");
+		dispatchAsync.execute(action, new AsyncCallback<SingletonResult<String>>() {
 
-		// Drawing part
-		regularPolygonHandler = new RegularPolygonHandler();
-		drawingVector = new Vector("drawingVector");
-		drawingVector.setDisplayInLayerSwitcher(false);
-		map.addLayer(drawingVector);
-		drawingVector
-				.addVectorBeforeFeatureAddedListener(new VectorBeforeFeatureAddedListener() {
-					@Override
-					public void onBeforeFeatureAdded(
-							BeforeFeatureAddedEvent eventObject) {
-						drawingVector.destroyFeatures();
-					}
-				});
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("check Spherical Mercator parameter");
+			}
 
-		DrawFeatureOptions drawFeatureOptions = new DrawFeatureOptions();
-		df = new DrawFeature(drawingVector, regularPolygonHandler,
-				drawFeatureOptions);
-		map.addControl(df);
-
+			@Override
+			public void onSuccess(SingletonResult<String> result) {
+				createAsyncUi(result.getValue());
+			}
+		
+		});
+		
+		
 	}
 
 	private void addNotice() {
@@ -197,6 +188,7 @@ public class OpenLayersMapView implements MapView {
 	}
 
 	/* ----------------------------- helper methods -- */
+	
 	private void createUi() {
 		panel = new AbsolutePanel() {
 
@@ -205,14 +197,21 @@ public class OpenLayersMapView implements MapView {
 				defaultLayer.bind();
 			};
 		};
-		//addSphericalMaps();
-		addFlatMaps();
-		
+		mapWidget = new MapWidget("100%", "100%", new MapOptions());
+		map = mapWidget.getMap();
 		layerSwitcher = new LayerSwitcher();		
 		map.addControl(layerSwitcher);
 		panel.add(mapWidget);
 		DOM.setStyleAttribute(panel.getElement(), "zIndex", "0");
-
+	}
+	
+	private void createAsyncUi(String spherical_mercator){
+		if(spherical_mercator.equals("true")) {
+			addSphericalMaps();
+		} else {
+			addFlatMaps();
+		}
+		
 	}
 	
 	private void addSphericalMaps(){
@@ -227,8 +226,6 @@ public class OpenLayersMapView implements MapView {
 		options.setMaxResolution((float) 156543.0339);
 	
 		//buliding maps
-		mapWidget = new MapWidget("100%", "100%", options);
-		map = mapWidget.getMap();
 		map.setOptions(options);
 		
 		//building layers
@@ -260,9 +257,6 @@ public class OpenLayersMapView implements MapView {
 		options.setMinExtent(new Bounds(-1, -1, 1, 1));
 		options.setNumZoomLevels(5);
 		//buliding maps
-		
-		mapWidget = new MapWidget("100%", "100%", options);
-		map = mapWidget.getMap();
 		map.setOptions(options);
 		
 		//building layers
@@ -273,5 +267,26 @@ public class OpenLayersMapView implements MapView {
 		map.addLayers(new Layer[] {ideaLayer, olBasicLayer, olLayer});
 		DEFAULT_CENTER.transform("EPSG:4326", map.getProjection());
 		map.setCenter(DEFAULT_CENTER, DEFAULT_ZOOM_LEVEL);
+	}
+	
+	private void addDrawingTools(){
+		// Drawing part
+		regularPolygonHandler = new RegularPolygonHandler();
+		drawingVector = new Vector("drawingVector");
+		drawingVector.setDisplayInLayerSwitcher(false);
+		map.addLayer(drawingVector);
+		drawingVector
+				.addVectorBeforeFeatureAddedListener(new VectorBeforeFeatureAddedListener() {
+					@Override
+					public void onBeforeFeatureAdded(
+							BeforeFeatureAddedEvent eventObject) {
+						drawingVector.destroyFeatures();
+					}
+				});
+
+		DrawFeatureOptions drawFeatureOptions = new DrawFeatureOptions();
+		df = new DrawFeature(drawingVector, regularPolygonHandler,
+				drawFeatureOptions);
+		map.addControl(df);
 	}
 }	
