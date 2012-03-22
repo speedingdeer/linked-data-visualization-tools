@@ -182,6 +182,8 @@ public class AdminPresenter extends  PagePresenter<AdminPresenter.Display> {
         paramNames.add(ParameterNames.GOOGLE_MAPS_API_KEY);
         paramNames.add(ParameterNames.EDIT_DEPTH);
         paramNames.add(ParameterNames.RDF_STORE_PATH);
+        paramNames.add(ParameterNames.SPHERICAL_MERCATOR);
+        
         dispatchAsync.execute(new GetValues(paramNames),new AsyncCallback<ListResult<ConfigPropertie>>() {
 			@Override
 			public void onFailure(Throwable caught) {

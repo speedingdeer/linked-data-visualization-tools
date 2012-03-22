@@ -48,4 +48,6 @@ public class ParameterNames {
 	
 	public static final String RDF_STORE_PATH = "rdf_store_path";
 
+	public static final String SPHERICAL_MERCATOR = "spherical_mercator";
+	
 }

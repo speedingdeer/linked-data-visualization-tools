@@ -50,6 +50,8 @@ public class AdminView extends Composite implements AdminPresenter.Display {
     private TextBox editDepthTextBox;
     private Label rdfPathLabel;
     private TextBox rdfPathTextBox;
+    private Label sphericalMercatorLabel;
+    private TextBox sphericalMercatorTextBox;
     
     @Inject
     public AdminView(BrowserResources resources) {
@@ -101,13 +103,13 @@ public class AdminView extends Composite implements AdminPresenter.Display {
         apiKeyTextBox.setWidth("250px");
         mainPanel.add(apiKeyTextBox);
 
-        facetConfLabel = new Label("facet automatic:");
+        facetConfLabel = new Label("facet automatic (true/false):");
         mainPanel.add(facetConfLabel);
         facetConfTextBox = new TextBox();
         facetConfTextBox.setWidth("250px");
         mainPanel.add(facetConfTextBox);
 
-        editDepthLabel = new Label("edit tree depth:");
+        editDepthLabel = new Label("edit tree depth (integer):");
         mainPanel.add(editDepthLabel);
         editDepthTextBox = new TextBox();
         editDepthTextBox.setWidth("250px");
@@ -118,6 +120,12 @@ public class AdminView extends Composite implements AdminPresenter.Display {
         rdfPathTextBox = new TextBox();
         rdfPathTextBox.setWidth("250px");
         mainPanel.add(rdfPathTextBox);
+
+        sphericalMercatorLabel = new Label("spherical_mercator (true/false):");
+        mainPanel.add(sphericalMercatorLabel);
+        sphericalMercatorTextBox = new TextBox();
+        sphericalMercatorTextBox.setWidth("250px");
+        mainPanel.add(sphericalMercatorTextBox);
         
         newPasswordLabel = new Label("new password:");
         mainPanel.add(newPasswordLabel);
@@ -177,6 +185,8 @@ public class AdminView extends Composite implements AdminPresenter.Display {
                 editDepthTextBox.setText(prop.getValue());
             } else if (prop.getKey().equals(ParameterNames.RDF_STORE_PATH)) {
             	rdfPathTextBox.setText(prop.getValue());
+            } else if (prop.getKey().equals(ParameterNames.SPHERICAL_MERCATOR)) {
+            	sphericalMercatorTextBox.setText(prop.getValue());
             }
         }
         clear();
@@ -204,6 +214,7 @@ public class AdminView extends Composite implements AdminPresenter.Display {
         resultList.add(new ConfigPropertie(ParameterNames.GOOGLE_MAPS_API_KEY, apiKeyTextBox.getText()));
         resultList.add(new ConfigPropertie(ParameterNames.EDIT_DEPTH, editDepthTextBox.getText()));
         resultList.add(new ConfigPropertie(ParameterNames.RDF_STORE_PATH, rdfPathTextBox.getText()));
+        resultList.add(new ConfigPropertie(ParameterNames.SPHERICAL_MERCATOR, sphericalMercatorTextBox.getText()));
         return  resultList;
     }
 

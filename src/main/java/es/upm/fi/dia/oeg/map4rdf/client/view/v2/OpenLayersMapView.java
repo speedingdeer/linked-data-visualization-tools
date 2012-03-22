@@ -45,9 +45,12 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetConfigurationParameter;
+import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
+import es.upm.fi.dia.oeg.map4rdf.client.action.db.GetValues;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
+import es.upm.fi.dia.oeg.map4rdf.share.ConfigPropertie;
 import es.upm.fi.dia.oeg.map4rdf.share.OpenLayersAdapter;
 import es.upm.fi.dia.oeg.map4rdf.share.TwoDimentionalCoordinate;
 
@@ -88,8 +91,8 @@ public class OpenLayersMapView implements MapView {
 		addNotice();
 		addDrawingTools();
 		
-		GetConfigurationParameter action = new GetConfigurationParameter("spherical_mercator");
-		dispatchAsync.execute(action, new AsyncCallback<SingletonResult<String>>() {
+		GetValues action = new GetValues("spherical_mercator");
+		dispatchAsync.execute(action, new AsyncCallback<ListResult<ConfigPropertie>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -97,8 +100,8 @@ public class OpenLayersMapView implements MapView {
 			}
 
 			@Override
-			public void onSuccess(SingletonResult<String> result) {
-				createAsyncUi(result.getValue());
+			public void onSuccess(ListResult<ConfigPropertie> result) {
+				createAsyncUi(result.iterator().next().getValue());
 			}
 		
 		});

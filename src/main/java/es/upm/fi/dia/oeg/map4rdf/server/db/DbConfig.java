@@ -35,6 +35,7 @@ public class DbConfig {
             put(ParameterNames.ADMIN, "password");
             put(ParameterNames.EDIT_DEPTH, "3");
             put(ParameterNames.RDF_STORE_PATH, "/home/filip/code/tmp/rdf/");
+            put(ParameterNames.SPHERICAL_MERCATOR, "true");
         }
     };
     
