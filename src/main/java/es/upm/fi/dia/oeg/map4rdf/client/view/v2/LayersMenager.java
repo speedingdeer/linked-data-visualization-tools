@@ -14,16 +14,16 @@ import es.upm.fi.dia.oeg.map4rdf.client.util.GMapType;
 
 public class LayersMenager {
 
-	private static final String WMS_URL = "http://www.idee.es/wms-c/IDEE-Base/IDEE-Base";
-	
-	public static WMS getIdeaLayer(double[] resolutions){
+	private static final String IDEE_URL = "http://www.idee.es/wms-c/IDEE-Base/IDEE-Base";
+	private static final String OL_URL = "http://vmap0.tiles.osgeo.org/wms/vmap0";
+	public static WMS getIdeeLayer(double[] resolutions){
 		WMSParams wmsParams = new WMSParams();
 		WMSOptions wmsLayerParams = new WMSOptions();
 		wmsParams.setLayers("Todas");
 		//wmsLayerParams.setMaxExtent(new Bounds(-50, -50, 50, 50));
 		wmsLayerParams.setAttribution("Maps provided by <a href =\"http://www.idee.es\">IDEE</a>");
 		wmsLayerParams.setResolutions(resolutions);
-		WMS wmsLayer = new WMS("IDEE", WMS_URL, wmsParams, wmsLayerParams);
+		WMS wmsLayer = new WMS("IDEE", IDEE_URL, wmsParams, wmsLayerParams);
 		return wmsLayer;
 	}
 	public static OSM getOpenStreetMapsLayer() {
@@ -39,7 +39,7 @@ public class LayersMenager {
 		wmsLayerParams.setTransitionEffect(TransitionEffect.RESIZE);
 		WMS wmsLayer = new WMS(
 				"Open Layers Maps",
-				"http://vmap0.tiles.osgeo.org/wms/vmap0",wmsParams,wmsLayerParams);
+				OL_URL,wmsParams,wmsLayerParams);
 		return wmsLayer;
 	}
 	
@@ -51,7 +51,7 @@ public class LayersMenager {
 		wmsLayerParams.setTransitionEffect(TransitionEffect.RESIZE);
 		WMS wmsLayer = new WMS(
 				"Open Layers Maps (Full)",
-				"http://vmap0.tiles.osgeo.org/wms/vmap0",wmsParams,wmsLayerParams);
+				OL_URL,wmsParams,wmsLayerParams);
 		return wmsLayer;
 	}
 	
@@ -63,7 +63,7 @@ public class LayersMenager {
 		wmsLayerParams.setTransitionEffect(TransitionEffect.RESIZE);
 		WMS wmsLayer = new WMS(
 				"Open Layers Maps (Basic)",
-				"http://vmap0.tiles.osgeo.org/wms/vmap0",wmsParams,wmsLayerParams);
+				OL_URL,wmsParams,wmsLayerParams);
 		return wmsLayer;
 	}
 	

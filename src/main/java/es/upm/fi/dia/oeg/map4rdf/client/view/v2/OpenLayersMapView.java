@@ -262,14 +262,11 @@ public class OpenLayersMapView implements MapView {
 		//buliding maps
 		
 		mapWidget = new MapWidget("100%", "100%", options);
-		
 		map = mapWidget.getMap();
-		
 		map.setOptions(options);
 		
-		
 		//building layers
-		WMS ideaLayer = LayersMenager.getIdeaLayer(resolutions);
+		WMS ideaLayer = LayersMenager.getIdeeLayer(resolutions);
 		WMS olLayer = LayersMenager.getOpenLayersFlatLayer();
 		WMS olBasicLayer = LayersMenager.getOpenLayersFlatBasicLayer(); 
 		
