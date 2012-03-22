@@ -22,6 +22,8 @@ package es.upm.fi.dia.oeg.map4rdf.client.view;
 
 import java.util.List;
 
+import net.customware.gwt.dispatch.client.DispatchAsync;
+
 import org.gwtopenmaps.openlayers.client.layer.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -52,8 +54,8 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 	private final MapLayer.PopupWindow window;
 	
 	@Inject
-	public OpenLayersMapView(WidgetFactory widgetFactory) {
-		super(widgetFactory);
+	public OpenLayersMapView(WidgetFactory widgetFactory, DispatchAsync dispatchAsync) {
+		super(widgetFactory, dispatchAsync);
 		kmlButton = createKMLButton();
 		summary = widgetFactory.createGeoResourceSummary();
 		window = getDefaultLayer().createPopupWindow();
