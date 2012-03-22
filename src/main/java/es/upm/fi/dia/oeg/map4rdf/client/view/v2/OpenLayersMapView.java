@@ -73,10 +73,10 @@ public class OpenLayersMapView implements MapView {
 	 */
 	private static LonLat DEFAULT_CENTER = new LonLat(-3.703637, 40.416645);
 	private static final int DEFAULT_ZOOM_LEVEL = 6;
-	public static final String WMS_URL = "http://www.idee.es/wms-c/IDEE-Base/IDEE-Base";
 
 	private final LoadingWidget loadingWidget;
 	private Map map;
+	private MapWidget mapWidget;
 	private final OpenLayersMapLayer defaultLayer;
 	private AbsolutePanel panel;
 	private LayerSwitcher layerSwitcher;
@@ -205,10 +205,44 @@ public class OpenLayersMapView implements MapView {
 				defaultLayer.bind();
 			};
 		};
+		//addSphericalMaps();
+		addFlatMaps();
+		
+		layerSwitcher = new LayerSwitcher();		
+		map.addControl(layerSwitcher);
+		panel.add(mapWidget);
+		DOM.setStyleAttribute(panel.getElement(), "zIndex", "0");
+
+	}
+	
+	private void addSphericalMaps(){
+
+		//needed constants
 		Bounds bounds = new Bounds(-20037508.34, -20037508.34, 20037508.34,
 				20037508.34);
-
 		MapOptions options = new MapOptions();
+		options.setMaxExtent(bounds);
+		options.setProjection("EPSG:900913");
+		options.setUnits("m");
+		options.setMaxResolution((float) 156543.0339);
+	
+		//buliding maps
+		mapWidget = new MapWidget("100%", "100%", options);
+		map = mapWidget.getMap();
+		map.setOptions(options);
+		
+		//building layers
+		WMS openLayersLayer = LayersMenager.getOpenLayersSphericalLayer();
+		Google googleLayer = LayersMenager.getGoogleLayer(bounds);
+		OSM openStreetMapsLayer = LayersMenager.getOpenStreetMapsLayer();
+		
+		map.addLayers(new Layer[] { openStreetMapsLayer, googleLayer, openLayersLayer });
+		DEFAULT_CENTER.transform("EPSG:4326", map.getProjection());
+		map.setCenter(DEFAULT_CENTER, DEFAULT_ZOOM_LEVEL);
+	}
+	
+	private void addFlatMaps(){
+		//needed constants
 		double[] resolutions = new double[] { 0.703125, 0.3515625, 0.17578125,
 				0.087890625, 0.0439453125, 0.02197265625, 0.010986328125,
 				0.0054931640625, 0.00274658203125, 0.001373291015625,
@@ -217,54 +251,30 @@ public class OpenLayersMapView implements MapView {
 				2.1457672119140625e-005, 1.0728836059570313e-005,
 				5.3644180297851563e-006, 2.6822090148925781e-006,
 				1.3411045074462891e-006 };
-
-		MapWidget mapWidget = new MapWidget("100%", "100%", options);
+		
+		MapOptions options = new MapOptions();
+		options.setProjection("EPSG:4326");
+		options.setResolutions(resolutions);
+		options.setUnits("degrees");
+		options.setMaxExtent(new Bounds(-180, -90, 180, 90));
+		options.setMinExtent(new Bounds(-1, -1, 1, 1));
+		options.setNumZoomLevels(5);
+		//buliding maps
+		
+		mapWidget = new MapWidget("100%", "100%", options);
+		
 		map = mapWidget.getMap();
-
-		// Defining a WMSLayer and adding it to a Map
-		WMSParams wmsParams = new WMSParams();
-		wmsParams.setFormat("image/png");
-		wmsParams.setLayers("Todas");
-		WMSOptions wmsLayerParams = new WMSOptions();
-
-		wmsLayerParams.setTransitionEffect(TransitionEffect.RESIZE);
-		wmsLayerParams
-				.setAttribution("Maps provided by <a href =\"http://www.idee.es\">IDEE</a>");
-		// wmsLayerParams.setResolutions(resolutions);
-
-		// WMS wmsLayer = new WMS("IDEE", WMS_URL, wmsParams, wmsLayerParams);
-		WMS wmsLayer = new WMS(
-				"test",
-				"http://194.224.247.165:8081/deegree-wms/services?SERVICE=WMS&REQUEST=GetCapabilities",
-				new WMSParams());
-		layerSwitcher = new LayerSwitcher();
-
-		map.addControl(layerSwitcher);
-
-		/*
-		 * Because map.pan makes an error we can sitch between two types of maps
-		 * (in this case IDEE and Google) The wraper has bug?
-		 */
-		// map.addMapLayerChangedListener(new MapLayerChangedListener() {
-		// @Override
-		// public void onLayerChanged(MapLayerChangedEvent eventObject) {
-		// //map.pan(0, 0)
-		// Window.alert("switch");
-		// }
-		// });
-
-		GoogleOptions googleOptions = new GoogleOptions();
-		googleOptions.setSphericalMercator(true);
-		googleOptions.setType(GMapType.G_NORMAL_MAP);
-		googleOptions.setMaxExtent(bounds);
-		googleOptions.setNumZoomLevels(20);
-		Google google = new Google("Google Maps", googleOptions);
-		OSM openStreetMap = OSM.Osmarender("Open Street Maps");
-		map.addLayers(new Layer[] { openStreetMap, google });// , wmsLayer});
+		
+		map.setOptions(options);
+		
+		
+		//building layers
+		WMS ideaLayer = LayersMenager.getIdeaLayer(resolutions);
+		WMS olLayer = LayersMenager.getOpenLayersFlatLayer();
+		WMS olBasicLayer = LayersMenager.getOpenLayersFlatBasicLayer(); 
+		
+		map.addLayers(new Layer[] {ideaLayer, olBasicLayer, olLayer});
 		DEFAULT_CENTER.transform("EPSG:4326", map.getProjection());
 		map.setCenter(DEFAULT_CENTER, DEFAULT_ZOOM_LEVEL);
-		panel.add(mapWidget);
-		DOM.setStyleAttribute(panel.getElement(), "zIndex", "0");
-
 	}
-}
+}	
