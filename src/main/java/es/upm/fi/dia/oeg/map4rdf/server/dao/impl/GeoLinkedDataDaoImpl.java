@@ -47,7 +47,7 @@ import es.upm.fi.dia.oeg.map4rdf.server.dao.DaoException;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Geo;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.GeoLinkedDataEsOwlVocabulary;
-import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Scovo;
+import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.DataCube;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.Facet;
 import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
@@ -355,7 +355,7 @@ public class GeoLinkedDataDaoImpl extends CommonDaoImpl implements Map4rdfDao {
 
 	private String createGetStatisticDatasetsQuery() {
 		StringBuilder query = new StringBuilder("SELECT DISTINCT ?uri ?label WHERE { ");
-		query.append("?uri <" + RDF.type + ">  <" + Scovo.Dataset + "> . ");
+		query.append("?uri <" + RDF.type + ">  <" + DataCube.DataSet + "> . ");
 		query.append("OPTIONAL { ?uri <" + RDFS.label + "> ?label } .");
 		query.append("}");
 		return query.toString();
@@ -363,8 +363,8 @@ public class GeoLinkedDataDaoImpl extends CommonDaoImpl implements Map4rdfDao {
 
 	private String createGetYearsQuery(String datasetUri) {
 		StringBuilder query = new StringBuilder("SELECT DISTINCT ?yearUri ?yearVal WHERE { ");
-		query.append("_:stat <" + Scovo.dataset + ">  <" + datasetUri + "> . ");
-		query.append("_:stat <" + Scovo.dimension + ">  ?yearUri . ");
+		query.append("_:stat <" + DataCube.dataSet + ">  <" + datasetUri + "> . ");
+		query.append("_:stat <" + DataCube.dimension + ">  ?yearUri . ");
 		query.append("?yearUri <" + RDF.type + ">  <" + GeoLinkedDataEsOwlVocabulary.Anyo + "> . ");
 		query.append("?yearUri <" + RDF.value + ">  ?yearVal . ");
 		query.append("}");
@@ -438,13 +438,13 @@ public class GeoLinkedDataDaoImpl extends CommonDaoImpl implements Map4rdfDao {
 	private String createGetStatisticsQuery(BoundingBox boundingBox, StatisticDefinition statisticDefinition) {
 		StringBuilder query = new StringBuilder("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT distinct ?r ?stat ?statValue ?geo ?lat ?lng ");
 		query.append("WHERE { ");
-		query.append("?stat <" + Scovo.dimension + "> ?r. ");
+		query.append("?stat <" + DataCube.dimension + "> ?r. ");
 		query.append("?r <" + Geo.geometry + "> _:geo. ");
 		query.append("?r <" + Geo.geometry + ">  ?geo. ");
 		query.append("?geo" + "<"+ Geo.lat + ">" +  " ?lat;"  + "<" + Geo.lng + ">" + " ?lng" + ".");
-		query.append("?stat <" + Scovo.dataset + "> <" + statisticDefinition.getDataset() + "> .");
+		query.append("?stat <" + DataCube.dataSet + "> <" + statisticDefinition.getDataset() + "> .");
 		for (String dimension : statisticDefinition.getDimensions()) {
-			query.append("?stat <" + Scovo.dimension + "> <" + dimension + ">. ");
+			query.append("?stat <" + DataCube.dimension + "> <" + dimension + ">. ");
 		}
 		query.append("?stat <" + RDF.value + "> ?statValue. ");
 
