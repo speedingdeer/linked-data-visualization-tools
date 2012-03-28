@@ -51,7 +51,9 @@ public class GeoLinkedDataEsOwlVocabulary {
 	public static final Resource Curva = resource("Curva");
 	public static final Resource Poligono = resource("Pol%C3%ADgono");
 	public static final Resource Anyo = resource("A%C3%B1o");
-
+	public static final Resource Year = resource("Year");
+	
+	
 	// Object properties
 	public static final Property formadoPor = property("formadoPor");
 	public static final Property formaParteDe = property("formaParteDe");
