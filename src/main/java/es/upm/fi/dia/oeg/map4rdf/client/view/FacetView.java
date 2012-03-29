@@ -26,6 +26,7 @@ package es.upm.fi.dia.oeg.map4rdf.client.view;
 
 import java.util.List;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -60,6 +61,8 @@ public class FacetView extends Composite implements FacetPresenter.Display {
 	public void setFacets(List<FacetGroup> facets) {
 		for (final FacetGroup facetDefinition : facets) {
 			facet = new FacetWidget(resources.css());
+			facet.setHeight(new Integer(panel.getOffsetHeight()-25).toString()+"px");
+			
 			facet.setLabel(facetDefinition.getLabel(LocaleUtil.getClientLanguage()));
 			for (Facet facetValue : facetDefinition.getFacets()) {
 				String label = facetValue.getLabel(LocaleUtil.getClientLanguage());
