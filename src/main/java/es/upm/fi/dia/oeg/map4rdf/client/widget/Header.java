@@ -24,6 +24,7 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.widget;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Composite;
@@ -46,7 +47,7 @@ public class Header extends Composite {
 
 	private Widget createUi(BrowserResources resources) {
 		LayoutPanel panel = new LayoutPanel();
-		Image logo = new Image(resources.logo());
+		Image logo = new Image(GWT.getHostPageBaseURL() + "logo.png");
 		Image betaBadge = new Image(resources.betaBadge());
 
 		// Add the logo to the root panel
