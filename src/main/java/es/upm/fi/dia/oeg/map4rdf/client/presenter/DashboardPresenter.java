@@ -43,6 +43,7 @@ import com.google.inject.Singleton;
 
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResource;
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResources;
+import es.upm.fi.dia.oeg.map4rdf.client.action.GetStatisticDatasets;
 import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
 import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterChangedEvent;
@@ -59,6 +60,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.widget.DataToolBar;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
+import es.upm.fi.dia.oeg.map4rdf.share.Resource;
 import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
 
 /**
@@ -127,7 +129,22 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
     @Override
     protected void onBind() {
         // attach children
-        getDisplay().addWestWidget(facetPresenter.getDisplay().asWidget(), "Facets");
+        
+    	GetStatisticDatasets action = new GetStatisticDatasets();
+    	dispatchAsync.execute(action,new AsyncCallback<ListResult<Resource>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				
+			}
+
+			@Override
+			public void onSuccess(ListResult<Resource> result) {
+				Window.alert(new Integer(result.asList().size()).toString());
+			}
+		});
+    	
+    	getDisplay().addWestWidget(facetPresenter.getDisplay().asWidget(), "Facets");
         getDisplay().addWestWidget(dataToolBar, messages.overlays());
         getDisplay().addWestWidget(filtersPresenter.getDisplay().asWidget(), messages.filtres());
         getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
