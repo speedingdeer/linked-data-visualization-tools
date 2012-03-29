@@ -147,14 +147,13 @@ public class FacetWidget extends ResizeComposite implements HasFacetValueSelecti
 	public void setHeight(String height) {
 		super.setHeight(height);
 		selectionsPanel.setHeight(height);
-		panel.setHeight(height);
-		scrollPanel.setHeight(height);
+
 		
 		String pixelsNumber = height.split("p")[0];
 		Integer scrolPanelHeight = new Integer(pixelsNumber);
+		panel.setHeight(new Integer(scrolPanelHeight+1).toString()+"px");		
 		
-		
-		panel.setWidgetTopHeight(scrollPanel, 22, Unit.PX, scrolPanelHeight-23, Unit.PX);
+		panel.setWidgetTopHeight(scrollPanel, 22, Unit.PX, scrolPanelHeight-22, Unit.PX);
 	}
 	
 	private void fireSelectionChanged(String id, Boolean value) {
