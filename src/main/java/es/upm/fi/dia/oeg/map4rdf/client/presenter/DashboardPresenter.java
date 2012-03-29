@@ -135,24 +135,26 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
 
 			@Override
 			public void onFailure(Throwable caught) {
-				
+				getDisplay().addWestWidget(facetPresenter.getDisplay().asWidget(), "Facets");
+		        getDisplay().addWestWidget(filtersPresenter.getDisplay().asWidget(), messages.filtres());
+		        getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
+		        getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());				
 			}
 
 			@Override
 			public void onSuccess(ListResult<Resource> result) {
-				Window.alert(new Integer(result.asList().size()).toString());
-			}
-		});
-    	
-    	getDisplay().addWestWidget(facetPresenter.getDisplay().asWidget(), "Facets");
-        getDisplay().addWestWidget(dataToolBar, messages.overlays());
-        getDisplay().addWestWidget(filtersPresenter.getDisplay().asWidget(), messages.filtres());
-        getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
-        getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());
-        //set filter listeners
-        
-    }
+				getDisplay().addWestWidget(facetPresenter.getDisplay().asWidget(), "Facets");
+				if(result != null && result.asList().size()>0) {
+					getDisplay().addWestWidget(dataToolBar, messages.overlays());					
+				}
+		        getDisplay().addWestWidget(filtersPresenter.getDisplay().asWidget(), messages.filtres());
+		        getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
+		        getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());
 
+			}
+		}); 
+    }
+    
     @Override
     protected void onPlaceRequest(PlaceRequest request) {
     }
