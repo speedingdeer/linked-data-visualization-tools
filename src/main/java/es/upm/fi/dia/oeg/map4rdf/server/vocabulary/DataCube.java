@@ -44,11 +44,11 @@ public class DataCube {
 	public static final Property componentRequired = property("componentRequired");
 	public static final Property concept = property("concept");
 	public static final Property dataSet = property("dataSet");
-        public static final Property dimension = property("dimension");
+    public static final Property dimension = property("dimension");
 	public static final Property measure = property("measure");
 	public static final Property measureDimension = property("measureDimension");
 	public static final Property measureType = property("measureType");
-        public static final Property observation = property("observation");
+    public static final Property observation = property("observation");
 	public static final Property order = property("order");
 	public static final Property slice = property("slice");
 	public static final Property sliceKey = property("sliceKey");
