@@ -1,0 +1,18 @@
+ @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+ @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+ @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+ @prefix foaf: <http://xmlns.com/foaf/0.1/> .
+ @prefix map4rdf: <http://code.google.com/p/map4rdf/wiki/ontology#> .
+
+_:rdfTypeFacet 
+	a map4rdf:FacetGroup;
+	map4rdf:facetPredicate rdf:type;
+	rdfs:label "Type"@en;
+	rdfs:label "Tipo"@es;
+        map4rdf:facet <http://www.w3.org/2003/01/geo/wgs84_pos#Point>;
+.
+<http://www.w3.org/2003/01/geo/wgs84_pos#Point>
+        rdfs:label "Estaciones automaticas"@es;
+        rdfs:label "Automatic stations"@en;
+.
+
