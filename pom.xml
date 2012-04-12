@@ -24,6 +24,10 @@
   		<url>http://code.google.com/p/map4rdf/issues/list</url>
   	</issueManagement>
 	
+	<properties>
+    	<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+	</properties>
+	
 	<dependencies>
 		<dependency>
 	      <groupId>de.micromata.jak</groupId>
@@ -34,6 +38,11 @@
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
 			<version>2.0.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.gwtopenmaps.openlayers</groupId>
+			<artifactId>gwt-openlayers-client</artifactId>
+			<version>0.7</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
