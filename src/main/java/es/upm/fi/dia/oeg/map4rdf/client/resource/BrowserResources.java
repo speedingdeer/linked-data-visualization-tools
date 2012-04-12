@@ -60,9 +60,6 @@ public interface BrowserResources extends ClientBundle {
 	@Source("style.css")
 	BrowserCss css();
 
-	@Source("logo_map4rdf.png")
-	ImageResource logo();
-
 	@Source("kml.png")
 	ImageResource kmlButton();
 
