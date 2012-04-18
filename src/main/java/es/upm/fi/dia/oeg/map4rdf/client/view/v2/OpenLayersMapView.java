@@ -260,11 +260,11 @@ public class OpenLayersMapView implements MapView {
 		map.setOptions(options);
 		
 		//building layers
-		WMS ideaLayer = LayersMenager.getIdeeLayer(resolutions);
+		WMS otalexLayer = LayersMenager.getOtalexLayer(resolutions);
 		WMS olLayer = LayersMenager.getOpenLayersFlatLayer();
-		WMS olBasicLayer = LayersMenager.getOpenLayersFlatBasicLayer(); 
+		//WMS olBasicLayer = LayersMenager.getOpenLayersFlatBasicLayer(); 
 		
-		map.addLayers(new Layer[] {ideaLayer, olBasicLayer, olLayer});
+		map.addLayers(new Layer[] {otalexLayer,  olLayer});
 		DEFAULT_CENTER.transform("EPSG:4326", map.getProjection());
 		map.setCenter(DEFAULT_CENTER, DEFAULT_ZOOM_LEVEL);
 	}
