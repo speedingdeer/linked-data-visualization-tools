@@ -15,7 +15,8 @@ import es.upm.fi.dia.oeg.map4rdf.client.util.GMapType;
 public class LayersMenager {
 
 	private static final String IDEE_URL = "http://www.idee.es/wms-c/IDEE-Base/IDEE-Base";
-	private static final String OTALEX_URL = "http://www.ign.es/wms-inspire/ign-base";
+	private static final String IDEE_NEW_URL = "http://www.ign.es/wms-inspire/ign-base";
+	private static final String OTALEX_URL = "http://194.224.247.165:8081/deegree-wms/services";
 	private static final String OL_URL = "http://vmap0.tiles.osgeo.org/wms/vmap0";
 	public static WMS getIdeeLayer(double[] resolutions){
 		WMSParams wmsParams = new WMSParams();
@@ -35,8 +36,18 @@ public class LayersMenager {
 		//wmsLayerParams.setMaxExtent(new Bounds(-50, -50, 50, 50));
 		wmsLayerParams.setAttribution("Maps provided by <a href =\"http://www.idee.es\">IDEE</a>");
 		wmsLayerParams.setResolutions(resolutions);
-		WMS wmsLayer = new WMS("IDEE", OTALEX_URL, wmsParams, wmsLayerParams);
+		WMS wmsLayer = new WMS("IDEE", IDEE_NEW_URL, wmsParams, wmsLayerParams);
 		return wmsLayer;
+	}
+	public static WMS otalexLayer(double[] resolutions){
+		WMSParams wmsParams = new WMSParams();
+		WMSOptions wmsLayerParams = new WMSOptions();
+		wmsParams.setLayers(getOtalexLayersNames());
+		//wmsLayerParams.setMaxExtent(new Bounds(-50, -50, 50, 50));
+		//wmsLayerParams.setAttribution("Maps provided by <a href =\"http://www.idee.es\">IDEE</a>");
+		wmsLayerParams.setResolutions(resolutions);
+		WMS wmsLayer = new WMS("Otalex", OTALEX_URL, wmsParams, wmsLayerParams);
+		return wmsLayer;	
 	}
 	
 	public static OSM getOpenStreetMapsLayer() {
@@ -89,6 +100,39 @@ public class LayersMenager {
 		googleOptions.setMaxExtent(bounds);
 		Google google = new Google("Google Maps", googleOptions);
 		return google;
+	}
+	private static String getOtalexLayersNames(){
+		return "densidad_4326"
+		+","+
+		"depenmayoresshp_4326"
+		+","+
+		"tasadeparo_4326"
+		+","+
+		"tasacrecimiento_4326"
+		+","+
+		"cite:BasicPolygons"
+		+","+
+		"cite:Bridges"
+		+","+
+		"cite:Buildings"
+		+","+
+		"cite:BuildingCenters"
+		+","+
+		"cite:DividedRoutes"
+		+","+
+		"cite:Forests"
+		+","+
+		"cite:Lakes"
+		+","+
+		"cite:MapNeatline"
+		+","+
+		"cite:NamedPlaces"
+		+","+
+		"cite:Ponds"
+		+","+
+		"cite:RoadSegments"
+		+","+
+		"cite:Streams";
 	}
 	
 }
