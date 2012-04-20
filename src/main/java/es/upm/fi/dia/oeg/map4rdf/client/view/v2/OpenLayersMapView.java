@@ -261,7 +261,7 @@ public class OpenLayersMapView implements MapView {
 		map.setOptions(options);
 		
 		//building layers
-		WMS otalexLayer = LayersMenager.getOtalexLayer(resolutions);
+		WMS otalexLayer = LayersMenager.newIDEE(resolutions);
 		WMS olLayer = LayersMenager.getOpenLayersFlatLayer();
 		//WMS olBasicLayer = LayersMenager.getOpenLayersFlatBasicLayer(); 
 		

@@ -28,7 +28,7 @@ public class LayersMenager {
 		return wmsLayer;
 	}
 	
-	public static WMS getOtalexLayer(double[] resolutions){
+	public static WMS newIDEE(double[] resolutions){
 		WMSParams wmsParams = new WMSParams();
 		WMSOptions wmsLayerParams = new WMSOptions();
 		wmsParams.setLayers("IGNBaseTodo");
