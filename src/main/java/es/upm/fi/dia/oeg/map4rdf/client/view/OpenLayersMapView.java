@@ -29,6 +29,7 @@ import org.gwtopenmaps.openlayers.client.layer.Vector;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Image;
 import com.google.inject.Inject;
 
@@ -130,5 +131,10 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 	private Image createKMLButton() {
 		Image button = new Image();
 		return button;
+	}
+	
+	@Override
+	public void closeWindow() {
+		window.close();
 	}
 }

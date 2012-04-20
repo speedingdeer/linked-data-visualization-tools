@@ -46,4 +46,6 @@ public interface MapView extends WidgetDisplay {
 
 	AbsolutePanel getContainer();
 
+	void closeWindow();
+
 }

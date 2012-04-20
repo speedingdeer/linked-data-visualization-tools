@@ -31,7 +31,9 @@ import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.Size;
 import org.gwtopenmaps.openlayers.client.Style;
 import org.gwtopenmaps.openlayers.client.control.SelectFeature;
+import org.gwtopenmaps.openlayers.client.control.SelectFeature.ClickFeatureListener;
 import org.gwtopenmaps.openlayers.client.event.VectorFeatureSelectedListener;
+import org.gwtopenmaps.openlayers.client.event.VectorFeatureUnselectedListener;
 import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 import org.gwtopenmaps.openlayers.client.geometry.Geometry;
 import org.gwtopenmaps.openlayers.client.geometry.LineString;
@@ -47,9 +49,11 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.style.StyleMapShape;
 import es.upm.fi.dia.oeg.map4rdf.share.Circle;
 import es.upm.fi.dia.oeg.map4rdf.share.OpenLayersAdapter;
@@ -61,7 +65,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.Polygon;
 /**
  * @author Alexander De Leon
  */
-public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListener {
+public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListener, VectorFeatureUnselectedListener {
 
 	private static final String MARKER_ICON = "marker_red.png";
 	private static final int CIRCLE_NUMBER_OF_POINTS = 20;
@@ -79,9 +83,8 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
                 VectorOptions vectorBckgOptions = new VectorOptions();
                 
 		vectorLayer = new Vector(name + "_vectors", vectorOptions);
-                vectorLayer.setDisplayInLayerSwitcher(false);
-
-                map.addLayer(vectorLayer);
+        vectorLayer.setDisplayInLayerSwitcher(false);
+        map.addLayer(vectorLayer);
 	}
         
 	@Override
@@ -209,10 +212,10 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 
 			@Override
 			public void open(Point location) {
-                                LonLat popupPosition = OpenLayersAdapter.getLatLng(location);
-                                popupPosition.transform("EPSG:4326", map.getProjection());
+				LonLat popupPosition = OpenLayersAdapter.getLatLng(location);
+                popupPosition.transform("EPSG:4326", map.getProjection());
 				popup = new Popup(location.getUri(), popupPosition, new Size(200, 100),
-						DOM.getInnerHTML(panel.getElement()), true);
+						DOM.getInnerHTML(panel.getElement()), false);
 				popup.setBorder("1px solid #424242");
 				map.addPopupExclusive(popup);
 			}
@@ -285,7 +288,11 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 
 	void bind() {
 		vectorLayer.addVectorFeatureSelectedListener(this);
+		vectorLayer.addVectorFeatureUnselectedListener(this);
 		SelectFeature selectFeature = new SelectFeature(vectorLayer);
+		selectFeature.setClickOut(true);
+		selectFeature.setToggle(true);
+		selectFeature.setMultiple(false);
 		map.addControl(selectFeature);
 		selectFeature.activate();
 	}
@@ -343,5 +350,11 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 		style.setCursor("pointer");
 		style.setPointRadius(20);
 		return style;
+	}
+
+
+	@Override
+	public void onFeatureUnselected(FeatureUnselectedEvent eventObject) {
+		getMapView().closeWindow();
 	}
 }

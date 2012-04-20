@@ -46,6 +46,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetConfigurationParameter;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
+import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.OpenLayersAdapter;
@@ -80,7 +81,7 @@ public class OpenLayersMapView implements MapView {
 	private RegularPolygonHandler regularPolygonHandler;
 	private VectorFeature feature;
 	private DrawFeature df;
-
+	
 	public OpenLayersMapView(WidgetFactory widgetFactory, DispatchAsync dispatchAsync) {
 		loadingWidget = widgetFactory.getLoadingWidget();
 		createUi();
@@ -289,4 +290,9 @@ public class OpenLayersMapView implements MapView {
 				drawFeatureOptions);
 		map.addControl(df);
 	}
+
+	@Override
+	public void closeWindow() {
+	}
+	
 }	
