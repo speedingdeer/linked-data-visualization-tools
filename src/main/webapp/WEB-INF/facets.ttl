@@ -1,0 +1,37 @@
+ @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+ @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+ @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+ @prefix foaf: <http://xmlns.com/foaf/0.1/> .
+ @prefix map4rdf: <http://code.google.com/p/map4rdf/wiki/ontology#> .
+
+_:rdfTypeFacet 
+	a map4rdf:FacetGroup;
+	map4rdf:facetPredicate rdf:type;
+	rdfs:label "Type"@en;
+	rdfs:label "Tipo"@es;
+        map4rdf:facet <http://www.w3.org/2003/01/geo/wgs84_pos#Point>;
+        map4rdf:facet <http://webenemasuno.linkeddata.es/ontology/OPMO/Guide>;
+        map4rdf:facet <http://webenemasuno.linkeddata.es/ontology/OPMO/Trip>;
+#        map4rdf:facet <http://openprovenance.org/model/opmo#WasControlledBy>;
+#        map4rdf:facet <http://openprovenance.org/model/opmo#WasGeneratedBy>;
+.
+<http://www.w3.org/2003/01/geo/wgs84_pos#Point>
+        rdfs:label "Todas las localizaciones"@es;
+        rdfs:label "All locations"@en;
+.
+<http://webenemasuno.linkeddata.es/ontology/OPMO/Guide>
+        rdfs:label "Localizaciones guias"@es;
+        rdfs:label "Guide locations"@en;
+.
+<http://webenemasuno.linkeddata.es/ontology/OPMO/Trip>
+        rdfs:label "Localizaciones viajes"@es;
+        rdfs:label "Trip locations"@en;
+.
+#<http://openprovenance.org/model/opmo#WasControlledBy>
+#        rdfs:label "Acciones de Control"@es;
+#        rdfs:label "Control actions"@en;
+#.
+#<http://openprovenance.org/model/opmo#WasGeneratedBy>
+#        rdfs:label "Acciones de generacion"@es;
+#        rdfs:label "Generation actions"@en;
+#.

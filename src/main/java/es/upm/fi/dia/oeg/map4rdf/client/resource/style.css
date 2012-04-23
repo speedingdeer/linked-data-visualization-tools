@@ -1,0 +1,109 @@
+body {
+	margin: 0px;
+	font-family: Verdana, Arial, sans-serif;
+    font-size: .6em;
+}
+
+@sprite .header{
+	gwt-image: 'topBackground';
+	background-repeat: repeat-x;
+	padding-left: 3em;
+}
+
+
+.footer{
+	border-top: dotted 1px gray;
+	padding-top: 0.5em;
+	text-align: center;
+}
+
+.leftMenu{
+	border: none;
+	background-color: #f2f2f2;
+}
+
+.facets{
+	padding: 3em 1em 2em 1em;
+}
+
+
+.facet{
+	border: 1px solid gray;
+	\-moz-border-radius: 8px;
+	\-webkit-border-radius: 8px;
+	background-color: #fff;
+	margin: 1em;
+	height: 124px;
+}
+
+@sprite .facetHeader{
+	gwt-image: 'facetBackground';
+	height: 22px;
+	padding: 0.5em;
+	text-align: center;
+	font-weight: bold;
+	color: #0D0D0D;
+	border-bottom: 1px solid #f1f1f1;
+	\-moz-border-radius-topleft: 8px;
+	\-moz-border-radius-topright: 8px;
+	\-webkit-border-top-left-radius: 8px;
+	\-webkit-border-top-right-radius: 8px;
+}
+
+.facetSelectionOption{
+	display: block;
+}
+
+
+.loadingWidget{
+	vertical-align: middle;
+	font-size: 2em;
+	opacity: 0.75;
+	text-align: center;
+}
+
+.toolbar{
+	padding: 0.5em;
+}
+
+.toggleButton{
+	padding: 5px 5px 5px 5px;
+	border: 1px solid #cccccc;
+	cursor: pointer;
+	\-moz-border-radius-topleft: 8px;
+	\-moz-border-radius-topright: 8px;
+	\-webkit-border-top-left-radius: 8px;
+	\-webkit-border-top-right-radius: 8px;
+	\-moz-border-radius-bottomleft: 8px;
+	\-moz-border-radius-bottomright: 8px;
+	\-webkit-border-bottom-left-radius: 8px;
+	\-webkit-border-bottom-right-radius: 8px;
+}
+
+.toggleButtonPressed{
+	background-color: #808080;
+	color: #ffffff;
+}
+
+.toggleButtonReleased{
+	background-color: transparent;
+}
+
+.toggleButtonMouseDown{
+	background-color: #000000;
+	color: #ffffff;
+}
+
+.timeline{
+	background: #fff;
+	opacity: 0.75;
+	border: 1px solid #cccccc;
+	\-moz-border-radius-topleft: 8px;
+	\-moz-border-radius-topright: 8px;
+	\-webkit-border-top-left-radius: 8px;
+	\-webkit-border-top-right-radius: 8px;
+	\-moz-border-radius-bottomleft: 8px;
+	\-moz-border-radius-bottomright: 8px;
+	\-webkit-border-bottom-left-radius: 8px;
+	\-webkit-border-bottom-right-radius: 8px;
+}
