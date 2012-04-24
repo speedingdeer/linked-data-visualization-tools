@@ -58,11 +58,12 @@ import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 /**
  * @author Alexander De Leon
  */
+/*
 public class MapView extends Composite implements MapPresenter.Display {
 
-	/**
-	 * By default the map is centered in Puerta del Sol, Madrid
-	 */
+	
+	 //By default the map is centered in Puerta del Sol, Madrid
+	 
 	private static final LatLng DEFAULT_CENTER = LatLng.newInstance(40.416645, -3.703637);
 	private static final int DEFAULT_ZOOM_LEVEL = 7;
 
@@ -132,11 +133,11 @@ public class MapView extends Composite implements MapPresenter.Display {
 
 	@Override
 	protected void onLoad() {
-		/*
-		 * This is woraround for issue with the GoogleMaps and the new GWT
-		 * Layout panels. More info:
-		 * http://code.google.com/p/gwt-google-apis/issues/detail?id=366
-		 */
+		
+		  //This is woraround for issue with the GoogleMaps and the new GWT
+		  //Layout panels. More info:
+		  //http://code.google.com/p/gwt-google-apis/issues/detail?id=366
+		 
 		super.onLoad();
 		new Timer() {
 
@@ -148,7 +149,7 @@ public class MapView extends Composite implements MapPresenter.Display {
 		}.schedule(1);
 	}
 
-	/* --------------- helper methods -- */
+	// --------------- helper methods -- 
 	protected void addMapControl(MapControl mapControl) {
 		mapControl.setDisplay(this);
 		map.addControl(mapControl.getCustomControl());
@@ -188,3 +189,4 @@ public class MapView extends Composite implements MapPresenter.Display {
 		return button;
 	}
 }
+*/
