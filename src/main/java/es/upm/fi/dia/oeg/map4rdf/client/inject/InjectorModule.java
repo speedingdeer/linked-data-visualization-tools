@@ -1,13 +1,8 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
-<<<<<<< HEAD
- * Facultad de Inform‡tica, Universidad 
- * PolitŽcnica de Madrid, Spain
-=======
  * Facultad de Informetica, Universidad 
  * Politecnica de Madrid, Spain
->>>>>>> master
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -27,17 +22,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+
 package es.upm.fi.dia.oeg.map4rdf.client.inject;
 
 import net.customware.gwt.presenter.client.DefaultEventBus;
 import net.customware.gwt.presenter.client.EventBus;
 import net.customware.gwt.presenter.client.gin.AbstractPresenterModule;
-import es.upm.fi.dia.oeg.map4rdf.client.presenter.DashboardPresenter;
-import es.upm.fi.dia.oeg.map4rdf.client.presenter.FacetPresenter;
-import es.upm.fi.dia.oeg.map4rdf.client.maplet.Maplet;
-import es.upm.fi.dia.oeg.map4rdf.client.maplet.stats.StatisticsMaplet;
-import es.upm.fi.dia.oeg.map4rdf.client.maplet.stats.StatisticsPresenter;
-import es.upm.fi.dia.oeg.map4rdf.client.maplet.stats.StatisticsView;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.DashboardPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.EditResourcePresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.FacetPresenter;
@@ -46,9 +36,6 @@ import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapOverlaysPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.ResultsPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.view.DashboardView;
-import es.upm.fi.dia.oeg.map4rdf.client.view.FacetView;
-import es.upm.fi.dia.oeg.map4rdf.client.view.MapOverlaysView;
-import es.upm.fi.dia.oeg.map4rdf.client.view.MapView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.EditResourceView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.FacetView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.FiltersView;
@@ -70,12 +57,11 @@ public class InjectorModule extends AbstractPresenterModule {
 		// MVP
 		bindDisplay(DashboardPresenter.Display.class, DashboardView.class);
 		bindDisplay(FacetPresenter.Display.class, FacetView.class);
-		bindDisplay(MapPresenter.Display.class, MapView.class);
-		bindDisplay(ResultsPresenter.Display.class, ResultsView.class);
-		bindDisplay(MapOverlaysPresenter.Display.class, MapOverlaysView.class);
-
+		bindDisplay(MapPresenter.Display.class, OpenLayersMapView.class);
 		bindDisplay(EditResourcePresenter.Display.class, EditResourceView.class);
         bindDisplay(FiltersPresenter.Display.class, FiltersView.class);
+		bindDisplay(ResultsPresenter.Display.class, ResultsView.class);
+		bindDisplay(MapOverlaysPresenter.Display.class, MapOverlaysView.class);
 		bindDisplay(StatisticsPresenter.Display.class, StatisticsView.class);
 
 		// Maplets

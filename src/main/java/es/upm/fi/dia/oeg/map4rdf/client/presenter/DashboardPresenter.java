@@ -1,13 +1,8 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
-<<<<<<< HEAD
- * Facultad de Inform‡tica, Universidad 
- * PolitŽcnica de Madrid, Spain
-=======
- * Facultad de Informâ€¡tica, Universidad 
- * PolitÅ½cnica de Madrid, Spain
->>>>>>> master
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
