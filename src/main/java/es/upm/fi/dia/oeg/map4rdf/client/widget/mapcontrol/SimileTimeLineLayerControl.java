@@ -43,7 +43,7 @@ public class SimileTimeLineLayerControl extends LayerControl{
     }
 
     private void createUi() {
-          timelineControl = new SimileTimeLineControl(SimileTimeLine.getInstance());
+         timelineControl = new SimileTimeLineControl(SimileTimeLine.getInstance());
     }
 
 
