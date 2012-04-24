@@ -52,15 +52,6 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 
 	public interface Display extends WidgetDisplay {
 
-<<<<<<< HEAD
-		interface FacetSelectionHandler {
-			void onFacetSelectionChanged(String facetId, String facetValueId, boolean selected);
-		}
-
-		// TODO this should be decoupled from the model
-		void setFacets(List<FacetGroup> facets);
-
-=======
         public void clear();
         public Boolean isEmpty();
         
@@ -70,29 +61,21 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
                 
 		// TODO this should be decoupled from the model
 		void setFacets(List<FacetGroup> facets);
->>>>>>> master
 		void setFacetSelectionChangedHandler(FacetSelectionHandler handler);
 	}
 
 	private final DispatchAsync dispatchAsync;
 	private final List<FacetConstraint> constraints = new ArrayList<FacetConstraint>();
 
-<<<<<<< HEAD
-=======
 	public List<FacetConstraint> getConstraints(){
 		return this.constraints;
 	}
 	
->>>>>>> master
 	@Inject
 	public FacetPresenter(Display display, EventBus eventBus, DispatchAsync dispatchAsync) {
 		super(display, eventBus);
 		this.dispatchAsync = dispatchAsync;
-<<<<<<< HEAD
-	}
-=======
     }
->>>>>>> master
 
 	/* -------------- Presenter callbacks -- */
 	@Override
@@ -124,15 +107,11 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 
 	@Override
 	public void revealDisplay() {
-<<<<<<< HEAD
-		loadFacets();
-=======
 		if (getDisplay().isEmpty()) {
 			loadFacets();
 		} //else {
 		//	eventBus.fireEvent(new FacetConstraintsChangedEvent(constraints));
 		//}
->>>>>>> master
 	}
 
 	void loadFacets() {
@@ -141,11 +120,7 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-<<<<<<< HEAD
 				Window.alert(caught.toString());
-=======
-				//Window.alert(caught.toString());
->>>>>>> master
 			}
 
 			@Override
@@ -158,12 +133,9 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 	private void fireFacetConstrainsChanged() {
 		eventBus.fireEvent(new FacetConstraintsChangedEvent(constraints));
 	}
-<<<<<<< HEAD
-=======
     
     public void clear() {
     	constraints.clear();
     	getDisplay().clear();
 	}
->>>>>>> master
 }
