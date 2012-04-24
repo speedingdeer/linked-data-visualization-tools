@@ -28,10 +28,7 @@ import name.alexdeleon.lib.gwtblocks.client.ControlPresenter;
 import net.customware.gwt.presenter.client.EventBus;
 import net.customware.gwt.presenter.client.widget.WidgetDisplay;
 
-<<<<<<< HEAD
-=======
 import com.google.gwt.user.client.Window;
->>>>>>> master
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -66,10 +63,6 @@ public class MapOverlaysPresenter extends ControlPresenter<MapOverlaysPresenter.
 
 			@Override
 			public void onOverlaySectionChanged(String overlayId) {
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 			}
 		});
 

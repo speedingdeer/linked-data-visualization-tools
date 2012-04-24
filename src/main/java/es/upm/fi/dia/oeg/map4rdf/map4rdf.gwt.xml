@@ -12,7 +12,8 @@
 	<inherits name="org.gwtopenmaps.openlayers.OpenLayers"/>
 	<inherits name="com.google.gwt.http.HTTP"/>
 	<inherits name="com.google.gwt.user.theme.chrome.Chrome"/>
-
+	<inherits name="com.netthreads.gwt.simile.timeline.Timeline"/>
+	
 	<stylesheet src="/map4rdf.css"/>
 	<stylesheet src="gwt_style.css"/>
 	
