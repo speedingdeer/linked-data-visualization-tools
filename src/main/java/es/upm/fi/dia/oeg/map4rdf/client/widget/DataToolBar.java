@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
- * Facultad de Inform‡tica, Universidad 
- * PolitŽcnica de Madrid, Spain
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,6 +37,12 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+
+import net.customware.gwt.presenter.client.EventBus;
+
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.DOM;
+
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -46,6 +52,8 @@ import com.google.inject.Inject;
 
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetStatisticDatasets;
 import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
+import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
+import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter.Display;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.mapcontrol.GeoResourcesMapControl;
@@ -62,6 +70,15 @@ import java.util.ArrayList;
  * @author Alexander De Leon
  * Clase readaptada por Daniel Garijo para que se ajuste a las necesidades de
  * WebNMasUno
+import es.upm.fi.dia.oeg.map4rdf.client.event.MapletActivatedEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.event.MapletDeactivatedEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.maplet.stats.StatisticsMaplet;
+import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
+import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
+import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
+
+/**
+ * @author Alexander De Leon
  */
 public class DataToolBar extends Composite {
 
@@ -78,14 +95,17 @@ public class DataToolBar extends Composite {
 	private final StatisticsMapControl mapControl;
 	private final DispatchAsync dispatchAsync;
 	private final BrowserMessages messages;
-        private final TimeLineFilterControl timelineControl;
-        private final SimileTimeLineLayerControl simileTimeLineControl;
-
+    private final TimeLineFilterControl timelineControl;
+    private final SimileTimeLineLayerControl simileTimeLineControl;
+	private final MapPresenter.Display mapView;
+	private final EventBus eventBus;
 	@Inject
-	public DataToolBar(BrowserResources resources,TimeLineFilterControl timeLine,SimileTimeLineLayerControl simile, StatisticsMapControl mapControl, DispatchAsync dispatchAsync, BrowserMessages messages) {
+	public DataToolBar(BrowserResources resources,TimeLineFilterControl timeLine,SimileTimeLineLayerControl simile, StatisticsMapControl mapControl,MapPresenter.Display mapView, DispatchAsync dispatchAsync, BrowserMessages messages,EventBus eventBus) {
 		this.mapControl = mapControl;
 		this.dispatchAsync = dispatchAsync;
 		this.messages = messages;
+		this.mapView = mapView;
+		this.eventBus = eventBus;
 		stylesheet = resources.css();
                 timelineControl = timeLine;
                 simileTimeLineControl = simile;
@@ -117,6 +137,7 @@ public class DataToolBar extends Composite {
 			}
 		});
 	}
+
 
 	private Widget createUi(BrowserResources resources) {
 		FlowPanel panel = new FlowPanel();
@@ -166,6 +187,23 @@ public class DataToolBar extends Composite {
 			}
 		}));
             return panel;
+           /*
+=======
+		panel.add(new DataToolBarButton(resources.statsButton(), messages.statistics(), resources.css(),
+				new ToggleHandler() {
+					@Override
+					public void onToggle(ToggleEvent event) {
+						if (event.isPressed()) {
+							eventBus.fireEvent(new MapletActivatedEvent(StatisticsMaplet.getMapletId()));
+						} else {
+							eventBus.fireEvent(new MapletDeactivatedEvent(StatisticsMaplet.getMapletId()));
+						}
+					}
+				}));
+
+		return panel;
+>>>>>>> master
+*/
 	}
 
 	class DataToolBarButton extends ToggleButton {

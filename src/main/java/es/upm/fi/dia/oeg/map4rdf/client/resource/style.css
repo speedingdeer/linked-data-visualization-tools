@@ -1,9 +1,19 @@
+<<<<<<< HEAD
 body {
 	margin: 0px;
 	font-family: Verdana, Arial, sans-serif;
     font-size: .6em;
 }
 
+=======
+body{
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 0.6em;
+	margin: 0px;
+}
+
+
+>>>>>>> master
 @sprite .header{
 	gwt-image: 'topBackground';
 	background-repeat: repeat-x;
@@ -33,7 +43,10 @@ body {
 	\-webkit-border-radius: 8px;
 	background-color: #fff;
 	margin: 1em;
+<<<<<<< HEAD
 	height: 124px;
+=======
+>>>>>>> master
 }
 
 @sprite .facetHeader{
@@ -55,13 +68,28 @@ body {
 }
 
 
+<<<<<<< HEAD
 .loadingWidget{
+=======
+.loadingWidgetStyle{
+>>>>>>> master
 	vertical-align: middle;
 	font-size: 2em;
 	opacity: 0.75;
 	text-align: center;
+<<<<<<< HEAD
 }
 
+=======
+	width: 160px;
+	height: 32px;
+}
+
+.loadingWidgetLabelStyle { }
+
+.loadingWidgetIconStyle { }
+
+>>>>>>> master
 .toolbar{
 	padding: 0.5em;
 }
@@ -106,4 +134,30 @@ body {
 	\-moz-border-radius-bottomright: 8px;
 	\-webkit-border-bottom-left-radius: 8px;
 	\-webkit-border-bottom-right-radius: 8px;
+<<<<<<< HEAD
 }
+=======
+}
+
+.summaryLabelStyle{
+	font-weight: bold;
+}
+
+.treeRoot{
+	font-weight: bold;
+	font-size: 1.4em;
+	background: none;
+}
+
+.summaryPropertyName {
+	font-weight: bold;
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 0.6em;
+}
+
+
+.summaryPropertyValue{
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 0.6em;
+}
+>>>>>>> master

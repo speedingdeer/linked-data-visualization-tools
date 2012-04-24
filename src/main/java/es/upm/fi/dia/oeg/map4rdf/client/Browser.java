@@ -1,8 +1,13 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
+<<<<<<< HEAD
  * Facultad de Inform‡tica, Universidad 
  * PolitŽcnica de Madrid, Spain
+=======
+ * Facultad de Informatica, Universidad 
+ * Politecnica de Madrid, Spain
+>>>>>>> master
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +29,10 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client;
 
+<<<<<<< HEAD
 import name.alexdeleon.lib.gwtblocks.client.AppController;
+=======
+>>>>>>> master
 import net.customware.gwt.presenter.client.place.PlaceChangedEvent;
 import net.customware.gwt.presenter.client.place.PlaceManager;
 
@@ -34,6 +42,11 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
+<<<<<<< HEAD
+=======
+import es.upm.fi.dia.oeg.map4rdf.client.controllers.AppController;
+import es.upm.fi.dia.oeg.map4rdf.client.controllers.AppController.Display;
+>>>>>>> master
 import es.upm.fi.dia.oeg.map4rdf.client.event.LoadResourceEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.inject.Injector;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
@@ -44,6 +57,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
  * @author Alexander De Leon
  */
 public class Browser implements EntryPoint {
+<<<<<<< HEAD
 
 	@Override
 	public void onModuleLoad() {
@@ -55,14 +69,34 @@ public class Browser implements EntryPoint {
 
 		RootLayoutPanel.get().add(controller.getDisplay().asWidget());
 
+=======
+	Injector injector = null;
+	@Override
+	public void onModuleLoad() {
+		try {
+		injector = GWT.create(Injector.class);
+		} catch (Exception e) {
+			injector = null;
+		}
+		AppController controller = new AppController(injector.getBrowserUi(), injector.getEventBus(),
+                injector.getDashboard(),injector.getEditResourcePresenter());
+            
+		controller.bind();
+		
+		RootLayoutPanel.get().add(controller.getDisplay().asWidget());
+>>>>>>> master
 		PlaceManager placeManager = new PlaceManager(injector.getEventBus());
 		if (History.getToken() == null || History.getToken().length() == 0) {
 			// Go to the default place
 			injector.getEventBus().fireEvent(new PlaceChangedEvent(Places.DEFAULT.request()));
 		}
 		// Trigger history tokens.
+<<<<<<< HEAD
 		placeManager.fireCurrentPlace();
 
+=======
+		
+>>>>>>> master
 		String parameters[] = Window.Location.getQueryString().substring(1).split("&");
 		for (String param : parameters) {
 			String[] parts = param.split("=");
@@ -70,6 +104,11 @@ public class Browser implements EntryPoint {
 				LoadResourceEvent.fire(parts[1], injector.getEventBus());
 			}
 		}
+<<<<<<< HEAD
+=======
+        //History.addValueChangeHandler(injector.getDashboard());
+        placeManager.fireCurrentPlace();
+>>>>>>> master
 
 	}
 }

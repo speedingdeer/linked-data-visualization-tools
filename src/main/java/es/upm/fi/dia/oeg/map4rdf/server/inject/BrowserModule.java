@@ -1,8 +1,13 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
+<<<<<<< HEAD
  * Facultad de Inform‡tica, Universidad 
  * PolitŽcnica de Madrid, Spain
+=======
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
+>>>>>>> master
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,6 +39,8 @@ import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.impl.DbPediaDaoImpl;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.impl.GeoLinkedDataDaoImpl;
 
+import es.upm.fi.dia.oeg.map4rdf.server.dao.impl.VCardDaoImpl;
+
 /**
  * @author Alexander De Leon
  */
@@ -51,6 +58,8 @@ public class BrowserModule extends AbstractModule {
 			return new GeoLinkedDataDaoImpl(endpointUri);
 		case DBPEDIA:
 			return new DbPediaDaoImpl(endpointUri);
+		case VCARD:
+			return new VCardDaoImpl(endpointUri);
 		}
 		// make compiler happy
 		return null;

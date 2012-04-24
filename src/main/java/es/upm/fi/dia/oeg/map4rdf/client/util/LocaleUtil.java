@@ -1,8 +1,13 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
+<<<<<<< HEAD
  * Facultad de Inform‡tica, Universidad 
  * PolitŽcnica de Madrid, Spain
+=======
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
+>>>>>>> master
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +30,7 @@
 package es.upm.fi.dia.oeg.map4rdf.client.util;
 
 import com.google.gwt.i18n.client.LocaleInfo;
-
+import es.upm.fi.dia.oeg.map4rdf.share.Resource;
 /**
  * @author Alexander De Leon
  */
@@ -47,7 +52,45 @@ public class LocaleUtil {
 		return lang;
 	}
 
-	public static String[] getFallbackLanguages() {
+	public static String getBestLabel(Resource resource) {
+		return getBestLabel(resource, false);
+	}
+
+	public static String getBestLabel(Resource resource, boolean includeLang) {
+		String label = null;
+		String clientLang = getBestLang(resource);
+		if (clientLang != null) {
+			label = resource.getLabel(clientLang);
+			if (includeLang) {
+				label += " (" + clientLang + ")";
+			}
+		}
+		if (label == null) {
+			label = resource.getDefaultLabel();
+		}
+		if (label == null) {
+			label = resource.getUri();
+		}
+		return label;
+	}
+
+	public static String getBestLang(Resource resource) {
+		String clientLang = getClientLanguage();
+		if (resource.getLabel(clientLang) != null) {
+			return clientLang;
+		}
+		for (String fallbackLang : fallbackLangs) {
+			if (resource.getLabel(fallbackLang) != null) {
+				return fallbackLang;
+			}
+		}
+		if (resource.getDefaultLabel() == null && !resource.getLangs().isEmpty()) {
+			return resource.getLangs().iterator().next();
+		}
+		return null;
+	}
+
+public static String[] getFallbackLanguages() {
 		return fallbackLangs;
 	}
 }

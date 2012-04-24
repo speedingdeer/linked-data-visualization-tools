@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
- * Facultad de Informática, Universidad 
- * Politécnica de Madrid, Spain
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@ public class Constants {
 
 	public static final String FACET_CONFIGURATION_FILE = "/WEB-INF/facets.ttl";
 
-	public static enum GeometryModel {
+   	public static enum GeometryModel {
 		/**
 		 * OEG models geometries explicitly. The resource and its geometries are
 		 * linked using the http://www.w3.org/2003/01/geo/wgs84_pos#geometry
@@ -47,7 +47,13 @@ public class Constants {
 		 * http://www.w3.org/2003/01/geo/wgs84_pos#long are used to assert its
 		 * position.
 		 */
-		DBPEDIA;
+		DBPEDIA,
+		/**
+		 * The VCard model used vcard:geo to reference a location which is
+		 * specified using vcard:latitude and vcard:longitude predicates.
+		 * http://www.w3.org/2006/vcard/ns-2006.html
+		 */
+		VCARD;
 	}
 
 }

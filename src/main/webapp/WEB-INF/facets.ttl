@@ -9,6 +9,7 @@ _:rdfTypeFacet
 	map4rdf:facetPredicate rdf:type;
 	rdfs:label "Type"@en;
 	rdfs:label "Tipo"@es;
+<<<<<<< HEAD
         map4rdf:facet <http://www.w3.org/2003/01/geo/wgs84_pos#Point>;
         map4rdf:facet <http://webenemasuno.linkeddata.es/ontology/OPMO/Guide>;
         map4rdf:facet <http://webenemasuno.linkeddata.es/ontology/OPMO/Trip>;
@@ -35,3 +36,6 @@ _:rdfTypeFacet
 #        rdfs:label "Acciones de generacion"@es;
 #        rdfs:label "Generation actions"@en;
 #.
+=======
+.
+>>>>>>> master

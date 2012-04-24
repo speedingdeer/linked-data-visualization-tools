@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
- * Facultad de Informática, Universidad 
- * Politécnica de Madrid, Spain
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -55,13 +55,9 @@ public class Resource implements HasUri, Serializable {
 
 	public String getLabel(String language) {
 		if (labels == null) {
-			return getUri();
+			return null;
 		}
-		String label = labels.get(language);
-		if (label == null) {
-			return getUri();
-		}
-		return label;
+		return labels.get(language);
 	}
 
 	public void addLabel(String language, String label) {

@@ -1,8 +1,13 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
+<<<<<<< HEAD
  * Facultad de Inform‡tica, Universidad 
  * PolitŽcnica de Madrid, Spain
+=======
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
+>>>>>>> master
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +33,10 @@ import name.alexdeleon.lib.gwtblocks.client.ControlPresenter;
 import net.customware.gwt.presenter.client.EventBus;
 import net.customware.gwt.presenter.client.widget.WidgetDisplay;
 
+<<<<<<< HEAD
+=======
+import com.google.gwt.user.client.Window;
+>>>>>>> master
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -62,7 +71,10 @@ public class MapOverlaysPresenter extends ControlPresenter<MapOverlaysPresenter.
 
 			@Override
 			public void onOverlaySectionChanged(String overlayId) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 			}
 		});
 

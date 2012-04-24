@@ -81,7 +81,7 @@ public class StatisticsMapControl extends LayerControl implements MapControl {
 
         //extension para webNMasUno. Deberia ir en otro mapControl
         public void showWebNMasUnoTimeLine(ArrayList<Year> annos){
-            Timeline timeline = new Timeline(annos, resources.css());
+            Timeline timeline = new Timeline(resources.css());
             timeline.addValueChangeHandler(new ValueChangeHandler<Year>() {
                     @Override
                     public void onValueChange(ValueChangeEvent<Year> event) {
@@ -108,7 +108,7 @@ public class StatisticsMapControl extends LayerControl implements MapControl {
 			}
 
 			public void onSuccess(ListResult<Year> result) {
-				Timeline timeline = new Timeline(result.asList(), resources.css());
+				Timeline timeline = new Timeline(resources.css());
 				timeline.addValueChangeHandler(new ValueChangeHandler<Year>() {
 
 					@Override

@@ -1,8 +1,13 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
+<<<<<<< HEAD
  * Facultad de Inform‡tica, Universidad 
  * PolitŽcnica de Madrid, Spain
+=======
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
+>>>>>>> master
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +31,10 @@ package es.upm.fi.dia.oeg.map4rdf.client.view;
 
 import java.util.List;
 
+<<<<<<< HEAD
+=======
+import com.google.gwt.user.client.Window;
+>>>>>>> master
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -48,7 +57,11 @@ public class FacetView extends Composite implements FacetPresenter.Display {
 	private FlowPanel panel;
 	private final BrowserResources resources;
 	private FacetSelectionHandler handler;
+<<<<<<< HEAD
 
+=======
+	FacetWidget facet;
+>>>>>>> master
 	@Inject
 	public FacetView(BrowserResources resources) {
 		this.resources = resources;
@@ -59,7 +72,13 @@ public class FacetView extends Composite implements FacetPresenter.Display {
 	@Override
 	public void setFacets(List<FacetGroup> facets) {
 		for (final FacetGroup facetDefinition : facets) {
+<<<<<<< HEAD
 			FacetWidget facet = new FacetWidget(resources.css());
+=======
+			facet = new FacetWidget(resources.css());
+			facet.setHeight(new Integer(panel.getOffsetHeight()-25).toString()+"px");
+			
+>>>>>>> master
 			facet.setLabel(facetDefinition.getLabel(LocaleUtil.getClientLanguage()));
 			for (Facet facetValue : facetDefinition.getFacets()) {
 				String label = facetValue.getLabel(LocaleUtil.getClientLanguage());
@@ -118,4 +137,17 @@ public class FacetView extends Composite implements FacetPresenter.Display {
 		return panel;
 	}
 
+<<<<<<< HEAD
+=======
+    @Override
+    public void clear() {
+        //panel.clear();
+    }
+
+	@Override
+	public Boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return facet==null;
+	}
+>>>>>>> master
 }

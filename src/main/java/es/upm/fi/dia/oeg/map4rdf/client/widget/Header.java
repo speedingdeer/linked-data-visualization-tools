@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
- * Facultad de Informática, Universidad 
- * Politécnica de Madrid, Spain
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.widget;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Composite;
@@ -46,7 +47,11 @@ public class Header extends Composite {
 
 	private Widget createUi(BrowserResources resources) {
 		LayoutPanel panel = new LayoutPanel();
+
 		Image logo = new Image(resources.logo());
+
+		//Image logo = new Image(GWT.getHostPageBaseURL() + "logo.png");
+
 		Image betaBadge = new Image(resources.betaBadge());
 
 		// Add the logo to the root panel

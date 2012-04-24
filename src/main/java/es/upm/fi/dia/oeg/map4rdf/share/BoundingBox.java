@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
- * Facultad de Informática, Universidad 
- * Politécnica de Madrid, Spain
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,6 +32,13 @@ public interface BoundingBox {
 	TwoDimentionalCoordinate getTopRight();
 
 	TwoDimentionalCoordinate getBottomLeft();
+	
+	TwoDimentionalCoordinate getTop();
+	TwoDimentionalCoordinate getBottom();
+	TwoDimentionalCoordinate getLeft();
+	TwoDimentionalCoordinate getRight();
+	
+	void transform(String from, String to);
 
 	TwoDimentionalCoordinate getCenter();
 

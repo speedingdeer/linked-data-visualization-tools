@@ -1,8 +1,13 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
+<<<<<<< HEAD
  * Facultad de Inform‡tica, Universidad 
  * PolitŽcnica de Madrid, Spain
+=======
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
+>>>>>>> master
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +42,8 @@ import es.upm.fi.dia.oeg.map4rdf.share.SimileTimeLineEventContainer;
 import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
 import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoItinerary;
 import es.upm.fi.dia.oeg.map4rdf.share.Year;
-import java.util.ArrayList;
+import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
+
 
 /**
  * @author Alexander De Leon
@@ -66,15 +72,19 @@ public interface Map4rdfDao {
 
 	List<Resource> getStatisticDatasets() throws DaoException;
 
-        /**
-         * Extension de Dani para peticion bajo demanda de recursos.
-         * Se deberia hacer generica y extender segun la impl
-         */
-        GeoResource getDatosObservacion(String uri) throws DaoException;
-        GeoResource getDatosGuiasViajes(String uri) throws DaoException;
-        WebNMasUnoItinerary getItinerary(String uri) throws DaoException;
+	/**
+    * Extension de Dani para peticion bajo demanda de recursos.
+    * Se deberia hacer generica y extender segun la impl
+    */
+    GeoResource getDatosObservacion(String uri) throws DaoException;
+    GeoResource getDatosGuiasViajes(String uri) throws DaoException;
+    WebNMasUnoItinerary getItinerary(String uri) throws DaoException;
 
-        GeoResource getDatosImgsReferencia(String uri) throws DaoException;
-        SimileTimeLineEventContainer getProvenanceTrip(String uriViaje) throws DaoException;
+    GeoResource getDatosImgsReferencia(String uri) throws DaoException;
+    SimileTimeLineEventContainer getProvenanceTrip(String uriViaje) throws DaoException;
         //GeoResource getDatosViajes(String uri) throws DaoException;
+    List<SubjectDescription> getSubjectDescription(String subject) throws DaoException;
+	
+	String getLabel(String uri) throws DaoException;
+
 }

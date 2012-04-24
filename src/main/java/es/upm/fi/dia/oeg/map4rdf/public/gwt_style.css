@@ -9,4 +9,12 @@
 	background-image: url('bar_bg.gif');
 	background-repeat: repeat-y;
 	padding: 0;
+<<<<<<< HEAD
+=======
+}
+
+
+.gwt-Tree .gwt-TreeItem-selected {
+	background: none !important; 
+>>>>>>> master
 }

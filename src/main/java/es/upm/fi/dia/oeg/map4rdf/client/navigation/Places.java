@@ -1,8 +1,13 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
+<<<<<<< HEAD
  * Facultad de Inform‡tica, Universidad 
  * PolitŽcnica de Madrid, Spain
+=======
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
+>>>>>>> master
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,6 +37,7 @@ import net.customware.gwt.presenter.client.place.Place;
 public class Places {
 
 	public static final Place DASHBOARD = new Place("dashboard");
-	public static final Place DEFAULT = DASHBOARD;
-
+	public static final Place LOGIN = new Place("login");
+	public static final Place EDIT_RESOURCE = new Place("edit_resource");
+    public static final Place DEFAULT = DASHBOARD;
 }

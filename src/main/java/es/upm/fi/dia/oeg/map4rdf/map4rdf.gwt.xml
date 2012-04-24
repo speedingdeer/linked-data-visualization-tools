@@ -16,7 +16,6 @@
 	<stylesheet src="/map4rdf.css"/>
 	<stylesheet src="gwt_style.css"/>
 	
-	
 	<source path="client" />
 	<source path="share" />
 	<public path="public" />

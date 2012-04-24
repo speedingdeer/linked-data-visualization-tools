@@ -1,8 +1,13 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
+<<<<<<< HEAD
  * Facultad de Inform‡tica, Universidad 
  * PolitŽcnica de Madrid, Spain
+=======
+ * Facultad de Informatica, Universidad 
+ * Politecnica de Madrid, Spain
+>>>>>>> master
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,9 +29,9 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.action;
 
+import java.io.Serializable;
 import net.customware.gwt.dispatch.shared.Action;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
-
 /**
  * @author Alexander De Leon
  */

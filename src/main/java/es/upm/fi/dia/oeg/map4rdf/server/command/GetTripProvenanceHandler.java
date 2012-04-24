@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package es.upm.fi.dia.oeg.map4rdf.server.command;
 import com.google.inject.Inject;
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetTripProvenanceResource;
