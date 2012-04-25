@@ -57,12 +57,6 @@ public class BrowserActionHandlerModule extends ActionHandlerModule {
 	protected void configureHandlers() {
 		bindHandler(GetGeoResourcesHandler.class);
 		bindHandler(GetFacetDefinitionsHandler.class);
-		//prueba
-        //bindHandler(GetAemetObsHandler.class);
-        bindHandler(GetWebNMasUnoResourceHandler.class);
-        bindHandler(GetWebNMasUnoItineraryHandler.class);
-        bindHandler(GetImagesHandler.class);
-        bindHandler(GetTripProvenanceHandler.class);
         bindHandler(GetGeoResourceOverlaysHandler.class);
 		bindHandler(GetStatisticYearsHandler.class);
 		bindHandler(GetStatisticDatasetsHandler.class);
@@ -72,5 +66,11 @@ public class BrowserActionHandlerModule extends ActionHandlerModule {
 		bindHandler(GetGeoResourcesAsKmlUrlHandler.class);
 		bindHandler(SaveRdfFIleHandler.class);
 		bindHandler(GetConfigurationParameterHandler.class);
+		//prueba
+        //bindHandler(GetAemetObsHandler.class);
+        bindHandler(GetWebNMasUnoResourceHandler.class);
+        bindHandler(GetWebNMasUnoItineraryHandler.class);
+        bindHandler(GetImagesHandler.class);
+        bindHandler(GetTripProvenanceHandler.class);
 	}
 }

@@ -134,28 +134,28 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
         // attach children
         
     	GetStatisticDatasets action = new GetStatisticDatasets();
-    	dispatchAsync.execute(action,new AsyncCallback<ListResult<Resource>>() {
+    	//panel will never be empty!
+    	//dispatchAsync.execute(action,new AsyncCallback<ListResult<Resource>>() {
 
-			@Override
-			public void onFailure(Throwable caught) {
-				getDisplay().addWestWidget(facetPresenter.getDisplay().asWidget(), "Facets");
-		        getDisplay().addWestWidget(filtersPresenter.getDisplay().asWidget(), messages.filtres());
-		        getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
-		        getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());				
-			}
-
-			@Override
-			public void onSuccess(ListResult<Resource> result) {
-				getDisplay().addWestWidget(facetPresenter.getDisplay().asWidget(), "Facets");
-				if(result != null && result.asList().size()>0) {
-					getDisplay().addWestWidget(dataToolBar, messages.overlays());					
-				}
-		        getDisplay().addWestWidget(filtersPresenter.getDisplay().asWidget(), messages.filtres());
-		        getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
-		        getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());
-
-			}
-		}); 
+			//@Override
+			//public void onFailure(Throwable caught) {
+			//	getDisplay().addWestWidget(facetPresenter.getDisplay().asWidget(), "Facets");
+		    //    getDisplay().addWestWidget(filtersPresenter.getDisplay().asWidget(), messages.filtres());
+		    //    getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
+		    //    getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());				
+			//}
+    
+			//@Override
+			//public void onSuccess(ListResult<Resource> result) {
+			getDisplay().addWestWidget(facetPresenter.getDisplay().asWidget(), "Facets");
+			//if(result != null && result.asList().size()>0) {
+			getDisplay().addWestWidget(dataToolBar, messages.overlays());					
+			//
+		    getDisplay().addWestWidget(filtersPresenter.getDisplay().asWidget(), messages.filtres());
+		    getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
+		    getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());
+			//}
+		//}); 
     }
     
     @Override

@@ -20,6 +20,7 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.customware.gwt.dispatch.client.DispatchAsync;
@@ -30,9 +31,12 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Image;
 import com.google.inject.Inject;
 
+import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResource;
+import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.view.v2.MapLayer;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.GeoResourceSummary;
@@ -43,6 +47,8 @@ import es.upm.fi.dia.oeg.map4rdf.share.Geometry;
 import es.upm.fi.dia.oeg.map4rdf.share.Point;
 import es.upm.fi.dia.oeg.map4rdf.share.PolyLine;
 import es.upm.fi.dia.oeg.map4rdf.share.Polygon;
+import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoResource;
+import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoResourceContainer;
 
 /**
  * @author Alexander De Leon
@@ -53,11 +59,13 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 	private final Image kmlButton;
 	private final GeoResourceSummary summary;
 	private final MapLayer.PopupWindow window;
+	private final DispatchAsync dispatchAsync;
 	
 	@Inject
 	public OpenLayersMapView(WidgetFactory widgetFactory, DispatchAsync dispatchAsync) {
 		super(widgetFactory, dispatchAsync);
 		kmlButton = createKMLButton();
+		this.dispatchAsync = dispatchAsync;
 		summary = widgetFactory.createGeoResourceSummary();
 		window = getDefaultLayer().createPopupWindow();
 		window.add(summary);
@@ -89,11 +97,22 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 			case POINT:
 				final Point point = (Point) geometry;
 				getDefaultLayer().draw(point).addClickHandler(new ClickHandler() {
-
+					
 					@Override
 					public void onClick(ClickEvent event) {
-						summary.setGeoResource(resource, point);
-						window.open(point);
+						//collect data for guias and viajes
+						GetGeoResource action = new GetGeoResource(resource.getUri());
+						dispatchAsync.execute(action, new AsyncCallback<SingletonResult<GeoResource>>() {
+							@Override
+							public void onFailure(Throwable caught) {
+								// TODO Auto-generated method stub
+							}
+							@Override
+				            public void onSuccess(SingletonResult<GeoResource> result) {
+								summary.setGeoResource(resource, point);
+								window.open(point);
+							}
+						});
 					}
 				});
 				break;
