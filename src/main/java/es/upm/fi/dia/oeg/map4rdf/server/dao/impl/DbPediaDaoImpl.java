@@ -381,7 +381,7 @@ public class DbPediaDaoImpl extends CommonDaoImpl implements Map4rdfDao {
 			BoundingBox boundingBox, Set<FacetConstraint> constraints,
 			Integer limit) {
 		StringBuilder query = new StringBuilder(
-				"SELECT distinct ?r ?lat ?lng ?label ");
+				"PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>  SELECT distinct ?r ?lat ?lng ?label ");
 		query.append("WHERE { ");
 		query.append("?r <" + Geo.lat + "> ?lat. ");
 		query.append("?r <" + Geo.lng + "> ?lng . ");
@@ -410,6 +410,11 @@ public class DbPediaDaoImpl extends CommonDaoImpl implements Map4rdfDao {
 			}
 			query.delete(query.length() - 5, query.length());
 		}
+		//filters
+		if (boundingBox!=null) {
+			query = addBoundingBoxFilter(query, boundingBox);
+		}
+		
 		query.append("}");
 		if (limit != null) {
 			query.append(" LIMIT " + limit);
