@@ -10,9 +10,12 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="gwt:property" content="locale=<%=request.getLocale()%>">
     <title>Map4RDF</title>
-
-    <!-- Codigo anadido por Daniel para funcionamiento del timeLine 
-     <script src="http://api.simile-widgets.org/timeline/2.3.1/timeline-api.js" type="text/javascript"></script> -->
+    <!-- 
+     Codigo anadido por Daniel para funcionamiento del timeLine 
+     <script src="http://api.simile-widgets.org/timeline/2.3.1/timeline-api.js" type="text/javascript"></script> 
+     -->
+    <script src="js/timeline/api/timeline-api.js" type="text/javascript"></script>
+    <script src="js/timeline/util/timeline-helper.js" type="text/javascript"></script>
     
     <script type="text/javascript" language="javascript" src="http://maps.google.com/maps?gwt=1&amp;file=api&amp;v=2&amp;sensor=true&amp;key=<%=googleMapsKey%>" ></script>
     <script src="http://openlayers.org/api/2.11/OpenLayers.js"></script>

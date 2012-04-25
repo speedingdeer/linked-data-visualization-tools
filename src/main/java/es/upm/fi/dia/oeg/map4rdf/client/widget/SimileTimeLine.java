@@ -59,6 +59,7 @@ public class SimileTimeLine extends Composite{
     private Widget createUi() {
         panel.setSpacing(5);
         
+        
         simileWidget = new TimeLineWidget("100%", "100%", new ITimeLineRender() {
 
             @Override
