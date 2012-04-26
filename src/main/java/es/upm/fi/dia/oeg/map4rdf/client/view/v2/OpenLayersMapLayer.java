@@ -214,7 +214,7 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 			public void open(Point location) {
 				LonLat popupPosition = OpenLayersAdapter.getLatLng(location);
                 popupPosition.transform("EPSG:4326", map.getProjection());
-				popup = new Popup(location.getUri(), popupPosition, new Size(480, 230),
+				popup = new Popup(location.getUri(), popupPosition, new Size(200, 100),
 						DOM.getInnerHTML(panel.getElement()), false);
 				popup.setBorder("1px solid #424242");
 				map.addPopupExclusive(popup);

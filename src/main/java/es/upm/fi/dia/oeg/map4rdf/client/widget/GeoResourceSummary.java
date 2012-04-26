@@ -22,6 +22,8 @@ package es.upm.fi.dia.oeg.map4rdf.client.widget;
 
 import java.util.ArrayList;
 
+import org.tmatesoft.sqljet.core.internal.lang.SqlParser.neq_subexpr_return;
+
 import net.customware.gwt.dispatch.client.DefaultDispatchAsync;
 import net.customware.gwt.dispatch.client.DispatchAsync;
 
@@ -42,8 +44,11 @@ import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import de.micromata.opengis.kml.v_2_2_0.Link;
+
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetImagesResource;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
+import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
@@ -69,6 +74,7 @@ public class GeoResourceSummary extends Composite {
 	private TabPanel panelPestanas;
 	private VerticalPanel photoContainer;
 	VerticalPanel pieDeFoto;
+	HorizontalPanel links;
 	private final Label pieFoto = new Label("No hay fotos disponibles ");
 	public interface Stylesheet {
 		String summaryLabelStyle();
@@ -101,7 +107,10 @@ public class GeoResourceSummary extends Composite {
 	    ArrayList<WebNMasUnoResource> resources = wrc.getWebNMasUnoResources();
 		numGuiaActual = 0;
         guias = new ArrayList<WebNMasUnoResource>();
-        
+        panelGuias.clear();
+        panelViajes.clear();
+        //photoContainer.clear();
+        links.clear();
         for(int i = 0; i< resources.size(); i++){
             //check whether it is a guide or a trip (for the moment we are only drawing this)
             //in the future-> edges.
@@ -147,13 +156,11 @@ public class GeoResourceSummary extends Composite {
         }
       
         panelPestanas.selectTab(0);
-        photoContainer.add(new Image());//necesaria para inicializacion
+        //photoContainer.add(new Image());//necesaria para inicializacion
         if(guias.size()>0){
             panelGlobal.setWidth("530px");
             this.replaceContainer(photoContainer,pieFoto);
-            panelFoto.add(photoContainer);
-            HorizontalPanel links = new HorizontalPanel();
-            links.setSpacing(4);
+            
             Anchor anterior = new Anchor("anterior");
             anterior.addClickHandler(new ClickHandler() {
                 @Override
@@ -180,11 +187,7 @@ public class GeoResourceSummary extends Composite {
                 }
             });
             links.add(siguiente);
-            panelFoto.add(links);
-            panelGlobal.add(panelFoto);
-            pieDeFoto.add(panelPestanas);
-            pieDeFoto.add(pieFoto);
-            panelGlobal.add(pieDeFoto);
+            
             
         }
 
@@ -233,6 +236,19 @@ public class GeoResourceSummary extends Composite {
         panelFoto = new VerticalPanel();
         photoContainer = new VerticalPanel();
         pieDeFoto = new VerticalPanel();
+        
+        links = new HorizontalPanel();
+        links.setSpacing(4);
+        
+        photoContainer.add(new Image());//necesaria para inicializacion
+        
+        panelFoto.add(photoContainer);
+        panelFoto.add(links);
+        panelFoto.add(new Hyperlink("dupa", Places.DASHBOARD+"?button=next"));
+        panelGlobal.add(panelFoto);
+        pieDeFoto.add(panelPestanas);
+        pieDeFoto.add(pieFoto);
+        panelGlobal.add(pieDeFoto);
         
         return panelGlobal;
 		
