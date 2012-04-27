@@ -31,9 +31,9 @@ import com.hp.hpl.jena.rdf.model.ResourceFactory;
 /**
  * @author Alexander De Leon
  */
-public class GeoLinkedDataEsOwlVocabulary {
+public class SdmxDimension {
 
-	protected static final String uri = "http://geo.linkeddata.es/ontology/";
+	protected static final String uri = "http://purl.org/linked-data/sdmx/2009/dimension#";
 
 	protected static final Resource resource(String local) {
 		return ResourceFactory.createResource(uri + local);
@@ -43,22 +43,12 @@ public class GeoLinkedDataEsOwlVocabulary {
 		return ResourceFactory.createProperty(uri, local);
 	}
 
-	public static String getURI() {
-		return uri;
-	}
-
 	// Classes
-	public static final Resource Curva = resource("Curva");
-	public static final Resource Poligono = resource("Pol%C3%ADgono");
-	public static final Resource Anyo = resource("A%C3%B1o");
-	public static final Resource Year = resource("Year");
 	
-	
-	// Object properties
-	public static final Property formadoPor = property("formadoPor");
-	public static final Property formaParteDe = property("formaParteDe");
+
+	// Object Property
+	public static final Property refPeriod = property("refPeriod");
 
 	// Data properties
-	public static final Property orden = property("orden");
 
 }
