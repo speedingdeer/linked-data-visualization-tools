@@ -48,9 +48,12 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.gen2.table.override.client.Panel;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
@@ -209,15 +212,27 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 			public void add(Widget w) {
 				panel.add(w);
 			}
-
+			
 			@Override
 			public void open(Point location) {
 				LonLat popupPosition = OpenLayersAdapter.getLatLng(location);
                 popupPosition.transform("EPSG:4326", map.getProjection());
-				popup = new Popup(location.getUri(), popupPosition, new Size(200, 100),
-						DOM.getInnerHTML(panel.getElement()), false);
+				popup = new Popup("exclusive-mapresources-popup", popupPosition, new Size(200, 100),
+				DOM.getInnerHTML(panel.getElement()), false);
 				popup.setBorder("1px solid #424242");
+				
 				map.addPopupExclusive(popup);
+				FlowPanel popupPanel = new FlowPanel();
+				popupPanel.add(panel);
+				popupPanel.setStyleName("popup");
+				//popupPanel.add(new Label("adsadadsdsdsdsdsdsd"));
+				//owner.getContainer().clear();
+				owner.getContainer().add(popupPanel);
+		        DOM.setStyleAttribute(popupPanel.getElement(), "position","absolute");
+			    DOM.setStyleAttribute(popupPanel.getElement(), "left", getPopupLeft() );//+ "px");
+			    DOM.setStyleAttribute(popupPanel.getElement(), "top", getPopupTop() );//+ "px");
+				DOM.setStyleAttribute(popupPanel.getElement(), "zIndex", "2024");
+				map.removePopup(popup);
 			}
 
 			@Override
@@ -229,6 +244,17 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 		};
 	}
 
+	native String getPopupLeft() /*-{
+	  var e = $wnd.document.getElementById("exclusive-mapresources-popup").style.left;
+	  return e;
+	}-*/;
+	
+	native String getPopupTop() /*-{
+	  var e = $wnd.document.getElementById("exclusive-mapresources-popup").style.top;
+	  return e;
+	}-*/;
+	
+	
 	@Override
 	public void clear() {
 		for (VectorFeature feature : features) {
