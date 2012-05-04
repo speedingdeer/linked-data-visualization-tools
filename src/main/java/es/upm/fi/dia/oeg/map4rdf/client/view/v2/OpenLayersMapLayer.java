@@ -57,6 +57,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
+import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.style.StyleMapShape;
 import es.upm.fi.dia.oeg.map4rdf.share.Circle;
 import es.upm.fi.dia.oeg.map4rdf.share.OpenLayersAdapter;
@@ -78,10 +79,12 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 	private final OpenLayersMapView owner;
 	private final Map map;
 	private final java.util.Map<String, List<ClickHandler>> handlers = new HashMap<String, List<ClickHandler>>();
+	private final BrowserResources browserResources;
 	
-	public OpenLayersMapLayer(OpenLayersMapView owner, Map map, String name) {
+	public OpenLayersMapLayer(OpenLayersMapView owner, Map map, String name, BrowserResources browserResources) {
 		this.owner = owner;
 		this.map = map;
+		this.browserResources = browserResources;
 		VectorOptions vectorOptions = new VectorOptions();
                 VectorOptions vectorBckgOptions = new VectorOptions();
                 
@@ -224,7 +227,7 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 				map.addPopupExclusive(popup);
 				FlowPanel popupPanel = new FlowPanel();
 				popupPanel.add(panel);
-				popupPanel.setStyleName("popup");
+				popupPanel.setStyleName(browserResources.css().popup());
 				//popupPanel.add(new Label("adsadadsdsdsdsdsdsd"));
 				//owner.getContainer().clear();
 				owner.getContainer().add(popupPanel);

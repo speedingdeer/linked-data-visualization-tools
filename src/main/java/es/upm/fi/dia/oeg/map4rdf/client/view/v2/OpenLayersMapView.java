@@ -47,6 +47,7 @@ import com.google.gwt.user.client.ui.Widget;
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetConfigurationParameter;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
+import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.OpenLayersAdapter;
@@ -70,6 +71,7 @@ public class OpenLayersMapView implements MapView {
 	private static final int DEFAULT_ZOOM_LEVEL = 6;
 
 	private final LoadingWidget loadingWidget;
+	private final BrowserResources browserResources;
 	private Map map;
 	private MapWidget mapWidget;
 	private final OpenLayersMapLayer defaultLayer;
@@ -82,7 +84,8 @@ public class OpenLayersMapView implements MapView {
 	private VectorFeature feature;
 	private DrawFeature df;
 	
-	public OpenLayersMapView(WidgetFactory widgetFactory, DispatchAsync dispatchAsync) {
+	public OpenLayersMapView(WidgetFactory widgetFactory, DispatchAsync dispatchAsync, BrowserResources browserResources) {
+		this.browserResources=browserResources;
 		loadingWidget = widgetFactory.getLoadingWidget();
 		createUi();
 		defaultLayer = (OpenLayersMapLayer) createLayer("default");
@@ -180,7 +183,7 @@ public class OpenLayersMapView implements MapView {
 	@Override
 	public MapLayer createLayer(String name) {
 		// TODO save layer
-		return new OpenLayersMapLayer(this, map, name);
+		return new OpenLayersMapLayer(this, map, name,browserResources);
 	}
 
 	@Override
