@@ -138,6 +138,6 @@ body{
 
 .popup {
 	background: white;
-	border: 2px;
-	margin: 2px;
+	border: 1px solid #424242;
+	padding: 2px;
 }
