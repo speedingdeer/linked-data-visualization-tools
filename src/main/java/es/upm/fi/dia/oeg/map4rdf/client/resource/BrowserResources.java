@@ -61,6 +61,8 @@ public interface BrowserResources extends ClientBundle {
 		String loadingWidget();
 		
 		String treeRoot();
+		
+		String popup();
 
 	}
 

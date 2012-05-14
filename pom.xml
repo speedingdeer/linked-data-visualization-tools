@@ -51,6 +51,11 @@
 			<version>1.0.4</version>
 		</dependency>
 		<dependency>
+			<groupId>com.googlecode.gwtquery</groupId>
+			<artifactId>gquery-plugin-archetype</artifactId>
+			<version>0.5</version>
+		</dependency>
+		<dependency>
 			<groupId>name.alexdeleon.lib</groupId>
 			<artifactId>gwt-blocks</artifactId>
 			<version>0.0.7</version>

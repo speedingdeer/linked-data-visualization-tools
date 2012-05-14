@@ -143,3 +143,9 @@ body{
 	font-family: Verdana, Arial, sans-serif;
 	font-size: 0.6em;
 }
+
+.popup {
+	background: white;
+	border: 1px solid #424242;
+	padding: 2px;
+}
