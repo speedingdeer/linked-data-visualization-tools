@@ -47,6 +47,7 @@ import org.gwtopenmaps.openlayers.client.layer.VectorOptions;
 import org.gwtopenmaps.openlayers.client.popup.Popup;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.GwtEvent;
@@ -244,7 +245,7 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 				
 				map.addPopupExclusive(popup);
 				popupPanel = new FlowPanel();
-				popupPanel.setSize("200px", "100px");
+				//popupPanel.setSize("200px", "100px");
 				popupPanel.add(panel);
 				popupPanel.setStyleName(browserResources.css().popup());
 				
@@ -353,7 +354,7 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 		vectorLayer.addVectorFeatureSelectedListener(this);
 		vectorLayer.addVectorFeatureUnselectedListener(this);
 		SelectFeature selectFeature = new SelectFeature(vectorLayer);
-		selectFeature.setClickOut(true);
+		selectFeature.setClickOut(false);
 		selectFeature.setToggle(true);
 		selectFeature.setMultiple(false);
 		map.addControl(selectFeature);

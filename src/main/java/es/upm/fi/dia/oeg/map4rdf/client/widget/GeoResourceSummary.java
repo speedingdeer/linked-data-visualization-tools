@@ -244,7 +244,6 @@ public class GeoResourceSummary extends Composite {
         
         panelFoto.add(photoContainer);
         panelFoto.add(links);
-        panelFoto.add(new Hyperlink("dupa", Places.DASHBOARD+"?button=next"));
         panelGlobal.add(panelFoto);
         pieDeFoto.add(panelPestanas);
         pieDeFoto.add(pieFoto);
