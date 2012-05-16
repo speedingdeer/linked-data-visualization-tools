@@ -24,6 +24,8 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.presenter;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
@@ -40,6 +42,9 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.sun.xml.bind.v2.schemagen.xmlschema.List;
+
+import de.micromata.opengis.kml.v_2_2_0.Geometry;
 
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResource;
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResources;
@@ -51,6 +56,8 @@ import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
 import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterChangedEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterChangedHandler;
 
+import es.upm.fi.dia.oeg.map4rdf.client.event.DrawTripEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.event.DrawTripEventHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.event.LoadResourceEvent;
@@ -63,6 +70,10 @@ import es.upm.fi.dia.oeg.map4rdf.client.widget.DataToolBar;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
+import es.upm.fi.dia.oeg.map4rdf.share.Point;
+import es.upm.fi.dia.oeg.map4rdf.share.PolyLine;
+import es.upm.fi.dia.oeg.map4rdf.share.PolyLineBean;
+import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoItinerary;
 import net.customware.gwt.dispatch.client.DefaultDispatchAsync;
 import es.upm.fi.dia.oeg.map4rdf.share.Resource;
 import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
@@ -71,7 +82,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
  */
 @Singleton
 public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display> implements
-        FacetConstraintsChangedHandler, LoadResourceEventHandler, AreaFilterChangedHandler {
+        FacetConstraintsChangedHandler, LoadResourceEventHandler, AreaFilterChangedHandler, DrawTripEventHandler {
 
     public interface Display extends WidgetDisplay {
         HasWidgets getMapPanel();
@@ -106,6 +117,7 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
         eventBus.addHandler(FacetConstraintsChangedEvent.getType(), this);
         eventBus.addHandler(LoadResourceEvent.getType(), this);
         eventBus.addHandler(AreaFilterChangedEvent.getType(), this);
+        eventBus.addHandler(DrawTripEvent.getType(), this);
     }
 
     @Override
@@ -213,7 +225,7 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
 
             @Override
             public void onFailure(Throwable caught) {
-                // TODO Auto-generated method stub
+                // TODO Auto-generated method stubgetFirstGeometry();
                 mapPresenter.getDisplay().stopProcessing();
             }
 
@@ -232,5 +244,17 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
 			FacetConstraintsChangedEvent event = new FacetConstraintsChangedEvent(facetPresenter.getConstraints());
 			eventBus.fireEvent(event);
 			
+	}
+
+	@Override
+	public void onDrawTrip(DrawTripEvent event) {
+		GeoResource trip = event.getData();
+		WebNMasUnoItinerary i = event.getData();
+		ArrayList<GeoResource> tripList = new ArrayList<GeoResource>();
+		Collection<Point> points =  trip.getFirstGeometry().getPoints();
+		tripList.add(trip);
+		//tripList.add((GeoResource) polyline);
+		
+		mapPresenter.drawGeoResouces(tripList);
 	}
 }

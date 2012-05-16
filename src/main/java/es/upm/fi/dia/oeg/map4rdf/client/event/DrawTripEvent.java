@@ -24,47 +24,49 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.event;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 import com.google.gwt.event.shared.GwtEvent;
+
+import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
+import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoItinerary;
 
 /**
  * @author Alexander De Leon
  */
-public class DrawingModeChangeEvent extends GwtEvent<DrawingModeChangeHandler> {
+public class DrawTripEvent extends GwtEvent<DrawTripEventHandler> {
 
-	private static GwtEvent.Type<DrawingModeChangeHandler> TYPE;
+	private static GwtEvent.Type<DrawTripEventHandler> TYPE;
 
-	private Boolean drawingMode;
+	private final WebNMasUnoItinerary itinerario;
 
-	public DrawingModeChangeEvent(Boolean drawingMode) {
-		super();
-		this.setDrawingMode(drawingMode);
-	
+	public DrawTripEvent(WebNMasUnoItinerary itinerario) {
+		this.itinerario = itinerario;
 	}
 
-	public static GwtEvent.Type<DrawingModeChangeHandler> getType() {
+	public static GwtEvent.Type<DrawTripEventHandler> getType() {
 		if (TYPE == null) {
-			TYPE = new Type<DrawingModeChangeHandler>();
+			TYPE = new Type<DrawTripEventHandler>();
 		}
 		return TYPE;
 	}
 
-
-	@Override
-	protected void dispatch(DrawingModeChangeHandler handler) {
-		handler.onDrawingStart(this);
+	public WebNMasUnoItinerary getData() {
+		return itinerario;
 	}
 
+
+
 	@Override
-	public GwtEvent.Type<DrawingModeChangeHandler> getAssociatedType() {
+	public GwtEvent.Type<DrawTripEventHandler> getAssociatedType() {
 		return getType();
 	}
 
-	public Boolean getDrawingMode() {
-		return drawingMode;
-	}
-
-	public void setDrawingMode(Boolean drawingMode) {
-		this.drawingMode = drawingMode;
+	@Override
+	protected void dispatch(DrawTripEventHandler handler) {
+		handler.onDrawTrip(this);
 	}
 
 }

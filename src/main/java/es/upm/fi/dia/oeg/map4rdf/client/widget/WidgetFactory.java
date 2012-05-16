@@ -21,6 +21,7 @@
 package es.upm.fi.dia.oeg.map4rdf.client.widget;
 
 import name.alexdeleon.lib.gwtblocks.client.widget.loading.LoadingWidget;
+import net.customware.gwt.presenter.client.EventBus;
 
 import com.google.inject.Inject;
 
@@ -34,17 +35,19 @@ public class WidgetFactory {
 
 	private final BrowserMessages messages;
 	private final BrowserResources resources;
-
+	private final EventBus eventBus;
+	
 	private static LoadingWidget loadingWidget;
 
 	@Inject
-	public WidgetFactory(BrowserMessages messages, BrowserResources resources) {
+	public WidgetFactory(BrowserMessages messages, BrowserResources resources, EventBus eventBus) {
 		this.messages = messages;
 		this.resources = resources;
+		this.eventBus = eventBus;
 	}
 
 	public GeoResourceSummary createGeoResourceSummary() {
-		return new GeoResourceSummary(messages, resources);
+		return new GeoResourceSummary(messages, resources, eventBus);
 	}
 
 	public Timeline createTimeline() {

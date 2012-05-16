@@ -24,47 +24,13 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.event;
 
-import com.google.gwt.event.shared.GwtEvent;
+import com.google.gwt.event.shared.EventHandler;
 
 /**
  * @author Alexander De Leon
  */
-public class DrawingModeChangeEvent extends GwtEvent<DrawingModeChangeHandler> {
+public interface DrawTripEventHandler extends EventHandler {
 
-	private static GwtEvent.Type<DrawingModeChangeHandler> TYPE;
-
-	private Boolean drawingMode;
-
-	public DrawingModeChangeEvent(Boolean drawingMode) {
-		super();
-		this.setDrawingMode(drawingMode);
-	
-	}
-
-	public static GwtEvent.Type<DrawingModeChangeHandler> getType() {
-		if (TYPE == null) {
-			TYPE = new Type<DrawingModeChangeHandler>();
-		}
-		return TYPE;
-	}
-
-
-	@Override
-	protected void dispatch(DrawingModeChangeHandler handler) {
-		handler.onDrawingStart(this);
-	}
-
-	@Override
-	public GwtEvent.Type<DrawingModeChangeHandler> getAssociatedType() {
-		return getType();
-	}
-
-	public Boolean getDrawingMode() {
-		return drawingMode;
-	}
-
-	public void setDrawingMode(Boolean drawingMode) {
-		this.drawingMode = drawingMode;
-	}
+	void onDrawTrip(DrawTripEvent event);
 
 }

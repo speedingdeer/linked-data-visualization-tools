@@ -56,7 +56,7 @@ public class DrawItineraryOnClick {
                                     refMap.getWindow().open(refMap.getLatLng(), iwc);
                                 }
                             });
-                             disp.stopProcessing();
+                            disp.stopProcessing();
                         }
                     });
 	}

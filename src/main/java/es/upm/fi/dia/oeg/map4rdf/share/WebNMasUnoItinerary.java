@@ -8,6 +8,8 @@ package es.upm.fi.dia.oeg.map4rdf.share;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import com.google.gwt.event.dom.client.DomEvent.Type;
+
 /**
  *
  * @author Daniel Garijo
@@ -34,7 +36,5 @@ public class WebNMasUnoItinerary extends GeoResource implements Serializable {
     public void addViaje (String titulo){
         titulosViajes.add(titulo);
     }
-
-
 
 }

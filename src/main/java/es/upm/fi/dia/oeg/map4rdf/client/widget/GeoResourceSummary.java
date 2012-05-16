@@ -26,6 +26,7 @@ import org.tmatesoft.sqljet.core.internal.lang.SqlParser.neq_subexpr_return;
 
 import net.customware.gwt.dispatch.client.DefaultDispatchAsync;
 import net.customware.gwt.dispatch.client.DispatchAsync;
+import net.customware.gwt.presenter.client.EventBus;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -73,6 +74,10 @@ public class GeoResourceSummary extends Composite {
 	private VerticalPanel panelGuias, panelViajes, panelFoto;
 	private TabPanel panelPestanas;
 	private VerticalPanel photoContainer;
+	
+	private GeoSummaryEventMenager geoSummaryEventMenager;
+	private EventBus eventBus;
+	
 	VerticalPanel pieDeFoto;
 	HorizontalPanel links;
 	private final Label pieFoto = new Label("No hay fotos disponibles ");
@@ -90,9 +95,11 @@ public class GeoResourceSummary extends Composite {
     private ArrayList<WebNMasUnoResource> guias = null;
     private int numGuiaActual;
     
-	public GeoResourceSummary(BrowserMessages messages, BrowserResources browserResources) {
+	public GeoResourceSummary(BrowserMessages messages, BrowserResources browserResources, EventBus eventBus) {
 		this.messages = messages;
+		this.eventBus = eventBus;
 		this.browserResources = browserResources;
+		this.geoSummaryEventMenager = new GeoSummaryEventMenager(eventBus);
 		style = browserResources.css();
 		initWidget(createUi());
 	}
@@ -255,15 +262,6 @@ public class GeoResourceSummary extends Composite {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/*******************************************************************
 	 *************************HELPERS**********************************
 	 *******************************************************************/
@@ -326,7 +324,9 @@ public class GeoResourceSummary extends Composite {
                     //Window.open("http://google.com", "_blank", null);
                     //hacer aqui la llamada a pintar el viaje polilinea.
                     //new DrawItineraryOnClick(t.getItinerario(),disp ,ref);
-                    if(SimileTimeLine.enabled){
+                	
+                    geoSummaryEventMenager.drawTrip(t.getItinerario());
+                	if(SimileTimeLine.enabled){
                         //new DrawTripTimeLine(t.getURI(), disp, ref);
                     }
                 }
