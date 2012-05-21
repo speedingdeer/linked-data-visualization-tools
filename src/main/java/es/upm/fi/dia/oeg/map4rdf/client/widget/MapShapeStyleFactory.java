@@ -55,7 +55,7 @@ public class MapShapeStyleFactory {
 
 		private final E mapShape;
 		private String strokeColor = "0000FF";
-		private int strokeWidth = 1;
+		private int strokeWidth = 2;
 		private String fillColor = null;
 		private double strokeOpacity = 1;
 		private double fillOpacity = 0.5;

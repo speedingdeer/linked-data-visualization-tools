@@ -310,8 +310,10 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 	public class FeatureHasClickHandlerWrapper implements HasClickHandlers {
 
 		private final String featureId;
-
-		private FeatureHasClickHandlerWrapper(String featureId) {
+		private final VectorFeature feature;
+		
+		private FeatureHasClickHandlerWrapper(String featureId,VectorFeature feature) {
+			this.feature = feature;
 			this.featureId = featureId;
 		}
 
@@ -336,6 +338,12 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 					fClickHandlers.remove(handler);
 				}
 			};
+		}
+		public String getId(){
+			return featureId;
+		}
+		public VectorFeature getFeature(){
+			return this.feature;
 		}
 	}
 
@@ -382,7 +390,7 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 		vectorLayer.addFeature(feature);
 		features.add(feature);
 
-		return new FeatureHasClickHandlerWrapper(featureId);
+		return new FeatureHasClickHandlerWrapper(featureId,feature);
 	}
         
         

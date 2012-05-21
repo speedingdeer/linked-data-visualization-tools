@@ -25,13 +25,18 @@
 package es.upm.fi.dia.oeg.map4rdf.client.view;
 
 
+import net.customware.gwt.presenter.client.EventBus;
+
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
@@ -40,6 +45,7 @@ import com.google.inject.Inject;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.FiltersPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
+import es.upm.fi.dia.oeg.map4rdf.client.widget.YearsSelector;
 
 /**
  * @author Alexander De Leon
@@ -48,15 +54,19 @@ public class FiltersView extends Composite implements FiltersPresenter.Display {
 
 	private final BrowserMessages messages;
 	private final BrowserResources resources;
+	private final EventBus eventBus;
 	
-	private FlowPanel panel;
+	private FlowPanel mainPanel;
+	private FlowPanel drawingPanel;
+	private FlowPanel yearsPanel;
 	private PushButton clearButton;
 	private ToggleButton drawButton;
 	
 	@Inject
-	public FiltersView(BrowserMessages messages, BrowserResources resources) {
+	public FiltersView(BrowserMessages messages, BrowserResources resources, EventBus eventBus) {
 		this.resources = resources;
 		this.messages = messages;
+		this.eventBus = eventBus;
 		initWidget(createUi());
 		//addStyleName(resources.css().facets());
 	}
@@ -82,7 +92,7 @@ public class FiltersView extends Composite implements FiltersPresenter.Display {
 
 	/* ---------------- helper methods -- */
 	private Widget createUi() {
-		panel = new FlowPanel();
+		drawingPanel = new FlowPanel();
 		Grid grid = new Grid(1, 3);
 
 		drawButton = new ToggleButton(new Image(resources.pencilIcon()));
@@ -94,14 +104,26 @@ public class FiltersView extends Composite implements FiltersPresenter.Display {
 		grid.setWidget(0, 2, clearButton);
 		grid.setWidget(0, 0, new Label(messages.draw()+": "));
 		
-		panel.add(grid);
-
-		return panel;
+		drawingPanel.add(grid);
+		
+		mainPanel = new FlowPanel();
+		
+		mainPanel.add(drawingPanel);
+		mainPanel.add(new Label());
+		
+		Grid gridDate = new Grid(1, 3);
+		
+		yearsPanel = new FlowPanel();
+		yearsPanel.add(gridDate);
+		gridDate.setWidget(0,0,new Label("Filtrar por fecha: "));
+		gridDate.setWidget(0, 2,new YearsSelector(eventBus));
+		mainPanel.add(yearsPanel);
+		return mainPanel;
 	}
 
     @Override
     public void clear() {
-        panel.clear();
+        drawingPanel.clear();
     }
 
 

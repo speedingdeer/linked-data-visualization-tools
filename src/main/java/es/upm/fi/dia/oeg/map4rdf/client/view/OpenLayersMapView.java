@@ -23,8 +23,10 @@ package es.upm.fi.dia.oeg.map4rdf.client.view;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.customware.gwt.dispatch.client.DefaultDispatchAsync;
 import net.customware.gwt.dispatch.client.DispatchAsync;
 
+import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 import org.gwtopenmaps.openlayers.client.layer.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -36,10 +38,12 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.inject.Inject;
 
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResource;
+import es.upm.fi.dia.oeg.map4rdf.client.action.GetItineraryResource;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.view.v2.MapLayer;
+import es.upm.fi.dia.oeg.map4rdf.client.view.v2.OpenLayersMapLayer.FeatureHasClickHandlerWrapper;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.GeoResourceSummary;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.MapShapeStyleFactory;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
@@ -48,6 +52,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.Geometry;
 import es.upm.fi.dia.oeg.map4rdf.share.Point;
 import es.upm.fi.dia.oeg.map4rdf.share.PolyLine;
 import es.upm.fi.dia.oeg.map4rdf.share.Polygon;
+import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoItinerary;
 import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoResourceContainer;
 
@@ -93,7 +98,7 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 	/* --------------- helper methods -- */
 
 	private void drawGeoResource(final GeoResource resource) {
-		for (Geometry geometry : resource.getGeometries()) {
+		for (final Geometry geometry : resource.getGeometries()) {
 			switch (geometry.getType()) {
 			case POINT:
 				final Point point = (Point) geometry;
@@ -119,13 +124,29 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 				break;
 			case POLYLINE:
 				final PolyLine line = (PolyLine) geometry;
-				getDefaultLayer().drawPolyline(MapShapeStyleFactory.createStyle(line)).addClickHandler(
+				HasClickHandlers elem = getDefaultLayer().drawPolyline(MapShapeStyleFactory.createStyle(line));
+				final VectorFeature feature = ((FeatureHasClickHandlerWrapper)elem).getFeature();
+				elem.addClickHandler(
 						new ClickHandler() {
-
 							@Override
 							public void onClick(ClickEvent event) {
-								summary.setGeoResource(resource, line);
-								window.open(line.getPoints().get(0));
+								GetItineraryResource action = new GetItineraryResource(resource.getUri());
+								dispatchAsync.execute(action, new AsyncCallback<SingletonResult<WebNMasUnoItinerary>>() {
+
+									@Override
+									public void onFailure(Throwable caught) {
+										// TODO Auto-generated method stub
+										
+									}
+
+									@Override
+									public void onSuccess(
+											SingletonResult<WebNMasUnoItinerary> result) {
+										summary.setTripInformation(result.getValue(),feature);
+										window.open(line.getPoints().get(line.getPoints().toArray().length/2));
+									}
+								});
+							
 							}
 						});
 				break;

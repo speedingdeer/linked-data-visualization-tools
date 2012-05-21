@@ -22,40 +22,53 @@ package es.upm.fi.dia.oeg.map4rdf.client.widget;
 
 import java.util.ArrayList;
 
-import org.tmatesoft.sqljet.core.internal.lang.SqlParser.neq_subexpr_return;
+import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 
 import net.customware.gwt.dispatch.client.DefaultDispatchAsync;
 import net.customware.gwt.dispatch.client.DispatchAsync;
 import net.customware.gwt.presenter.client.EventBus;
 
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.smartgwt.client.widgets.form.fields.RadioGroupItem;
 
 import de.micromata.opengis.kml.v_2_2_0.Link;
 
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetImagesResource;
+import es.upm.fi.dia.oeg.map4rdf.client.action.GetItineraryResource;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
+import es.upm.fi.dia.oeg.map4rdf.client.event.FilterYearChangeEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.event.FilterYearChangeEventHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.Geometry;
+import es.upm.fi.dia.oeg.map4rdf.share.PolyLine;
 import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoGuide;
 import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoImage;
+import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoItinerary;
 import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoResourceContainer;
 import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoTrip;
@@ -63,20 +76,47 @@ import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoTrip;
 /**
  * @author Alexander De Leon
  */
-public class GeoResourceSummary extends Composite {
+public class GeoResourceSummary extends Composite implements FilterYearChangeEventHandler {
 
+	private String BLUE="#0000FF";
+	private String BLACK="#000000";
+	private String GREEN="#00FF00";
+	private String RED="#FF0000";
+	
+	private String yearFilterValue="----";
+	private GeoResource currentResource;
+	private Geometry currentGeometry;
+	private WebNMasUnoItinerary currentItinerary;
+	private VectorFeature currentFeature;
+	private Boolean refreshOnYearChangeEvent = false;
+	
 	private Label label;	
 	private Anchor link;
-	private HorizontalPanel panelGlobal;
+	private HorizontalPanel resourcePanel;
+	private FlowPanel mainPanel;
+	private FlowPanel tripPanel;
 	private Hyperlink editLink;
 	private InlineLabel moreInfo;
 	private InlineLabel editInfo;
 	private VerticalPanel panelGuias, panelViajes, panelFoto;
 	private TabPanel panelPestanas;
 	private VerticalPanel photoContainer;
-	
+	private RadioButton radioButtonBlue;
+	private RadioButton radioButtonRed;
+	private RadioButton radioButtonGreen;
+	private RadioButton radioButtonBlack;
 	private GeoSummaryEventMenager geoSummaryEventMenager;
 	private EventBus eventBus;
+	
+	/*****trip widget****/
+	FlowPanel panelVertical;
+	FlowPanel panelLinea;
+	//VerticalPanel titulos;
+	FlowPanel panelLinea2;
+	FlowPanel panelLinea3;
+	
+	VectorFeature feature;
+	/********************/
 	
 	VerticalPanel pieDeFoto;
 	HorizontalPanel links;
@@ -102,6 +142,7 @@ public class GeoResourceSummary extends Composite {
 		this.geoSummaryEventMenager = new GeoSummaryEventMenager(eventBus);
 		style = browserResources.css();
 		initWidget(createUi());
+		eventBus.addHandler(FilterYearChangeEvent.getType(), this);
 	}
 
 	public GeoResourceSummary() {
@@ -109,7 +150,14 @@ public class GeoResourceSummary extends Composite {
 	}
 
 	public void setGeoResource(GeoResource resource, Geometry geometry) {
+		//setCurrentData
+		currentResource = resource;
+		currentGeometry = geometry;
+		refreshOnYearChangeEvent = true;
 		//fill up data
+		WebNMasUnoTrip trip = null;
+		tripPanel.setVisible(false);
+		resourcePanel.setVisible(true);
 		WebNMasUnoResourceContainer wrc = (WebNMasUnoResourceContainer)resource;
 	    ArrayList<WebNMasUnoResource> resources = wrc.getWebNMasUnoResources();
 		numGuiaActual = 0;
@@ -124,24 +172,20 @@ public class GeoResourceSummary extends Composite {
             try{
                 WebNMasUnoGuide guide = (WebNMasUnoGuide) resources.get(i);
                 this.guias.add(guide);
-                if(YearSelector.enabled){
-                    if (is_guide_date_greater_or_equal_than_selector(YearSelector.valorElegido, guide.getDate())){
-                        panelGuias.add(this.addEntryGuide(guide));
-                    }
-                }else{//no esta activado el panel
-                    panelGuias.add(this.addEntryGuide(guide));
+
+                if (is_guide_date_greater_or_equal_than_selector(yearFilterValue, guide.getDate())){
+                	panelGuias.add(this.addEntryGuide(guide));
                 }
+        
             }catch(Exception e){
                 //class cast exception
                 try{
-                    WebNMasUnoTrip trip = (WebNMasUnoTrip) resources.get(i);
-                    if(YearSelector.enabled){
-                        if (is_guide_date_greater_or_equal_than_selector(YearSelector.valorElegido, trip.getDate())){
-                            panelViajes.add(this.addEntryTrip(trip));
-                            }
-                    }else{
-                        panelViajes.add(this.addEntryTrip(trip));
+                    trip = (WebNMasUnoTrip) resources.get(i);
+                 
+                    if (is_guide_date_greater_or_equal_than_selector(yearFilterValue, trip.getDate())){
+                    	panelViajes.add(this.addEntryTrip(trip));
                     }
+
                 }catch(Exception e2){
                     System.err.println("Error: "+e2.getMessage());
                 }
@@ -165,7 +209,7 @@ public class GeoResourceSummary extends Composite {
         panelPestanas.selectTab(0);
         //photoContainer.add(new Image());//necesaria para inicializacion
         if(guias.size()>0){
-            panelGlobal.setWidth("530px");
+            resourcePanel.setWidth("530px");
             this.replaceContainer(photoContainer,pieFoto);
             
             Anchor anterior = new Anchor("anterior");
@@ -194,11 +238,11 @@ public class GeoResourceSummary extends Composite {
                 }
             });
             links.add(siguiente);
-            
-            
         }
+        //drawing trip part
+     
+    }
 
-	}
 	
 
 	private void hideMoreInfo() {
@@ -214,7 +258,7 @@ public class GeoResourceSummary extends Composite {
 		moreInfo.setVisible(true);
 	}
 	private Widget createUi() {
-		panelGlobal = new HorizontalPanel();
+		resourcePanel = new HorizontalPanel();
 		panelPestanas = new TabPanel();
         panelPestanas.setWidth("400px");
         panelGuias = new VerticalPanel();
@@ -235,11 +279,10 @@ public class GeoResourceSummary extends Composite {
         pV.add(scrollerViajes);
         pV.setHeight("100px");
         panelPestanas.add(pV,"Viajes");
-
-        panelPestanas.selectTab(0);
+		panelPestanas.selectTab(0);
         panelPestanas.setHeight("150px");
         
-        panelGlobal.setSpacing(10);        
+        resourcePanel.setSpacing(10);        
         panelFoto = new VerticalPanel();
         photoContainer = new VerticalPanel();
         pieDeFoto = new VerticalPanel();
@@ -251,12 +294,33 @@ public class GeoResourceSummary extends Composite {
         
         panelFoto.add(photoContainer);
         panelFoto.add(links);
-        panelGlobal.add(panelFoto);
+        resourcePanel.add(panelFoto);
         pieDeFoto.add(panelPestanas);
         pieDeFoto.add(pieFoto);
-        panelGlobal.add(pieDeFoto);
+        resourcePanel.add(pieDeFoto);
         
-        return panelGlobal;
+        mainPanel = new FlowPanel();
+        tripPanel = new FlowPanel();
+        
+        /*****trip widgets******/
+       // titulos = new VerticalPanel();
+        panelVertical = new FlowPanel();
+        panelLinea = new FlowPanel();
+        panelLinea2 = new FlowPanel();
+        panelLinea3 = new FlowPanel();
+        //panelLinea.add(titulos);
+        panelVertical.add(panelLinea);
+        panelVertical.add(new HTML("<br></br>"));
+        panelVertical.add(panelLinea2);
+        panelVertical.add(new HTML("<br></br>"));
+        panelVertical.add(panelLinea3);
+        tripPanel.add(panelVertical);
+       
+        /***********************/
+        
+        mainPanel.add(resourcePanel);
+        mainPanel.add(tripPanel);
+        return mainPanel;
 		
 	}
 	
@@ -385,7 +449,7 @@ public class GeoResourceSummary extends Composite {
             if(y<=y1)return true;
             else return false;
         }catch(Exception e){
-            return false;
+            return true;
         }
     }
 
@@ -479,7 +543,90 @@ public class GeoResourceSummary extends Composite {
         return convertedURL;
     }
 	
+	public void setTripInformation(WebNMasUnoItinerary result, VectorFeature feature){
+		
+		//set current data
+		currentItinerary = result;
+		currentFeature = feature;
+		refreshOnYearChangeEvent = false;
+		
+		this.feature = feature;
+		tripPanel.setVisible(true);
+		resourcePanel.setVisible(false);
+		
+		
+		
+        panelLinea.clear();
+        panelLinea2.clear();
+        panelLinea3.clear();
+        
+        if (result == null) {
+        	return;
+        }
+        
+        panelLinea.add(new InlineLabel("Informacion del itinerario: "));
+             //panelLinea.add(titulos);
+	 
+		ArrayList<String> t = result.getViajes();
+	    for (int i = 0; i<t.size();i++){
+	    	panelLinea.add(new InlineLabel(t.get(i)+" "));
+	    }
+	        
+	    panelLinea2.add(new InlineLabel("Informacion en RDF: "));
+	    panelLinea2.add(new Anchor("rdf",result.getUri(),"_blank"));
 	
-	
-	
+	    panelLinea.setWidth("200px");
+	         
+	    panelLinea3.add(new Label("color del viaje:"));
+	    radioButtonBlue = new RadioButton("color","azul");
+	    radioButtonGreen = new RadioButton("color","verde");
+	    radioButtonRed = new RadioButton("color","rojo");
+	    radioButtonBlack = new RadioButton("color","negro");
+	    panelLinea3.add(radioButtonBlue);
+	    panelLinea3.add(radioButtonGreen);
+	    panelLinea3.add(radioButtonRed);
+	    panelLinea3.add(radioButtonBlack);
+	    addColourChangeListener(radioButtonBlack, BLACK);
+	    addColourChangeListener(radioButtonBlue, BLUE);
+	    addColourChangeListener(radioButtonRed, RED);
+	    addColourChangeListener(radioButtonGreen, GREEN);
+        
+        
+		
+		String currentColour = feature.getStyle().getStrokeColor();
+		if (currentColour.equals(BLUE)) {
+			radioButtonBlue.setValue(true);
+		}
+		else if(currentColour.equals(BLACK)) {
+			radioButtonBlack.setValue(true);
+		}
+		else if(currentColour.equals(RED)) {
+			radioButtonRed.setValue(true);
+		}	
+		else if(currentColour.equals(GREEN)) {
+			radioButtonGreen.setValue(true);
+		}
+		else {
+			radioButtonBlue.setValue(true);
+		}
+	}
+
+	private void addColourChangeListener(RadioButton radio, final String color) {
+		radio.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				feature.getStyle().setStrokeColor(color);
+				feature.redrawParent();
+			}
+		});
+	}
+
+	@Override
+	public void onYearChange(FilterYearChangeEvent event) {
+		yearFilterValue = event.getYear();
+		if (refreshOnYearChangeEvent) {
+			setGeoResource(currentResource, currentGeometry);
+		}
+	}
 }
