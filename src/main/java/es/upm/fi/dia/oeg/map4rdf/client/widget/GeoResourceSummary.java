@@ -95,6 +95,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 	private HorizontalPanel resourcePanel;
 	private FlowPanel mainPanel;
 	private FlowPanel tripPanel;
+	private FlowPanel timeLinePanel;
 	private Hyperlink editLink;
 	private InlineLabel moreInfo;
 	private InlineLabel editInfo;
@@ -157,6 +158,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 		//fill up data
 		WebNMasUnoTrip trip = null;
 		tripPanel.setVisible(false);
+		timeLinePanel.setVisible(true);
 		resourcePanel.setVisible(true);
 		WebNMasUnoResourceContainer wrc = (WebNMasUnoResourceContainer)resource;
 	    ArrayList<WebNMasUnoResource> resources = wrc.getWebNMasUnoResources();
@@ -301,6 +303,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
         
         mainPanel = new FlowPanel();
         tripPanel = new FlowPanel();
+        timeLinePanel = new FlowPanel();
         
         /*****trip widgets******/
        // titulos = new VerticalPanel();
@@ -320,6 +323,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
         
         mainPanel.add(resourcePanel);
         mainPanel.add(tripPanel);
+        mainPanel.add(timeLinePanel);
         return mainPanel;
 		
 	}
@@ -388,22 +392,20 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
                     //Window.open("http://google.com", "_blank", null);
                     //hacer aqui la llamada a pintar el viaje polilinea.
                     //new DrawItineraryOnClick(t.getItinerario(),disp ,ref);
-                	
-                    geoSummaryEventMenager.drawTrip(t.getItinerario());
-                	if(SimileTimeLine.enabled){
-                        //new DrawTripTimeLine(t.getURI(), disp, ref);
-                    }
+                	geoSummaryEventMenager.drawTrip(t.getItinerario());
                 }
             });
             Anchor timeL = new Anchor("Historial");
             timeL.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
-                    if(SimileTimeLine.enabled){
+                    geoSummaryEventMenager.drawHistory(t.getURI(), timeLinePanel, resourcePanel);
+                    
+                	//if(SimileTimeLine.enabled){
                         //new DrawTripTimeLine(t.getURI(), disp, ref);
-                    }else{
-                        Window.alert("Has de activar la linea temporal (Capas->Linea temporal)");
-                    }
+                    //}else{
+                    //    Window.alert("Has de activar la linea temporal (Capas->Linea temporal)");
+                   // }
                 }
             });
             dibujos.setSpacing(5);
@@ -553,7 +555,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 		this.feature = feature;
 		tripPanel.setVisible(true);
 		resourcePanel.setVisible(false);
-		
+		timeLinePanel.setVisible(false);
 		
 		
         panelLinea.clear();

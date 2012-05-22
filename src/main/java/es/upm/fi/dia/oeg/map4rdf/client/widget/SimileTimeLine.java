@@ -144,7 +144,8 @@ public class SimileTimeLine extends Composite{
       " This text can also be a tagline from the guide."+
       " Image of the guide"+
       "</event></data>";*/
-        panel.remove(simileWidget);
+        /*
+    	panel.remove(simileWidget);
         simileWidget = new TimeLineWidget("100%", "100%", new ITimeLineRender() {
 
             @Override
@@ -154,10 +155,16 @@ public class SimileTimeLine extends Composite{
 
             }
         });
+        */
         //this.loadBandInfos("Apr 01 2011 00:00:00 GMT");
-        this.loadBandInfos(startDate);
+    	simileWidget.clearData();
+
+    	this.loadBandInfos(startDate);
         simileWidget.getEventSource().loadXMLText(xmlText);
-        panel.add(simileWidget);
+        
+        this.disable();
+        this.enable();
+        //panel.add(simileWidget);
     }
 
     /**
