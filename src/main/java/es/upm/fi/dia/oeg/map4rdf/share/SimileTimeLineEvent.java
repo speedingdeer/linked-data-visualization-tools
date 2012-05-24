@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.google.gwt.i18n.client.TimeZone;
+
 /**
  * @author Daniel Garijo (based on the work by Alexander de Leon)
  */
@@ -73,6 +75,9 @@ public class SimileTimeLineEvent implements Serializable {
     anyo = end.substring(0,4);
     mes = end.substring(4,6);
     dia = end.substring(6,8);
+    TimeZone gmtTime = TimeZone.createTimeZone("GMT");
+    Date date = new Date(Integer.parseInt(anyo)-1900, Integer.parseInt(mes), Integer.parseInt(dia), 12, 0);
+    String a = date.toGMTString();
     this.setStart(new Date(Integer.parseInt(anyo)-1900, Integer.parseInt(mes), Integer.parseInt(dia), 12, 0));
   }
 
@@ -196,18 +201,18 @@ public class SimileTimeLineEvent implements Serializable {
   {
     StringBuffer buffer = new StringBuffer();
     buffer.append("<event ");
-    buffer.append("start=\"" + m_start + "\" ");
+    buffer.append("start=\"" + m_start.toGMTString() + "\" ");
     if (m_end != null)
     {
-      buffer.append("end=\"" + m_end + "\" ");
+      buffer.append("end=\"" + m_end.toGMTString() + "\" ");
     }
     if (m_latestStart != null)
     {
-      buffer.append("latestStart=\"" + m_latestStart + "\" ");
+      buffer.append("latestStart=\"" + m_latestStart.toGMTString() + "\" ");
     }
     if (m_earliestEnd != null)
     {
-      buffer.append("earliestEnd=\"" + m_earliestEnd + "\" ");
+      buffer.append("earliestEnd=\"" + m_earliestEnd.toGMTString() + "\" ");
     }
     buffer.append("isDuration=\"" + isDuration() + "\" ");
     buffer.append("title=\"" + m_title + "\" ");

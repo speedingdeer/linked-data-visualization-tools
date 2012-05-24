@@ -52,20 +52,6 @@ public class GeoSummaryEventMenager {
 	public void drawHistory (String uriViaje, final Panel timelineContainer, final Panel replacedContainer) {
 
 		if(uriViaje==null||uriViaje.equals(""))return;
-		//timelineContainer.clear();
-		//timelineContainer.add(SimileTimeLine.getInstance());
-		replacedContainer.setVisible(false);
-		timelineContainer.setVisible(true);
-		Button buttonBack = new Button("Volver");
-		buttonBack.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				replacedContainer.setVisible(true);
-				timelineContainer.setVisible(false);
-			}
-		});
-		timelineContainer.add(buttonBack);
 		
 		 GetTripProvenanceResource action = new GetTripProvenanceResource(uriViaje);
 		 dispatchAsync.execute(action, new AsyncCallback<SingletonResult<SimileTimeLineEventContainer>>() {
@@ -83,12 +69,13 @@ public class GeoSummaryEventMenager {
 				 final SimileTimeLineEventContainer listaEventos = result.getValue();
 				 String a = listaEventos.toXml();
 				 String b = ""+listaEventos.getDateToCenter();
-				 SimileTimeLine.getInstance().addEvents(listaEventos.toXml(),""+listaEventos.getDateToCenter());				 //SimileTimeLine.getInstance().addEvents(listaEventos.toXml(),""+listaEventos.getDateToCenter());
-				 //timelineContainer.add(SimileTimeLine.getInstance());
-				 //SimileTimeLine.getInstance().setWidth("500px");
-				 //timelineContainer.setWidth("500px");
+				 SimileTimeLine.getInstance().addEvents(listaEventos.toXml(),""+listaEventos.getDateToCenter());
+				 timelineContainer.clear();
+				 timelineContainer.add(SimileTimeLine.getInstance());
+				 replacedContainer.setVisible(false);
+				 timelineContainer.setVisible(true);
+					
 			}
-			 
 		 });
 	}
 	

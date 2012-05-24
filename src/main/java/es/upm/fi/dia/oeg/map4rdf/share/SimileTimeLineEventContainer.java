@@ -41,9 +41,9 @@ public class SimileTimeLineEventContainer implements Serializable {
     m_list.add(e);
   }
 
-  public Date getDateToCenter(){
+  public String getDateToCenter(){
       if(m_list.size()<=0)return null;
-      return m_list.get(0).getStart();
+      return m_list.get(0).getStart().toGMTString();
   }
 
   public String toXml()

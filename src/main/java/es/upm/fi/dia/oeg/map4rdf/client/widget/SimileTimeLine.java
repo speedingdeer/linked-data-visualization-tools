@@ -112,7 +112,7 @@ public class SimileTimeLine extends Composite{
 
         bandInfos.add(dayBand);
         bandInfos.add(monthBand);
-
+        
         monthBand.setSyncWith(bandInfos.indexOf(dayBand));
         monthBand.setHighlight(true);
     }
@@ -156,12 +156,14 @@ public class SimileTimeLine extends Composite{
             }
         });
         */
-        //this.loadBandInfos("Apr 01 2011 00:00:00 GMT");
-    	simileWidget.clearData();
 
+    	
+    	simileWidget.clearData();
+    	
     	this.loadBandInfos(startDate);
         simileWidget.getEventSource().loadXMLText(xmlText);
-        
+        //simileWidget.getEventSource().loadXMLText(dataTest2);
+   
         this.disable();
         this.enable();
         //panel.add(simileWidget);

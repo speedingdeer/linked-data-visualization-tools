@@ -879,7 +879,7 @@ public class DbPediaDaoImpl extends CommonDaoImpl implements Map4rdfDao {
 			}
 			i.setDescription("Características:", features);
 			cont.addEvent(i);
-			System.out.println(i.toXml());
+			//System.out.println(i.toXml());
 		}
 		// query 1. References & next Version of the trip.
 		QueryExecution exec2 = QueryExecutionFactory.sparqlService(endpointUri,
@@ -987,7 +987,7 @@ public class DbPediaDaoImpl extends CommonDaoImpl implements Map4rdfDao {
 		}
 		// i.setDescription("HOLA");
 		i.setDescription("Características:", features);
-		System.out.println(i.toXml());
+		//System.out.println(i.toXml());
 		return i;
 	}
 
