@@ -155,4 +155,10 @@ public class GoogleMapView implements MapView {
 		
 	}
 
+	@Override
+	public void showWidgetPanel() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

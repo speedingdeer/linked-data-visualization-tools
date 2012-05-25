@@ -110,7 +110,10 @@ public interface BrowserResources extends ClientBundle {
 
     @Source("back.png")
 	ImageResource backButton();
-	
+    
+    @Source("next.png")
+    ImageResource nextButton();
+   
 	@Source("save.png")
 	ImageResource saveButton();
 }

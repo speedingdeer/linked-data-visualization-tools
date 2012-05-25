@@ -22,6 +22,7 @@ package es.upm.fi.dia.oeg.map4rdf.client.view.v2;
 
 import name.alexdeleon.lib.gwtblocks.client.widget.loading.LoadingWidget;
 import net.customware.gwt.dispatch.client.DispatchAsync;
+import net.customware.gwt.presenter.client.EventBus;
 
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
@@ -42,12 +43,17 @@ import com.google.gwt.user.client.Window;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetConfigurationParameter;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
+import es.upm.fi.dia.oeg.map4rdf.client.event.HistoryShowEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.event.HistoryShowEventHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
+import es.upm.fi.dia.oeg.map4rdf.client.widget.SimileTimeLine;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.OpenLayersAdapter;
@@ -62,7 +68,7 @@ import org.gwtopenmaps.openlayers.client.handler.RegularPolygonHandler;
  * @author Alexander De Leon
  */
 // TODO : Remove hard coded values!!!
-public class OpenLayersMapView implements MapView {
+public class OpenLayersMapView implements MapView, HistoryShowEventHandler {
 
 	/**
 	 * By default the map is centered in Puerta del Sol, Madrid
@@ -77,15 +83,17 @@ public class OpenLayersMapView implements MapView {
 	private final OpenLayersMapLayer defaultLayer;
 	private AbsolutePanel panel;
 	private LayerSwitcher layerSwitcher;
-
+	private FlowPanel widgetPanel;
 	// drawing
 	private Vector drawingVector;
 	private RegularPolygonHandler regularPolygonHandler;
 	private VectorFeature feature;
 	private DrawFeature df;
+	private EventBus eventBus;
 	
-	public OpenLayersMapView(WidgetFactory widgetFactory, DispatchAsync dispatchAsync, BrowserResources browserResources) {
+	public OpenLayersMapView(WidgetFactory widgetFactory, DispatchAsync dispatchAsync, BrowserResources browserResources, EventBus eventBus) {
 		this.browserResources=browserResources;
+		this.eventBus = eventBus;
 		loadingWidget = widgetFactory.getLoadingWidget();
 		createUi();
 		defaultLayer = (OpenLayersMapLayer) createLayer("default");
@@ -106,7 +114,7 @@ public class OpenLayersMapView implements MapView {
 			}
 		
 		});
-		
+		eventBus.addHandler(HistoryShowEvent.getType(), this);
 		
 	}
 
@@ -206,6 +214,8 @@ public class OpenLayersMapView implements MapView {
 		layerSwitcher = new LayerSwitcher();		
 		map.addControl(layerSwitcher);
 		panel.add(mapWidget);
+		widgetPanel = new FlowPanel();
+		panel.add(widgetPanel);
 		DOM.setStyleAttribute(panel.getElement(), "zIndex", "0");
 	}
 	
@@ -296,6 +306,28 @@ public class OpenLayersMapView implements MapView {
 
 	@Override
 	public void closeWindow() {
+	}
+
+	@Override
+	public void onHistoryWidgetChange(HistoryShowEvent event) {
+		// TODO Auto-generated method stub
+	}
+	
+	public void closeWidgetPanel() {
+		widgetPanel.clear();
+	}
+	public void showWidgetPanel() {
+		if (widgetPanel != null) {
+			panel.remove(widgetPanel);
+		}
+		widgetPanel = new FlowPanel();
+		panel.add(widgetPanel);
+		widgetPanel.add(SimileTimeLine.getInstance());
+		SimileTimeLine.getInstance().enable();
+		DOM.setStyleAttribute(widgetPanel.getElement(), "position", "absolute");
+		DOM.setStyleAttribute(widgetPanel.getElement(), "left", 22 + "px");
+		DOM.setStyleAttribute(widgetPanel.getElement(), "bottom", 22 + "px");
+		DOM.setStyleAttribute(widgetPanel.getElement(), "zIndex", "2024");
 	}
 	
 }	

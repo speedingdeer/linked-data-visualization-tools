@@ -144,7 +144,7 @@ public class SimileTimeLine extends Composite{
       " This text can also be a tagline from the guide."+
       " Image of the guide"+
       "</event></data>";*/
-        /*
+   
     	panel.remove(simileWidget);
         simileWidget = new TimeLineWidget("100%", "100%", new ITimeLineRender() {
 
@@ -155,10 +155,7 @@ public class SimileTimeLine extends Composite{
 
             }
         });
-        */
-
-    	
-    	simileWidget.clearData();
+  
     	
     	this.loadBandInfos(startDate);
         simileWidget.getEventSource().loadXMLText(xmlText);
@@ -166,7 +163,8 @@ public class SimileTimeLine extends Composite{
    
         this.disable();
         this.enable();
-        //panel.add(simileWidget);
+        
+        panel.add(simileWidget);
     }
 
     /**

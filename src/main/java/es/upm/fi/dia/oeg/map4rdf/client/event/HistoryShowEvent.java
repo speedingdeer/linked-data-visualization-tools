@@ -1,5 +1,9 @@
 /**
- * Copyright (c) 2011 Alexander De Leon Battista
+ * Copyright (c) 2011 Ontology Engineering Group, 
+ * Departamento de Inteligencia Artificial,
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
+ * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -18,36 +22,51 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.client.view.v2;
+package es.upm.fi.dia.oeg.map4rdf.client.event;
 
-import org.gwtopenmaps.openlayers.client.layer.Vector;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
-import net.customware.gwt.presenter.client.widget.WidgetDisplay;
+import com.google.gwt.event.shared.GwtEvent;
 
-import com.google.gwt.user.client.ui.AbsolutePanel;
-
-import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
-import es.upm.fi.dia.oeg.map4rdf.share.TwoDimentionalCoordinate;
+import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
+import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoItinerary;
 
 /**
  * @author Alexander De Leon
  */
-public interface MapView extends WidgetDisplay {
+public class HistoryShowEvent extends GwtEvent<HistoryShowEventHandler> {
 
-	TwoDimentionalCoordinate getCurrentCenter();
+	private static GwtEvent.Type<HistoryShowEventHandler> TYPE;
 
-	BoundingBox getVisibleBox();
+	private final Boolean show;
 
-	void setVisibleBox(BoundingBox boundingBox);
+	public HistoryShowEvent(Boolean show) {
+		this.show = show;
+	}
 
-	MapLayer getDefaultLayer();
+	public static GwtEvent.Type<HistoryShowEventHandler> getType() {
+		if (TYPE == null) {
+			TYPE = new Type<HistoryShowEventHandler>();
+		}
+		return TYPE;
+	}
 
-	MapLayer createLayer(String name);
+	public Boolean getData() {
+		return show;
+	}
 
-	AbsolutePanel getContainer();
 
-	void closeWindow();
-	
-	void showWidgetPanel();
+
+	@Override
+	public GwtEvent.Type<HistoryShowEventHandler> getAssociatedType() {
+		return getType();
+	}
+
+	@Override
+	protected void dispatch(HistoryShowEventHandler handler) {
+		handler.onHistoryWidgetChange(this);
+	}
 
 }

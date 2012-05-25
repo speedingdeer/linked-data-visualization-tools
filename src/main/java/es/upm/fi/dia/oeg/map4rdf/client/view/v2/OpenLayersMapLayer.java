@@ -267,6 +267,7 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 					owner.getContainer().remove(popupPanel);
 					map.removeListener(zoomListener);
 				}
+				owner.closeWidgetPanel();
 			}
 		};
 	}
@@ -286,8 +287,8 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 	  var parent = element.parentNode;
 	  var newElement = $wnd.document.getElementById("map4rdf-popup-new");
 	  parent.appendChild(newElement);
-	  element.style.height="0px";
-	  element.style.width="0px";
+	  //element.style.height="0px";
+	  //element.style.width="0px";
 	  
 	  return;
 	}-*/;

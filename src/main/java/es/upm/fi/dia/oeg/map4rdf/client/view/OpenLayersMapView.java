@@ -25,6 +25,7 @@ import java.util.List;
 
 import net.customware.gwt.dispatch.client.DefaultDispatchAsync;
 import net.customware.gwt.dispatch.client.DispatchAsync;
+import net.customware.gwt.presenter.client.EventBus;
 
 import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 import org.gwtopenmaps.openlayers.client.layer.Vector;
@@ -68,11 +69,12 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 	private final DispatchAsync dispatchAsync;
 	
 	@Inject
-	public OpenLayersMapView(WidgetFactory widgetFactory, DispatchAsync dispatchAsync,BrowserResources browserResources) {
-		super(widgetFactory, dispatchAsync,browserResources);
+	public OpenLayersMapView(WidgetFactory widgetFactory, DispatchAsync dispatchAsync,BrowserResources browserResources, EventBus eventBus) {
+		super(widgetFactory, dispatchAsync,browserResources, eventBus);
 		kmlButton = createKMLButton();
 		this.dispatchAsync = dispatchAsync;
 		summary = widgetFactory.createGeoResourceSummary();
+		summary.setMapView(this);
 		window = getDefaultLayer().createPopupWindow();
 		window.add(summary);
 	}

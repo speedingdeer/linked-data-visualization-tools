@@ -63,6 +63,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.event.FilterYearChangeEventHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
+import es.upm.fi.dia.oeg.map4rdf.client.view.v2.OpenLayersMapView;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.Geometry;
 import es.upm.fi.dia.oeg.map4rdf.share.PolyLine;
@@ -99,7 +100,8 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 	private Hyperlink editLink;
 	private InlineLabel moreInfo;
 	private InlineLabel editInfo;
-	private VerticalPanel panelGuias, panelViajes, panelFoto;
+	private VerticalPanel panelFoto;
+	private PaginationPanel panelViajes, panelGuias;
 	private TabPanel panelPestanas;
 	private VerticalPanel photoContainer;
 	private RadioButton radioButtonBlue;
@@ -108,7 +110,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 	private RadioButton radioButtonBlack;
 	private GeoSummaryEventMenager geoSummaryEventMenager;
 	private EventBus eventBus;
-	
+	private OpenLayersMapView mapView;
 	/*****trip widget****/
 	FlowPanel panelVertical;
 	FlowPanel panelLinea;
@@ -263,14 +265,14 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 		resourcePanel = new HorizontalPanel();
 		panelPestanas = new TabPanel();
         panelPestanas.setWidth("400px");
-        panelGuias = new VerticalPanel();
-        panelViajes = new VerticalPanel();
+        panelGuias = new PaginationPanel(browserResources);
+        panelViajes = new PaginationPanel(browserResources);
         
-        ScrollPanel scrollerGuias = new ScrollPanel();        
-        scrollerGuias.add(panelGuias);
+        FlowPanel scrollerGuias = new FlowPanel();        
+        scrollerGuias.add(panelGuias.getMainPanel());
         scrollerGuias.setHeight("100px");
-        ScrollPanel scrollerViajes = new ScrollPanel();
-        scrollerViajes.add(panelViajes);
+        FlowPanel scrollerViajes = new FlowPanel();
+        scrollerViajes.add(panelViajes.getMainPanel());
         scrollerViajes.setHeight("100px");
         VerticalPanel pG = new VerticalPanel();
         pG.add(scrollerGuias);
@@ -630,5 +632,10 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 		if (refreshOnYearChangeEvent) {
 			setGeoResource(currentResource, currentGeometry);
 		}
+	}
+	
+	public void setMapView(OpenLayersMapView mapView){
+	this.mapView = mapView;	
+	this.geoSummaryEventMenager.setMapView(mapView);
 	}
 }

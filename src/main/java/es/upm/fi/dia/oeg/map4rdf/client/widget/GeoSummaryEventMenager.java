@@ -16,6 +16,8 @@ import es.upm.fi.dia.oeg.map4rdf.client.action.GetItineraryResource;
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetTripProvenanceResource;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
 import es.upm.fi.dia.oeg.map4rdf.client.event.DrawTripEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.event.HistoryShowEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.view.v2.MapView;
 import es.upm.fi.dia.oeg.map4rdf.share.SimileTimeLineEventContainer;
 import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoItinerary;
 
@@ -23,10 +25,15 @@ public class GeoSummaryEventMenager {
 	
 	private EventBus eventBus;
 	private DispatchAsync dispatchAsync;
+	private MapView mapView;
 	
 	public GeoSummaryEventMenager(EventBus eventBus) {
 		this.dispatchAsync = new DefaultDispatchAsync();
 		this.eventBus = eventBus;
+	}
+	
+	public void setMapView(MapView mapView) {
+		this.mapView = mapView;
 	}
 	
 	public void drawTrip(String uri){
@@ -70,11 +77,12 @@ public class GeoSummaryEventMenager {
 				 String a = listaEventos.toXml();
 				 String b = ""+listaEventos.getDateToCenter();
 				 SimileTimeLine.getInstance().addEvents(listaEventos.toXml(),""+listaEventos.getDateToCenter());
-				 timelineContainer.clear();
-				 timelineContainer.add(SimileTimeLine.getInstance());
-				 replacedContainer.setVisible(false);
-				 timelineContainer.setVisible(true);
-					
+				 //eventBus.fireEvent(new HistoryShowEvent(true));
+				 //timelineContainer.clear();
+				 //timelineContainer.add(SimileTimeLine.getInstance());
+				 //replacedContainer.setVisible(false);
+				 //timelineContainer.setVisible(true);
+				mapView.showWidgetPanel();
 			}
 		 });
 	}
