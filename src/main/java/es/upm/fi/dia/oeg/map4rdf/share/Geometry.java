@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
- * Facultad de Informática, Universidad 
- * Politécnica de Madrid, Spain
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,13 +29,8 @@ import java.util.Collection;
 /**
  * @author Alexander De Leon
  */
-public interface Geometry extends HasUri {
 
-	enum Type {
-		POINT, POLYLINE, POLYGON;
-	}
-
-	Type getType();
+public interface Geometry extends HasUri, MapShape {
 
 	Collection<Point> getPoints();
 

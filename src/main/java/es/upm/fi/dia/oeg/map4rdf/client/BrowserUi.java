@@ -1,8 +1,13 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
+<<<<<<< HEAD
  * Facultad de Inform‡tica, Universidad 
  * PolitŽcnica de Madrid, Spain
+=======
+ * Facultad de Informatica, Universidad 
+ * Politecnica de Madrid, Spain
+>>>>>>> master
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,18 +29,19 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client;
 
-import name.alexdeleon.lib.gwtblocks.client.AppController;
 
-import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.StyleInjector;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
-import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.Footer;
+import es.upm.fi.dia.oeg.map4rdf.client.controllers.AppController;
+import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.Header;
 
 /**
@@ -49,14 +55,13 @@ public class BrowserUi extends ResizeComposite implements AppController.Display 
 	public BrowserUi(BrowserResources resources) {
 		appView = new LayoutPanel();
 		initWidget(createUi(resources));
-
 		StyleInjector.inject(resources.css().getText());
 	}
 
 	private Widget createUi(BrowserResources resources) {
 		DockLayoutPanel panel = new DockLayoutPanel(Unit.PX);
 		panel.addNorth(new Header(resources), 88);
-		panel.addSouth(new Footer(resources), 25);
+		// panel.addSouth(new Footer(resources), 25);
 		panel.add(appView);
 
 		return panel;
@@ -64,7 +69,8 @@ public class BrowserUi extends ResizeComposite implements AppController.Display 
 
 	@Override
 	public void setContent(Widget widget) {
-		appView.add(widget);
+        appView.clear();
+        appView.add(widget);
 		appView.setWidgetTopHeight(widget, 0, Unit.EM, 100, Unit.PCT);
 		appView.forceLayout();
 	}

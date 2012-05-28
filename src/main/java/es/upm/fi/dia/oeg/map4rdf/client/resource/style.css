@@ -1,7 +1,7 @@
-body {
-	margin: 0px;
+body{
 	font-family: Verdana, Arial, sans-serif;
-    font-size: .6em;
+	font-size: 0.6em;
+	margin: 0px;
 }
 
 @sprite .header{
@@ -33,7 +33,6 @@ body {
 	\-webkit-border-radius: 8px;
 	background-color: #fff;
 	margin: 1em;
-	height: 124px;
 }
 
 @sprite .facetHeader{
@@ -55,12 +54,28 @@ body {
 }
 
 
+.loadingWidgetStyle{
+	vertical-align: middle;
+	font-size: 2em;
+	opacity: 0.75;
+	text-align: center;
+	width: 160px;
+	height: 32px;
+}
+
 .loadingWidget{
 	vertical-align: middle;
 	font-size: 2em;
 	opacity: 0.75;
 	text-align: center;
+	width: 160px;
+	height: 32px;
 }
+
+
+.loadingWidgetLabelStyle { }
+
+.loadingWidgetIconStyle { }
 
 .toolbar{
 	padding: 0.5em;
@@ -106,4 +121,32 @@ body {
 	\-moz-border-radius-bottomright: 8px;
 	\-webkit-border-bottom-left-radius: 8px;
 	\-webkit-border-bottom-right-radius: 8px;
+}
+
+.summaryLabelStyle{
+	font-weight: bold;
+}
+
+.treeRoot{
+	font-weight: bold;
+	font-size: 1.4em;
+	background: none;
+}
+
+.summaryPropertyName {
+	font-weight: bold;
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 0.6em;
+}
+
+
+.summaryPropertyValue{
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 0.6em;
+}
+
+.popup {
+	background: white;
+	border: 1px solid #424242;
+	padding: 2px;
 }

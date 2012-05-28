@@ -1,8 +1,13 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
+<<<<<<< HEAD
  * Facultad de Inform‡tica, Universidad 
  * PolitŽcnica de Madrid, Spain
+=======
+ * Facultad de Informâ€¡tica, Universidad 
+ * PolitÅ½cnica de Madrid, Spain
+>>>>>>> master
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -82,7 +87,11 @@ public class DashboardView extends ResizeComposite implements DashboardPresenter
 	public void stopProcessing() {
 		// empty
 	}
-
+	@Override
+	public void clear() {
+		leftPanel.showWidget(0);
+	}
+	
 	/* ------------------- Helper methods -- */
 	private Widget createUi(BrowserResources resources) {
 		centerPanel.add(mapPanel);

@@ -15,4 +15,3 @@ _:rdfTypeFacet
         rdfs:label "Estaciones automaticas"@es;
         rdfs:label "Automatic stations"@en;
 .
-

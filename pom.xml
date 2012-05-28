@@ -1,6 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+        <properties>
+            <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+        </properties>
 	<parent>
 		<artifactId>parent-pom-os</artifactId>
 		<groupId>es.upm.oeg</groupId>
@@ -13,6 +16,7 @@
 	<packaging>war</packaging>
 	<name>Map4RDFAemet</name>
 
+
 	<scm>
 		<connection>scm:svn:http://map4rdf.googlecode.com/svn/trunk</connection>
 		<developerConnection>scm:svn:https://map4rdf.googlecode.com/svn/trunk/</developerConnection>
@@ -23,23 +27,20 @@
   		<system>Map4RDF Goggle Code</system>
   		<url>http://code.google.com/p/map4rdf/issues/list</url>
   	</issueManagement>
-	
-	<properties>
-    	<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
-	</properties>
-	
 	<dependencies>
 		<dependency>
 	      <groupId>de.micromata.jak</groupId>
 	      <artifactId>JavaAPIforKml</artifactId>
 	      <version>2.2.0</version>
 	   </dependency>
+	   
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
 			<version>2.0.4</version>
 		</dependency>
 		<dependency>
+
 			<groupId>org.gwtopenmaps.openlayers</groupId>
 			<artifactId>gwt-openlayers-client</artifactId>
 			<version>0.7</version>
@@ -49,6 +50,7 @@
 			<artifactId>gwt-servlet</artifactId>
 			<version>2.0.4</version>
 		 <type>jar</type>
+
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt.google-apis</groupId>
@@ -56,14 +58,24 @@
 			<version>1.0.4</version>
 		</dependency>
 		<dependency>
+			<groupId>com.googlecode.gwtquery</groupId>
+			<artifactId>gquery-plugin-archetype</artifactId>
+			<version>0.5</version>
+		</dependency>
+		<dependency>
 			<groupId>name.alexdeleon.lib</groupId>
 			<artifactId>gwt-blocks</artifactId>
-			<version>0.0.6</version>
+			<version>0.0.7</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
 			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.tmatesoft.sqljet</groupId>
+			<artifactId>sqljet</artifactId>
+			<version>1.0.7</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.inject.extensions</groupId>
@@ -73,34 +85,43 @@
 		<dependency>
 			<groupId>com.hp.hpl.jena</groupId>
 			<artifactId>arq</artifactId>
-			<version>2.8.8</version>
+			<version>2.8.3</version>
 		</dependency>
 		<dependency>
-				<groupId>log4j</groupId>
-				<artifactId>log4j</artifactId>
-				<version>1.2.15</version>
-				<exclusions>
-					<exclusion>
-						<groupId>javax.jms</groupId>
-						<artifactId>jms</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>com.sun.jdmk</groupId>
-						<artifactId>jmxtools</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>com.sun.jmx</groupId>
-						<artifactId>jmxri</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			
+			<groupId>org.xerial</groupId>
+			<artifactId>sqlite-jdbc</artifactId>
+			<version>3.7.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.15</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.jms</groupId>
+					<artifactId>jms</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jdmk</groupId>
+					<artifactId>jmxtools</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jmx</groupId>
+					<artifactId>jmxri</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.5.6</version>
 		</dependency>
-		
+		<dependency>
+		  <groupId>com.smartgwt</groupId>
+		  <artifactId>smartgwt</artifactId>
+		  <version>2.0</version>
+		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
@@ -121,10 +142,17 @@
                 <artifactId>gflot</artifactId>
                 <version>1.0.0</version>
         </dependency>
-                
-
+		<dependency>
+			<groupId>org.gwtopenmaps.openlayers</groupId>
+			<artifactId>gwt-openlayers-client</artifactId>
+			<version>0.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mindrot</groupId>
+			<artifactId>jbcrypt</artifactId>
+			<version>0.3m</version>
+		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -151,8 +179,7 @@
 					<modules>
 						<module>es.upm.fi.dia.oeg.map4rdf.map4rdf</module>
 					</modules>
-                                         <draftCompile>true</draftCompile> 
-					<!--  <buildOutputDirectory>${project.build.directory}/war</buildOutputDirectory>  -->
+					<!-- <buildOutputDirectory>${project.build.directory}/war</buildOutputDirectory> -->
 				</configuration>
 				<executions>
 					<execution>
@@ -164,12 +191,16 @@
 			</plugin>
 		</plugins>
 	</build>
-	
 	<repositories>
 		<repository>
 			<id>oeg-maven</id>
 			<name>OEG Maven Repository</name>
 			<url>http://oegdev.dia.fi.upm.es/maven/public/</url>
 		</repository>
+		<repository>
+			<id>tmate</id>
+			<url>http://maven.tmatesoft.com/content/repositories/releases</url>
+		</repository>
 	</repositories>
+
 </project>

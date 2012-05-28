@@ -1,8 +1,13 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
+<<<<<<< HEAD
  * Facultad de Inform‡tica, Universidad 
  * PolitŽcnica de Madrid, Spain
+=======
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
+>>>>>>> master
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +29,12 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.presenter;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+
+import org.gwtopenmaps.openlayers.client.event.VectorFeatureAddedListener;
+import org.gwtopenmaps.openlayers.client.layer.Vector;
 
 import name.alexdeleon.lib.gwtblocks.client.ControlPresenter;
 import net.customware.gwt.dispatch.client.DispatchAsync;
@@ -51,24 +60,50 @@ import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.GoogleMapsAdapters;
+import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterChangedEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterClearEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterClearHandler;
+import es.upm.fi.dia.oeg.map4rdf.client.event.DrawingModeChangeEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.event.DrawingModeChangeHandler;
+import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedHandler;
+import es.upm.fi.dia.oeg.map4rdf.client.view.v2.MapView;
+import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
+import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
+import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
+import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
 import es.upm.fi.dia.oeg.map4rdf.share.TwoDimentionalCoordinate;
 
 /**
  * @author Alexander De Leon
  */
 @Singleton
-public class MapPresenter extends ControlPresenter<MapPresenter.Display> implements FacetConstraintsChangedHandler {
+
+public class MapPresenter extends ControlPresenter<MapPresenter.Display> implements FacetConstraintsChangedHandler, DrawingModeChangeHandler, AreaFilterClearHandler {
 
 	private Set<FacetConstraint> facetConstraints;
 	private final DispatchAsync dispatchAsync;
+	private StatisticDefinition statisticDefinition;
+	
+	public interface Display extends WidgetDisplay, MapView {
 
-	public interface Display extends WidgetDisplay {
-		MapWidget getMap();
+		TwoDimentionalCoordinate getCurrentCenter();
+
+		BoundingBox getVisibleBox();
+
+		void setVisibleBox(BoundingBox boundingBox);
 
 		void drawGeoResouces(List<GeoResource> resources);
 
 		void clear();
 
+		
+		void setDrawing(Boolean value);
+		
+		void clearDrawing();
+		
+		Vector getDrawingVector();
+		
 		HasClickHandlers getKmlButton();
 	}
 
@@ -77,21 +112,20 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 		super(display, eventBus);
 		this.dispatchAsync = dispatchAsync;
 		eventBus.addHandler(FacetConstraintsChangedEvent.getType(), this);
+		eventBus.addHandler(DrawingModeChangeEvent.getType(), this);
+		eventBus.addHandler(AreaFilterClearEvent.getType(), this);
 	}
 
 	public TwoDimentionalCoordinate getCurrentCenter() {
-		LatLng googleLatLng = getDisplay().getMap().getCenter();
-		return GoogleMapsAdapters.getTwoDimentionalCoordinate(googleLatLng);
+		return getDisplay().getCurrentCenter();
 	}
 
 	public BoundingBox getVisibleBox() {
-		return GoogleMapsAdapters.getBoundingBox(getDisplay().getMap().getBounds());
+		return getDisplay().getVisibleBox();
 	}
 
 	public void setVisibleBox(BoundingBox boundingBox) {
-		int zoomLevel = getDisplay().getMap().getBoundsZoomLevel(GoogleMapsAdapters.getLatLngBounds(boundingBox));
-		getDisplay().getMap().setCenter(GoogleMapsAdapters.getLatLng(boundingBox.getCenter()));
-		getDisplay().getMap().setZoomLevel(zoomLevel);
+		getDisplay().setVisibleBox(boundingBox);
 	}
 
 	public void drawGeoResouces(List<GeoResource> resources) {
@@ -100,6 +134,11 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 
 	public void clear() {
 		getDisplay().clear();
+		facetConstraints = null;
+	}
+	
+	public void clearDrawing(){
+		getDisplay().clearDrawing();
 	}
 
 	@Override
@@ -108,10 +147,10 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 	}
 
 	/* ----------- presenter callbacks -- */
-	@Override
+
+	@Override 
 	protected void onBind() {
 		getDisplay().getKmlButton().addClickHandler(new ClickHandler() {
-
 			@Override
 			public void onClick(ClickEvent event) {
 				GetGeoResourcesAsKmlUrl action = new GetGeoResourcesAsKmlUrl(getVisibleBox());
@@ -128,6 +167,14 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 					}
 				});
 			}
+		});
+		getDisplay().getDrawingVector().addVectorFeatureAddedListener(new VectorFeatureAddedListener(){
+
+			@Override
+			public void onFeatureAdded(FeatureAddedEvent eventObject) {
+				eventBus.fireEvent(new AreaFilterChangedEvent());
+			}
+			
 		});
 	}
 
@@ -146,7 +193,19 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 	@Override
 	public void revealDisplay() {
 		// TODO Auto-generated method stub
+	}
 
+	@Override
+	public void onDrawingStart(DrawingModeChangeEvent drawingStartEvent) {
+		getDisplay().setDrawing(drawingStartEvent.getDrawingMode());
+	}
+
+	@Override
+	public void onAreaFilterClear(AreaFilterClearEvent areaFilterClearEvent) {
+		if(getDisplay().getDrawingVector() != null && getDisplay().getDrawingVector().getFeatures() != null && getDisplay().getDrawingVector().getFeatures().length > 0) {
+			getDisplay().getDrawingVector().destroyFeatures();
+			eventBus.fireEvent(new AreaFilterChangedEvent());		
+		}
 	}
 
 }

@@ -40,11 +40,21 @@ public interface BrowserMessages extends Messages {
 	String type();
 	
 	String here();
-	
+
 	String latitude();
-	
+
 	String longitude();
-	
+
 	String information();
+	
+	String edit();
+	
+	String filtres();
+	
+	String clear();
+
+	String draw();
+	
+	String canNotLoaddescription();
 
 }

@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
- * Facultad de Informática, Universidad 
- * Politécnica de Madrid, Spain
+ * Facultad de Inform‚Ä°tica, Universidad 
+ * Polit≈Ωcnica de Madrid, Spain
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.server.conf;
 
+import com.google.inject.Guice;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -33,8 +34,12 @@ import java.util.Properties;
  */
 public class Configuration {
 
-	private final Properties properties;
+	private final Properties properties ;
 
+    public  Configuration() {
+        properties = null;
+    }
+    
 	public Configuration(Properties properties) {
 		this.properties = properties;
 	}
@@ -49,7 +54,7 @@ public class Configuration {
 	}
 
 	public boolean containsConfigurationParam(String param) {
-		return properties.containsKey(param);
+		return properties.contains(param);
 	}
 
 }

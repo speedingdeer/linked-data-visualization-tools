@@ -1,8 +1,13 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
+<<<<<<< HEAD
  * Facultad de Inform‡tica, Universidad 
  * PolitŽcnica de Madrid, Spain
+=======
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
+>>>>>>> master
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,6 +37,7 @@ import com.google.gwt.inject.client.Ginjector;
 
 import es.upm.fi.dia.oeg.map4rdf.client.BrowserUi;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.DashboardPresenter;
+import es.upm.fi.dia.oeg.map4rdf.client.presenter.EditResourcePresenter;
 
 /**
  * @author Alexander De Leon
@@ -40,9 +46,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.presenter.DashboardPresenter;
 public interface Injector extends Ginjector {
 
 	DashboardPresenter getDashboard();
-
-	EventBus getEventBus();
-
+    EditResourcePresenter getEditResourcePresenter();
+    EventBus getEventBus();
 	BrowserUi getBrowserUi();
-
 }

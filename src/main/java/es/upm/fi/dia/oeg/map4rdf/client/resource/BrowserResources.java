@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
- * Facultad de Informática, Universidad 
- * Politécnica de Madrid, Spain
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.resource;
 
+import name.alexdeleon.lib.gwtblocks.client.widget.loading.LoadingWidget;
 import name.alexdeleon.lib.gwtblocks.client.widget.togglebutton.ToggleButton;
 
 import com.google.gwt.resources.client.ClientBundle;
@@ -34,6 +35,7 @@ import com.google.gwt.resources.client.ImageResource.RepeatStyle;
 
 import es.upm.fi.dia.oeg.map4rdf.client.widget.DataToolBar;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.FacetWidget;
+import es.upm.fi.dia.oeg.map4rdf.client.widget.GeoResourceSummary;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.Timeline;
 
 /**
@@ -41,8 +43,9 @@ import es.upm.fi.dia.oeg.map4rdf.client.widget.Timeline;
  */
 public interface BrowserResources extends ClientBundle {
 
-	interface BrowserCss extends ToggleButton.Stylesheet, FacetWidget.Stylesheet, DataToolBar.Stylesheet,
-			Timeline.Stylesheet, CssResource {
+	interface BrowserCss extends LoadingWidget.Stylesheet, ToggleButton.Stylesheet, FacetWidget.Stylesheet,
+			DataToolBar.Stylesheet, Timeline.Stylesheet, GeoResourceSummary.Stylesheet, CssResource {
+
 		String header();
 
 		String footer();
@@ -52,6 +55,11 @@ public interface BrowserResources extends ClientBundle {
 		String leftMenu();
 
 		String loadingWidget();
+		
+		String treeRoot();
+		
+		String popup();
+
 	}
 
 	@Source("style.css")
@@ -59,7 +67,7 @@ public interface BrowserResources extends ClientBundle {
 
 	@Source("logo_map4rdfAemet.png")
 	ImageResource logo();
-
+	
 	@Source("kml.png")
 	ImageResource kmlButton();
 
@@ -74,6 +82,12 @@ public interface BrowserResources extends ClientBundle {
 	@Source("ajax-loader.gif")
 	ImageResource loadingIcon();
 
+	@Source("pencil.png")
+	ImageResource pencilIcon();
+	
+	@Source("erase.png")
+	ImageResource eraserIcon();
+
 	@Source("beta-trans.png")
 	ImageResource betaBadge();
 
@@ -85,4 +99,11 @@ public interface BrowserResources extends ClientBundle {
 
 	@Source("RDF-mini.png")
 	ImageResource rdfMiniLabel();
+
+	@Source("back.png")
+	ImageResource backButton();
+	
+	@Source("save.png")
+	ImageResource saveButton();
+	
 }

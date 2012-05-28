@@ -1,8 +1,13 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
+<<<<<<< HEAD
  * Facultad de Inform‡tica, Universidad 
  * PolitŽcnica de Madrid, Spain
+=======
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
+>>>>>>> master
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -42,12 +47,13 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
-import es.upm.fi.dia.oeg.map4rdf.server.conf.ParameterNames;
+
+import es.upm.fi.dia.oeg.map4rdf.share.AemetObs;
+import es.upm.fi.dia.oeg.map4rdf.share.AemetResource;
+import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.DaoException;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Geo;
-import es.upm.fi.dia.oeg.map4rdf.share.AemetObs;
-import es.upm.fi.dia.oeg.map4rdf.share.AemetResource;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.Facet;
 import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
@@ -62,20 +68,22 @@ import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoGuide;
 import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoItinerary;
 import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoResourceContainer;
 import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoTrip;
+import es.upm.fi.dia.oeg.map4rdf.share.PointBean;
+import es.upm.fi.dia.oeg.map4rdf.share.Resource;
+import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
 import es.upm.fi.dia.oeg.map4rdf.share.Year;
 
 /**
  * @author Alexander De Leon
  */
-public class DbPediaDaoImpl implements Map4rdfDao {
+
+public class DbPediaDaoImpl extends CommonDaoImpl implements Map4rdfDao {
 
 	private static final Logger LOG = Logger.getLogger(DbPediaDaoImpl.class);
 
-	private final String endpointUri;
-
 	@Inject
 	public DbPediaDaoImpl(@Named(ParameterNames.ENDPOINT_URL) String endpointUri) {
-		this.endpointUri = endpointUri;
+		super(endpointUri);
 	}
 
 	@Override
@@ -139,13 +147,11 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		Map<String, Facet> result = new HashMap<String, Facet>();
 		StringBuilder queryBuffer = new StringBuilder();
 		queryBuffer.append("select distinct ?class ?label where { ");
-		// puntos
-		queryBuffer.append("{?x <" + Geo.lat + "> _:lat. ");
+		queryBuffer.append("?x <" + Geo.lat + "> _:lat. ");
 		queryBuffer.append("?x <" + Geo.lng + "> _:lng. ");
 		queryBuffer.append("?x <" + predicateUri + "> ?class . ");
-		queryBuffer.append("OPTIONAL {?class <" + RDFS.label + "> ?label . }}");
+		queryBuffer.append("optional {?class <" + RDFS.label + "> ?label . }}");
 
-		queryBuffer.append("}");
 		QueryExecution execution = QueryExecutionFactory.sparqlService(endpointUri, queryBuffer.toString());
 
 		try {
@@ -221,6 +227,7 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 	/**
 	 * Metodo de prueba para llamar a mis GeoResources
 	 */
+
 	private List<GeoResource> getGeoResources(BoundingBox boundingBox, Set<FacetConstraint> constraints, Integer max)
 			throws DaoException {
 		// TODO: use location to restrict the query to the specifies geographic
@@ -237,6 +244,9 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 		// PRUEBA
 		QueryExecution execution = QueryExecutionFactory.sparqlService(endpointUri,
 				createGetResourcesQueryAdaptedWebNMasUno(boundingBox, constraints, max));
+
+//		QueryExecution execution = QueryExecutionFactory.sparqlService(endpointUri,
+//				createGetResourcesQuery(boundingBox, constraints, max));
 
 		try {
 			ResultSet queryResult = execution.execSelect();
@@ -260,10 +270,12 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 						}
 					}
 					//
+
 					if (solution.contains("label")) {
 						Literal labelLiteral = solution.getLiteral("label");
 						resource.addLabel(labelLiteral.getLanguage(), labelLiteral.getString());
 					}
+
 
 					// prueba para AEMET
 					if (resource == null) {
@@ -297,8 +309,10 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 	 * @param max
 	 * @return
 	 */
+
+	
 	private String createGetResourcesQuery(BoundingBox boundingBox, Set<FacetConstraint> constraints, Integer limit) {
-		StringBuilder query = new StringBuilder("SELECT distinct ?r ?lat ?lng ?label ");
+		StringBuilder query = new StringBuilder("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT distinct ?r ?label ?lat ?lng ");
 		query.append("WHERE { ");
 		query.append("?r <" + Geo.lat + "> ?lat. ");
 		query.append("?r <" + Geo.lng + "> ?lng . ");
@@ -356,12 +370,19 @@ public class DbPediaDaoImpl implements Map4rdfDao {
 			}
 			query.delete(query.length() - 5, query.length());
 		}
+		
+		//filters
+		if (boundingBox!=null) {
+			query = addBoundingBoxFilter(query, boundingBox);
+		}
+		
 		query.append("}");
 		if (limit != null) {
 			query.append(" LIMIT " + limit);
 		}
 		return query.toString();
 	}
+
 
 	/**
 	 * Variacion de la query de recuperacion de recursos original para que

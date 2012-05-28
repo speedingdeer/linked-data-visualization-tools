@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
- * Facultad de Informática, Universidad 
- * Politécnica de Madrid, Spain
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,11 +30,16 @@ import es.upm.fi.dia.oeg.map4rdf.server.command.GetAemetObsHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetFacetDefinitionsHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetGeoResourceHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetGeoResourceOverlaysHandler;
+//import es.upm.fi.dia.oeg.map4rdf.server.command.GetGeoResourcesAsKmlUrlHandler;
+import es.upm.fi.dia.oeg.map4rdf.server.command.GetConfigurationParameterHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetGeoResourcesAsKmlUrlHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetGeoResourcesHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetStatisticDatasetsHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetStatisticYearsHandler;
 import es.upm.fi.dia.oeg.map4rdf.server.command.GetWebNMasUnoItineraryHandler;
+import es.upm.fi.dia.oeg.map4rdf.server.command.GetSubjectDescriptionsHandler;
+import es.upm.fi.dia.oeg.map4rdf.server.command.GetSubjectLabelHandler;
+import es.upm.fi.dia.oeg.map4rdf.server.command.SaveRdfFIleHandler;
 
 /**
  * @author Alexander De Leon
@@ -55,5 +60,10 @@ public class BrowserActionHandlerModule extends ActionHandlerModule {
 		// bindHandler(GetWebNMasUnoResourceHandler.class);
 		bindHandler(GetWebNMasUnoItineraryHandler.class);
 		bindHandler(GetAemetObsForPropertyHandler.class);
+		bindHandler(GetSubjectDescriptionsHandler.class);
+		bindHandler(GetSubjectLabelHandler.class);
+		bindHandler(GetGeoResourcesAsKmlUrlHandler.class);
+		bindHandler(SaveRdfFIleHandler.class);
+		bindHandler(GetConfigurationParameterHandler.class);
 	}
 }

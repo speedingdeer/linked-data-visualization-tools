@@ -1,4 +1,3 @@
-
 package es.upm.fi.dia.oeg.map4rdf.server.command;
 
 import net.customware.gwt.dispatch.server.ActionHandler;

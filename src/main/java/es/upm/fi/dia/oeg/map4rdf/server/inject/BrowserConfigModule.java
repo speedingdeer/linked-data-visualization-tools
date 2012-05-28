@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
- * Facultad de Informática, Universidad 
- * Politécnica de Madrid, Spain
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@ import es.upm.fi.dia.oeg.map4rdf.server.conf.Configuration;
 import es.upm.fi.dia.oeg.map4rdf.server.conf.Constants;
 import es.upm.fi.dia.oeg.map4rdf.server.conf.FacetedBrowserConfiguration;
 import es.upm.fi.dia.oeg.map4rdf.server.conf.ParameterDefaults;
-import es.upm.fi.dia.oeg.map4rdf.server.conf.ParameterNames;
+import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
 
 /**
  * @author Alexander De Leon

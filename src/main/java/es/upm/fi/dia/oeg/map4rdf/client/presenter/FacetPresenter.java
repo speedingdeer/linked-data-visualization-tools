@@ -1,8 +1,13 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
+<<<<<<< HEAD
  * Facultad de Inform‡tica, Universidad 
  * PolitŽcnica de Madrid, Spain
+=======
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
+>>>>>>> master
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -51,25 +56,30 @@ import es.upm.fi.dia.oeg.map4rdf.share.FacetGroup;
 public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 
 	public interface Display extends WidgetDisplay {
-
+        public void clear();
+        public Boolean isEmpty();
+        
 		interface FacetSelectionHandler {
 			void onFacetSelectionChanged(String facetId, String facetValueId, boolean selected);
 		}
-
+                
 		// TODO this should be decoupled from the model
 		void setFacets(List<FacetGroup> facets);
-
 		void setFacetSelectionChangedHandler(FacetSelectionHandler handler);
 	}
 
 	private final DispatchAsync dispatchAsync;
 	private final List<FacetConstraint> constraints = new ArrayList<FacetConstraint>();
 
+	public List<FacetConstraint> getConstraints(){
+		return this.constraints;
+	}
+	
 	@Inject
 	public FacetPresenter(Display display, EventBus eventBus, DispatchAsync dispatchAsync) {
 		super(display, eventBus);
 		this.dispatchAsync = dispatchAsync;
-	}
+    }
 
 	/* -------------- Presenter callbacks -- */
 	@Override
@@ -101,7 +111,11 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 
 	@Override
 	public void revealDisplay() {
-		loadFacets();
+		if (getDisplay().isEmpty()) {
+			loadFacets();
+		} //else {
+		//	eventBus.fireEvent(new FacetConstraintsChangedEvent(constraints));
+		//}
 	}
 
 	void loadFacets() {
@@ -110,7 +124,7 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-				Window.alert(caught.toString());
+				//Window.alert(caught.toString());
 			}
 
 			@Override
@@ -122,5 +136,9 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 
 	private void fireFacetConstrainsChanged() {
 		eventBus.fireEvent(new FacetConstraintsChangedEvent(constraints));
+	}
+    public void clear() {
+    	constraints.clear();
+    	getDisplay().clear();
 	}
 }

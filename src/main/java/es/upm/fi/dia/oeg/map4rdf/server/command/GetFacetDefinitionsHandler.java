@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
- * Facultad de Informática, Universidad 
- * Politécnica de Madrid, Spain
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -38,7 +38,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.action.GetFacetDefinitions;
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetFacetDefinitionsResult;
 import es.upm.fi.dia.oeg.map4rdf.server.conf.ConfigurationException;
 import es.upm.fi.dia.oeg.map4rdf.server.conf.FacetedBrowserConfiguration;
-import es.upm.fi.dia.oeg.map4rdf.server.conf.ParameterNames;
+import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.DaoException;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
@@ -60,7 +60,7 @@ public class GetFacetDefinitionsHandler implements ActionHandler<GetFacetDefinit
 		this.dao = dao;
 		this.facetedBrowserConfiguration = facetedBrowserConfiguration;
 		this.automaticFacets = automaticFacets;
-	}
+    }
 
 	@Override
 	public GetFacetDefinitionsResult execute(GetFacetDefinitions action, ExecutionContext context)

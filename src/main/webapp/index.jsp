@@ -1,5 +1,5 @@
 <%@ page import="es.upm.fi.dia.oeg.map4rdf.server.conf.Configuration"%>
-<%@ page import="es.upm.fi.dia.oeg.map4rdf.server.conf.ParameterNames"%>
+<%@ page import="es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames"%>
 <%
     Configuration conf = (Configuration) pageContext.getServletContext().getAttribute(Configuration.class.getName());
     String googleMapsKey = conf.getConfigurationParamValue(ParameterNames.GOOGLE_MAPS_API_KEY);
@@ -11,7 +11,10 @@
     <meta name="gwt:property" content="locale=<%=request.getLocale()%>">
     <title>Map4RDF</title>
     
+    <script type="text/javascript" language="javascript" src="http://code.jquery.com/jquery-1.7.2.min.js" ></script>
     <script type="text/javascript" language="javascript" src="http://maps.google.com/maps?gwt=1&amp;file=api&amp;v=2&amp;sensor=true&amp;key=<%=googleMapsKey%>" ></script>
+    <script src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
+    <script src="OpenStreetMapsByFilip.js"></script>
     <script type="text/javascript" language="javascript" src="es.upm.fi.dia.oeg.map4rdf.map4rdf/es.upm.fi.dia.oeg.map4rdf.map4rdf.nocache.js"></script>
   </head>
 

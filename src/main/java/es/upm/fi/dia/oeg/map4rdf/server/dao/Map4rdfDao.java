@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
- * Facultad de Informática, Universidad 
- * Politécnica de Madrid, Spain
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,6 +37,8 @@ import es.upm.fi.dia.oeg.map4rdf.share.Intervalo;
 import es.upm.fi.dia.oeg.map4rdf.share.Resource;
 import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
 import es.upm.fi.dia.oeg.map4rdf.share.WebNMasUnoItinerary;
+import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
+import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
 import es.upm.fi.dia.oeg.map4rdf.share.Year;
 
 /**
@@ -75,4 +77,8 @@ public interface Map4rdfDao {
 	// GeoResource getDatosViajes(String uri) throws DaoException;
 
 	List<AemetObs> getObservations(String stationUri, String propertyUri, Intervalo start, Intervalo end);
+
+	List<SubjectDescription> getSubjectDescription(String subject) throws DaoException;
+	
+	String getLabel(String uri) throws DaoException;
 }

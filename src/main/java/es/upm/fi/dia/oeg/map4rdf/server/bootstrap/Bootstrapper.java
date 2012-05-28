@@ -31,15 +31,16 @@ public class Bootstrapper extends GuiceServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent servletContextEvent) {
+              	
 		InputStream propIn = servletContextEvent.getServletContext().getResourceAsStream(Constants.CONFIGURATION_FILE);
-		try {
-			config = new Configuration(propIn);
-			// add config to servlet context so it can be accessed in JSPs
-			servletContextEvent.getServletContext().setAttribute(Configuration.class.getName(), config);
-		} catch (IOException e) {
-			LOG.log(Level.SEVERE, "Unable to load configuration file", e);
-			throw new RuntimeException(e);
-		}
+        try {
+            config = new Configuration(propIn);
+        } catch (IOException ex) {
+            Logger.getLogger(Bootstrapper.class.getName()).log(Level.SEVERE, null, ex);
+        }
+		// add config to servlet context so it can be accessed in JSPs
+        servletContextEvent.getServletContext().setAttribute(Configuration.class.getName(), config);
+		
 
 		InputStream facetConfigIn = servletContextEvent.getServletContext().getResourceAsStream(
 				Constants.FACET_CONFIGURATION_FILE);

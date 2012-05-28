@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
- * Facultad de Informática, Universidad 
- * Politécnica de Madrid, Spain
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -63,6 +63,8 @@ public class FacetWidget extends ResizeComposite implements HasFacetValueSelecti
 	}
 
 	private Label label;
+	private LayoutPanel panel;
+	private ScrollPanel scrollPanel;
 	private FlowPanel selectionsPanel;
 	private final Map<String, CheckBox> selectionOptions;
 	private Stylesheet stylesheet;
@@ -122,24 +124,39 @@ public class FacetWidget extends ResizeComposite implements HasFacetValueSelecti
 	}
 
 	private Widget createUi() {
-		LayoutPanel panel = new LayoutPanel();
+
+		panel = new LayoutPanel();
 		label = new Label();
 
 		panel.add(label);
-		panel.setWidgetTopHeight(label, 0, Unit.PX, 22, Unit.PX);
-
+		//panel.setWidgetTopHeight(label, 0, Unit.PX, 22, Unit.PX);
+		
+		
 		selectionsPanel = new FlowPanel();
-		ScrollPanel scrollPanel = new ScrollPanel();
+		scrollPanel = new ScrollPanel();
 		scrollPanel.setWidget(selectionsPanel);
 		panel.add(scrollPanel);
 
-		panel.setWidgetTopHeight(scrollPanel, 22, Unit.PX, 100, Unit.PX);
+		//panel.setWidgetTopHeight(scrollPanel, 22, Unit.PX, 100, Unit.PX);
 
 		panel.forceLayout();
 
 		return panel;
 	}
+	
+	@Override
+	public void setHeight(String height) {
+		super.setHeight(height);
+		selectionsPanel.setHeight(height);
 
+		
+		String pixelsNumber = height.split("p")[0];
+		Integer scrolPanelHeight = new Integer(pixelsNumber);
+		panel.setHeight(new Integer(scrolPanelHeight+1).toString()+"px");		
+		
+		panel.setWidgetTopHeight(scrollPanel, 22, Unit.PX, scrolPanelHeight-22, Unit.PX);
+	}
+	
 	private void fireSelectionChanged(String id, Boolean value) {
 		fireEvent(new FacetValueSelectionChangedEvent(id, value));
 	}

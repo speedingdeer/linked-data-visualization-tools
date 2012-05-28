@@ -1,8 +1,8 @@
 /**
  * Copyright (c) 2011 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
- * Facultad de Informática, Universidad 
- * Politécnica de Madrid, Spain
+ * Facultad de Informetica, Universidad 
+ * Politecnica de Madrid, Spain
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -42,7 +42,7 @@ import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
-import es.upm.fi.dia.oeg.map4rdf.server.conf.ParameterNames;
+import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.DaoException;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Geo;
@@ -70,15 +70,14 @@ import es.upm.fi.dia.oeg.map4rdf.share.Year;
 /**
  * @author Alexander De Leon
  */
-public class GeoLinkedDataDaoImpl implements Map4rdfDao {
+
+public class GeoLinkedDataDaoImpl extends CommonDaoImpl implements Map4rdfDao {
 
 	private static final Logger LOG = Logger.getLogger(GeoLinkedDataDaoImpl.class);
 
-	private final String endpointUri;
-
 	@Inject
 	public GeoLinkedDataDaoImpl(@Named(ParameterNames.ENDPOINT_URL) String endpointUri) {
-		this.endpointUri = endpointUri;
+		super(endpointUri);
 	}
 
 	@Override
@@ -393,10 +392,12 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 	}
 
 	private String createGetResourcesQuery(BoundingBox boundingBox, Set<FacetConstraint> constraints, Integer limit) {
-		StringBuilder query = new StringBuilder("SELECT distinct ?r ?label ?geo ?geoType ");
+
+		StringBuilder query = new StringBuilder("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT distinct ?r ?label ?geo ?geoType ?lat ?lng ");
 		query.append("WHERE { ");
 		query.append("?r <" + Geo.geometry + ">  ?geo. ");
 		query.append("?geo <" + RDF.type + "> ?geoType . ");
+		query.append("?geo" + "<"+ Geo.lat + ">" +  " ?lat;"  + "<" + Geo.lng + ">" + " ?lng" + ".");
 		query.append("OPTIONAL { ?r <" + RDFS.label + "> ?label } .");
 		if (constraints != null) {
 			for (FacetConstraint constraint : constraints) {
@@ -404,6 +405,12 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 			}
 			query.delete(query.length() - 5, query.length());
 		}
+		
+		//filters
+		if (boundingBox!=null) {
+			query = addBoundingBoxFilter(query, boundingBox);
+		}
+		
 		query.append("}");
 		if (limit != null) {
 			query.append(" LIMIT " + limit);
@@ -432,16 +439,23 @@ public class GeoLinkedDataDaoImpl implements Map4rdfDao {
 	}
 
 	private String createGetStatisticsQuery(BoundingBox boundingBox, StatisticDefinition statisticDefinition) {
-		StringBuilder query = new StringBuilder("SELECT distinct ?r ?stat ?statValue ");
+		StringBuilder query = new StringBuilder("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT distinct ?r ?stat ?statValue ?geo ?lat ?lng ");
 		query.append("WHERE { ");
 		query.append("?stat <" + Scovo.dimension + "> ?r. ");
 		query.append("?r <" + Geo.geometry + "> _:geo. ");
+		query.append("?r <" + Geo.geometry + ">  ?geo. ");
+		query.append("?geo" + "<"+ Geo.lat + ">" +  " ?lat;"  + "<" + Geo.lng + ">" + " ?lng" + ".");
 		query.append("?stat <" + Scovo.dataset + "> <" + statisticDefinition.getDataset() + "> .");
 		for (String dimension : statisticDefinition.getDimensions()) {
 			query.append("?stat <" + Scovo.dimension + "> <" + dimension + ">. ");
 		}
 		query.append("?stat <" + RDF.value + "> ?statValue. ");
 
+		//filters
+		if (boundingBox!=null) {
+			query = addBoundingBoxFilter(query, boundingBox);
+		}
+		
 		query.append("} LIMIT 1000");
 		return query.toString();
 	}
