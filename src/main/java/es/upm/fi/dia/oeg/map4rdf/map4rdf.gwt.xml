@@ -1,9 +1,9 @@
 <module>
 	<inherits name="com.google.gwt.user.User" />
-
+    <!-- 
     <inherits name="com.google.gwt.i18n.I18N"/>
 	<inherits name="com.google.gwt.i18n.CldrLocales"/>
-	
+	-->
     <inherits name='name.alexdeleon.lib.gwtblocks.gwt-blocks' />
 	<inherits name='com.google.gwt.maps.GoogleMaps' />
 	<inherits name="com.google.gwt.gen2.picker.Picker"/>
@@ -20,11 +20,11 @@
 	
 	<entry-point class="es.upm.fi.dia.oeg.map4rdf.client.Browser"></entry-point>
 	
+    <!-- 
 	<extend-property name="locale" values="es"/>
 	<extend-property name="locale" values="en"/>
 	<set-property-fallback name="locale" value="en"/>
-	
-    <!-- 
-    <set-property name="user.agent" value="gecko1_8" />
     -->
+	
+    <set-property name="user.agent" value="gecko1_8" />
 </module>
