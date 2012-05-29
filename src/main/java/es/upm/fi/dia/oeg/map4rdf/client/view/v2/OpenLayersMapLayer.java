@@ -244,7 +244,7 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 				
 				map.addPopupExclusive(popup);
 				popupPanel = new FlowPanel();
-				popupPanel.setSize("200px", "100px");
+				//popupPanel.setSize("200px", "100px");
 				popupPanel.add(panel);
 				popupPanel.setStyleName(browserResources.css().popup());
 				
@@ -353,7 +353,7 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 		vectorLayer.addVectorFeatureSelectedListener(this);
 		vectorLayer.addVectorFeatureUnselectedListener(this);
 		SelectFeature selectFeature = new SelectFeature(vectorLayer);
-		selectFeature.setClickOut(true);
+		selectFeature.setClickOut(false);
 		selectFeature.setToggle(true);
 		selectFeature.setMultiple(false);
 		map.addControl(selectFeature);

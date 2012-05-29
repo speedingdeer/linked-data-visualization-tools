@@ -32,7 +32,7 @@ public class DrawGeoResourceOnClick {
 
 		GetGeoResource action = new GetGeoResource(uri);
 		disp.startProcessing();
-                DispatchAsync d = new DefaultDispatchAsync();
+        DispatchAsync d = new DefaultDispatchAsync();
 		d.execute(action, new AsyncCallback<SingletonResult<GeoResource>>() {
 			@Override
 			public void onFailure(Throwable caught) {
