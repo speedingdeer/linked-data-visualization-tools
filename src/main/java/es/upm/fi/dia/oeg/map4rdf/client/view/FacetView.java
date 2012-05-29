@@ -62,7 +62,7 @@ public class FacetView extends Composite implements FacetPresenter.Display {
 	public void setFacets(List<FacetGroup> facets) {
 		for (final FacetGroup facetDefinition : facets) {
 			facet = new FacetWidget(resources.css());
-			facet.setHeight(new Integer(panel.getOffsetHeight()-25).toString()+"px");
+			facet.setHeight(new Integer(panel.getOffsetHeight()-125).toString()+"px");
 			
 			facet.setLabel(facetDefinition.getLabel(LocaleUtil.getClientLanguage()));
 			for (Facet facetValue : facetDefinition.getFacets()) {
