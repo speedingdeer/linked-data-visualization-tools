@@ -85,6 +85,7 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 	/* --------------- helper methods -- */
 
 	private void drawGeoResource(final GeoResource resource) {
+		final OpenLayersMapView display = this;
 		for (Geometry geometry : resource.getGeometries()) {
 			switch (geometry.getType()) {
 			case POINT:
@@ -93,7 +94,8 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 
 					@Override
 					public void onClick(ClickEvent event) {
-						summary.setGeoResource(resource, point);
+						
+						summary.setGeoResource(resource, point, display);
 						window.open(point);
 					}
 				});
@@ -105,7 +107,7 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 
 							@Override
 							public void onClick(ClickEvent event) {
-								summary.setGeoResource(resource, line);
+								summary.setGeoResource(resource, line, display);
 								window.open(line.getPoints().get(0));
 							}
 						});
@@ -117,7 +119,7 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 
 							@Override
 							public void onClick(ClickEvent event) {
-								summary.setGeoResource(resource, polygon);
+								summary.setGeoResource(resource, polygon, display);
 								window.open(polygon.getPoints().get(0));
 
 							}

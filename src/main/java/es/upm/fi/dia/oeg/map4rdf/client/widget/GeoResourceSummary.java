@@ -66,6 +66,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.util.LocaleUtil;
 import es.upm.fi.dia.oeg.map4rdf.share.AemetObs;
 import es.upm.fi.dia.oeg.map4rdf.share.AemetResource;
+import es.upm.fi.dia.oeg.map4rdf.client.view.v2.OpenLayersMapView;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.Geometry;
 import es.upm.fi.dia.oeg.map4rdf.share.Intervalo;
@@ -90,7 +91,7 @@ public class GeoResourceSummary extends Composite {
 	private VerticalPanel listPanel;
 	private VerticalPanel graphPanel;
 	private FlowPanel mainPanel;
-	
+	private OpenLayersMapView display;
 	private AemetResource ae;
 	ArrayList<AemetObs> obs;
 	
@@ -105,7 +106,9 @@ public class GeoResourceSummary extends Composite {
 		initWidget(createUi());
 	}
 
-	public void setGeoResource(GeoResource resource, Geometry geometry) {
+	public void setGeoResource(GeoResource resource, Geometry geometry, final OpenLayersMapView display) {
+		this.display = display;
+		display.startProcessing();
 		listPanel.clear();
 		listPanel.setVisible(true);
 		graphPanel.setVisible(false);
@@ -116,11 +119,13 @@ public class GeoResourceSummary extends Composite {
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
 				System.err.println("Fallo "+caught.getMessage());
+				display.stopProcessing();
 			}
             @Override
             public void onSuccess(SingletonResult<GeoResource> result) {
             	setVariables(result);	
             	buildWindow();
+            	display.stopProcessing();
             }
            	});
 	}
@@ -221,12 +226,12 @@ public class GeoResourceSummary extends Composite {
 		action.setPropertyUri(ao.getPropiedad().getUri());
 		action.setStart(start);
 		action.setEnd(end);
-		//disp.startProcessing();
+		display.startProcessing();
 		dispatchAsync.execute(action, new AsyncCallback<ListResult<AemetObs>>() {
 
 			@Override
 			public void onFailure(Throwable caught) {
-				//disp.stopProcessing();
+				display.stopProcessing();
 				Window.alert(caught.getMessage());
 			}
 
@@ -272,6 +277,7 @@ public class GeoResourceSummary extends Composite {
 				graphPanel.add(vp);
 				graphPanel.setVisible(true);
 				listPanel.setVisible(false);
+				display.stopProcessing();
 			}
 
 		});
