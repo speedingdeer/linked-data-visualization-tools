@@ -343,7 +343,7 @@ public class DbPediaDaoImpl extends CommonDaoImpl implements Map4rdfDao {
 	// los facets constraints nos dicen cual es (guias/viaje)
 	private String createGetResourcesQueryAdaptedWebNMasUno(BoundingBox boundingBox, Set<FacetConstraint> constraints,
 			Integer limit) {
-		StringBuilder query = new StringBuilder("SELECT distinct ?r ?lat ?lng ?label ");
+		StringBuilder query = new StringBuilder("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>  SELECT distinct ?r ?lat ?lng ?label ");
 		query.append("WHERE { ");
 		query.append("?r <" + Geo.lat + "> ?lat. ");
 		query.append("?r <" + Geo.lng + "> ?lng . ");
