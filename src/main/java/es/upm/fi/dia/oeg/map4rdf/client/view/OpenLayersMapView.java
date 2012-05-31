@@ -138,6 +138,8 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 	
 	@Override
 	public void closeWindow() {
+		super.closeWindow();
 		window.close();
+		
 	}
 }

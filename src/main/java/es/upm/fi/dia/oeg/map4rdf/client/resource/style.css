@@ -11,6 +11,9 @@ body{
 	padding-left: 3em;
 }
 
+.mapWidget {
+	border: 1px solid #424242;
+}
 
 .footer{
 	border-top: dotted 1px gray;
