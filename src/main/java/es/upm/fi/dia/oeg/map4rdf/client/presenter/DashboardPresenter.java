@@ -41,17 +41,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResource;
-import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResources;
-import es.upm.fi.dia.oeg.map4rdf.client.action.GetStatisticDatasets;
-import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
-import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
-import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterChangedEvent;
-import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterChangedHandler;
-import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedEvent;
-import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedHandler;
-import es.upm.fi.dia.oeg.map4rdf.client.event.LoadResourceEvent;
-import es.upm.fi.dia.oeg.map4rdf.client.event.LoadResourceEventHandler;
+import es.upm.fi.dia.oeg.map4rdf.client.action.*;
+import es.upm.fi.dia.oeg.map4rdf.client.event.*;
 import es.upm.fi.dia.oeg.map4rdf.client.maplet.stats.StatisticsPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
@@ -62,13 +53,15 @@ import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.Resource;
 import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
+import java.util.ArrayList;
 
 /**
  * @author Alexander De Leon
  */
 @Singleton
 public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display> implements
-        FacetConstraintsChangedHandler, LoadResourceEventHandler, AreaFilterChangedHandler {
+        FacetConstraintsChangedHandler, ShapeFilesChangedHandler,
+        LoadResourceEventHandler, AreaFilterChangedHandler {
 
     public interface Display extends WidgetDisplay {
         HasWidgets getMapPanel();
@@ -78,6 +71,7 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
     private final ResultsPresenter resultsPresenter;
     private final MapPresenter mapPresenter;
     private final FacetPresenter facetPresenter;
+    private final ShapeFilesPresenter shapeFilesPresenter;
     private final FiltersPresenter filtersPresenter;
     private final DispatchAsync dispatchAsync;
     private final DataToolBar dataToolBar;
@@ -85,12 +79,14 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
     
     @Inject
     public DashboardPresenter(Display display, EventBus eventBus, FacetPresenter facetPresenter,
-            MapPresenter mapPresenter, FiltersPresenter filtersPresenter, ResultsPresenter resultsPresenter, DispatchAsync dispatchAsync,
+            MapPresenter mapPresenter, ShapeFilesPresenter shapeFilesPresenter,
+            FiltersPresenter filtersPresenter, ResultsPresenter resultsPresenter, DispatchAsync dispatchAsync,
             DataToolBar dataToolBar, BrowserMessages messages) {
         super(display, eventBus);
         this.messages = messages;
         this.mapPresenter = mapPresenter;
         this.facetPresenter = facetPresenter;
+        this.shapeFilesPresenter = shapeFilesPresenter;
         this.resultsPresenter = resultsPresenter;
         this.dispatchAsync = dispatchAsync;
         this.dataToolBar = dataToolBar;
@@ -98,13 +94,23 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
         
         addControl(mapPresenter);
         addControl(facetPresenter);
+        addControl(shapeFilesPresenter);
 
         // registered for app-level events
         eventBus.addHandler(FacetConstraintsChangedEvent.getType(), this);
+        eventBus.addHandler(ShapeFilesChangedEvent.getType(), this);
         eventBus.addHandler(LoadResourceEvent.getType(), this);
         eventBus.addHandler(AreaFilterChangedEvent.getType(), this);
     }
 
+    @Override
+    public void onShapeFilesChanged(ShapeFilesChangedEvent event) {
+        // Remove this line if we don't want to clear the map.
+        mapPresenter.clear();
+        resultsPresenter.clear();
+        loadGeoResources(mapPresenter.getVisibleBox(), event.getModelConfiguration());
+    }
+    
     @Override
     public void onFacetConstraintsChanged(FacetConstraintsChangedEvent event) {
         // TODO: add constraints to the Place
@@ -136,9 +142,9 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
 			@Override
 			public void onFailure(Throwable caught) {
 				getDisplay().addWestWidget(facetPresenter.getDisplay().asWidget(), "Facets");
-		        getDisplay().addWestWidget(filtersPresenter.getDisplay().asWidget(), messages.filtres());
-		        getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
-		        getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());				
+                                getDisplay().addWestWidget(filtersPresenter.getDisplay().asWidget(), messages.filtres());
+                                getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
+                                getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());				
 			}
 
 			@Override
@@ -147,9 +153,10 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
 				if(result != null && result.asList().size()>0) {
 					getDisplay().addWestWidget(dataToolBar, messages.overlays());					
 				}
-		        getDisplay().addWestWidget(filtersPresenter.getDisplay().asWidget(), messages.filtres());
-		        getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
-		        getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());
+                                getDisplay().addWestWidget(shapeFilesPresenter.getDisplay().asWidget(), messages.shapeFiles());
+                                getDisplay().addWestWidget(filtersPresenter.getDisplay().asWidget(), messages.filtres());
+                                getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
+                                getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());
 
 			}
 		}); 
@@ -180,6 +187,35 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
     }
 
     /* --------------- helper methods --- */
+    void loadGeoResources(BoundingBox boundingBox, String rdfFile) {
+        GetGeoResourcesFromRdfModel action =
+                new GetGeoResourcesFromRdfModel(boundingBox);
+        if (rdfFile != null && !rdfFile.isEmpty()) {
+            action.setModelConfiguration(rdfFile);
+        } else {
+            Window.alert("ShapeFile could not be displayed");
+            return;
+        }
+        mapPresenter.getDisplay().startProcessing();
+        dispatchAsync.execute(action, new AsyncCallback<ListResult<GeoResource>>() {
+            @Override
+            public void onFailure(Throwable caught) {
+                // TODO Auto-generated method stub
+                Window.alert(caught.toString());
+                mapPresenter.getDisplay().stopProcessing();
+            }
+
+            @Override
+            public void onSuccess(ListResult<GeoResource> result) {
+                System.out.println("Number of GeoResources to be presented: "
+                        + result.asList().size());
+                mapPresenter.drawGeoResouces(result.asList());
+                resultsPresenter.setResults(result.asList());
+                mapPresenter.getDisplay().stopProcessing();
+            }     
+        });
+    }
+    
     void loadResources(BoundingBox boundingBox, Set<FacetConstraint> constraints) {
         GetGeoResources action = new GetGeoResources(boundingBox);
         if (constraints != null) {
@@ -227,7 +263,7 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
 	public void onAreaFilterChanged(
 			AreaFilterChangedEvent areaFilterChangedEvent) {
 			FacetConstraintsChangedEvent event = new FacetConstraintsChangedEvent(facetPresenter.getConstraints());
-			eventBus.fireEvent(event);
-			
+			eventBus.fireEvent(event);	
 	}
+        
 }

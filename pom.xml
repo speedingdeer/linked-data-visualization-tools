@@ -135,6 +135,38 @@
 			<artifactId>jbcrypt</artifactId>
 			<version>0.3m</version>
 		</dependency>
+                 <dependency>
+	        	<groupId>commons-io</groupId>
+	        	<artifactId>commons-io</artifactId>
+	        	<version>1.4</version>
+            	<type>jar</type>
+        	</dependency>
+        	<dependency>
+	        	<groupId>javax.servlet</groupId>
+	        	<artifactId>servlet-api</artifactId>
+	        	<version>2.3</version>
+        	</dependency>
+        	<dependency>
+	        	<groupId>junit</groupId>
+	        	<artifactId>junit</artifactId>
+	        	<version>3.8.2</version>
+        	</dependency>
+                <dependency>
+	                <groupId>portlet-api</groupId>
+	                <artifactId>portlet-api</artifactId>
+	                <version>1.0</version>
+                </dependency>
+                <dependency>
+	                <groupId>commons-fileupload</groupId>
+	                <artifactId>commons-fileupload</artifactId>
+	                <version>1.2</version>
+                </dependency>
+                <dependency>
+                        <!-- jsoup HTML parser library @ http://jsoup.org/ -->
+                        <groupId>org.jsoup</groupId>
+                        <artifactId>jsoup</artifactId>
+                        <version>1.6.3</version>
+                </dependency>
 	</dependencies>
 	<build>
 		<plugins>
