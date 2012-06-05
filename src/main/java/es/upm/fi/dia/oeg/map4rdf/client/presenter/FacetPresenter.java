@@ -67,7 +67,7 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 	private final DispatchAsync dispatchAsync;
 	private final List<FacetConstraint> constraints = new ArrayList<FacetConstraint>();
 
-	public List<FacetConstraint> getConstraints(){
+	public List<FacetConstraint> getConstraints() {
 		return this.constraints;
 	}
 	
@@ -75,7 +75,7 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
 	public FacetPresenter(Display display, EventBus eventBus, DispatchAsync dispatchAsync) {
 		super(display, eventBus);
 		this.dispatchAsync = dispatchAsync;
-    }
+        }
 
 	/* -------------- Presenter callbacks -- */
 	@Override
@@ -137,5 +137,5 @@ public class FacetPresenter extends ControlPresenter<FacetPresenter.Display> {
     public void clear() {
     	constraints.clear();
     	getDisplay().clear();
-	}
+    }
 }

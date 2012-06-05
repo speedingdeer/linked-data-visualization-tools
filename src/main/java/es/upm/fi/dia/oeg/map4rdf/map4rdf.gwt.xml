@@ -1,7 +1,9 @@
 <module>
 	<inherits name="com.google.gwt.user.User" />
+
     <inherits name="com.google.gwt.i18n.I18N"/>
 	<inherits name="com.google.gwt.i18n.CldrLocales"/>
+	
     <inherits name='name.alexdeleon.lib.gwtblocks.gwt-blocks' />
 	<inherits name='com.google.gwt.maps.GoogleMaps' />
 	<inherits name="com.google.gwt.gen2.picker.Picker"/>

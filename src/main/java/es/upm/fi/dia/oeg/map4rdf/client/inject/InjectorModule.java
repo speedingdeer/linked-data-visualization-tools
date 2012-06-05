@@ -38,6 +38,8 @@ import es.upm.fi.dia.oeg.map4rdf.client.presenter.FiltersPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapOverlaysPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.ResultsPresenter;
+import es.upm.fi.dia.oeg.map4rdf.client.presenter.ShapeFilesPresenter;
+import es.upm.fi.dia.oeg.map4rdf.client.presenter.ShapeFilesPresenter.Display;
 import es.upm.fi.dia.oeg.map4rdf.client.view.DashboardView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.EditResourceView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.FacetView;
@@ -45,6 +47,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.view.FiltersView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.MapOverlaysView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.OpenLayersMapView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.ResultsView;
+import es.upm.fi.dia.oeg.map4rdf.client.view.ShapeFilesView;
 
 /**
  * @author Alexander De Leon
@@ -60,14 +63,16 @@ public class InjectorModule extends AbstractPresenterModule {
 		// MVP
 		bindDisplay(DashboardPresenter.Display.class, DashboardView.class);
 		bindDisplay(EditResourcePresenter.Display.class, EditResourceView.class);
-        bindDisplay(FacetPresenter.Display.class, FacetView.class);
-        bindDisplay(FiltersPresenter.Display.class, FiltersView.class);
-        bindDisplay(MapPresenter.Display.class, OpenLayersMapView.class);
+                bindDisplay(FacetPresenter.Display.class, FacetView.class);
+                bindDisplay(FiltersPresenter.Display.class, FiltersView.class);
+                bindDisplay(MapPresenter.Display.class, OpenLayersMapView.class);
 		bindDisplay(ResultsPresenter.Display.class, ResultsView.class);
+                bindDisplay(ShapeFilesPresenter.Display.class, ShapeFilesView.class);
 		bindDisplay(MapOverlaysPresenter.Display.class, MapOverlaysView.class);
 		bindDisplay(StatisticsPresenter.Display.class, StatisticsView.class);
 
 		// Maplets
 		bind(Maplet.class).to(StatisticsMaplet.class).asEagerSingleton();
 	}
+
 }
