@@ -52,6 +52,8 @@ public interface Map4rdfDao {
 
 	List<GeoResource> getGeoResources(BoundingBox boundingBox,
 			Set<FacetConstraint> constraints, int max) throws DaoException;
+        
+        List<GeoResource> getGeoResources(String modelConfiguration) throws DaoException;
 
 	List<GeoResourceOverlay> getGeoResourceOverlays(
 			StatisticDefinition statisticDefinition, BoundingBox boundingBox,

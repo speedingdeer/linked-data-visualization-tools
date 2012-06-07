@@ -36,7 +36,6 @@ import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.util.LocaleUtil;
-import es.upm.fi.dia.oeg.map4rdf.client.view.v2.OpenLayersMapView;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.Geometry;
 import es.upm.fi.dia.oeg.map4rdf.share.MapShape;
@@ -75,7 +74,8 @@ public class GeoResourceSummary extends Composite {
 		initWidget(createUi());
 	}
 
-	public void setGeoResource(GeoResource resource, Geometry geometry, OpenLayersMapView display) {
+	public void setGeoResource(GeoResource resource, Geometry geometry) {
+
 		label.setText(LocaleUtil.getBestLabel(resource, true));
 		if (geometry.getType() == MapShape.Type.POINT) {
 			locationPanel.setVisible(true);

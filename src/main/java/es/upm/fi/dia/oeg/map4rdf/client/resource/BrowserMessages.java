@@ -50,6 +50,8 @@ public interface BrowserMessages extends Messages {
 	String edit();
 	
 	String filtres();
+        
+        String shapeFiles();
 	
 	String clear();
 
