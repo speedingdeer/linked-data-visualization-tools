@@ -49,15 +49,7 @@ import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Geo;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.GeoLinkedDataEsOwlVocabulary;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Scovo;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.VCard;
-import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
-import es.upm.fi.dia.oeg.map4rdf.share.Facet;
-import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
-import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
-import es.upm.fi.dia.oeg.map4rdf.share.GeoResourceOverlay;
-import es.upm.fi.dia.oeg.map4rdf.share.PointBean;
-import es.upm.fi.dia.oeg.map4rdf.share.Resource;
-import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
-import es.upm.fi.dia.oeg.map4rdf.share.Year;
+import es.upm.fi.dia.oeg.map4rdf.share.*;
 
 /**
  * @author Alexander De Leon
@@ -87,6 +79,15 @@ public class VCardDaoImpl extends CommonDaoImpl implements Map4rdfDao {
 			throws DaoException {
 		return getGeoResources(boundingBox, constraints, null);
 	}
+        
+        @Override
+        public List<GeoResource> getGeoResources(String modelConfiguration)
+                        throws DaoException {
+                // TODO(jonathangsc): Uncomment this once the repository is uploaded.
+                // ShpToRdf shpConverter = new ShpToRdf(configuration);
+                // return RDFModelProcessor.processRdfModel(shpConverter.getRdfModel());
+                return RDFModelProcessor.parseRdfFile(modelConfiguration);
+        }
 
 	private List<GeoResource> getGeoResources(BoundingBox boundingBox, Set<FacetConstraint> constraints, Integer max)
 			throws DaoException {

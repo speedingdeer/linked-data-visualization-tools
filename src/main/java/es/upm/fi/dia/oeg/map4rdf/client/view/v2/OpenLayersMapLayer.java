@@ -353,7 +353,7 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 		vectorLayer.addVectorFeatureSelectedListener(this);
 		vectorLayer.addVectorFeatureUnselectedListener(this);
 		SelectFeature selectFeature = new SelectFeature(vectorLayer);
-		selectFeature.setClickOut(false);
+		selectFeature.setClickOut(true);
 		selectFeature.setToggle(true);
 		selectFeature.setMultiple(false);
 		map.addControl(selectFeature);

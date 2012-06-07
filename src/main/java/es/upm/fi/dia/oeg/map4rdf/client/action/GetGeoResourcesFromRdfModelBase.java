@@ -1,8 +1,8 @@
 /**
- * Copyright (c) 2011 Ontology Engineering Group, 
+ * Copyright (c) 2012 Ontology Engineering Group, 
  * Departamento de Inteligencia Artificial,
- * Facultad de Informetica, Universidad 
- * Politecnica de Madrid, Spain
+ * Facultad de Informtica, Universidad 
+ * Politcnica de Madrid, Spain
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,28 +22,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.server.inject;
+package es.upm.fi.dia.oeg.map4rdf.client.action;
 
-import es.upm.fi.dia.oeg.map4rdf.server.command.*;
-import net.customware.gwt.dispatch.server.guice.ActionHandlerModule;
+import java.io.Serializable;
+import java.util.Set;
+
+import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
+import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
+
 /**
- * @author Alexander De Leon
+ * @author Jonathan Gonzalez (jonathan@jonbaraq.eu)
  */
-public class BrowserActionHandlerModule extends ActionHandlerModule {
+public class GetGeoResourcesFromRdfModelBase implements Serializable {
 
-	@Override
-	protected void configureHandlers() {
-		bindHandler(GetGeoResourcesHandler.class);
-                bindHandler(GetGeoResourcesFromRdfModelHandler.class);
-		bindHandler(GetFacetDefinitionsHandler.class);
-                bindHandler(GetGeoResourceOverlaysHandler.class);
-		bindHandler(GetStatisticYearsHandler.class);
-		bindHandler(GetStatisticDatasetsHandler.class);
-		bindHandler(GetGeoResourceHandler.class);
-		bindHandler(GetSubjectDescriptionsHandler.class);
-		bindHandler(GetSubjectLabelHandler.class);
-		bindHandler(GetGeoResourcesAsKmlUrlHandler.class);
-		bindHandler(SaveRdfFileHandler.class);
-		bindHandler(GetConfigurationParameterHandler.class);
+	private BoundingBox boundingBox;
+	private String modelConfiguration;
+
+	GetGeoResourcesFromRdfModelBase() {
+		// for serialization
 	}
+
+	public GetGeoResourcesFromRdfModelBase(BoundingBox boundingBox) {
+		this.boundingBox = boundingBox;
+	}
+
+	public BoundingBox getBoundingBox() {
+		return boundingBox;
+	}
+
+	public String getModelConfiguration() {
+		return modelConfiguration;
+	}
+
+	public void setModelConfiguration(String modelConfiguration) {
+		this.modelConfiguration = modelConfiguration;
+	}
+
 }
