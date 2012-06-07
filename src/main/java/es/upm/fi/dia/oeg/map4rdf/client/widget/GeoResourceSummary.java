@@ -53,6 +53,7 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -91,6 +92,7 @@ public class GeoResourceSummary extends Composite {
 	private VerticalPanel listPanel;
 	private VerticalPanel graphPanel;
 	private FlowPanel mainPanel;
+	private ScrollPanel listScrollPanel;
 	private OpenLayersMapView display;
 	private AemetResource ae;
 	ArrayList<AemetObs> obs;
@@ -134,7 +136,10 @@ public class GeoResourceSummary extends Composite {
 		listPanel = new VerticalPanel();
 		graphPanel = new VerticalPanel();
 		mainPanel = new FlowPanel();
-		mainPanel.add(listPanel);
+		listScrollPanel = new ScrollPanel();
+		listScrollPanel.add(listPanel);
+		listScrollPanel.setSize("200px", "200px");
+		mainPanel.add(listScrollPanel);
 		mainPanel.add(graphPanel);
 		return mainPanel;
 	}
