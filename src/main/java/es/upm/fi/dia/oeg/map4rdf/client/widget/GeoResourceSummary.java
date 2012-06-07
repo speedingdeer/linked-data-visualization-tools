@@ -25,6 +25,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import org.gwtopenmaps.openlayers.client.Size;
+
 import net.customware.gwt.dispatch.client.DefaultDispatchAsync;
 import net.customware.gwt.dispatch.client.DispatchAsync;
 
@@ -96,6 +98,9 @@ public class GeoResourceSummary extends Composite {
 	private OpenLayersMapView display;
 	private AemetResource ae;
 	ArrayList<AemetObs> obs;
+	private Size mapSize;
+	private Float windowHeight;
+	private Float windowWidth;
 	
 	public GeoResourceSummary(BrowserMessages messages, BrowserResources appResources) {
 		this.messages = messages;
@@ -108,12 +113,14 @@ public class GeoResourceSummary extends Composite {
 		initWidget(createUi());
 	}
 
-	public void setGeoResource(GeoResource resource, Geometry geometry, final OpenLayersMapView display) {
+	public void setGeoResource(GeoResource resource, Geometry geometry, final OpenLayersMapView display, Size mapSize) {
 		this.display = display;
 		display.startProcessing();
 		listPanel.clear();
 		listPanel.setVisible(true);
 		graphPanel.setVisible(false);
+		this.mapSize = mapSize;
+		this.setSize(true);
 		GetGeoResource action = new GetGeoResource(resource.getUri());
         DispatchAsync d = new DefaultDispatchAsync();
 		d.execute(action, new AsyncCallback<SingletonResult<GeoResource>>() {
@@ -138,7 +145,6 @@ public class GeoResourceSummary extends Composite {
 		mainPanel = new FlowPanel();
 		listScrollPanel = new ScrollPanel();
 		listScrollPanel.add(listPanel);
-		listScrollPanel.setSize("200px", "200px");
 		mainPanel.add(listScrollPanel);
 		mainPanel.add(graphPanel);
 		return mainPanel;
@@ -227,6 +233,7 @@ public class GeoResourceSummary extends Composite {
 
 	private void createChart(final AemetObs ao, Intervalo start, Intervalo end, Widget ref) {
 		final GetAemetObsForProperty action = new GetAemetObsForProperty();
+		setSize(false);
 		action.setStationUri(ao.getEstacion().getUri());
 		action.setPropertyUri(ao.getPropiedad().getUri());
 		action.setStart(start);
@@ -272,16 +279,16 @@ public class GeoResourceSummary extends Composite {
 
 					@Override
 					public void onClick(ClickEvent event) {
-						graphPanel.setVisible(false);
-						listPanel.setVisible(true);
+						graphPanel.clear();
+						setSize(true);
 							}
 				});
 				vp.add(p);
-				vp.setSize("" + (plot.getWidth()) + "px", "" + (plot.getHeight() + 20) + "px");
+				plot.setHeight((int) (windowHeight*0.45));
+				plot.setWidth((int) (windowWidth*0.95));
+				//vp.setSize("" + (plot.getWidth()) + "px", "" + (plot.getHeight() + 20) + "px");
 				graphPanel.clear();
 				graphPanel.add(vp);
-				graphPanel.setVisible(true);
-				listPanel.setVisible(false);
 				display.stopProcessing();
 			}
 
@@ -392,12 +399,17 @@ public class GeoResourceSummary extends Composite {
 		return panelAct;
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	private void setSize(Boolean fullList){
+		if(fullList) {
+			windowWidth =  mapSize.getWidth()*(float)0.68;
+			windowHeight =  mapSize.getHeight()*(float)0.68;
+			listScrollPanel.setSize(windowWidth+"px", windowHeight+"px");
+			graphPanel.setWidth(windowWidth+"px");
+			graphPanel.setVisible(false);
+		} else {
+			listScrollPanel.setHeight(windowHeight*0.5+"px");
+			graphPanel.setHeight(windowHeight*0.3+"px");			
+			graphPanel.setVisible(true);
+		}
+	}
 }

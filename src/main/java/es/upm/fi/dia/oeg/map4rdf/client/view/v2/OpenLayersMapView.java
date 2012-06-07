@@ -26,6 +26,7 @@ import net.customware.gwt.dispatch.client.DispatchAsync;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapWidget;
+import org.gwtopenmaps.openlayers.client.Size;
 import org.gwtopenmaps.openlayers.client.event.VectorBeforeFeatureAddedListener;
 import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 import org.gwtopenmaps.openlayers.client.layer.Google;
@@ -304,6 +305,17 @@ public class OpenLayersMapView implements MapView {
 		mapWidget.setStyleName(browserResources.css().mapWidget());
 	}
 
+
+	public void hideInfoPanel() {
+		LonLat lonLat = map.getCenter();
+		mapWidget.setSize("100%", "100%");
+		map.setCenter(lonLat);
+		fullSize = true;
+		layerSwitcher = new LayerSwitcher();		
+		map.addControl(layerSwitcher);
+		mapWidget.removeStyleName(browserResources.css().mapWidget());
+	}
+	
 	@Override
 	public void closeWindow() {
 		
@@ -316,18 +328,12 @@ public class OpenLayersMapView implements MapView {
 	public Boolean getFullSize() {
 		return fullSize;
 	}
+	
+	public Size getMapSize(){
+		return map.getSize();
+	}
 
 	public void setFullSize(Boolean hasFullSize) {
 		this.fullSize = hasFullSize;
-	}
-
-	public void hideInfoPanel() {
-		LonLat lonLat = map.getCenter();
-		mapWidget.setSize("100%", "100%");
-		map.setCenter(lonLat);
-		fullSize = true;
-		layerSwitcher = new LayerSwitcher();		
-		map.addControl(layerSwitcher);
-		mapWidget.removeStyleName(browserResources.css().mapWidget());
 	}
 }	
