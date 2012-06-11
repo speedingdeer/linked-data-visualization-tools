@@ -47,7 +47,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RadioButton;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -579,7 +578,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 	    panelLinea2.add(new InlineLabel("Informacion en RDF: "));
 	    panelLinea2.add(new Anchor("rdf",result.getUri(),"_blank"));
 	
-	    panelLinea.setWidth("200px");
+	    panelLinea.setWidth("220px");
 	         
 	    panelLinea3.add(new Label("color del viaje:"));
 	    radioButtonBlue = new RadioButton("color","azul");
@@ -613,6 +612,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 		else {
 			radioButtonBlue.setValue(true);
 		}
+		
 	}
 
 	private void addColourChangeListener(RadioButton radio, final String color) {
