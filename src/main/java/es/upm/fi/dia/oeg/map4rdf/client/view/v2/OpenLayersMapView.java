@@ -27,6 +27,7 @@ import net.customware.gwt.presenter.client.EventBus;
 import org.gwtopenmaps.openlayers.client.Map;
 import org.gwtopenmaps.openlayers.client.MapOptions;
 import org.gwtopenmaps.openlayers.client.MapWidget;
+import org.gwtopenmaps.openlayers.client.Size;
 import org.gwtopenmaps.openlayers.client.event.VectorBeforeFeatureAddedListener;
 import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 import org.gwtopenmaps.openlayers.client.layer.Google;
@@ -361,5 +362,7 @@ public class OpenLayersMapView implements MapView, HistoryShowEventHandler {
 		DOM.setStyleAttribute(widgetPanel.getElement(), "bottom", 22 + "px");
 		DOM.setStyleAttribute(widgetPanel.getElement(), "zIndex", "2024");
 	}
-	
+	public Size getMapSize(){
+		return map.getSize();
+	}
 }	

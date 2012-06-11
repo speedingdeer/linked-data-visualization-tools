@@ -22,6 +22,7 @@ package es.upm.fi.dia.oeg.map4rdf.client.widget;
 
 import java.util.ArrayList;
 
+import org.gwtopenmaps.openlayers.client.Size;
 import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 
 import net.customware.gwt.dispatch.client.DefaultDispatchAsync;
@@ -138,11 +139,13 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 	//data
     private ArrayList<WebNMasUnoResource> guias = null;
     private int numGuiaActual;
+    private Size mapSize;
     
 	public GeoResourceSummary(BrowserMessages messages, BrowserResources browserResources, EventBus eventBus) {
 		this.messages = messages;
 		this.eventBus = eventBus;
 		this.display=display;
+		this.mapSize=mapSize;
 		this.browserResources = browserResources;
 		this.geoSummaryEventMenager = new GeoSummaryEventMenager(eventBus);
 		style = browserResources.css();
@@ -155,7 +158,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 	}
 
 
-	public void setGeoResource(GeoResource resource, Geometry geometry,OpenLayersMapView display) {
+	public void setGeoResource(GeoResource resource, Geometry geometry,OpenLayersMapView display,Size mapSize) {
 		//setCurrentData
 		currentResource = resource;
 		currentGeometry = geometry;
@@ -631,7 +634,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 	public void onYearChange(FilterYearChangeEvent event) {
 		yearFilterValue = event.getYear();
 		if (refreshOnYearChangeEvent) {
-			setGeoResource(currentResource, currentGeometry,display);
+			setGeoResource(currentResource, currentGeometry,display,mapSize);
 		}
 	}
 	

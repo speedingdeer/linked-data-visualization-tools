@@ -27,6 +27,7 @@ import net.customware.gwt.dispatch.client.DefaultDispatchAsync;
 import net.customware.gwt.dispatch.client.DispatchAsync;
 import net.customware.gwt.presenter.client.EventBus;
 
+import org.gwtopenmaps.openlayers.client.Size;
 import org.gwtopenmaps.openlayers.client.feature.VectorFeature;
 import org.gwtopenmaps.openlayers.client.layer.Vector;
 
@@ -103,6 +104,7 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 
 		final OpenLayersMapView display = this;
 		for (Geometry geometry : resource.getGeometries()) {
+			final Size mapSize = getMapSize();
 			switch (geometry.getType()) {
 			case POINT:
 				final Point point = (Point) geometry;
@@ -119,7 +121,7 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 							}
 							@Override
 				            public void onSuccess(SingletonResult<GeoResource> result) {
-								summary.setGeoResource(result.getValue(), point,display);
+								summary.setGeoResource(result.getValue(), point, display, mapSize);
 								window.open(point);
 							}
 						});
@@ -160,7 +162,7 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 
 							@Override
 							public void onClick(ClickEvent event) {
-								summary.setGeoResource(resource, polygon, display);
+								summary.setGeoResource(resource, polygon, display, mapSize);
 								window.open(polygon.getPoints().get(0));
 
 							}
