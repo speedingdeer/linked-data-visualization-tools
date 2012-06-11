@@ -108,7 +108,6 @@ public class OpenLayersMapView implements MapView, HistoryShowEventHandler {
 			public void onFailure(Throwable caught) {
 				Window.alert("check Spherical Mercator parameter");
 			}
-
 			@Override
 			public void onSuccess(SingletonResult<String> result) {
 				createAsyncUi(result.getValue());
