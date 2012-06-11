@@ -267,8 +267,8 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 			    DOM.setStyleAttribute(popupPanel.getElement(), "top",  popupTop + "px");
 				DOM.setStyleAttribute(popupPanel.getElement(), "zIndex", "2000");
 				//DOM.setElementAttribute(popupPanel.getElement(), "id","map4rdf-popup-new");
-				
 				//replace();
+				
 			}
 
 			@Override
@@ -376,7 +376,9 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 		if (eventObject.getVectorFeature().getGeometry().getClassName().equals(Geometry.POINT_CLASS_NAME)){
 			eventObject.getVectorFeature().getStyle().setExternalGraphic(GWT.getModuleBaseURL() + MARKER_SELECTED_ICON);
 			eventObject.getVectorFeature().redrawParent();
+			eventObject.getVectorFeature().redrawParent();
 		}
+		
 	}
 
 	@Override
