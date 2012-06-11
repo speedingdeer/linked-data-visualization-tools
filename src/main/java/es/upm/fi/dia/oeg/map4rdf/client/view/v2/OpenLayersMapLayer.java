@@ -77,7 +77,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.Polygon;
 /**
  * @author Alexander De Leon
  */
-public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListener, VectorFeatureUnselectedListener, MapMoveListener {
+public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListener, VectorFeatureUnselectedListener, MapMoveListener, MapClickListener {
 
 	private static final String MARKER_ICON = "marker_red.png";
 	private static final String MARKER_SELECTED_ICON = "marker_selected.png";
@@ -102,6 +102,7 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
         vectorLayer.setDisplayInLayerSwitcher(false);
         map.addLayer(vectorLayer);
         map.addMapMoveListener(this);
+        map.addMapClickListener(this);
 	}
         
 	@Override
@@ -247,22 +248,29 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
                 //popup.setBorder("1px solid #424242");
 				
 				//map.addPopupExclusive(popup);
-				popupPanel = new FlowPanel();
-				popupPanel.add(panel);
-				popupPanel.setStyleName(browserResources.css().popup());
+	
 				Size mapsize = map.getSize();
 				Float mapWidth = (float) (mapsize.getWidth() * 0.69);
 				Float mapHeight = (float) (mapsize.getHeight() * 0.69);
 				Float popupLeft = (float) (mapsize.getWidth() * 0.29);
 				Float popupTop = (float) (mapsize.getHeight() * 0.29);
+				if (owner.getFullSize()) {
+				popupPanel = new FlowPanel();
+				popupPanel.add(panel);
+				popupPanel.setStyleName(browserResources.css().popup());
 				popupPanel.setSize(mapWidth + "px", mapHeight + "px");
 				owner.getContainer().add(popupPanel);
 				owner.showInfoPanel();
-				
 		        DOM.setStyleAttribute(popupPanel.getElement(), "position","absolute");
 			    DOM.setStyleAttribute(popupPanel.getElement(), "left",  popupLeft +"px");
 			    DOM.setStyleAttribute(popupPanel.getElement(), "top",  popupTop + "px");
 				DOM.setStyleAttribute(popupPanel.getElement(), "zIndex", "2000");
+				}
+				else {
+					popupPanel.clear();
+					popupPanel.add(panel);
+				}
+				map.updateSize();
 				//DOM.setElementAttribute(popupPanel.getElement(), "id","map4rdf-popup-new");
 				
 				//replace();
@@ -369,7 +377,7 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 
 	@Override
 	public void onFeatureUnselected(FeatureUnselectedEvent eventObject) {
-		getMapView().closeWindow();
+		//getMapView().closeWindow();
 		if (eventObject.getVectorFeature().getGeometry().getClassName().equals(Geometry.POINT_CLASS_NAME)){
 			eventObject.getVectorFeature().getStyle().setExternalGraphic(GWT.getModuleBaseURL() + MARKER_ICON);
 			eventObject.getVectorFeature().redrawParent();
@@ -381,7 +389,7 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 		vectorLayer.addVectorFeatureUnselectedListener(this);
 		SelectFeature selectFeature = new SelectFeature(vectorLayer);
 		selectFeature.setClickOut(true);
-		selectFeature.setToggle(true);
+		selectFeature.setToggle(false);
 		selectFeature.setMultiple(false);
 		map.addControl(selectFeature);
 		selectFeature.activate();
@@ -444,5 +452,10 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 		style.setCursor("pointer");
 		style.setPointRadius(20);
 		return style;
+	}
+
+	@Override
+	public void onClick(MapClickEvent mapClickEvent) {
+		getMapView().closeWindow();
 	}
 }

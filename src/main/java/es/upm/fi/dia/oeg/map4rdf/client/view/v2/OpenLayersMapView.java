@@ -101,7 +101,6 @@ public class OpenLayersMapView implements MapView {
 			public void onFailure(Throwable caught) {
 				Window.alert("check Spherical Mercator parameter");
 			}
-
 			@Override
 			public void onSuccess(SingletonResult<String> result) {
 				createAsyncUi(result.getValue());
