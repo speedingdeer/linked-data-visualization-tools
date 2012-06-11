@@ -102,7 +102,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 	private InlineLabel moreInfo;
 	private InlineLabel editInfo;
 	private VerticalPanel panelFoto;
-	private PaginationPanel panelViajes, panelGuias;
+	private VerticalPanel panelViajes, panelGuias;
 	private TabPanel panelPestanas;
 	private VerticalPanel photoContainer;
 	private RadioButton radioButtonBlue;
@@ -249,7 +249,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
         //drawing trip part
      
     }
-
+	
 	private void hideMoreInfo() {
 		editInfo.setVisible(false);
 		editLink.setVisible(false);
@@ -266,14 +266,14 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 		resourcePanel = new HorizontalPanel();
 		panelPestanas = new TabPanel();
         panelPestanas.setWidth("400px");
-        panelGuias = new PaginationPanel(browserResources);
-        panelViajes = new PaginationPanel(browserResources);
+        panelGuias = new VerticalPanel();
+        panelViajes = new VerticalPanel();
         
-        FlowPanel scrollerGuias = new FlowPanel();        
-        scrollerGuias.add(panelGuias.getMainPanel());
+        ScrollPanel scrollerGuias = new ScrollPanel();        
+        scrollerGuias.add(panelGuias);
         scrollerGuias.setHeight("100px");
-        FlowPanel scrollerViajes = new FlowPanel();
-        scrollerViajes.add(panelViajes.getMainPanel());
+        ScrollPanel scrollerViajes = new ScrollPanel();
+        scrollerViajes.add(panelViajes);
         scrollerViajes.setHeight("100px");
         VerticalPanel pG = new VerticalPanel();
         pG.add(scrollerGuias);
