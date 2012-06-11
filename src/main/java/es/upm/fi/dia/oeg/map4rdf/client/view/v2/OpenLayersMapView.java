@@ -90,6 +90,7 @@ public class OpenLayersMapView implements MapView, HistoryShowEventHandler {
 	private VectorFeature feature;
 	private DrawFeature df;
 	private EventBus eventBus;
+	private Boolean fullSize;
 	
 	public OpenLayersMapView(WidgetFactory widgetFactory, DispatchAsync dispatchAsync, BrowserResources browserResources, EventBus eventBus) {
 		this.browserResources=browserResources;
@@ -99,7 +100,7 @@ public class OpenLayersMapView implements MapView, HistoryShowEventHandler {
 		defaultLayer = (OpenLayersMapLayer) createLayer("default");
 		addNotice();
 		addDrawingTools();
-		
+		fullSize = true;
 		GetConfigurationParameter action = new GetConfigurationParameter("spherical_mercator");
 		dispatchAsync.execute(action, new AsyncCallback<SingletonResult<String>>() {
 
@@ -209,6 +210,7 @@ public class OpenLayersMapView implements MapView, HistoryShowEventHandler {
 				defaultLayer.bind();
 			};
 		};
+		MapOptions mp = new MapOptions();
 		mapWidget = new MapWidget("100%", "100%", new MapOptions());
 		map = mapWidget.getMap();
 		layerSwitcher = new LayerSwitcher();		
@@ -227,7 +229,6 @@ public class OpenLayersMapView implements MapView, HistoryShowEventHandler {
 		}
 		
 	}
-	
 	private void addSphericalMaps(){
 
 		//needed constants
@@ -273,7 +274,7 @@ public class OpenLayersMapView implements MapView, HistoryShowEventHandler {
 		//buliding maps
 		map.setOptions(options);
 		
-		//building layers
+		//building layerstype filter text
 		WMS otalexLayer = LayersMenager.newIDEE(resolutions);
 		WMS olLayer = LayersMenager.getOpenLayersFlatLayer();
 		//WMS olBasicLayer = LayersMenager.getOpenLayersFlatBasicLayer(); 
@@ -304,8 +305,40 @@ public class OpenLayersMapView implements MapView, HistoryShowEventHandler {
 		map.addControl(df);
 	}
 
+	
+	
+	public void showInfoPanel(){
+		mapWidget.setSize("35%", "35%");
+		fullSize = false;
+		map.removeControl(layerSwitcher);
+		mapWidget.setStyleName(browserResources.css().mapWidget());
+	}
+
 	@Override
 	public void closeWindow() {
+		
+	}
+
+	public void setCenterr(LonLat centerLonLat) {
+		map.setCenter(centerLonLat);
+	}
+
+	public Boolean getFullSize() {
+		return fullSize;
+	}
+
+	public void setFullSize(Boolean hasFullSize) {
+		this.fullSize = hasFullSize;
+	}
+
+	public void hideInfoPanel() {
+		LonLat lonLat = map.getCenter();
+		mapWidget.setSize("100%", "100%");
+		map.setCenter(lonLat);
+		fullSize = true;
+		layerSwitcher = new LayerSwitcher();		
+		map.addControl(layerSwitcher);
+		mapWidget.removeStyleName(browserResources.css().mapWidget());
 	}
 
 	@Override

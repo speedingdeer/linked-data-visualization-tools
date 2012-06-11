@@ -100,7 +100,9 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 	/* --------------- helper methods -- */
 
 	private void drawGeoResource(final GeoResource resource) {
-		for (final Geometry geometry : resource.getGeometries()) {
+
+		final OpenLayersMapView display = this;
+		for (Geometry geometry : resource.getGeometries()) {
 			switch (geometry.getType()) {
 			case POINT:
 				final Point point = (Point) geometry;
@@ -117,7 +119,7 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 							}
 							@Override
 				            public void onSuccess(SingletonResult<GeoResource> result) {
-								summary.setGeoResource(result.getValue(), point);
+								summary.setGeoResource(result.getValue(), point,display);
 								window.open(point);
 							}
 						});
@@ -147,8 +149,7 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 										summary.setTripInformation(result.getValue(),feature);
 										window.open(line.getPoints().get(line.getPoints().toArray().length/2));
 									}
-								});
-							
+								});							
 							}
 						});
 				break;
@@ -159,7 +160,7 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 
 							@Override
 							public void onClick(ClickEvent event) {
-								summary.setGeoResource(resource, polygon);
+								summary.setGeoResource(resource, polygon, display);
 								window.open(polygon.getPoints().get(0));
 
 							}
@@ -178,6 +179,8 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 	
 	@Override
 	public void closeWindow() {
+		super.closeWindow();
 		window.close();
+		
 	}
 }

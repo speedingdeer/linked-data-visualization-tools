@@ -64,6 +64,7 @@ public interface BrowserResources extends ClientBundle {
 		
 		String popup();
 		
+		String mapWidget();
 
 	}
 

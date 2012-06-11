@@ -63,6 +63,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.event.FilterYearChangeEventHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
+import es.upm.fi.dia.oeg.map4rdf.client.util.LocaleUtil;
 import es.upm.fi.dia.oeg.map4rdf.client.view.v2.OpenLayersMapView;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.Geometry;
@@ -90,7 +91,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 	private WebNMasUnoItinerary currentItinerary;
 	private VectorFeature currentFeature;
 	private Boolean refreshOnYearChangeEvent = false;
-	
+	private OpenLayersMapView display;
 	private Label label;	
 	private Anchor link;
 	private HorizontalPanel resourcePanel;
@@ -141,6 +142,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 	public GeoResourceSummary(BrowserMessages messages, BrowserResources browserResources, EventBus eventBus) {
 		this.messages = messages;
 		this.eventBus = eventBus;
+		this.display=display;
 		this.browserResources = browserResources;
 		this.geoSummaryEventMenager = new GeoSummaryEventMenager(eventBus);
 		style = browserResources.css();
@@ -152,7 +154,8 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 		initWidget(createUi());
 	}
 
-	public void setGeoResource(GeoResource resource, Geometry geometry) {
+
+	public void setGeoResource(GeoResource resource, Geometry geometry,OpenLayersMapView display) {
 		//setCurrentData
 		currentResource = resource;
 		currentGeometry = geometry;
@@ -246,8 +249,6 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
         //drawing trip part
      
     }
-
-	
 
 	private void hideMoreInfo() {
 		editInfo.setVisible(false);
@@ -630,7 +631,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 	public void onYearChange(FilterYearChangeEvent event) {
 		yearFilterValue = event.getYear();
 		if (refreshOnYearChangeEvent) {
-			setGeoResource(currentResource, currentGeometry);
+			setGeoResource(currentResource, currentGeometry,display);
 		}
 	}
 	
