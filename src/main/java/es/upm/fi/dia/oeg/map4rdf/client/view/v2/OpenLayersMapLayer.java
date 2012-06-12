@@ -204,10 +204,15 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 
 	@Override
 	public PopupWindow createPopupWindow() {
-
+		
 		return new PopupWindow() {
+			
+			
 			private final FlowPanel panel = new FlowPanel();
+			private final FlowPanel panelSmall = new FlowPanel();
 			private Popup popup;
+			private FlowPanel popupSmall;
+			private PopupMode popupMode = null;
 			MapZoomListener zoomListener;
 			
 			@Override
@@ -228,6 +233,20 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 			@Override
 			public void add(Widget w) {
 				panel.add(w);
+			}
+			
+			public FlowPanel getSmalPanel() {
+				return panelSmall;
+			}
+			
+			public void removePopupSmall(){
+				panelSmall.clear();
+			}
+			
+			@Override
+			public void open(Point location, PopupMode mode) {
+				popupMode=mode;
+				open(location);
 			}
 			
 			@Override
@@ -256,20 +275,42 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 				Float popupLeft = (float) (mapsize.getWidth() * 0.29);
 				Float popupTop = (float) (mapsize.getHeight() * 0.29);
 				if (owner.getFullSize()) {
-				popupPanel = new FlowPanel();
-				popupPanel.add(panel);
-				popupPanel.setStyleName(browserResources.css().popup());
-				popupPanel.setSize(mapWidth + "px", mapHeight + "px");
-				owner.getContainer().add(popupPanel);
-				owner.showInfoPanel();
-		        DOM.setStyleAttribute(popupPanel.getElement(), "position","absolute");
-			    DOM.setStyleAttribute(popupPanel.getElement(), "left",  popupLeft +"px");
-			    DOM.setStyleAttribute(popupPanel.getElement(), "top",  popupTop + "px");
-				DOM.setStyleAttribute(popupPanel.getElement(), "zIndex", "2000");
+					popupPanel = new FlowPanel();
+					popupSmall = new FlowPanel();
+					popupPanel.setVisible(false);
+					popupSmall.setVisible(false);
+					popupPanel.add(panel);
+					popupSmall.add(panelSmall);
+					
+					popupPanel.setStyleName(browserResources.css().popup());
+					popupSmall.setStyleName(browserResources.css().popup());
+					popupPanel.setSize(mapWidth + "px", mapHeight + "px");
+					
+					owner.getContainer().add(popupPanel);
+					owner.getContainer().add(popupSmall);
+			
+					owner.showInfoPanel();
+			        DOM.setStyleAttribute(popupPanel.getElement(), "position","absolute");
+				    DOM.setStyleAttribute(popupPanel.getElement(), "left",  popupLeft +"px");
+				    DOM.setStyleAttribute(popupPanel.getElement(), "top",  popupTop + "px");
+					DOM.setStyleAttribute(popupPanel.getElement(), "zIndex", "2000");
+			        
+					DOM.setStyleAttribute(popupSmall.getElement(), "position","absolute");
+				    DOM.setStyleAttribute(popupSmall.getElement(), "left",  "10" +"px");
+				    DOM.setStyleAttribute(popupSmall.getElement(), "bottom",  "10" + "px");
+					DOM.setStyleAttribute(popupSmall.getElement(), "zIndex", "2000");
 				}
 				else {
 					popupPanel.clear();
 					popupPanel.add(panel);
+					popupSmall.clear();
+					popupSmall.add(panelSmall);
+					
+				}
+				if (popupMode==PopupMode.SMALL) {
+					popupSmall.setVisible(true);
+				} else if (popupMode==PopupMode.BIG) {
+					popupPanel.setVisible(true);
 				}
 				map.updateSize();
 				//DOM.setElementAttribute(popupPanel.getElement(), "id","map4rdf-popup-new");
@@ -282,12 +323,21 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 				if (popup != null) {
 					//map.removePopup(popup);
 					owner.getContainer().remove(popupPanel);
+					owner.getContainer().remove(popupSmall);
+					popupPanel.setVisible(false);
+					popupSmall.setVisible(false);
 					map.removeListener(zoomListener);
 					popup = null;
 					owner.hideInfoPanel();
 					map.updateSize();
+					popupMode=null;
 				}
 				owner.closeWidgetPanel();
+			}
+
+			@Override
+			public void addSmallPopup(Widget w) {
+				panelSmall.add(w);
 			}
 		};
 	}

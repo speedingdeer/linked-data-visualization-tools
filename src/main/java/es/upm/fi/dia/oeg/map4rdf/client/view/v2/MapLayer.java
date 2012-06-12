@@ -22,6 +22,7 @@ package es.upm.fi.dia.oeg.map4rdf.client.view.v2;
 
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Widget;
 
 import es.upm.fi.dia.oeg.map4rdf.client.style.StyleMapShape;
 import es.upm.fi.dia.oeg.map4rdf.share.Circle;
@@ -51,10 +52,14 @@ public interface MapLayer {
 	MapView getMapView();
 
 	interface PopupWindow extends HasWidgets {
-
+		
 		void open(Point location);
 
 		void close();
+
+		void addSmallPopup(Widget w);
+
+		void open(Point location, PopupMode mode);
 
 	}
 }

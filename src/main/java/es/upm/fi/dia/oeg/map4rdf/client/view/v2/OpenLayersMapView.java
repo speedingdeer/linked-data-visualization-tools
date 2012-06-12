@@ -355,11 +355,13 @@ public class OpenLayersMapView implements MapView, HistoryShowEventHandler {
 		}
 		widgetPanel = new FlowPanel();
 		panel.add(widgetPanel);
+		SimileTimeLine.getInstance().setWidth((map.getSize().getWidth()*1.65)+"px");
 		widgetPanel.add(SimileTimeLine.getInstance());
+		map.getSize().getWidth();
 		SimileTimeLine.getInstance().enable();
 		DOM.setStyleAttribute(widgetPanel.getElement(), "position", "absolute");
-		DOM.setStyleAttribute(widgetPanel.getElement(), "left", 22 + "px");
-		DOM.setStyleAttribute(widgetPanel.getElement(), "bottom", 22 + "px");
+		DOM.setStyleAttribute(widgetPanel.getElement(), "right", 22 + "px");
+		DOM.setStyleAttribute(widgetPanel.getElement(), "top", 0 + "px");
 		DOM.setStyleAttribute(widgetPanel.getElement(), "zIndex", "2024");
 	}
 	public Size getMapSize(){

@@ -46,6 +46,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.view.v2.MapLayer;
 import es.upm.fi.dia.oeg.map4rdf.client.view.v2.OpenLayersMapLayer.FeatureHasClickHandlerWrapper;
+import es.upm.fi.dia.oeg.map4rdf.client.view.v2.PopupMode;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.GeoResourceSummary;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.MapShapeStyleFactory;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
@@ -78,6 +79,7 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 		summary.setMapView(this);
 		window = getDefaultLayer().createPopupWindow();
 		window.add(summary);
+		window.addSmallPopup(summary.getTripPanel());
 	}
 
 	@Override
@@ -105,6 +107,7 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 		final OpenLayersMapView display = this;
 		for (Geometry geometry : resource.getGeometries()) {
 			final Size mapSize = getMapSize();
+			final Boolean full = getFullSize();
 			switch (geometry.getType()) {
 			case POINT:
 				final Point point = (Point) geometry;
@@ -112,6 +115,7 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 					
 					@Override
 					public void onClick(ClickEvent event) {
+
 						//collect data for guias and viajes
 						GetGeoResource action = new GetGeoResource(resource.getUri());
 						dispatchAsync.execute(action, new AsyncCallback<SingletonResult<GeoResource>>() {
@@ -122,7 +126,7 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 							@Override
 				            public void onSuccess(SingletonResult<GeoResource> result) {
 								summary.setGeoResource(result.getValue(), point, display, mapSize);
-								window.open(point);
+								window.open(point,PopupMode.BIG);
 							}
 						});
 					}
@@ -136,20 +140,20 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 						new ClickHandler() {
 							@Override
 							public void onClick(ClickEvent event) {
+								
 								GetItineraryResource action = new GetItineraryResource(resource.getUri());
 								dispatchAsync.execute(action, new AsyncCallback<SingletonResult<WebNMasUnoItinerary>>() {
-
+					
 									@Override
 									public void onFailure(Throwable caught) {
 										// TODO Auto-generated method stub
 										
 									}
-
 									@Override
 									public void onSuccess(
 											SingletonResult<WebNMasUnoItinerary> result) {
 										summary.setTripInformation(result.getValue(),feature);
-										window.open(line.getPoints().get(line.getPoints().toArray().length/2));
+										window.open(line.getPoints().get(line.getPoints().toArray().length/2),PopupMode.SMALL);
 									}
 								});							
 							}

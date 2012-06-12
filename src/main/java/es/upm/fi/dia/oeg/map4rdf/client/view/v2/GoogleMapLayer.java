@@ -177,6 +177,18 @@ public class GoogleMapLayer implements MapLayer {
 			public void close() {
 				map.getInfoWindow().close();
 			}
+
+			@Override
+			public void addSmallPopup(Widget w) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void open(Point location, PopupMode mode) {
+				// TODO Auto-generated method stub
+				
+			}
 		};
 	}
 

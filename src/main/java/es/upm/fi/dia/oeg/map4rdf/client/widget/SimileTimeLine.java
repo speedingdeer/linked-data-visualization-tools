@@ -24,7 +24,11 @@ import java.util.ArrayList;
 public class SimileTimeLine extends Composite{
     private final HorizontalPanel panel = new HorizontalPanel();
     private TimeLineWidget simileWidget;
+    private String width = "500px";
+    private String height = "150px";
     public static boolean enabled = false;
+    
+    
     private static SimileTimeLine instance = null;
 
     public static SimileTimeLine getInstance(){
@@ -150,8 +154,8 @@ public class SimileTimeLine extends Composite{
 
             @Override
             public void render(TimeLineWidget widget) {
-                widget.setWidth("500px");
-                widget.setHeight("150px");
+                widget.setWidth(width);
+                widget.setHeight(height);
 
             }
         });
@@ -165,6 +169,17 @@ public class SimileTimeLine extends Composite{
         this.enable();
         
         panel.add(simileWidget);
+    }
+    
+    @Override
+    public void setWidth(String width) {
+    	this.width=width;
+    	super.setWidth(width);
+    }
+    @Override
+    public void setHeight(String height) {
+    	this.height=height;
+    	super.setHeight(height);
     }
 
     /**

@@ -102,7 +102,8 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 	private Hyperlink editLink;
 	private InlineLabel moreInfo;
 	private InlineLabel editInfo;
-	private VerticalPanel panelFoto;
+	private VerticalPanel panelFoto,pG,pV;
+	private ScrollPanel  scrollerGuias,scrollerViajes;
 	private VerticalPanel panelViajes, panelGuias;
 	private TabPanel panelPestanas;
 	private VerticalPanel photoContainer;
@@ -140,12 +141,14 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
     private ArrayList<WebNMasUnoResource> guias = null;
     private int numGuiaActual;
     private Size mapSize;
+    private Float windowWidth;
+    private Float windowHeight;
+       
     
 	public GeoResourceSummary(BrowserMessages messages, BrowserResources browserResources, EventBus eventBus) {
 		this.messages = messages;
 		this.eventBus = eventBus;
 		this.display=display;
-		this.mapSize=mapSize;
 		this.browserResources = browserResources;
 		this.geoSummaryEventMenager = new GeoSummaryEventMenager(eventBus);
 		style = browserResources.css();
@@ -160,12 +163,16 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 
 	public void setGeoResource(GeoResource resource, Geometry geometry,OpenLayersMapView display,Size mapSize) {
 		//setCurrentData
+		this.mapSize=mapSize;
+		this.windowWidth =  mapSize.getWidth()*(float)0.68;
+		this.windowHeight =  mapSize.getHeight()*(float)0.68;
 		currentResource = resource;
 		currentGeometry = geometry;
 		refreshOnYearChangeEvent = true;
 		//fill up data
+		calculateSize();
 		WebNMasUnoTrip trip = null;
-		tripPanel.setVisible(false);
+		//tripPanel.setVisible(false);
 		timeLinePanel.setVisible(true);
 		resourcePanel.setVisible(true);
 		WebNMasUnoResourceContainer wrc = (WebNMasUnoResourceContainer)resource;
@@ -174,6 +181,8 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
         guias = new ArrayList<WebNMasUnoResource>();
         panelGuias.clear();
         panelViajes.clear();
+        photoContainer.clear();
+        photoContainer.add(new Image());
         //photoContainer.clear();
         links.clear();
         for(int i = 0; i< resources.size(); i++){
@@ -217,7 +226,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
         }
       
         panelPestanas.selectTab(0);
-        //photoContainer.add(new Image());//necesaria para inicializacion
+        //photoContainer.add(new Imatype filter textge());//necesaria para inicializacion
         if(guias.size()>0){
             resourcePanel.setWidth("530px");
             this.replaceContainer(photoContainer,pieFoto);
@@ -272,18 +281,18 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
         panelGuias = new VerticalPanel();
         panelViajes = new VerticalPanel();
         
-        ScrollPanel scrollerGuias = new ScrollPanel();        
+        scrollerGuias = new ScrollPanel();        
         scrollerGuias.add(panelGuias);
         scrollerGuias.setHeight("100px");
-        ScrollPanel scrollerViajes = new ScrollPanel();
+        scrollerViajes = new ScrollPanel();
         scrollerViajes.add(panelViajes);
         scrollerViajes.setHeight("100px");
-        VerticalPanel pG = new VerticalPanel();
+        pG = new VerticalPanel();
         pG.add(scrollerGuias);
         pG.setHeight("100px");
         panelPestanas.add(pG,"Guias");
 
-        VerticalPanel pV = new VerticalPanel();
+        pV = new VerticalPanel();
         pV.add(scrollerViajes);
         pV.setHeight("100px");
         panelPestanas.add(pV,"Viajes");
@@ -298,7 +307,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
         links = new HorizontalPanel();
         links.setSpacing(4);
         
-        photoContainer.add(new Image());//necesaria para inicializacion
+   //necesaria para inicializacion
         
         panelFoto.add(photoContainer);
         panelFoto.add(links);
@@ -328,13 +337,22 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
         /***********************/
         
         mainPanel.add(resourcePanel);
-        mainPanel.add(tripPanel);
-        mainPanel.add(timeLinePanel);
+        //mainPanel.add(tripPanel);
+       // mainPanel.add(timeLinePanel);
         return mainPanel;
 		
 	}
 	
-	
+	public void calculateSize() {
+		//panelPestanas.setHeight("300px");
+		Integer height = (int) (windowHeight * 0.85);
+		Integer width = (int) (windowWidth * 0.85);
+		pV.setHeight(height + "px");
+		pG.setHeight(height + "px");
+		scrollerGuias.setHeight(height + "px");
+		scrollerViajes.setHeight(height + "px");
+		
+	}
 	
 	/*******************************************************************
 	 *************************HELPERS**********************************
@@ -559,9 +577,9 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 		refreshOnYearChangeEvent = false;
 		
 		this.feature = feature;
-		tripPanel.setVisible(true);
-		resourcePanel.setVisible(false);
-		timeLinePanel.setVisible(false);
+		//tripPanel.setVisible(true);
+		//resourcePanel.setVisible(false);
+		//timeLinePanel.setVisible(false);
 		
 		
         panelLinea.clear();
@@ -642,4 +660,9 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 	this.mapView = mapView;	
 	this.geoSummaryEventMenager.setMapView(mapView);
 	}
+	
+	public FlowPanel getTripPanel(){
+		return tripPanel;
+	}
+	
 }
