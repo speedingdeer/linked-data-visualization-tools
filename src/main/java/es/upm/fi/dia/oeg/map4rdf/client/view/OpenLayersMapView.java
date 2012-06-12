@@ -115,17 +115,19 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 					
 					@Override
 					public void onClick(ClickEvent event) {
-
+						display.startProcessing();
 						//collect data for guias and viajes
 						GetGeoResource action = new GetGeoResource(resource.getUri());
 						dispatchAsync.execute(action, new AsyncCallback<SingletonResult<GeoResource>>() {
 							@Override
 							public void onFailure(Throwable caught) {
 								// TODO Auto-generated method stub
+								display.stopProcessing();
 							}
 							@Override
 				            public void onSuccess(SingletonResult<GeoResource> result) {
 								summary.setGeoResource(result.getValue(), point, display, mapSize);
+						
 								window.open(point,PopupMode.BIG);
 							}
 						});
@@ -140,18 +142,19 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 						new ClickHandler() {
 							@Override
 							public void onClick(ClickEvent event) {
-								
+								display.startProcessing();
 								GetItineraryResource action = new GetItineraryResource(resource.getUri());
 								dispatchAsync.execute(action, new AsyncCallback<SingletonResult<WebNMasUnoItinerary>>() {
 					
 									@Override
 									public void onFailure(Throwable caught) {
 										// TODO Auto-generated method stub
-										
+										display.stopProcessing();
 									}
 									@Override
 									public void onSuccess(
 											SingletonResult<WebNMasUnoItinerary> result) {
+								
 										summary.setTripInformation(result.getValue(),feature);
 										window.open(line.getPoints().get(line.getPoints().toArray().length/2),PopupMode.SMALL);
 									}

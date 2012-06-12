@@ -148,7 +148,6 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 	public GeoResourceSummary(BrowserMessages messages, BrowserResources browserResources, EventBus eventBus) {
 		this.messages = messages;
 		this.eventBus = eventBus;
-		this.display=display;
 		this.browserResources = browserResources;
 		this.geoSummaryEventMenager = new GeoSummaryEventMenager(eventBus);
 		style = browserResources.css();
@@ -166,6 +165,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 		this.mapSize=mapSize;
 		this.windowWidth =  mapSize.getWidth()*(float)0.68;
 		this.windowHeight =  mapSize.getHeight()*(float)0.68;
+		this.display=display;
 		currentResource = resource;
 		currentGeometry = geometry;
 		refreshOnYearChangeEvent = true;
@@ -259,7 +259,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
             links.add(siguiente);
         }
         //drawing trip part
-     
+     display.stopProcessing();
     }
 	
 	private void hideMoreInfo() {
@@ -635,6 +635,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 		else {
 			radioButtonBlue.setValue(true);
 		}
+		display.stopProcessing();
 	}
 
 	private void addColourChangeListener(RadioButton radio, final String color) {
