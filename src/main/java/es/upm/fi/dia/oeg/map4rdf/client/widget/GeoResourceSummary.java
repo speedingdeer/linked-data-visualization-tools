@@ -89,7 +89,7 @@ public class GeoResourceSummary extends Composite {
 	private BrowserMessages messages;
 	DispatchAsync dispatchAsync;
 	private VerticalPanel listPanel;
-	private VerticalPanel graphPanel;
+	private FlowPanel graphPanel;
 	private FlowPanel mainPanel;
 	private OpenLayersMapView display;
 	private AemetResource ae;
@@ -132,7 +132,7 @@ public class GeoResourceSummary extends Composite {
 	
 	private Widget createUi() {
 		listPanel = new VerticalPanel();
-		graphPanel = new VerticalPanel();
+		graphPanel = new FlowPanel();
 		mainPanel = new FlowPanel();
 		mainPanel.add(listPanel);
 		mainPanel.add(graphPanel);
