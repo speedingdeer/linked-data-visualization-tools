@@ -28,33 +28,35 @@ import com.google.gwt.i18n.client.Messages;
 public interface BrowserMessages extends Messages {
 
 	String statistics();
-
 	String results();
-
 	String overlays();
-
 	String loading();
-
 	String select();
-
 	String type();
-	
 	String here();
-
 	String latitude();
-
 	String longitude();
-
 	String information();
-	
 	String edit();
-	
 	String filtres();
-	
 	String clear();
-
 	String draw();
-	
 	String canNotLoaddescription();
-
+	String day();
+	String week();
+	String back();
+	String station();
+	String noObserveData();
+	String globalRadiation();
+	String pressure();
+	String pressureReducedToSeaLevel();
+	String tempTheDewPoint();
+	String precipitation();
+	String rh();
+	String airTemperature();
+	String maxWindVelocity();
+	String maxWind();
+	String windTour();
+	String avarageWind();
+	String avarageVelocityOfWind();
 }

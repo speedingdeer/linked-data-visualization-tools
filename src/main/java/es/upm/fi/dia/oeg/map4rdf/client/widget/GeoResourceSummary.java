@@ -161,13 +161,13 @@ public class GeoResourceSummary extends Composite {
 		VerticalPanel graficas = new VerticalPanel();
 		caracteristicas.setSpacing(0);
 		graficas.setSpacing(0);
-		String text = "No se han obtenido datos de observacion reciente";
+		String text = messages.noObserveData();
 		try {
 			if (obs.isEmpty()) {
 				listPanel.add(new Label(text));
 			} else {
 				final AemetObs firstObservation = obs.get(0);
-				listPanel.add(new Label("Estacion " + firstObservation.getEstacion().getDefaultLabel()));
+				listPanel.add(new Label(messages.station()+ " " + firstObservation.getEstacion().getDefaultLabel()));
 				listPanel.add(new Label(firstObservation.getIntervalo().toString()));
 				for (final AemetObs observation : obs) {
 					HorizontalPanel obsActual = dameUnidadMedicion(observation.getPropiedad().getDefaultLabel(),
@@ -177,7 +177,7 @@ public class GeoResourceSummary extends Composite {
 					HorizontalPanel graf = new HorizontalPanel();
 					graf.setSpacing(5);
 					// Graficas de alex aqui
-					Anchor dayAnchor = new Anchor("dia");
+					Anchor dayAnchor = new Anchor(messages.day());
 					dayAnchor.addClickHandler(new ClickHandler() {
 
 						@Override
@@ -187,7 +187,7 @@ public class GeoResourceSummary extends Composite {
 					});
 					graf.add(dayAnchor);
 					graf.add(new Label("|"));
-					Anchor weekAnchor = new Anchor("semana");
+					Anchor weekAnchor = new Anchor(messages.week());
 					weekAnchor.addClickHandler(new ClickHandler() {
 						@Override
 						public void onClick(ClickEvent event) {
@@ -273,7 +273,7 @@ public class GeoResourceSummary extends Composite {
 				VerticalPanel vp = new VerticalPanel();
 				vp.setHorizontalAlignment(vp.ALIGN_CENTER);
 				vp.add(plot.getWidget());
-				Anchor p = new Anchor("Volver");
+				Anchor p = new Anchor(messages.back());
 				p.setWidth("50px");
 				p.addClickHandler(new ClickHandler() {
 
@@ -341,50 +341,50 @@ public class GeoResourceSummary extends Composite {
 		panelAct.setSpacing(5);
 		if (label.contains("VV")) {
 			// return " m/s";
-			panelAct.add(new Anchor("Vel. media del viento: ", uri, "_blank"));
+			panelAct.add(new Anchor(messages.avarageVelocityOfWind()+": ", uri, "_blank"));
 			panelAct.add(new Label(valor + " m/s"));
 		}
 		if (label.contains("DV")) {
-			panelAct.add(new Anchor("Dir. media del viento: ", uri, "_blank"));
+			panelAct.add(new Anchor(messages.avarageWind()+": ", uri, "_blank"));
 			panelAct.add(new Label(valor + " grados"));
 		}
 		if (label.contains("RVIENTO")) {
-			panelAct.add(new Anchor("Recorrido del viento: ", uri, "_blank"));
+			panelAct.add(new Anchor(messages.windTour()+": ", uri, "_blank"));
 			panelAct.add(new Label(valor + " Hm"));
 		}
 		if (label.contains("DMAX")) {
-			panelAct.add(new Anchor("Dir. de la v. max. del viento: ", uri, "_blank"));
+			panelAct.add(new Anchor(messages.maxWind()+": ", uri, "_blank"));
 			panelAct.add(new Label(valor + " grados"));
 		}
 		if (label.contains("VMAX")) {
-			panelAct.add(new Anchor("Vel. max. del viento: ", uri, "_blank"));
+			panelAct.add(new Anchor(messages.maxWindVelocity()+": ", uri, "_blank"));
 			panelAct.add(new Label(valor + " m/s"));
 		}
 		if (label.contains("TA")) {
-			panelAct.add(new Anchor("Temperatura del aire: ", uri, "_blank"));
+			panelAct.add(new Anchor(messages.airTemperature()+": ", uri, "_blank"));
 			panelAct.add(new Label(valor + " grados C."));
 		}
 		if (label.contains("HR")) {
-			panelAct.add(new Anchor("Humedad relativa: ", uri, "_blank"));
+			panelAct.add(new Anchor(messages.rh()+": ", uri, "_blank"));
 			panelAct.add(new Label(valor + " %"));
 		}
 		if (label.contains("PREC")) {
-			panelAct.add(new Anchor("Precipitacion: ", uri, "_blank"));
+			panelAct.add(new Anchor(messages.precipitation()+": ", uri, "_blank"));
 			panelAct.add(new Label(valor + " litros/m2"));
 		}
 		if (label.contains("TPR")) {
-			panelAct.add(new Anchor("Temp. del pto. de rocio: ", uri, "_blank"));
+			panelAct.add(new Anchor(messages.tempTheDewPoint()+": ", uri, "_blank"));
 			panelAct.add(new Label(valor + " grados C."));
 		}
 		if (label.contains("PRES_nmar")) {
-			panelAct.add(new Anchor("Pres. reducida al nivel del mar: ", uri, "_blank"));
+			panelAct.add(new Anchor(messages.pressureReducedToSeaLevel()+": ", uri, "_blank"));
 			panelAct.add(new Label(valor + " hPa"));
 		} else if (label.contains("PRES")) {
 			panelAct.add(new Anchor("Presion: ", uri, "_blank"));
 			panelAct.add(new Label(valor + " hPa"));
 		}
 		if (label.contains("RAGLOB")) {
-			panelAct.add(new Anchor("Radiacion global", uri, "_blank"));
+			panelAct.add(new Anchor(messages.globalRadiation()+": ", uri, "_blank"));
 			panelAct.add(new Label(valor + " KJ/m2"));
 		}
 		if (label.contains("GEO925")) {
@@ -395,7 +395,6 @@ public class GeoResourceSummary extends Composite {
 			panelAct.add(new Anchor("GEO850", uri, "_blank"));
 			panelAct.add(new Label(valor + " m"));
 		}
-
 		return panelAct;
 	}
 	
