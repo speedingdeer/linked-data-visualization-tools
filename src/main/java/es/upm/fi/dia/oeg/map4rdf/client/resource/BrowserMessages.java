@@ -59,4 +59,6 @@ public interface BrowserMessages extends Messages {
 	String windTour();
 	String avarageWind();
 	String avarageVelocityOfWind();
+	String degrees();
+	String liters();
 }

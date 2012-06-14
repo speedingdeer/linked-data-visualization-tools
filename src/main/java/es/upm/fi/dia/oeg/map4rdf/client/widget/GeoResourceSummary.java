@@ -334,7 +334,7 @@ public class GeoResourceSummary extends Composite {
 		}
 		if (label.contains("DV")) {
 			panelAct.add(new Anchor(messages.avarageWind()+": ", uri, "_blank"));
-			panelAct.add(new Label(valor + " grados"));
+			panelAct.add(new Label(valor + " "+ messages.degrees()));
 		}
 		if (label.contains("RVIENTO")) {
 			panelAct.add(new Anchor(messages.windTour()+": ", uri, "_blank"));
@@ -342,7 +342,7 @@ public class GeoResourceSummary extends Composite {
 		}
 		if (label.contains("DMAX")) {
 			panelAct.add(new Anchor(messages.maxWind()+": ", uri, "_blank"));
-			panelAct.add(new Label(valor + " grados"));
+			panelAct.add(new Label(valor + " " + messages.degrees()));
 		}
 		if (label.contains("VMAX")) {
 			panelAct.add(new Anchor(messages.maxWindVelocity()+": ", uri, "_blank"));
@@ -358,11 +358,11 @@ public class GeoResourceSummary extends Composite {
 		}
 		if (label.contains("PREC")) {
 			panelAct.add(new Anchor(messages.precipitation()+": ", uri, "_blank"));
-			panelAct.add(new Label(valor + " litros/m2"));
+			panelAct.add(new Label(valor + " " +messages.liters()+"/m2"));
 		}
 		if (label.contains("TPR")) {
 			panelAct.add(new Anchor(messages.tempTheDewPoint()+": ", uri, "_blank"));
-			panelAct.add(new Label(valor + " grados C."));
+			panelAct.add(new Label(valor + " " +messages.degrees()+" C."));
 		}
 		if (label.contains("PRES_nmar")) {
 			panelAct.add(new Anchor(messages.pressureReducedToSeaLevel()+": ", uri, "_blank"));
