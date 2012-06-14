@@ -7,10 +7,10 @@
 <!doctype html>
 <html>
   <head>
+	<link rel="stylesheet" type="text/css" href="map4rdf.css" />  
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="gwt:property" content="locale=<%=request.getLocale()%>">
-    <title>Map4RDF</title>
-    
+    <title>Map4RDF</title>  
     <script type="text/javascript" language="javascript" src="http://maps.google.com/maps?gwt=1&amp;file=api&amp;v=2&amp;sensor=true&amp;key=<%=googleMapsKey%>" ></script>
     <script src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
     <script src="OpenStreetMapsByFilip.js"></script>

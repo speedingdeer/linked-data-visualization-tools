@@ -1,11 +1,9 @@
 .gwt-StackLayoutPanel .gwt-StackLayoutPanelHeader {
-	background: #CDD8BA;
-	border-color: #9BB763;
-	color: #2B6F18;
+	background: #CDD8BA !important;
+	border-color: #9BB763 !important;
+	color: #2B6F18 !important;
 }
 
 .gwt-StackLayoutPanel .gwt-StackLayoutPanelContent {
-	background: #CDD8BA;
-	border-color: #9BB763;
-	background-color:#CDD8BA; 
+	border-color: #9BB763 !important;
 }

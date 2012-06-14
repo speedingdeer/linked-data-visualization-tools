@@ -11,7 +11,6 @@
 	<inherits name="com.google.gwt.http.HTTP"/>
 	<inherits name="com.google.gwt.user.theme.chrome.Chrome"/>
 
-	<stylesheet src="/map4rdf.css"/>
 	<stylesheet src="gwt_style.css"/>
 	
 	<source path="client" />
