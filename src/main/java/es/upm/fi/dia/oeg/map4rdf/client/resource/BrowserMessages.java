@@ -55,7 +55,7 @@ public interface BrowserMessages extends Messages {
 	String rh();
 	String airTemperature();
 	String maxWindVelocity();
-	String maxVind();
+	String maxWind();
 	String windTour();
 	String avarageWind();
 	String avarageVelocityOfWind();
