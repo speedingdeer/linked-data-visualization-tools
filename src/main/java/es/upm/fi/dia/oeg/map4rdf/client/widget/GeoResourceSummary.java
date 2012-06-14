@@ -150,13 +150,13 @@ public class GeoResourceSummary extends Composite {
 		VerticalPanel graficas = new VerticalPanel();
 		caracteristicas.setSpacing(0);
 		graficas.setSpacing(0);
-		String text = "No se han obtenido datos de observacion reciente";
+		String text = messages.noObserveData();
 		try {
 			if (obs.isEmpty()) {
 				listPanel.add(new Label(text));
 			} else {
 				final AemetObs firstObservation = obs.get(0);
-				listPanel.add(new Label("Estacion " + firstObservation.getEstacion().getDefaultLabel()));
+				listPanel.add(new Label(messages.station() + " " + firstObservation.getEstacion().getDefaultLabel()));
 				listPanel.add(new Label(firstObservation.getIntervalo().toString()));
 				for (final AemetObs observation : obs) {
 					HorizontalPanel obsActual = dameUnidadMedicion(observation.getPropiedad().getDefaultLabel(),
@@ -166,7 +166,7 @@ public class GeoResourceSummary extends Composite {
 					HorizontalPanel graf = new HorizontalPanel();
 					graf.setSpacing(5);
 					// Graficas de alex aqui
-					Anchor dayAnchor = new Anchor("dia");
+					Anchor dayAnchor = new Anchor(messages.day());
 					dayAnchor.addClickHandler(new ClickHandler() {
 
 						@Override
@@ -176,7 +176,7 @@ public class GeoResourceSummary extends Composite {
 					});
 					graf.add(dayAnchor);
 					graf.add(new Label("|"));
-					Anchor weekAnchor = new Anchor("semana");
+					Anchor weekAnchor = new Anchor(messages.week());
 					weekAnchor.addClickHandler(new ClickHandler() {
 						@Override
 						public void onClick(ClickEvent event) {
@@ -261,7 +261,7 @@ public class GeoResourceSummary extends Composite {
 				VerticalPanel vp = new VerticalPanel();
 				vp.setHorizontalAlignment(vp.ALIGN_CENTER);
 				vp.add(plot.getWidget());
-				Anchor p = new Anchor("Volver");
+				Anchor p = new Anchor(messages.back());
 				p.setWidth("50px");
 				p.addClickHandler(new ClickHandler() {
 
