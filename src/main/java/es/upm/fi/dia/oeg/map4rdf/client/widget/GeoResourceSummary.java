@@ -122,7 +122,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 	
 	VerticalPanel pieDeFoto;
 	HorizontalPanel links;
-	private final Label pieFoto = new Label("No hay fotos disponibles ");
+	private Label pieFoto;
 	public interface Stylesheet {
 		String summaryLabelStyle();
 		String summaryPropertyName();
@@ -142,6 +142,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 		this.eventBus = eventBus;
 		this.browserResources = browserResources;
 		this.geoSummaryEventMenager = new GeoSummaryEventMenager(eventBus);
+		pieFoto = new Label(messages.noAvailablePhoto()+" ");
 		style = browserResources.css();
 		initWidget(createUi());
 		eventBus.addHandler(FilterYearChangeEvent.getType(), this);
@@ -215,7 +216,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
             resourcePanel.setWidth("530px");
             this.replaceContainer(photoContainer,pieFoto);
             
-            Anchor anterior = new Anchor("anterior");
+            Anchor anterior = new Anchor(messages.prev());
             anterior.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
@@ -229,7 +230,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
                 }
             });
             links.add(anterior);
-            Anchor siguiente = new Anchor("siguiente");
+            Anchor siguiente = new Anchor(messages.next());
             siguiente.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
@@ -276,12 +277,12 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
         VerticalPanel pG = new VerticalPanel();
         pG.add(scrollerGuias);
         pG.setHeight("100px");
-        panelPestanas.add(pG,"Guias");
+        panelPestanas.add(pG,messages.guides());
 
         VerticalPanel pV = new VerticalPanel();
         pV.add(scrollerViajes);
         pV.setHeight("100px");
-        panelPestanas.add(pV,"Viajes");
+        panelPestanas.add(pV,messages.trips());
 		panelPestanas.selectTab(0);
         panelPestanas.setHeight("150px");
         

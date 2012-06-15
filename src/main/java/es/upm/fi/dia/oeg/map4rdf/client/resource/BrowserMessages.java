@@ -61,4 +61,7 @@ public interface BrowserMessages extends Messages {
 	String next();
 	String filterByDate();
 	String title();
+	String noAvailablePhoto();
+	String guides();
+	String trips();
 }
