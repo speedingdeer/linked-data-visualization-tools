@@ -340,7 +340,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
         HorizontalPanel panelLinea = new HorizontalPanel();
         panelLinea.setSpacing(10);
         if(g.getTitle()!=null && !g.getTitle().equals("")){
-            Label titulo = new Label("Titulo:");
+            Label titulo = new Label(messages.title()+":");
             //poner en negrita el titulo
             panelLinea.add(titulo);
             if(!g.getURL().equals("")){
@@ -373,7 +373,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
         HorizontalPanel panelLinea = new HorizontalPanel();
         panelLinea.setSpacing(10);
         if(t.getTitle()!=null && !t.getTitle().equals("")){
-            Label titulo = new Label("Titulo:");
+            Label titulo = new Label(messages.title()+":");
             //poner en negrita el titulo
             panelLinea.add(titulo);
             if(!t.getURL().equals("")){
@@ -581,10 +581,10 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 	    panelLinea.setWidth("220px");
 	         
 	    panelLinea3.add(new Label(messages.tripsColour()+":"));
-	    radioButtonBlue = new RadioButton(messages.colour(),messages.blue());
-	    radioButtonGreen = new RadioButton(messages.colour(),messages.green());
-	    radioButtonRed = new RadioButton(messages.colour(),messages.red());
-	    radioButtonBlack = new RadioButton(messages.colour(),messages.black());
+	    radioButtonBlue = new RadioButton("color",messages.blue());
+	    radioButtonGreen = new RadioButton("color",messages.green());
+	    radioButtonRed = new RadioButton("color",messages.red());
+	    radioButtonBlack = new RadioButton("color",messages.black());
 	    panelLinea3.add(radioButtonBlue);
 	    panelLinea3.add(radioButtonGreen);
 	    panelLinea3.add(radioButtonRed);
