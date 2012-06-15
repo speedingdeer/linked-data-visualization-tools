@@ -115,7 +115,7 @@ public class FiltersView extends Composite implements FiltersPresenter.Display {
 		
 		yearsPanel = new FlowPanel();
 		yearsPanel.add(gridDate);
-		gridDate.setWidget(0,0,new Label("Filtrar por fecha: "));
+		gridDate.setWidget(0,0,new Label(messages.filterByDate()+": "));
 		gridDate.setWidget(0, 2,new YearsSelector(eventBus));
 		mainPanel.add(yearsPanel);
 		return mainPanel;

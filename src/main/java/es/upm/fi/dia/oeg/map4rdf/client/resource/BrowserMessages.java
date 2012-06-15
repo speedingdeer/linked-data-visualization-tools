@@ -59,4 +59,5 @@ public interface BrowserMessages extends Messages {
 	String history();
 	String prev();
 	String next();
+	String filterByDate();
 }
