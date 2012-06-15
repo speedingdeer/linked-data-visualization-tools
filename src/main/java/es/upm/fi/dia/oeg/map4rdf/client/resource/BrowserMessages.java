@@ -28,33 +28,35 @@ import com.google.gwt.i18n.client.Messages;
 public interface BrowserMessages extends Messages {
 
 	String statistics();
-
 	String results();
-
 	String overlays();
-
 	String loading();
-
 	String select();
-
 	String type();
-
 	String here();
-
 	String latitude();
-
 	String longitude();
-
 	String information();
-	
 	String edit();
-	
 	String filtres();
-	
 	String clear();
-
 	String draw();
-	
 	String canNotLoaddescription();
-
+	String noAvaliableGuides();
+	String noAvaliableTrips();
+	String forSelctedDates();
+	String drawTrip();
+	String noPhotoForGiude();
+	String photoOfGuide();
+	String tripInformation();
+	String rdfInormation();
+	String tripsColour();
+	String colour();
+	String blue();
+	String black();
+	String red();
+	String green();
+	String history();
+	String prev();
+	String next();
 }

@@ -195,16 +195,16 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
             }
         }
         if(panelGuias.getWidgetCount() == 0){
-            String message = "No hay guias disponibles sobre este punto";
+            String message = messages.noAvaliableGuides();
             if(YearSelector.enabled){
-                message += " posteriores a la fecha seleccionada";
+                message += " " + messages.forSelctedDates();
             }
             panelGuias.add(new Label(message));
         }
         if(panelViajes.getWidgetCount() == 0){
-            String message = "No hay viajes disponibles sobre este punto";
+            String message = messages.noAvaliableTrips();
             if(YearSelector.enabled){
-                 message += " posteriores a la fecha seleccionada";
+                 message += " "+messages.forSelctedDates();
             }
             panelViajes.add(new Label(message));
         }
@@ -386,7 +386,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
         panelLinea.add(this.getRDFButton(t.getURI()));
         if(t.getItinerario()!=null && !t.getItinerario().equals("")){
             VerticalPanel dibujos = new VerticalPanel();
-            Anchor dibujarIt = new Anchor("Dibujar viaje");
+            Anchor dibujarIt = new Anchor(messages.drawTrip());
             dibujarIt.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
@@ -396,7 +396,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
                 	geoSummaryEventMenager.drawTrip(t.getItinerario());
                 }
             });
-            Anchor timeL = new Anchor("Historial");
+            Anchor timeL = new Anchor(messages.history());
             timeL.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
@@ -490,7 +490,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
         //String imgNueva = getImage();
         final WebNMasUnoGuide guia= (WebNMasUnoGuide)guias.get(numGuiaActual);
         String uriGuiaRef = guia.getURI();
-        pieFoto.setText("no hay fotos de la guia: "+guia.getTitle());
+        pieFoto.setText(messages.noPhotoForGiude()+": "+guia.getTitle());
         if(uriGuiaRef==null||uriGuiaRef.equals(""))return;
         GetImagesResource action = new GetImagesResource(uriGuiaRef);
         //disp.startProcessing();
@@ -519,7 +519,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
                                 photoContainer.remove(0);
                                 //photoContainer.add(new PushButton(i));
                                 photoContainer.add(i);
-                                pieFoto.setText("Foto de guia: "+guia.getTitle());
+                                pieFoto.setText(messages.photoOfGuide()+": "+guia.getTitle());
                             }
                         }else{
                             //ponemos foto de no encontrado
@@ -567,7 +567,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
         	return;
         }
         
-        panelLinea.add(new InlineLabel("Informacion del itinerario: "));
+        panelLinea.add(new InlineLabel(messages.tripInformation()+": "));
              //panelLinea.add(titulos);
 	 
 		ArrayList<String> t = result.getViajes();
@@ -575,16 +575,16 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 	    	panelLinea.add(new InlineLabel(t.get(i)+" "));
 	    }
 	        
-	    panelLinea2.add(new InlineLabel("Informacion en RDF: "));
+	    panelLinea2.add(new InlineLabel(messages.rdfInormation()+": "));
 	    panelLinea2.add(new Anchor("rdf",result.getUri(),"_blank"));
 	
 	    panelLinea.setWidth("220px");
 	         
-	    panelLinea3.add(new Label("color del viaje:"));
-	    radioButtonBlue = new RadioButton("color","azul");
-	    radioButtonGreen = new RadioButton("color","verde");
-	    radioButtonRed = new RadioButton("color","rojo");
-	    radioButtonBlack = new RadioButton("color","negro");
+	    panelLinea3.add(new Label(messages.tripsColour()+":"));
+	    radioButtonBlue = new RadioButton(messages.colour(),messages.blue());
+	    radioButtonGreen = new RadioButton(messages.colour(),messages.green());
+	    radioButtonRed = new RadioButton(messages.colour(),messages.red());
+	    radioButtonBlack = new RadioButton(messages.colour(),messages.black());
 	    panelLinea3.add(radioButtonBlue);
 	    panelLinea3.add(radioButtonGreen);
 	    panelLinea3.add(radioButtonRed);
