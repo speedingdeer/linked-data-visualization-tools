@@ -126,7 +126,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 	
 	VerticalPanel pieDeFoto;
 	HorizontalPanel links;
-	private final Label pieFoto = new Label("No hay fotos disponibles ");
+	private Label pieFoto;
 	public interface Stylesheet {
 		String summaryLabelStyle();
 		String summaryPropertyName();
@@ -149,6 +149,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
 		this.messages = messages;
 		this.eventBus = eventBus;
 		this.browserResources = browserResources;
+		pieFoto = new Label(messages.noAvailablePhoto());
 		this.geoSummaryEventMenager = new GeoSummaryEventMenager(eventBus);
 		style = browserResources.css();
 		initWidget(createUi());
@@ -290,12 +291,12 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
         pG = new VerticalPanel();
         pG.add(scrollerGuias);
         pG.setHeight("100px");
-        panelPestanas.add(pG,"Guias");
+        panelPestanas.add(pG,messages.guides());
 
         pV = new VerticalPanel();
         pV.add(scrollerViajes);
         pV.setHeight("100px");
-        panelPestanas.add(pV,"Viajes");
+        panelPestanas.add(pV,messages.trips());
 		panelPestanas.selectTab(0);
         panelPestanas.setHeight("150px");
         
@@ -363,7 +364,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
         HorizontalPanel panelLinea = new HorizontalPanel();
         panelLinea.setSpacing(10);
         if(g.getTitle()!=null && !g.getTitle().equals("")){
-            Label titulo = new Label("Titulo:");
+            Label titulo = new Label(messages.title()+":");
             //poner en negrita el titulo
             panelLinea.add(titulo);
             if(!g.getURL().equals("")){
@@ -396,7 +397,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
         HorizontalPanel panelLinea = new HorizontalPanel();
         panelLinea.setSpacing(10);
         if(t.getTitle()!=null && !t.getTitle().equals("")){
-            Label titulo = new Label("Titulo:");
+            Label titulo = new Label(messages.title()+":");
             //poner en negrita el titulo
             panelLinea.add(titulo);
             if(!t.getURL().equals("")){
@@ -413,7 +414,7 @@ public class GeoResourceSummary extends Composite implements FilterYearChangeEve
             dibujarIt.addClickHandler(new ClickHandler() {
                 @Override
                 public void onClick(ClickEvent event) {
-                    //Window.open("http://google.com", "_blank", null);
+                    //Window.open("http://google.com", "_blank", anternull);
                     //hacer aqui la llamada a pintar el viaje polilinea.
                     //new DrawItineraryOnClick(t.getItinerario(),disp ,ref);
                 	geoSummaryEventMenager.drawTrip(t.getItinerario());
