@@ -3,6 +3,7 @@
 !JDTCompiler16.class
 target/*
 context.xml
+nb-configuration.xml
 *.war
 src/main/webapp/WEB-INF/classes/*
 src/main/webapp/WEB-INF/lib/*

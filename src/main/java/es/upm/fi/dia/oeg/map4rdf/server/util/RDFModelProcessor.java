@@ -18,29 +18,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.share;
+package es.upm.fi.dia.oeg.map4rdf.server.util;
 
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.query.QueryFactory;
-import com.hp.hpl.jena.query.QuerySolution;
-import com.hp.hpl.jena.query.ResultSet;
-import com.hp.hpl.jena.query.ResultSetFormatter;
+import com.hp.hpl.jena.query.*;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.util.FileManager;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
-
-import org.apache.log4j.Logger;
-
 import es.upm.fi.dia.oeg.map4rdf.server.dao.DaoException;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Geo;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.GeoLinkedDataEsOwlVocabulary;
-
+import es.upm.fi.dia.oeg.map4rdf.share.*;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,8 +42,7 @@ import java.util.List;
  * @author Jonathan Gonzalez (jonathan@jonbaraq.eu)
  */
 public class RDFModelProcessor {
-
-    private static final String ENDPOINT_URL = "endpoint.url";
+       private static final String ENDPOINT_URL = "endpoint.url";
 
     public static List<GeoResource> parseRdfFile(String filePath) {
         System.out.println("Parsing RDF file: " + filePath);
