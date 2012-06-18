@@ -45,6 +45,7 @@ import com.hp.hpl.jena.vocabulary.RDFS;
 import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.DaoException;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
+import es.upm.fi.dia.oeg.map4rdf.server.util.RDFModelProcessor;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Geo;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.GeoLinkedDataEsOwlVocabulary;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Scovo;

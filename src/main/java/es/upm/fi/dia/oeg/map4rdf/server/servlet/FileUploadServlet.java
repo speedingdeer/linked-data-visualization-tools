@@ -49,6 +49,9 @@ public class FileUploadServlet extends HttpServlet {
             String paramValue = req.getParameter("urlShapeFile");
             if (paramValue != null && !paramValue.isEmpty()) {
                 processUrl(paramValue, resp);
+            } else {
+                resp.getWriter().print("URL introduced is empty.");
+                resp.flushBuffer();
             }
         }
     }
