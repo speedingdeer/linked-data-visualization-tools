@@ -58,4 +58,15 @@ public interface BrowserMessages extends Messages {
 	String draw();
 	
 	String canNotLoaddescription();
+        
+        String urlToShapeFiles();
+        
+        String submitAndDisplay();
+        
+        String blankLine();
+        
+        String zipFileMessage();
+        
+        String uploadAndDisplay();
+        
 }
