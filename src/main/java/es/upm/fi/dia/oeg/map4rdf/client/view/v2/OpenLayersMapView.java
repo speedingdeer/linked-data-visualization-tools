@@ -78,7 +78,7 @@ public class OpenLayersMapView implements MapView {
 	private AbsolutePanel panel;
 	private LayerSwitcher layerSwitcher;
 
-	// drawing
+	// filtering
 	private Vector filterVector;
 	private RegularPolygonHandler regularPolygonHandler;
 	private VectorFeature feature;
@@ -90,7 +90,7 @@ public class OpenLayersMapView implements MapView {
 		createUi();
 		defaultLayer = (OpenLayersMapLayer) createLayer("default");
 		addNotice();
-		addDrawingTools();
+		addFilterTools();
 		
 		GetConfigurationParameter action = new GetConfigurationParameter("spherical_mercator");
 		dispatchAsync.execute(action, new AsyncCallback<SingletonResult<String>>() {
@@ -128,7 +128,7 @@ public class OpenLayersMapView implements MapView {
 		return this.filterVector;
 	}
 
-	public void setDrawing(Boolean value) {
+	public void setFiltering(Boolean value) {
 		if (value) {
 			df.activate();
 		} else {
@@ -136,7 +136,7 @@ public class OpenLayersMapView implements MapView {
 		}
 	}
 
-	public void clearDrawing() {
+	public void clearFilter() {
 		filterVector.destroyFeatures();
 	}
 
@@ -273,8 +273,8 @@ public class OpenLayersMapView implements MapView {
 		map.setCenter(DEFAULT_CENTER, DEFAULT_ZOOM_LEVEL);
 	}
 	
-	private void addDrawingTools(){
-		// Drawing part
+	private void addFilterTools(){
+		// filtering part
 		regularPolygonHandler = new RegularPolygonHandler();
 		filterVector = new Vector("filterVector");
 		filterVector.setDisplayInLayerSwitcher(false);
