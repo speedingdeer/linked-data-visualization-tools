@@ -47,6 +47,7 @@ import com.google.inject.Singleton;
 
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResourcesAsKmlUrl;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
+import es.upm.fi.dia.oeg.map4rdf.client.drawing.DrawingType;
 import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterChangedEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterClearEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterClearHandler;
@@ -90,6 +91,8 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 		Vector getFilterVector();
 		
 		HasClickHandlers getKmlButton();
+		
+		void setDrawing(DrawingType type);
 	}
 
 	@Inject

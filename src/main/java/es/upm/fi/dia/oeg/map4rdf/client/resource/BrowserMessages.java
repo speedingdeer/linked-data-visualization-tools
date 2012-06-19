@@ -56,4 +56,12 @@ public interface BrowserMessages extends Messages {
 	String draw();
 	
 	String canNotLoaddescription();
+	
+	String drawingPresenter();
+	
+	String polygon();
+	
+	String point();
+	
+	String line();
 }

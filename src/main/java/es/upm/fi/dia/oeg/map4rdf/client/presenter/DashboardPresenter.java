@@ -79,13 +79,15 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
     private final MapPresenter mapPresenter;
     private final FacetPresenter facetPresenter;
     private final FiltersPresenter filtersPresenter;
+    private final DrawingPresenter drawingPresenter;
     private final DispatchAsync dispatchAsync;
     private final DataToolBar dataToolBar;
     private final BrowserMessages messages;
     
+    
     @Inject
     public DashboardPresenter(Display display, EventBus eventBus, FacetPresenter facetPresenter,
-            MapPresenter mapPresenter, FiltersPresenter filtersPresenter, ResultsPresenter resultsPresenter, DispatchAsync dispatchAsync,
+            MapPresenter mapPresenter, FiltersPresenter filtersPresenter, DrawingPresenter drawingPresenter, ResultsPresenter resultsPresenter, DispatchAsync dispatchAsync,
             DataToolBar dataToolBar, BrowserMessages messages) {
         super(display, eventBus);
         this.messages = messages;
@@ -95,6 +97,7 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
         this.dispatchAsync = dispatchAsync;
         this.dataToolBar = dataToolBar;
         this.filtersPresenter = filtersPresenter;
+        this.drawingPresenter = drawingPresenter;
         
         addControl(mapPresenter);
         addControl(facetPresenter);
@@ -137,6 +140,7 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
 			public void onFailure(Throwable caught) {
 				getDisplay().addWestWidget(facetPresenter.getDisplay().asWidget(), "Facets");
 		        getDisplay().addWestWidget(filtersPresenter.getDisplay().asWidget(), messages.filtres());
+		        getDisplay().addWestWidget(drawingPresenter.getDisplay().asWidget(), messages.drawingPresenter());
 		        getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
 		        getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());				
 			}
@@ -148,6 +152,7 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
 					getDisplay().addWestWidget(dataToolBar, messages.overlays());					
 				}
 		        getDisplay().addWestWidget(filtersPresenter.getDisplay().asWidget(), messages.filtres());
+		        getDisplay().addWestWidget(drawingPresenter.getDisplay().asWidget(), messages.drawingPresenter());
 		        getDisplay().addWestWidget(resultsPresenter.getDisplay().asWidget(), messages.results());
 		        getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());
 

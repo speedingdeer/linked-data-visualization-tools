@@ -46,6 +46,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetConfigurationParameter;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
+import es.upm.fi.dia.oeg.map4rdf.client.drawing.DrawingType;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
@@ -134,6 +135,10 @@ public class OpenLayersMapView implements MapView {
 		} else {
 			df.deactivate();
 		}
+	}
+	
+	public void setDrawing(DrawingType type) {
+		
 	}
 
 	public void clearFilter() {
