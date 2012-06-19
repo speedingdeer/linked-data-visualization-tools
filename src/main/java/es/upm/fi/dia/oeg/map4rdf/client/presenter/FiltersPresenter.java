@@ -57,7 +57,7 @@ import name.alexdeleon.lib.gwtblocks.client.PagePresenter;
 import net.customware.gwt.presenter.client.place.PlaceChangedEvent;
 
 /**
- * @author Alexander De Leon
+ * @author Filip
  */
 @Singleton
 public class FiltersPresenter extends  ControlPresenter<FiltersPresenter.Display>  {

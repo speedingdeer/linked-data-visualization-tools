@@ -31,7 +31,7 @@ import java.util.HashMap;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 
 /**
- * @author Alexander De Leon
+ * @author Filip
  */
 public class SubjectDescription implements Serializable {
 

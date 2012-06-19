@@ -46,7 +46,6 @@ import es.upm.fi.dia.oeg.map4rdf.server.conf.Constants;
 /**
  * @author Filip
  */
-
 public class GetConfigurationParameterHandler implements
 		ActionHandler<GetConfigurationParameter, SingletonResult<String> > {
 

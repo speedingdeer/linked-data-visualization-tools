@@ -4,6 +4,9 @@ import java.io.Serializable;
 
 import com.google.gwt.http.client.URL;
 
+/**
+ * @author Filip
+ */
 public class URLSafety implements Serializable{
 	
 	private String url;

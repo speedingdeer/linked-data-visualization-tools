@@ -1,7 +1,8 @@
 package es.upm.fi.dia.oeg.map4rdf.share;
 
-import java.io.Serializable;
-
+/**
+ * @author Filip
+ */
 public class RDFLiteral implements BasicRDFInformation{
 	
 	private URLSafety dataTypeURI;

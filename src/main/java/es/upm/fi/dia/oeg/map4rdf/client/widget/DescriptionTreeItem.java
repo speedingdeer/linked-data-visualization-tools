@@ -7,6 +7,9 @@ import com.google.gwt.user.client.ui.Widget;
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetSubjectDescriptions;
 import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
 
+/**
+ * @author Filip
+ */
 public class DescriptionTreeItem {
 	
 	private Grid grid;

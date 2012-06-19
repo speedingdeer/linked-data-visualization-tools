@@ -5,7 +5,6 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.ResourceFactory;
 
 /**
- *
  * @author filip
  */
 public class DataCube {

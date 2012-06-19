@@ -25,8 +25,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.widget.DescriptionTreeItem;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
 
 /**
- *
- * @author filip
+ * @author Filip
  */
 public class EditResourceView extends Composite implements EditResourcePresenter.Display {
     
