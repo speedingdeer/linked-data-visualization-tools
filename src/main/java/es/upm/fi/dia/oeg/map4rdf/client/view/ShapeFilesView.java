@@ -81,20 +81,19 @@ public class ShapeFilesView extends Composite implements ShapeFilesPresenter.Dis
         formUpload.setWidget(panel);
         
         // Add the section to put the URL to download shapefiles.
-        panel.add(new Label("URL to shapefiles:"));
+        panel.add(new Label(messages.urlToShapeFiles()));
         TextBox urlShapeFile = new TextBox();
         urlShapeFile.setName("urlShapeFile");
         panel.add(urlShapeFile);
-        submitUrlButton = new Button("Submit URL and display");
+        submitUrlButton = new Button(messages.submitAndDisplay());
         panel.add(submitUrlButton);
         
-        panel.add(new Label("\n--------------------\n"));
-        panel.add(new Label("Select the zip file with the shapefiles you "
-                + "want to display."));
+        panel.add(new Label(messages.blankLine()));
+        panel.add(new Label(messages.zipFileMessage()));
         fileUpload = new FileUpload();
         fileUpload.setName("uploadFormElement");
         panel.add(fileUpload);
-        submitUploadButton = new Button("Upload and display");
+        submitUploadButton = new Button(messages.uploadAndDisplay());
         panel.add(submitUploadButton);
 
         return formUpload;
