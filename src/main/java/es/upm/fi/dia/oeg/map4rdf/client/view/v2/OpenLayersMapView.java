@@ -79,7 +79,7 @@ public class OpenLayersMapView implements MapView {
 	private LayerSwitcher layerSwitcher;
 
 	// drawing
-	private Vector drawingVector;
+	private Vector filterVector;
 	private RegularPolygonHandler regularPolygonHandler;
 	private VectorFeature feature;
 	private DrawFeature df;
@@ -124,8 +124,8 @@ public class OpenLayersMapView implements MapView {
 	}
 
 	// presenter
-	public Vector getDrawingVector() {
-		return this.drawingVector;
+	public Vector getFilterVector() {
+		return this.filterVector;
 	}
 
 	public void setDrawing(Boolean value) {
@@ -137,7 +137,7 @@ public class OpenLayersMapView implements MapView {
 	}
 
 	public void clearDrawing() {
-		drawingVector.destroyFeatures();
+		filterVector.destroyFeatures();
 	}
 
 	@Override
@@ -152,10 +152,10 @@ public class OpenLayersMapView implements MapView {
 
 	@Override
 	public BoundingBox getVisibleBox() {
-		if (drawingVector != null) {
-			if (drawingVector.getNumberOfFeatures() > 0) {
+		if (filterVector != null) {
+			if (filterVector.getNumberOfFeatures() > 0) {
 
-				feature = drawingVector.getFeatures()[0];
+				feature = filterVector.getFeatures()[0];
 				Geometry g = feature.getGeometry();
 				if (g.getClassName().equals(Geometry.POLYGON_CLASS_NAME)) {
 					Polygon p = Polygon.narrowToPolygon(g.getJSObject());
@@ -276,20 +276,20 @@ public class OpenLayersMapView implements MapView {
 	private void addDrawingTools(){
 		// Drawing part
 		regularPolygonHandler = new RegularPolygonHandler();
-		drawingVector = new Vector("drawingVector");
-		drawingVector.setDisplayInLayerSwitcher(false);
-		map.addLayer(drawingVector);
-		drawingVector
+		filterVector = new Vector("filterVector");
+		filterVector.setDisplayInLayerSwitcher(false);
+		map.addLayer(filterVector);
+		filterVector
 				.addVectorBeforeFeatureAddedListener(new VectorBeforeFeatureAddedListener() {
 					@Override
 					public void onBeforeFeatureAdded(
 							BeforeFeatureAddedEvent eventObject) {
-						drawingVector.destroyFeatures();
+						filterVector.destroyFeatures();
 					}
 				});
 
 		DrawFeatureOptions drawFeatureOptions = new DrawFeatureOptions();
-		df = new DrawFeature(drawingVector, regularPolygonHandler,
+		df = new DrawFeature(filterVector, regularPolygonHandler,
 				drawFeatureOptions);
 		map.addControl(df);
 	}

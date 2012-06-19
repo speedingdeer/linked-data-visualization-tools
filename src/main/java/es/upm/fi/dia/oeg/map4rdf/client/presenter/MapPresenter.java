@@ -87,7 +87,7 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 		
 		void clearDrawing();
 		
-		Vector getDrawingVector();
+		Vector getFilterVector();
 		
 		HasClickHandlers getKmlButton();
 	}
@@ -153,7 +153,7 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 			}
 		});
 		
-		getDisplay().getDrawingVector().addVectorFeatureAddedListener(new VectorFeatureAddedListener(){
+		getDisplay().getFilterVector().addVectorFeatureAddedListener(new VectorFeatureAddedListener(){
 
 			@Override
 			public void onFeatureAdded(FeatureAddedEvent eventObject) {
@@ -187,8 +187,8 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 
 	@Override
 	public void onAreaFilterClear(AreaFilterClearEvent areaFilterClearEvent) {
-		if(getDisplay().getDrawingVector() != null && getDisplay().getDrawingVector().getFeatures() != null && getDisplay().getDrawingVector().getFeatures().length > 0) {
-			getDisplay().getDrawingVector().destroyFeatures();
+		if(getDisplay().getFilterVector() != null && getDisplay().getFilterVector().getFeatures() != null && getDisplay().getFilterVector().getFeatures().length > 0) {
+			getDisplay().getFilterVector().destroyFeatures();
 			eventBus.fireEvent(new AreaFilterChangedEvent());		
 		}
 	}
