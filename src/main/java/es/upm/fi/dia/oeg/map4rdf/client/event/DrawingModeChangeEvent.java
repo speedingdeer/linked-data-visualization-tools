@@ -58,7 +58,7 @@ public class DrawingModeChangeEvent extends GwtEvent<DrawingModeChangeHandler> {
 
 	@Override
 	protected void dispatch(DrawingModeChangeHandler handler) {
-		handler.onTypeChange(this);
+		handler.onDrawingTypeChange(this);
 	}
 
 	@Override

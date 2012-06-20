@@ -51,6 +51,10 @@ import es.upm.fi.dia.oeg.map4rdf.client.drawing.DrawingType;
 import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterChangedEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterClearEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterClearHandler;
+import es.upm.fi.dia.oeg.map4rdf.client.event.DrawingClearEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.event.DrawingClearHandler;
+import es.upm.fi.dia.oeg.map4rdf.client.event.DrawingModeChangeEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.event.DrawingModeChangeHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.event.FilterDrawingModeChangeEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.FilterDrawingModeChangeHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedEvent;
@@ -66,7 +70,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.TwoDimentionalCoordinate;
  * @author Alexander De Leon
  */
 @Singleton
-public class MapPresenter extends ControlPresenter<MapPresenter.Display> implements FacetConstraintsChangedHandler, FilterDrawingModeChangeHandler, AreaFilterClearHandler {
+public class MapPresenter extends ControlPresenter<MapPresenter.Display> implements FacetConstraintsChangedHandler, FilterDrawingModeChangeHandler, AreaFilterClearHandler, DrawingModeChangeHandler, DrawingClearHandler {
 
 	private Set<FacetConstraint> facetConstraints;
 	private final DispatchAsync dispatchAsync;
@@ -93,6 +97,8 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 		HasClickHandlers getKmlButton();
 		
 		void setDrawing(DrawingType type);
+		
+		void clearDrawing();
 	}
 
 	@Inject
@@ -102,6 +108,8 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 		eventBus.addHandler(FacetConstraintsChangedEvent.getType(), this);
 		eventBus.addHandler(FilterDrawingModeChangeEvent.getType(), this);
 		eventBus.addHandler(AreaFilterClearEvent.getType(), this);
+		eventBus.addHandler(DrawingModeChangeEvent.getType(), this);
+		eventBus.addHandler(DrawingClearEvent.getType(), this);
 	}
 
 	public TwoDimentionalCoordinate getCurrentCenter() {
@@ -194,6 +202,16 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 			getDisplay().getFilterVector().destroyFeatures();
 			eventBus.fireEvent(new AreaFilterChangedEvent());		
 		}
+	}
+
+	@Override
+	public void onDrawingClear(DrawingClearEvent drawingClearEvent) {
+		getDisplay().clearDrawing();
+	}
+
+	@Override
+	public void onDrawingTypeChange(DrawingModeChangeEvent drawingChangeTypeEvent) {
+		getDisplay().setDrawing(drawingChangeTypeEvent.getDrawingMode());
 	}
 
 }

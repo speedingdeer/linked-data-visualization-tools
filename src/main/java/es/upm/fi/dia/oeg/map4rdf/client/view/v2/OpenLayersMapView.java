@@ -138,9 +138,13 @@ public class OpenLayersMapView implements MapView {
 	}
 	
 	public void setDrawing(DrawingType type) {
-		
+		Window.alert("change");
 	}
 
+	public void clearDrawing() {
+		Window.alert("clear");
+	}
+	
 	public void clearFilter() {
 		filterVector.destroyFeatures();
 	}

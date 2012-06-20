@@ -30,5 +30,5 @@ import com.google.gwt.event.shared.EventHandler;
  * @author Filip
  */
 public interface DrawingModeChangeHandler extends EventHandler {
-	void onTypeChange(DrawingModeChangeEvent drawingChangeTypeEvent);
+	void onDrawingTypeChange(DrawingModeChangeEvent drawingChangeTypeEvent);
 }
