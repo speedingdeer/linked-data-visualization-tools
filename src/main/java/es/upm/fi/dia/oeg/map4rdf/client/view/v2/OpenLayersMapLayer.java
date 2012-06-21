@@ -227,7 +227,6 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 			@Override
 			public void open(Point location) {
 				MapZoomListener zoomListener = new MapZoomListener(){
-
 					@Override
 					public void onMapZoom(MapZoomEvent eventObject) {
 						// TODO Auto-generated method stub
@@ -241,21 +240,17 @@ public class OpenLayersMapLayer implements MapLayer, VectorFeatureSelectedListen
 				popup = new Popup("exclusive-mapresources-popup", popupPosition, new Size(200, 100),
 				DOM.getInnerHTML(panel.getElement()), false);
 				popup.setBorder("1px solid #424242");
-				
 				map.addPopupExclusive(popup);
 				popupPanel = new FlowPanel();
 				popupPanel.setSize("200px", "100px");
 				popupPanel.add(panel);
 				popupPanel.setStyleName(browserResources.css().popup());
-				
 				owner.getContainer().add(popupPanel);
-
 		        DOM.setStyleAttribute(popupPanel.getElement(), "position","absolute");
 			    DOM.setStyleAttribute(popupPanel.getElement(), "left", getPopupLeft() );//+ "px");
 			    DOM.setStyleAttribute(popupPanel.getElement(), "top", getPopupTop() );//+ "px");
 				DOM.setStyleAttribute(popupPanel.getElement(), "zIndex", "2024");
 				DOM.setElementAttribute(popupPanel.getElement(), "id","map4rdf-popup-new");
-				
 				replace();
 			}
 
