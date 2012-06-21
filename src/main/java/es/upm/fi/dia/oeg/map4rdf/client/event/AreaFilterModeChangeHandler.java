@@ -29,8 +29,6 @@ import com.google.gwt.event.shared.EventHandler;
 /**
  * @author Filip
  */
-public interface AreaFilterChangedHandler extends EventHandler {
-
-	void onAreaFilterChanged(AreaFilterChangedEvent areaFilterChangedEvent);
-
+public interface AreaFilterModeChangeHandler extends EventHandler {
+	void onDrawingStart(AreaFilterModeChangeEvent drawingStartEvent);
 }

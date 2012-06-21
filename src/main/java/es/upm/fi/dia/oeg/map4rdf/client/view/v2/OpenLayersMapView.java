@@ -78,11 +78,8 @@ public class OpenLayersMapView implements MapView {
 	private AbsolutePanel panel;
 	private LayerSwitcher layerSwitcher;
 
-	// filtering
-	private Vector filterVector;
-	private RegularPolygonHandler regularPolygonHandler;
-	private VectorFeature feature;
-	private DrawFeature df;
+	// drawing
+	private FilterAreaLayer filterAreaLayer;
 	
 	public OpenLayersMapView(WidgetFactory widgetFactory, DispatchAsync dispatchAsync, BrowserResources browserResources) {
 		this.browserResources=browserResources;
@@ -90,7 +87,7 @@ public class OpenLayersMapView implements MapView {
 		createUi();
 		defaultLayer = (OpenLayersMapLayer) createLayer("default");
 		addNotice();
-		addFilterTools();
+		filterAreaLayer = new FilterAreaLayer(map);
 		
 		GetConfigurationParameter action = new GetConfigurationParameter("spherical_mercator");
 		dispatchAsync.execute(action, new AsyncCallback<SingletonResult<String>>() {
@@ -123,23 +120,6 @@ public class OpenLayersMapView implements MapView {
 		loadingWidget.center();
 	}
 
-	// presenter
-	public Vector getFilterVector() {
-		return this.filterVector;
-	}
-
-	public void setFiltering(Boolean value) {
-		if (value) {
-			df.activate();
-		} else {
-			df.deactivate();
-		}
-	}
-
-	public void clearFilter() {
-		filterVector.destroyFeatures();
-	}
-
 	@Override
 	public void stopProcessing() {
 		loadingWidget.hide();
@@ -152,10 +132,10 @@ public class OpenLayersMapView implements MapView {
 
 	@Override
 	public BoundingBox getVisibleBox() {
-		if (filterVector != null) {
-			if (filterVector.getNumberOfFeatures() > 0) {
-
-				feature = filterVector.getFeatures()[0];
+		if (filterAreaLayer.getFilterVector() != null) {
+			if (filterAreaLayer.getFilterVector().getNumberOfFeatures() > 0) {
+				VectorFeature feature;
+				feature = filterAreaLayer.getFilterVector().getFeatures()[0];
 				Geometry g = feature.getGeometry();
 				if (g.getClassName().equals(Geometry.POLYGON_CLASS_NAME)) {
 					Polygon p = Polygon.narrowToPolygon(g.getJSObject());
@@ -273,29 +253,22 @@ public class OpenLayersMapView implements MapView {
 		map.setCenter(DEFAULT_CENTER, DEFAULT_ZOOM_LEVEL);
 	}
 	
-	private void addFilterTools(){
-		// filtering part
-		regularPolygonHandler = new RegularPolygonHandler();
-		filterVector = new Vector("filterVector");
-		filterVector.setDisplayInLayerSwitcher(false);
-		map.addLayer(filterVector);
-		filterVector
-				.addVectorBeforeFeatureAddedListener(new VectorBeforeFeatureAddedListener() {
-					@Override
-					public void onBeforeFeatureAdded(
-							BeforeFeatureAddedEvent eventObject) {
-						filterVector.destroyFeatures();
-					}
-				});
-
-		DrawFeatureOptions drawFeatureOptions = new DrawFeatureOptions();
-		df = new DrawFeature(filterVector, regularPolygonHandler,
-				drawFeatureOptions);
-		map.addControl(df);
-	}
-
 	@Override
 	public void closeWindow() {
+	}
+	
+	//filter area
+	// presenter
+	public Vector getFilterVector() {
+		return filterAreaLayer.getFilterVector();
+	}
+
+	public void setAreaFilterDrawing(Boolean value) {
+		filterAreaLayer.setAreaFilterDrawing(value);
+	}
+
+	public void clearAreaFilterDrawing() {
+		filterAreaLayer.clearAreaFilterDrawing();
 	}
 	
 }	
