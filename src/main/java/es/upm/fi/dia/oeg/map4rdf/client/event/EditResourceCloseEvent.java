@@ -22,25 +22,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.client.inject;
+package es.upm.fi.dia.oeg.map4rdf.client.event;
 
-import net.customware.gwt.dispatch.client.gin.ClientDispatchModule;
-import net.customware.gwt.presenter.client.EventBus;
-
-import com.google.gwt.inject.client.GinModules;
-import com.google.gwt.inject.client.Ginjector;
-
-import es.upm.fi.dia.oeg.map4rdf.client.BrowserUi;
-import es.upm.fi.dia.oeg.map4rdf.client.presenter.DashboardPresenter;
+import com.google.gwt.event.shared.GwtEvent;
 
 /**
- * @author Alexander De Leon
+ * @author Filip
  */
-@GinModules( { InjectorModule.class, ClientDispatchModule.class })
-public interface Injector extends Ginjector {
+public class EditResourceCloseEvent extends GwtEvent<EditResourceCloseEventHandler> {
 
-	DashboardPresenter getDashboard();
-    EventBus getEventBus();
-	BrowserUi getBrowserUi();
-       
+	private static GwtEvent.Type<EditResourceCloseEventHandler> TYPE;
+
+	public EditResourceCloseEvent() {
+		super();
+	
+	}
+
+	public static GwtEvent.Type<EditResourceCloseEventHandler> getType() {
+		if (TYPE == null) {
+			TYPE = new Type<EditResourceCloseEventHandler>();
+		}
+		return TYPE;
+	}
+
+
+	@Override
+	protected void dispatch(EditResourceCloseEventHandler handler) {
+		handler.onEditResourceClose(this);
+	}
+
+	@Override
+	public GwtEvent.Type<EditResourceCloseEventHandler> getAssociatedType() {
+		return getType();
+	}
+
 }

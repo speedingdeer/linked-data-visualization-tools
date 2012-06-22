@@ -56,6 +56,8 @@ public interface BrowserResources extends ClientBundle {
 		String treeRoot();
 		
 		String popup();
+		
+		String mainPopup();
 
 	}
 

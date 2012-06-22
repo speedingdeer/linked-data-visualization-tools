@@ -91,7 +91,7 @@ body{
 	color: #ffffff;
 }
 
-.toggleButtonReleased{
+.toggleButtonReleased{white
 	background-color: transparent;
 }
 
@@ -140,4 +140,10 @@ body{
 	background: white;
 	border: 1px solid #424242;
 	padding: 2px;
+}
+
+.mainPopup {
+	background: #f2f2f2;
+	border: 4px solid #424242;
+	padding: 6px;
 }

@@ -34,13 +34,12 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 
 import es.upm.fi.dia.oeg.map4rdf.client.controllers.AppController;
-import es.upm.fi.dia.oeg.map4rdf.client.controllers.AppController.Display;
 import es.upm.fi.dia.oeg.map4rdf.client.event.LoadResourceEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.inject.Injector;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
 
 /**
- * Entry point for the Browser UI
+ *
  * 
  * @author Alexander De Leon
  */
@@ -54,7 +53,7 @@ public class Browser implements EntryPoint {
 			injector = null;
 		}
 		AppController controller = new AppController(injector.getBrowserUi(), injector.getEventBus(),
-                injector.getDashboard(),injector.getEditResourcePresenter());
+                injector.getDashboard());
             
 		controller.bind();
 		

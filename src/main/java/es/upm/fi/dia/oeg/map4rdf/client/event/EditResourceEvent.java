@@ -22,25 +22,47 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.client.inject;
+package es.upm.fi.dia.oeg.map4rdf.client.event;
 
-import net.customware.gwt.dispatch.client.gin.ClientDispatchModule;
-import net.customware.gwt.presenter.client.EventBus;
-
-import com.google.gwt.inject.client.GinModules;
-import com.google.gwt.inject.client.Ginjector;
-
-import es.upm.fi.dia.oeg.map4rdf.client.BrowserUi;
-import es.upm.fi.dia.oeg.map4rdf.client.presenter.DashboardPresenter;
+import com.google.gwt.event.shared.GwtEvent;
 
 /**
- * @author Alexander De Leon
+ * @author Filip
  */
-@GinModules( { InjectorModule.class, ClientDispatchModule.class })
-public interface Injector extends Ginjector {
+public class EditResourceEvent extends GwtEvent<EditResourceEventHandler> {
 
-	DashboardPresenter getDashboard();
-    EventBus getEventBus();
-	BrowserUi getBrowserUi();
-       
+	private static GwtEvent.Type<EditResourceEventHandler> TYPE;
+
+	private String url;
+
+	public EditResourceEvent(String url) {
+		super();
+		this.setUrl(url);
+	
+	}
+
+	public static GwtEvent.Type<EditResourceEventHandler> getType() {
+		if (TYPE == null) {
+			TYPE = new Type<EditResourceEventHandler>();
+		}
+		return TYPE;
+	}
+
+
+	@Override
+	protected void dispatch(EditResourceEventHandler handler) {
+		handler.onEditResource(this);
+	}
+
+	@Override
+	public GwtEvent.Type<EditResourceEventHandler> getAssociatedType() {
+		return getType();
+	}
+	public void setUrl(String url){
+		this.url = url;
+	}
+	public String getUrl(){
+		return url;
+	}
+
 }
