@@ -23,16 +23,22 @@ package es.upm.fi.dia.oeg.map4rdf.client.view;
 import java.util.List;
 
 import net.customware.gwt.dispatch.client.DispatchAsync;
+import net.customware.gwt.presenter.client.EventBus;
 
 import org.gwtopenmaps.openlayers.client.layer.Vector;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Widget;
 import com.google.inject.Inject;
 
+import es.upm.fi.dia.oeg.map4rdf.client.event.EditResourceEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
+import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.view.v2.MapLayer;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.GeoResourceSummary;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.MapShapeStyleFactory;
@@ -52,10 +58,12 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 	private final Image kmlButton;
 	private final GeoResourceSummary summary;
 	private final MapLayer.PopupWindow window;
+	private final EventBus eventBus;
 	
 	@Inject
-	public OpenLayersMapView(WidgetFactory widgetFactory, DispatchAsync dispatchAsync) {
-		super(widgetFactory, dispatchAsync);
+	public OpenLayersMapView(WidgetFactory widgetFactory, DispatchAsync dispatchAsync,BrowserResources browserResources, EventBus eventBus) {
+		super(widgetFactory, dispatchAsync,browserResources);
+		this.eventBus = eventBus;
 		kmlButton = createKMLButton();
 		summary = widgetFactory.createGeoResourceSummary();
 		window = getDefaultLayer().createPopupWindow();
@@ -83,6 +91,7 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 	/* --------------- helper methods -- */
 
 	private void drawGeoResource(final GeoResource resource) {
+		final OpenLayersMapView display = this;
 		for (Geometry geometry : resource.getGeometries()) {
 			switch (geometry.getType()) {
 			case POINT:
@@ -91,7 +100,9 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 
 					@Override
 					public void onClick(ClickEvent event) {
-						summary.setGeoResource(resource, point);
+						
+						summary.setGeoResource(resource, point, display);
+						setEditLink(resource);
 						window.open(point);
 					}
 				});
@@ -103,7 +114,8 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 
 							@Override
 							public void onClick(ClickEvent event) {
-								summary.setGeoResource(resource, line);
+								summary.setGeoResource(resource, line, display);
+								setEditLink(resource);
 								window.open(line.getPoints().get(0));
 							}
 						});
@@ -115,7 +127,8 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 
 							@Override
 							public void onClick(ClickEvent event) {
-								summary.setGeoResource(resource, polygon);
+								summary.setGeoResource(resource, polygon, display);
+								setEditLink(resource);
 								window.open(polygon.getPoints().get(0));
 
 							}
@@ -130,5 +143,22 @@ public class OpenLayersMapView extends es.upm.fi.dia.oeg.map4rdf.client.view.v2.
 	private Image createKMLButton() {
 		Image button = new Image();
 		return button;
+	}
+	
+	@Override
+	public void closeWindow() {
+		window.close();
+	}
+	
+	
+	private void setEditLink(final GeoResource resource){
+		summary.getEditLink().addClickListener(new ClickListener() {
+			
+			@Override
+			public void onClick(Widget sender) {
+				EditResourceEvent event = new EditResourceEvent(resource.getUri());
+				eventBus.fireEvent(event);
+			}
+		});
 	}
 }

@@ -22,43 +22,47 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.share;
+package es.upm.fi.dia.oeg.map4rdf.client.event;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashMap;
-
-import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.google.gwt.event.shared.GwtEvent;
 
 /**
  * @author Filip
  */
-public class SubjectDescription implements Serializable {
+public class EditResourceEvent extends GwtEvent<EditResourceEventHandler> {
 
-	//private String predicate;
-	//private String object;
+	private static GwtEvent.Type<EditResourceEventHandler> TYPE;
+
+	private String url;
+
+	public EditResourceEvent(String url) {
+		super();
+		this.setUrl(url);
 	
-	private BasicRDFInformation predicate;
-	private BasicRDFInformation object;
-	
-	public SubjectDescription() {
-		// for serialization
 	}
 
-	public BasicRDFInformation getPredicate() {
-		return predicate;
+	public static GwtEvent.Type<EditResourceEventHandler> getType() {
+		if (TYPE == null) {
+			TYPE = new Type<EditResourceEventHandler>();
+		}
+		return TYPE;
 	}
 
-	public void setPredicate(BasicRDFInformation predicate) {
-		this.predicate = predicate;
+
+	@Override
+	protected void dispatch(EditResourceEventHandler handler) {
+		handler.onEditResource(this);
 	}
 
-	public BasicRDFInformation getObject() {
-		return object;
+	@Override
+	public GwtEvent.Type<EditResourceEventHandler> getAssociatedType() {
+		return getType();
 	}
-
-	public void setObject(BasicRDFInformation object) {
-		this.object = object;
+	public void setUrl(String url){
+		this.url = url;
+	}
+	public String getUrl(){
+		return url;
 	}
 
 }

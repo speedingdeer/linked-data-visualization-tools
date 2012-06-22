@@ -34,7 +34,6 @@ import net.customware.gwt.presenter.client.place.Place;
 import net.customware.gwt.presenter.client.place.PlaceRequest;
 import net.customware.gwt.presenter.client.widget.WidgetDisplay;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
@@ -48,32 +47,38 @@ import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
 import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterChangedEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterChangedHandler;
+import es.upm.fi.dia.oeg.map4rdf.client.event.EditResourceCloseEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.event.EditResourceCloseEventHandler;
+import es.upm.fi.dia.oeg.map4rdf.client.event.EditResourceEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.event.EditResourceEventHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.event.LoadResourceEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.LoadResourceEventHandler;
-import es.upm.fi.dia.oeg.map4rdf.client.maplet.stats.StatisticsPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
+import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.util.GeoUtils;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.DataToolBar;
+import es.upm.fi.dia.oeg.map4rdf.client.widget.EditResourceWidget;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.Resource;
-import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
 
 /**
  * @author Alexander De Leon
  */
 @Singleton
 public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display> implements
-        FacetConstraintsChangedHandler, LoadResourceEventHandler, AreaFilterChangedHandler {
+        FacetConstraintsChangedHandler, LoadResourceEventHandler, AreaFilterChangedHandler, EditResourceEventHandler, EditResourceCloseEventHandler {
 
     public interface Display extends WidgetDisplay {
         HasWidgets getMapPanel();
         void addWestWidget(Widget widget, String header);
         void clear();
+        void setMainPopup(Integer width, Integer height, Widget widget);
+        void closeMainPopup();
     }
     private final ResultsPresenter resultsPresenter;
     private final MapPresenter mapPresenter;
@@ -82,13 +87,16 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
     private final DispatchAsync dispatchAsync;
     private final DataToolBar dataToolBar;
     private final BrowserMessages messages;
+    private final BrowserResources resources;
+    
     
     @Inject
     public DashboardPresenter(Display display, EventBus eventBus, FacetPresenter facetPresenter,
             MapPresenter mapPresenter, FiltersPresenter filtersPresenter, ResultsPresenter resultsPresenter, DispatchAsync dispatchAsync,
-            DataToolBar dataToolBar, BrowserMessages messages) {
+            DataToolBar dataToolBar, BrowserMessages messages, BrowserResources resources) {
         super(display, eventBus);
         this.messages = messages;
+        this.resources = resources;
         this.mapPresenter = mapPresenter;
         this.facetPresenter = facetPresenter;
         this.resultsPresenter = resultsPresenter;
@@ -103,6 +111,8 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
         eventBus.addHandler(FacetConstraintsChangedEvent.getType(), this);
         eventBus.addHandler(LoadResourceEvent.getType(), this);
         eventBus.addHandler(AreaFilterChangedEvent.getType(), this);
+        eventBus.addHandler(EditResourceEvent.getType(), this);
+        eventBus.addHandler(EditResourceCloseEvent.getType(), this);
     }
 
     @Override
@@ -152,7 +162,7 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
 		        getDisplay().getMapPanel().add(mapPresenter.getDisplay().asWidget());
 
 			}
-		}); 
+		});
     }
     
     @Override
@@ -229,5 +239,19 @@ public class DashboardPresenter extends PagePresenter<DashboardPresenter.Display
 			FacetConstraintsChangedEvent event = new FacetConstraintsChangedEvent(facetPresenter.getConstraints());
 			eventBus.fireEvent(event);
 			
+	}
+
+	@Override
+	public void onEditResource(EditResourceEvent editResourceEvent) {
+		int height = mapPresenter.getDisplay().asWidget().getOffsetHeight();
+		int width = mapPresenter.getDisplay().asWidget().getOffsetWidth();
+		es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter.Display d = mapPresenter.getDisplay();
+		getDisplay().setMainPopup(width, height, new EditResourceWidget(editResourceEvent.getUrl(),dispatchAsync,d,resources,messages,eventBus));
+	}
+
+	@Override
+	public void onEditResourceClose(
+			EditResourceCloseEvent editResourceCloseEvent) {
+		getDisplay().closeMainPopup();
 	}
 }

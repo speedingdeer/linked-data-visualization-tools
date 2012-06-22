@@ -11,6 +11,7 @@
     <meta name="gwt:property" content="locale=<%=request.getLocale()%>">
     <title>Map4RDF</title>
     
+    <script type="text/javascript" language="javascript" src="http://code.jquery.com/jquery-1.7.2.min.js" ></script>
     <script type="text/javascript" language="javascript" src="http://maps.google.com/maps?gwt=1&amp;file=api&amp;v=2&amp;sensor=true&amp;key=<%=googleMapsKey%>" ></script>
     <script src="http://openlayers.org/api/2.11/OpenLayers.js"></script>
     <script src="OpenStreetMapsByFilip.js"></script>

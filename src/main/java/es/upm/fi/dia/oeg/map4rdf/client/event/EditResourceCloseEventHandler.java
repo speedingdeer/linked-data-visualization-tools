@@ -22,43 +22,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.share;
+package es.upm.fi.dia.oeg.map4rdf.client.event;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashMap;
-
-import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.google.gwt.event.shared.EventHandler;
 
 /**
  * @author Filip
  */
-public class SubjectDescription implements Serializable {
-
-	//private String predicate;
-	//private String object;
-	
-	private BasicRDFInformation predicate;
-	private BasicRDFInformation object;
-	
-	public SubjectDescription() {
-		// for serialization
-	}
-
-	public BasicRDFInformation getPredicate() {
-		return predicate;
-	}
-
-	public void setPredicate(BasicRDFInformation predicate) {
-		this.predicate = predicate;
-	}
-
-	public BasicRDFInformation getObject() {
-		return object;
-	}
-
-	public void setObject(BasicRDFInformation object) {
-		this.object = object;
-	}
-
+public interface EditResourceCloseEventHandler extends EventHandler {
+	void onEditResourceClose(EditResourceCloseEvent editResourceCloseEvent);
 }

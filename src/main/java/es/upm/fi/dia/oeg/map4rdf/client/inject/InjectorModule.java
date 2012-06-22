@@ -33,7 +33,6 @@ import es.upm.fi.dia.oeg.map4rdf.client.maplet.stats.StatisticsPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.maplet.stats.StatisticsView;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.AdminPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.DashboardPresenter;
-import es.upm.fi.dia.oeg.map4rdf.client.presenter.EditResourcePresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.FacetPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.FiltersPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.LoginPresenter;
@@ -42,7 +41,6 @@ import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.presenter.ResultsPresenter;
 import es.upm.fi.dia.oeg.map4rdf.client.view.AdminView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.DashboardView;
-import es.upm.fi.dia.oeg.map4rdf.client.view.EditResourceView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.FacetView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.FiltersView;
 import es.upm.fi.dia.oeg.map4rdf.client.view.LoginView;
@@ -63,7 +61,6 @@ public class InjectorModule extends AbstractPresenterModule {
 
 		// MVP
 		bindDisplay(DashboardPresenter.Display.class, DashboardView.class);
-		bindDisplay(EditResourcePresenter.Display.class, EditResourceView.class);
         bindDisplay(FacetPresenter.Display.class, FacetView.class);
         bindDisplay(FiltersPresenter.Display.class, FiltersView.class);
         bindDisplay(MapPresenter.Display.class, OpenLayersMapView.class);

@@ -22,43 +22,56 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.share;
+package es.upm.fi.dia.oeg.map4rdf.client.event;
 
-import java.io.Serializable;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
-import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.google.gwt.event.shared.GwtEvent;
+
+import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
+import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
 
 /**
  * @author Filip
  */
-public class SubjectDescription implements Serializable {
+public class AreaFilterModeChangeEvent extends GwtEvent<AreaFilterModeChangeHandler> {
 
-	//private String predicate;
-	//private String object;
+	private static GwtEvent.Type<AreaFilterModeChangeHandler> TYPE;
+
+	private Boolean drawingMode;
+
+	public AreaFilterModeChangeEvent(Boolean drawingMode) {
+		super();
+		this.setDrawingMode(drawingMode);
 	
-	private BasicRDFInformation predicate;
-	private BasicRDFInformation object;
-	
-	public SubjectDescription() {
-		// for serialization
 	}
 
-	public BasicRDFInformation getPredicate() {
-		return predicate;
+	public static GwtEvent.Type<AreaFilterModeChangeHandler> getType() {
+		if (TYPE == null) {
+			TYPE = new Type<AreaFilterModeChangeHandler>();
+		}
+		return TYPE;
 	}
 
-	public void setPredicate(BasicRDFInformation predicate) {
-		this.predicate = predicate;
+
+	@Override
+	protected void dispatch(AreaFilterModeChangeHandler handler) {
+		handler.onDrawingStart(this);
 	}
 
-	public BasicRDFInformation getObject() {
-		return object;
+	@Override
+	public GwtEvent.Type<AreaFilterModeChangeHandler> getAssociatedType() {
+		return getType();
 	}
 
-	public void setObject(BasicRDFInformation object) {
-		this.object = object;
+	public Boolean getDrawingMode() {
+		return drawingMode;
+	}
+
+	public void setDrawingMode(Boolean drawingMode) {
+		this.drawingMode = drawingMode;
 	}
 
 }

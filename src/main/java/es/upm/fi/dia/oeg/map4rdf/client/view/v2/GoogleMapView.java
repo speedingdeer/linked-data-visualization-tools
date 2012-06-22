@@ -149,4 +149,10 @@ public class GoogleMapView implements MapView {
 		panel.setWidgetPosition(map, 0, 0);
 	}
 
+	@Override
+	public void closeWindow() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

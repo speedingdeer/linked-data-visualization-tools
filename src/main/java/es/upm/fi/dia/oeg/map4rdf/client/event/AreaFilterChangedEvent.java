@@ -34,7 +34,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
 
 /**
- * @author Alexander De Leon
+ * @author Filip
  */
 public class AreaFilterChangedEvent extends GwtEvent<AreaFilterChangedHandler> {
 

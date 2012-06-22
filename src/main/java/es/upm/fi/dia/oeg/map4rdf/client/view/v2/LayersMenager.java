@@ -15,6 +15,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.util.GMapType;
 public class LayersMenager {
 
 	private static final String IDEE_URL = "http://www.idee.es/wms-c/IDEE-Base/IDEE-Base";
+	private static final String OTALEX_URL = "http://www.ign.es/wms-inspire/ign-base";
 	private static final String OL_URL = "http://vmap0.tiles.osgeo.org/wms/vmap0";
 	public static WMS getIdeeLayer(double[] resolutions){
 		WMSParams wmsParams = new WMSParams();
@@ -26,6 +27,18 @@ public class LayersMenager {
 		WMS wmsLayer = new WMS("IDEE", IDEE_URL, wmsParams, wmsLayerParams);
 		return wmsLayer;
 	}
+	
+	public static WMS newIDEE(double[] resolutions){
+		WMSParams wmsParams = new WMSParams();
+		WMSOptions wmsLayerParams = new WMSOptions();
+		wmsParams.setLayers("IGNBaseTodo");
+		//wmsLayerParams.setMaxExtent(new Bounds(-50, -50, 50, 50));
+		wmsLayerParams.setAttribution("Maps provided by <a href =\"http://www.idee.es\">IDEE</a>");
+		wmsLayerParams.setResolutions(resolutions);
+		WMS wmsLayer = new WMS("IDEE", OTALEX_URL, wmsParams, wmsLayerParams);
+		return wmsLayer;
+	}
+	
 	public static OSM getOpenStreetMapsLayer() {
 		OSMOptions options = new OSMOptions();
 		OSM openStreetMap = OSM.Mapnik("Open Street Maps",options);
@@ -50,7 +63,7 @@ public class LayersMenager {
 		WMSOptions wmsLayerParams = new WMSOptions();
 		wmsLayerParams.setTransitionEffect(TransitionEffect.RESIZE);
 		WMS wmsLayer = new WMS(
-				"Open Layers Maps (Full)",
+				"Open Layers Maps",
 				OL_URL,wmsParams,wmsLayerParams);
 		return wmsLayer;
 	}

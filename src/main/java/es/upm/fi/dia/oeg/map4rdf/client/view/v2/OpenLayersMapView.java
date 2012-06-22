@@ -48,11 +48,14 @@ import es.upm.fi.dia.oeg.map4rdf.client.action.GetConfigurationParameter;
 import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
 import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
 import es.upm.fi.dia.oeg.map4rdf.client.action.db.GetValues;
+import es.upm.fi.dia.oeg.map4rdf.client.presenter.MapPresenter;
+import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 import es.upm.fi.dia.oeg.map4rdf.client.widget.WidgetFactory;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.ConfigPropertie;
 import es.upm.fi.dia.oeg.map4rdf.share.OpenLayersAdapter;
 import es.upm.fi.dia.oeg.map4rdf.share.TwoDimentionalCoordinate;
+import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
 
 import org.gwtopenmaps.openlayers.client.control.DrawFeature;
 import org.gwtopenmaps.openlayers.client.control.DrawFeatureOptions;
@@ -72,6 +75,7 @@ public class OpenLayersMapView implements MapView {
 	private static final int DEFAULT_ZOOM_LEVEL = 6;
 
 	private final LoadingWidget loadingWidget;
+	private final BrowserResources browserResources;
 	private Map map;
 	private MapWidget mapWidget;
 	private final OpenLayersMapLayer defaultLayer;
@@ -79,19 +83,17 @@ public class OpenLayersMapView implements MapView {
 	private LayerSwitcher layerSwitcher;
 
 	// drawing
-	private Vector drawingVector;
-	private RegularPolygonHandler regularPolygonHandler;
-	private VectorFeature feature;
-	private DrawFeature df;
-
-	public OpenLayersMapView(WidgetFactory widgetFactory, DispatchAsync dispatchAsync) {
+	private FilterAreaLayer filterAreaLayer;
+	
+	public OpenLayersMapView(WidgetFactory widgetFactory, DispatchAsync dispatchAsync, BrowserResources browserResources) {
+		this.browserResources=browserResources;
 		loadingWidget = widgetFactory.getLoadingWidget();
 		createUi();
 		defaultLayer = (OpenLayersMapLayer) createLayer("default");
 		addNotice();
-		addDrawingTools();
+		filterAreaLayer = new FilterAreaLayer(map);
 		
-		GetValues action = new GetValues("spherical_mercator");
+		GetValues action = new GetValues(ParameterNames.SPHERICAL_MERCATOR);
 		dispatchAsync.execute(action, new AsyncCallback<ListResult<ConfigPropertie>>() {
 
 			@Override
@@ -122,23 +124,6 @@ public class OpenLayersMapView implements MapView {
 		loadingWidget.center();
 	}
 
-	// presenter
-	public Vector getDrawingVector() {
-		return this.drawingVector;
-	}
-
-	public void setDrawing(Boolean value) {
-		if (value) {
-			df.activate();
-		} else {
-			df.deactivate();
-		}
-	}
-
-	public void clearDrawing() {
-		drawingVector.destroyFeatures();
-	}
-
 	@Override
 	public void stopProcessing() {
 		loadingWidget.hide();
@@ -151,10 +136,10 @@ public class OpenLayersMapView implements MapView {
 
 	@Override
 	public BoundingBox getVisibleBox() {
-		if (drawingVector != null) {
-			if (drawingVector.getNumberOfFeatures() > 0) {
-
-				feature = drawingVector.getFeatures()[0];
+		if (filterAreaLayer.getFilterVector() != null) {
+			if (filterAreaLayer.getFilterVector().getNumberOfFeatures() > 0) {
+				VectorFeature feature;
+				feature = filterAreaLayer.getFilterVector().getFeatures()[0];
 				Geometry g = feature.getGeometry();
 				if (g.getClassName().equals(Geometry.POLYGON_CLASS_NAME)) {
 					Polygon p = Polygon.narrowToPolygon(g.getJSObject());
@@ -182,7 +167,7 @@ public class OpenLayersMapView implements MapView {
 	@Override
 	public MapLayer createLayer(String name) {
 		// TODO save layer
-		return new OpenLayersMapLayer(this, map, name);
+		return new OpenLayersMapLayer(this, map, name,browserResources);
 	}
 
 	@Override
@@ -263,33 +248,31 @@ public class OpenLayersMapView implements MapView {
 		map.setOptions(options);
 		
 		//building layers
-		WMS ideaLayer = LayersMenager.getIdeeLayer(resolutions);
+		WMS otalexLayer = LayersMenager.newIDEE(resolutions);
 		WMS olLayer = LayersMenager.getOpenLayersFlatLayer();
-		WMS olBasicLayer = LayersMenager.getOpenLayersFlatBasicLayer(); 
+		//WMS olBasicLayer = LayersMenager.getOpenLayersFlatBasicLayer(); 
 		
-		map.addLayers(new Layer[] {ideaLayer, olBasicLayer, olLayer});
+		map.addLayers(new Layer[] {otalexLayer,  olLayer});
 		DEFAULT_CENTER.transform("EPSG:4326", map.getProjection());
 		map.setCenter(DEFAULT_CENTER, DEFAULT_ZOOM_LEVEL);
 	}
 	
-	private void addDrawingTools(){
-		// Drawing part
-		regularPolygonHandler = new RegularPolygonHandler();
-		drawingVector = new Vector("drawingVector");
-		drawingVector.setDisplayInLayerSwitcher(false);
-		map.addLayer(drawingVector);
-		drawingVector
-				.addVectorBeforeFeatureAddedListener(new VectorBeforeFeatureAddedListener() {
-					@Override
-					public void onBeforeFeatureAdded(
-							BeforeFeatureAddedEvent eventObject) {
-						drawingVector.destroyFeatures();
-					}
-				});
-
-		DrawFeatureOptions drawFeatureOptions = new DrawFeatureOptions();
-		df = new DrawFeature(drawingVector, regularPolygonHandler,
-				drawFeatureOptions);
-		map.addControl(df);
+	@Override
+	public void closeWindow() {
 	}
+	
+	//filter area
+	// presenter
+	public Vector getFilterVector() {
+		return filterAreaLayer.getFilterVector();
+	}
+
+	public void setAreaFilterDrawing(Boolean value) {
+		filterAreaLayer.setAreaFilterDrawing(value);
+	}
+
+	public void clearAreaFilterDrawing() {
+		filterAreaLayer.clearAreaFilterDrawing();
+	}
+	
 }	

@@ -46,7 +46,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterClearEvent;
-import es.upm.fi.dia.oeg.map4rdf.client.event.DrawingModeChangeEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterModeChangeEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.navigation.Places;
 import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
 import java.util.ArrayList;
@@ -57,7 +57,7 @@ import name.alexdeleon.lib.gwtblocks.client.PagePresenter;
 import net.customware.gwt.presenter.client.place.PlaceChangedEvent;
 
 /**
- * @author Alexander De Leon
+ * @author Filip
  */
 @Singleton
 public class FiltersPresenter extends  ControlPresenter<FiltersPresenter.Display>  {
@@ -86,7 +86,7 @@ public class FiltersPresenter extends  ControlPresenter<FiltersPresenter.Display
 			@Override
 			public void onClick(ClickEvent event) {
 				clear();
-				eventBus.fireEvent(new DrawingModeChangeEvent(false));	
+				eventBus.fireEvent(new AreaFilterModeChangeEvent(false));	
 				eventBus.fireEvent(new AreaFilterClearEvent());	
 			}
 		});
@@ -95,7 +95,7 @@ public class FiltersPresenter extends  ControlPresenter<FiltersPresenter.Display
 			@Override
 			public void onClick(ClickEvent event) {
 				Boolean drawValue = getDisplay().getDrawButton().isDown();
-				eventBus.fireEvent(new DrawingModeChangeEvent(drawValue));	
+				eventBus.fireEvent(new AreaFilterModeChangeEvent(drawValue));	
 			}
 		});
 	}

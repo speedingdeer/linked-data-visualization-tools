@@ -42,7 +42,7 @@ import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserMessages;
 import es.upm.fi.dia.oeg.map4rdf.client.resource.BrowserResources;
 
 /**
- * @author Alexander De Leon
+ * @author Filip
  */
 public class FiltersView extends Composite implements FiltersPresenter.Display {
 

@@ -49,8 +49,8 @@ import es.upm.fi.dia.oeg.map4rdf.client.action.SingletonResult;
 import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterChangedEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterClearEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterClearHandler;
-import es.upm.fi.dia.oeg.map4rdf.client.event.DrawingModeChangeEvent;
-import es.upm.fi.dia.oeg.map4rdf.client.event.DrawingModeChangeHandler;
+import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterModeChangeEvent;
+import es.upm.fi.dia.oeg.map4rdf.client.event.AreaFilterModeChangeHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedEvent;
 import es.upm.fi.dia.oeg.map4rdf.client.event.FacetConstraintsChangedHandler;
 import es.upm.fi.dia.oeg.map4rdf.client.view.v2.MapView;
@@ -64,7 +64,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.TwoDimentionalCoordinate;
  * @author Alexander De Leon
  */
 @Singleton
-public class MapPresenter extends ControlPresenter<MapPresenter.Display> implements FacetConstraintsChangedHandler, DrawingModeChangeHandler, AreaFilterClearHandler {
+public class MapPresenter extends ControlPresenter<MapPresenter.Display> implements FacetConstraintsChangedHandler, AreaFilterModeChangeHandler, AreaFilterClearHandler {
 
 	private Set<FacetConstraint> facetConstraints;
 	private final DispatchAsync dispatchAsync;
@@ -82,11 +82,11 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 
 		void clear();
 		
-		void setDrawing(Boolean value);
+		void setAreaFilterDrawing(Boolean value);
 		
-		void clearDrawing();
+		void clearAreaFilterDrawing();
 		
-		Vector getDrawingVector();
+		Vector getFilterVector();
 		
 		HasClickHandlers getKmlButton();
 	}
@@ -96,7 +96,7 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 		super(display, eventBus);
 		this.dispatchAsync = dispatchAsync;
 		eventBus.addHandler(FacetConstraintsChangedEvent.getType(), this);
-		eventBus.addHandler(DrawingModeChangeEvent.getType(), this);
+		eventBus.addHandler(AreaFilterModeChangeEvent.getType(), this);
 		eventBus.addHandler(AreaFilterClearEvent.getType(), this);
 	}
 
@@ -122,7 +122,7 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 	}
 	
 	public void clearDrawing(){
-		getDisplay().clearDrawing();
+		getDisplay().clearAreaFilterDrawing();
 	}
 
 	@Override
@@ -152,7 +152,7 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 			}
 		});
 		
-		getDisplay().getDrawingVector().addVectorFeatureAddedListener(new VectorFeatureAddedListener(){
+		getDisplay().getFilterVector().addVectorFeatureAddedListener(new VectorFeatureAddedListener(){
 
 			@Override
 			public void onFeatureAdded(FeatureAddedEvent eventObject) {
@@ -180,14 +180,14 @@ public class MapPresenter extends ControlPresenter<MapPresenter.Display> impleme
 	}
 
 	@Override
-	public void onDrawingStart(DrawingModeChangeEvent drawingStartEvent) {
-		getDisplay().setDrawing(drawingStartEvent.getDrawingMode());
+	public void onDrawingStart(AreaFilterModeChangeEvent drawingStartEvent) {
+		getDisplay().setAreaFilterDrawing(drawingStartEvent.getDrawingMode());
 	}
 
 	@Override
 	public void onAreaFilterClear(AreaFilterClearEvent areaFilterClearEvent) {
-		if(getDisplay().getDrawingVector() != null && getDisplay().getDrawingVector().getFeatures() != null && getDisplay().getDrawingVector().getFeatures().length > 0) {
-			getDisplay().getDrawingVector().destroyFeatures();
+		if(getDisplay().getFilterVector() != null && getDisplay().getFilterVector().getFeatures() != null && getDisplay().getFilterVector().getFeatures().length > 0) {
+			getDisplay().getFilterVector().destroyFeatures();
 			eventBus.fireEvent(new AreaFilterChangedEvent());		
 		}
 	}
