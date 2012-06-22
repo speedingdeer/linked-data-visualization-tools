@@ -34,7 +34,7 @@ public class DescriptionTreeItem {
 		grid.setWidget(0, 1, this.object);
 		
 		if ( parent!= null ) {
-			depth+=1;
+			depth=parent.getDepth()+1;
 		}
 		
 	}
