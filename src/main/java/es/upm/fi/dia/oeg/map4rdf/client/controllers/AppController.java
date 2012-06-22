@@ -38,7 +38,7 @@ import com.google.gwt.user.client.ui.Widget;
 import es.upm.fi.dia.oeg.map4rdf.client.event.UrlParametersChangeEvent;
 
 /**
- * @author Alexander De Leon
+ * @author Filip
  */
 public class AppController extends WidgetPresenter<AppController.Display> implements PlaceRequestHandler {
 

@@ -31,7 +31,7 @@ import net.customware.gwt.presenter.client.EventBus;
 import com.google.gwt.event.shared.GwtEvent;
 
 /**
- * @author Alexander De Leon
+ * @author Filip
  */
 public class UrlParametersChangeEvent extends GwtEvent<UrlParametersChangeEventHandler> {
 

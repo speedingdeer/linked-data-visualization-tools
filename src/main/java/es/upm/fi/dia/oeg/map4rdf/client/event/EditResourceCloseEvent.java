@@ -22,43 +22,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package es.upm.fi.dia.oeg.map4rdf.share;
+package es.upm.fi.dia.oeg.map4rdf.client.event;
 
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashMap;
-
-import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.google.gwt.event.shared.GwtEvent;
 
 /**
  * @author Filip
  */
-public class SubjectDescription implements Serializable {
+public class EditResourceCloseEvent extends GwtEvent<EditResourceCloseEventHandler> {
 
-	//private String predicate;
-	//private String object;
+	private static GwtEvent.Type<EditResourceCloseEventHandler> TYPE;
+
+	public EditResourceCloseEvent() {
+		super();
 	
-	private BasicRDFInformation predicate;
-	private BasicRDFInformation object;
-	
-	public SubjectDescription() {
-		// for serialization
 	}
 
-	public BasicRDFInformation getPredicate() {
-		return predicate;
+	public static GwtEvent.Type<EditResourceCloseEventHandler> getType() {
+		if (TYPE == null) {
+			TYPE = new Type<EditResourceCloseEventHandler>();
+		}
+		return TYPE;
 	}
 
-	public void setPredicate(BasicRDFInformation predicate) {
-		this.predicate = predicate;
+
+	@Override
+	protected void dispatch(EditResourceCloseEventHandler handler) {
+		handler.onEditResourceClose(this);
 	}
 
-	public BasicRDFInformation getObject() {
-		return object;
-	}
-
-	public void setObject(BasicRDFInformation object) {
-		this.object = object;
+	@Override
+	public GwtEvent.Type<EditResourceCloseEventHandler> getAssociatedType() {
+		return getType();
 	}
 
 }

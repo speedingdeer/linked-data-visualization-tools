@@ -59,6 +59,8 @@ public interface BrowserResources extends ClientBundle {
 		
 		String mapWidget();
 
+		String mainPopup();
+
 	}
 
 	@Source("style.css")

@@ -62,7 +62,6 @@ import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
 /**
  * @author Filip
  */
-
 public class SaveRdfFIleHandler implements
 		ActionHandler<SaveRdfFile, SingletonResult<String> > {
 

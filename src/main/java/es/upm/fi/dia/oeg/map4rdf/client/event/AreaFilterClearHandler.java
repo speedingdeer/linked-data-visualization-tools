@@ -27,7 +27,7 @@ package es.upm.fi.dia.oeg.map4rdf.client.event;
 import com.google.gwt.event.shared.EventHandler;
 
 /**
- * @author Alexander De Leon
+ * @author Filip
  */
 public interface AreaFilterClearHandler extends EventHandler {
 

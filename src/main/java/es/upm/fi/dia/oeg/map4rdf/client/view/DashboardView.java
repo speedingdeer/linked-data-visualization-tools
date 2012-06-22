@@ -25,9 +25,13 @@
 package es.upm.fi.dia.oeg.map4rdf.client.view;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ResizeComposite;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.StackLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -45,13 +49,15 @@ public class DashboardView extends ResizeComposite implements DashboardPresenter
 	private final LayoutPanel centerPanel;
 	private final StackLayoutPanel leftPanel;
 	private final LayoutPanel mapPanel;
-
+	private final ScrollPanel mainPopupPanel;
+		
 	@Inject
 	public DashboardView(BrowserResources resources) {
 		mapPanel = new LayoutPanel();
 		splitPanel = new SplitLayoutPanel();
 		leftPanel = new StackLayoutPanel(Unit.EM);
 		centerPanel = new LayoutPanel();
+		mainPopupPanel = new ScrollPanel();
 		initWidget(createUi(resources));
 	}
 
@@ -97,6 +103,28 @@ public class DashboardView extends ResizeComposite implements DashboardPresenter
 		splitPanel.addWest(leftPanel, 200);
 		splitPanel.add(centerPanel);
 		leftPanel.addStyleName(resources.css().leftMenu());
+		mapPanel.add(mainPopupPanel);
+		mainPopupPanel.setVisible(false);
+		mainPopupPanel.setStyleName(resources.css().mainPopup());
 		return splitPanel;
+	}
+
+	@Override
+	public void setMainPopup(Integer width, Integer height, Widget widget) {
+		width-=50;
+		height-=50;
+		mainPopupPanel.clear();
+		mainPopupPanel.setVisible(true);
+		mainPopupPanel.add(widget);
+		mainPopupPanel.setSize(width+"px", height+"px");
+		DOM.setStyleAttribute(mainPopupPanel.getElement(), "zIndex", "2080");
+		DOM.setStyleAttribute(mainPopupPanel.getElement(), "left", "15px");
+		DOM.setStyleAttribute(mainPopupPanel.getElement(), "top", "15px");
+	}
+
+	@Override
+	public void closeMainPopup() {
+		mainPopupPanel.clear();
+		mainPopupPanel.setVisible(false);
 	}
 }

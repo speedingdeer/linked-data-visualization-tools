@@ -8,6 +8,9 @@ import es.upm.fi.dia.oeg.map4rdf.share.RDFLiteral;
 import es.upm.fi.dia.oeg.map4rdf.share.RDFResource;
 import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
 
+/**
+ * @author Filip
+ */
 public class DescriptionsFactory {
 	
 	public static SubjectDescription getSubjectDescription(QuerySolution querySolution){

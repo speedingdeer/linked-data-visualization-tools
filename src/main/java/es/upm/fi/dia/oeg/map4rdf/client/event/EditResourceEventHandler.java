@@ -24,54 +24,11 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.event;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
-import com.google.gwt.event.shared.GwtEvent;
-
-import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
-import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
+import com.google.gwt.event.shared.EventHandler;
 
 /**
- * @author Alexander De Leon
+ * @author Filip
  */
-public class DrawingModeChangeEvent extends GwtEvent<DrawingModeChangeHandler> {
-
-	private static GwtEvent.Type<DrawingModeChangeHandler> TYPE;
-
-	private Boolean drawingMode;
-
-	public DrawingModeChangeEvent(Boolean drawingMode) {
-		super();
-		this.setDrawingMode(drawingMode);
-	
-	}
-
-	public static GwtEvent.Type<DrawingModeChangeHandler> getType() {
-		if (TYPE == null) {
-			TYPE = new Type<DrawingModeChangeHandler>();
-		}
-		return TYPE;
-	}
-
-
-	@Override
-	protected void dispatch(DrawingModeChangeHandler handler) {
-		handler.onDrawingStart(this);
-	}
-
-	@Override
-	public GwtEvent.Type<DrawingModeChangeHandler> getAssociatedType() {
-		return getType();
-	}
-
-	public Boolean getDrawingMode() {
-		return drawingMode;
-	}
-
-	public void setDrawingMode(Boolean drawingMode) {
-		this.drawingMode = drawingMode;
-	}
-
+public interface EditResourceEventHandler extends EventHandler {
+	void onEditResource(EditResourceEvent editResourceEvent);
 }

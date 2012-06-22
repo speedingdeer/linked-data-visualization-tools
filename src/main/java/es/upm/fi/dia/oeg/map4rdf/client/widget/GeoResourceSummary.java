@@ -20,7 +20,10 @@
  */
 package es.upm.fi.dia.oeg.map4rdf.client.widget;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.gen2.table.override.client.Grid;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -53,7 +56,7 @@ public class GeoResourceSummary extends Composite {
 		String summaryPropertyName();
 		String summaryPropertyValue();
 	}
-
+	private FlowPanel panel;
 	private Stylesheet style;
 	private BrowserMessages messages;
 	private Label longitude;
@@ -77,6 +80,9 @@ public class GeoResourceSummary extends Composite {
 
 	public void setGeoResource(GeoResource resource, Geometry geometry, OpenLayersMapView display) {
 		label.setText(LocaleUtil.getBestLabel(resource, true));
+		panel.remove(editLink);
+		editLink = new InlineHyperlink(messages.here(),Places.DASHBOARD.toString() );
+		panel.add(editLink);
 		if (geometry.getType() == MapShape.Type.POINT) {
 			locationPanel.setVisible(true);
 			Point point = (Point) geometry;
@@ -88,7 +94,7 @@ public class GeoResourceSummary extends Composite {
 		if (resource.getUri()!=null) {
 			showMoreInfo();
 			link.setHref(resource.getUri());
-			editLink.setTargetHistoryToken(Places.EDIT_RESOURCE.toString() + "?"+ UrlParamtersDict.RESOURCE_EDIT_PARAMTERES + "=" + resource.getUri());
+			
 		} else {
 			hideMoreInfo();
 		}
@@ -107,7 +113,7 @@ public class GeoResourceSummary extends Composite {
 		moreInfo.setVisible(true);
 	}
 	private Widget createUi() {
-		FlowPanel panel = new FlowPanel();
+		panel = new FlowPanel();
 		label = new Label();
 		label.addStyleName(style.summaryLabelStyle());
 		panel.add(label);
@@ -146,5 +152,9 @@ public class GeoResourceSummary extends Composite {
 		panel.add(editLink);
 		
 		return panel;
+	}
+	
+	public Hyperlink getEditLink() {
+		return editLink;
 	}
 }

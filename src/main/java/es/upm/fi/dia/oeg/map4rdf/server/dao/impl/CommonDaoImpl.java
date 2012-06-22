@@ -15,6 +15,9 @@ import es.upm.fi.dia.oeg.map4rdf.server.util.DescriptionsFactory;
 import es.upm.fi.dia.oeg.map4rdf.share.BoundingBox;
 import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
 
+/**
+ * @author Filip
+ */
 public class CommonDaoImpl {
 	
 	protected final String endpointUri;

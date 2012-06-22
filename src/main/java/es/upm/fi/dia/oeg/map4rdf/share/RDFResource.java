@@ -1,7 +1,8 @@
 package es.upm.fi.dia.oeg.map4rdf.share;
 
-import java.io.Serializable;
-
+/**
+ * @author Filip
+ */
 public class RDFResource implements BasicRDFInformation {
 
 	private String localName;

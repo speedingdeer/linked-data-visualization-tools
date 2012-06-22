@@ -7,6 +7,9 @@ import com.google.gwt.user.client.ui.Widget;
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetSubjectDescriptions;
 import es.upm.fi.dia.oeg.map4rdf.share.SubjectDescription;
 
+/**
+ * @author Filip
+ */
 public class DescriptionTreeItem {
 	
 	private Grid grid;
@@ -31,7 +34,7 @@ public class DescriptionTreeItem {
 		grid.setWidget(0, 1, this.object);
 		
 		if ( parent!= null ) {
-			depth+=1;
+			depth=parent.getDepth()+1;
 		}
 		
 	}
