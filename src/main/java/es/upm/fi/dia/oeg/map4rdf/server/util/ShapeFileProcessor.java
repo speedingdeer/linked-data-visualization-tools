@@ -23,15 +23,12 @@ package es.upm.fi.dia.oeg.map4rdf.server.util;
 import com.hp.hpl.jena.query.*;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.util.FileManager;
 import com.hp.hpl.jena.vocabulary.RDF;
 import com.hp.hpl.jena.vocabulary.RDFS;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.DaoException;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Geo;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.GeoLinkedDataEsOwlVocabulary;
 import es.upm.fi.dia.oeg.map4rdf.share.*;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,30 +38,9 @@ import java.util.List;
  *
  * @author Jonathan Gonzalez (jonathan@jonbaraq.eu)
  */
-public class RDFModelProcessor {
-       private static final String ENDPOINT_URL = "endpoint.url";
-
-    public static List<GeoResource> parseRdfFile(String filePath) {
-        System.out.println("Parsing RDF file: " + filePath);
-        // Create an empty model
-        Model model = ModelFactory.createDefaultModel();
-
-        // Use the FileManager to find the input file
-        InputStream in = FileManager.get().open(filePath);
-        if (in == null) {
-            throw new IllegalArgumentException(
-                    "File: " + filePath + " not found");
-        }
-
-        // Read the RDF/XML file
-        model.read(in, null);
-        
-        System.out.println("Model to String: " + model.toString());
-
-        return processRdfModel(model);
-    }
+public class ShapeFileProcessor {
     
-    public static List<GeoResource> processRdfModel(Model model) {
+    public static List<GeoResource> getGeoResourcesFromModel(Model model) {
         String queryString = createGetResourcesQuery();
         Query query = QueryFactory.create(queryString);
 
@@ -139,7 +115,6 @@ public class RDFModelProcessor {
         return query.toString();
     }
 
-    // TODO(jonbaraq): Refactor all these methods from GeoLinkedDataDaoImpl into a new Library.
     public static Geometry getGeometry(
             String geoUri, String geoType, QuerySolution solution)
             throws DaoException {
@@ -156,23 +131,25 @@ public class RDFModelProcessor {
     }
 
     public static PolyLine getPolyline(String uri) throws DaoException {
+        // TODO(jonbaraq): Implement this method.
         List<Point> points = getGeometryPoints(uri);
         return points.isEmpty() ? null : new PolyLineBean(uri, points);
     }
 
     public static Polygon getPolygon(String uri) throws DaoException {
+        // TODO(jonbaraq): Implement this method.
         List<Point> points = getGeometryPoints(uri);
         return points.isEmpty() ? null : new PolygonBean(uri, points);
     }
 
-    public static List<Point> getGeometryPoints(
-            String uri) throws DaoException {
+    public static List<Point> getGeometryPoints(String uri) throws DaoException {
+        // TODO(jonbaraq): Implement this method.
         List<Point> points = new ArrayList<Point>();
         return points;
     }
 
-    public static Point getPoint(
-            String uri, QuerySolution solution) throws DaoException {
+    public static Point getPoint(String uri, QuerySolution solution)
+            throws DaoException {
         try {
             double lat = solution.getLiteral("lat").getDouble() % 90;
             double lng = solution.getLiteral("lng").getDouble() % 90;

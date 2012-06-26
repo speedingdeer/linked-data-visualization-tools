@@ -58,6 +58,11 @@
 			<artifactId>gwt-blocks</artifactId>
 			<version>0.0.7</version>
 		</dependency>
+                 <dependency>
+                        <groupId>map4rdf_maven</groupId>
+                        <artifactId>geomentry2rdf</artifactId>
+                        <version>0.1</version>
+                </dependency>
 		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
@@ -211,6 +216,11 @@
 			<id>tmate</id>
 			<url>http://maven.tmatesoft.com/content/repositories/releases</url>
 		</repository>
+                <repository>
+                       <id>map4rdf_maven</id>
+                       <name>map4rdf maven</name>
+                       <url>http://138.100.15.185:8081/nexus/content/repositories/map4rdf_maven/</url>
+               </repository>
 	</repositories>
 
 </project>
