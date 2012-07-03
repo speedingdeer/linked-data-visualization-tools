@@ -52,6 +52,7 @@ import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.GeoLinkedDataEsOwlVocabulary;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Scovo;
 import es.upm.fi.dia.oeg.map4rdf.share.*;
 import es.upm.fi.dia.oeg.geometry2rdf.shape.ShpToRdf;
+import java.io.IOException;
 
 /**
  * @author Alexander De Leon
@@ -85,9 +86,13 @@ public class GeoLinkedDataDaoImpl extends CommonDaoImpl implements Map4rdfDao {
         @Override
         public List<GeoResource> getGeoResources(String modelConfiguration)
                         throws DaoException {
+            try {
                 ShpToRdf shpConverter = new ShpToRdf(modelConfiguration);
                 Model model = shpConverter.getRdfModel();
                 return ShapeFileProcessor.getGeoResourcesFromModel(model);
+            } catch (IOException io) {
+                throw new DaoException(io);
+            }
         }
 
 	private List<GeoResource> getGeoResources(BoundingBox boundingBox, Set<FacetConstraint> constraints, Integer max)

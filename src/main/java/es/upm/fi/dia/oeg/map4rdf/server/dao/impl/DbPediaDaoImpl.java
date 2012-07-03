@@ -58,6 +58,7 @@ import es.upm.fi.dia.oeg.map4rdf.share.Resource;
 import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
 import es.upm.fi.dia.oeg.map4rdf.share.Year;
 import es.upm.fi.dia.oeg.geometry2rdf.shape.ShpToRdf;
+import java.io.IOException;
 
 /**
  * @author Alexander De Leon
@@ -123,9 +124,13 @@ public class DbPediaDaoImpl extends CommonDaoImpl implements Map4rdfDao {
         @Override
         public List<GeoResource> getGeoResources(String modelConfiguration)
                         throws DaoException {
+            try {
                 ShpToRdf shpConverter = new ShpToRdf(modelConfiguration);
                 Model model = shpConverter.getRdfModel();
                 return ShapeFileProcessor.getGeoResourcesFromModel(model);
+            } catch (IOException io) {
+                throw new DaoException(io);
+            }
         }
 
 	@Override
