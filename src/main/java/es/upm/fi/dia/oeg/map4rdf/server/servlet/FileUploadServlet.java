@@ -31,6 +31,7 @@ public class FileUploadServlet extends HttpServlet {
     private static final String HREF_SYNTAX = "<a href=\"";
     private static final String SHAPE_FILE_CONFIGURATION_FILE =
             "shpoptions.properties";
+    private static final String PATTERN_DOWNLOAD_START = "Parent Directory";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -63,12 +64,13 @@ public class FileUploadServlet extends HttpServlet {
         
         Map<String, String> filesToDownloadMap = getFilesToDownload(url);
         
-        File directory = new File(uploadDirectory + "/" + getDirectoryName(
-                filesToDownloadMap));
+        File directory = new File(
+                uploadDirectory + "/" + getDirectoryName(filesToDownloadMap));
         if (directory == null) {
              throw new IOException("The files cannot be downloaded."
                      + " Files on the repository don't have the right naming.");
         }
+        
         // Create directories needed to upload the files.
         directory.mkdirs();
         
@@ -105,6 +107,10 @@ public class FileUploadServlet extends HttpServlet {
         resp.flushBuffer();
     }
     
+    /**
+     * Method that expects a URL with all the files to be downloaded from an
+     * Apache server. 
+     */
     private void processFileUpload(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         // Create a factory for disk-based file items
@@ -229,6 +235,7 @@ public class FileUploadServlet extends HttpServlet {
     private Map<String, String> getFilesToDownload(String url)
             throws MalformedURLException, IOException {
         Map<String, String> filesToDownloadMap = new HashMap<String, String>();
+        boolean startToAddFiles = false;
             
         // Generate the index.html file that contains all the files to be
         // downloaded that form the shapefile model.
@@ -237,9 +244,10 @@ public class FileUploadServlet extends HttpServlet {
                 new InputStreamReader(new URL(url).openStream()));
         
         while ((line = br.readLine()) != null) {
-            if (line.startsWith(HREF_SYNTAX)) {
+            if (line.contains(HREF_SYNTAX) && startToAddFiles) {
+                line = line.substring(line.indexOf(HREF_SYNTAX));
                 String link = getLinkFromHref(url, line);
-                String filename = getFilenameFromHref(line);
+                String filename = getFilenameFromLink(link);
                 // If the link ends with / we don't save the link as it will redirect
                 // to the parent directory.
                 if (link.endsWith("/")) {
@@ -247,29 +255,25 @@ public class FileUploadServlet extends HttpServlet {
                 }
                 filesToDownloadMap.put(link, filename);
             }
+            if (line.contains(PATTERN_DOWNLOAD_START)) {
+                startToAddFiles = true;
+            }
         }
         
         return filesToDownloadMap;       
     }
     
     private String getLinkFromHref(String url, String line) {
-        String link = line.split("\"")[1];
+        String link = line.split(">")[1].split("<")[0];
         if (!link.startsWith("http://")) {
-            link = url + link.substring(1).split("/")[link.substring(1).split("/").length - 1];
+            link = url + link.split("/")[link.substring(1).split("/").length - 1];
         }
         return link;
     }
     
-    private String getFilenameFromHref(String line) {
-        String filename = "";
-        String[] fragments = line.split(">");
-        for (String fragment : fragments) {
-            
-            if (!fragment.startsWith("<")) {
-                filename = fragment.split("<")[0];
-            }
-        }
-        return filename;
+    private String getFilenameFromLink(String link) {
+        String[] fragments = link.split("/");
+        return fragments[fragments.length - 1];
     }
     
     private String getDirectoryName(Map<String, String> map) {
