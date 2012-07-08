@@ -34,7 +34,10 @@ import com.google.inject.Inject;
 import es.upm.fi.dia.oeg.map4rdf.client.action.GetGeoResourcesFromRdfModel;
 import es.upm.fi.dia.oeg.map4rdf.client.action.ListResult;
 import es.upm.fi.dia.oeg.map4rdf.server.dao.Map4rdfDao;
+import es.upm.fi.dia.oeg.map4rdf.server.util.ShapeFileProcessor;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
+import java.util.ArrayList;
+import org.apache.log4j.Logger;
 
 /**
  * @author Jonathan Gonzalez (jonathan@jonbaraq.eu)
@@ -42,6 +45,8 @@ import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 public class GetGeoResourcesFromRdfModelHandler
         implements
         ActionHandler<GetGeoResourcesFromRdfModel, ListResult<GeoResource>> {
+    
+    private static final Logger LOG = Logger.getLogger(ShapeFileProcessor.class);
 
     private static final List<GeoResource> EMPTY_RESULT =
             Collections.emptyList();
@@ -56,7 +61,7 @@ public class GetGeoResourcesFromRdfModelHandler
     public ListResult<GeoResource> execute(GetGeoResourcesFromRdfModel action,
             ExecutionContext context) throws ActionException {
 
-        List<GeoResource> resources;
+        List<GeoResource> resources = new ArrayList<GeoResource>();
         try {
             if (action.getModelConfiguration() == null) {
                 resources = EMPTY_RESULT;
@@ -65,7 +70,7 @@ public class GetGeoResourcesFromRdfModelHandler
             }
 
         } catch (Exception e) {
-            throw new ActionException("Data access error", e);
+            LOG.warn("Data access error: " + e.getMessage());
         }
         ListResult<GeoResource> result = new ListResult<GeoResource>(resources);
 
