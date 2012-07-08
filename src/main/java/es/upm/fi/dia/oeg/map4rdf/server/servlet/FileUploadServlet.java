@@ -92,6 +92,7 @@ public class FileUploadServlet extends HttpServlet {
                     bw.write(line);
                     bw.newLine();
                 }
+                bw.flush();
                 bw.close();
             } else {
                 // Download the shape files.
@@ -126,8 +127,7 @@ public class FileUploadServlet extends HttpServlet {
                 out.write(data);
                 out.flush();
                 out.close();
-            }          
-            
+            }                
         }
 
         resp.setStatus(HttpServletResponse.SC_CREATED);
@@ -136,6 +136,7 @@ public class FileUploadServlet extends HttpServlet {
             resp.flushBuffer();
             return;
         }
+        
         resp.getWriter().print("The files were created successfully: "
                 + configurationPath);
         resp.flushBuffer();
@@ -238,17 +239,18 @@ public class FileUploadServlet extends HttpServlet {
     
     private void copyInputStream(InputStream in, String path)
             throws IOException {
-        BufferedWriter bw = new BufferedWriter(new FileWriter(new File(path)));
+        FileOutputStream out = new FileOutputStream(path);
         
-        // Download the file from the repository.
-        String line;
-        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+        byte[] b = new byte[1024];
+        int numberBytes = 0;
         
-        while ((line = br.readLine()) != null) {
-            bw.write(line);
-            bw.newLine();
+        while((numberBytes = in.read(b)) != -1) {
+            out.write(b, 0, numberBytes);
         }
-        bw.close();
+        
+        in.close();
+        out.flush();
+        out.close();
     }
     
     private String createUploadDirectory() {
