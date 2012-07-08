@@ -59,7 +59,8 @@ public class FileUploadServlet extends HttpServlet {
     
     private void processUrl(String url, HttpServletResponse resp)
             throws ServletException, IOException {
-        String uploadDirectory = createDirectory();
+        String uploadDirectory = createUploadDirectory();
+        String configurationPath = "";
         boolean configurationFound = false;
         
         Map<String, String> filesToDownloadMap = getFilesToDownload(url);
@@ -75,12 +76,14 @@ public class FileUploadServlet extends HttpServlet {
         directory.mkdirs();
         
         for (String key : filesToDownloadMap.keySet()) {
-            BufferedWriter bw = new BufferedWriter(new FileWriter(new File(
-                    directory.getAbsolutePath() + "/" + filesToDownloadMap.get(key))));
+            BufferedWriter bw;
             if (filesToDownloadMap.get(key).equals(SHAPE_FILE_CONFIGURATION_FILE)) {
                 configurationFound = true;
-                bw = new BufferedWriter(new FileWriter(new File(
-                    uploadDirectory + "/" + filesToDownloadMap.get(key))));
+                configurationPath = uploadDirectory + "/" + filesToDownloadMap.get(key);
+                bw = new BufferedWriter(new FileWriter(new File(configurationPath)));
+            } else {
+                 bw = new BufferedWriter(new FileWriter(new File(
+                    directory.getAbsolutePath() + "/" + filesToDownloadMap.get(key))));
             }
             
             // Download the file from the repository.
@@ -102,8 +105,7 @@ public class FileUploadServlet extends HttpServlet {
             return;
         }
         resp.getWriter().print("The files were created successfully: "
-                + directory.getAbsolutePath()
-                + "/" + SHAPE_FILE_CONFIGURATION_FILE);
+                + configurationPath);
         resp.flushBuffer();
     }
     
@@ -141,7 +143,7 @@ public class FileUploadServlet extends HttpServlet {
                     }
                 }
 
-                String uploadDirectory = createDirectory();
+                String uploadDirectory = createUploadDirectory();
                 File uploadedFile = new File(uploadDirectory, fileName);
                 if (uploadedFile.createNewFile()) {
                     fileItem.write(uploadedFile);
@@ -217,7 +219,7 @@ public class FileUploadServlet extends HttpServlet {
         bw.close();
     }
     
-    private String createDirectory() {
+    private String createUploadDirectory() {
         File file = null;
         do {
             Random random = new Random();
