@@ -87,10 +87,11 @@ public class GeoLinkedDataDaoImpl extends CommonDaoImpl implements Map4rdfDao {
         public List<GeoResource> getGeoResources(String modelConfiguration)
                         throws DaoException {
             try {
-                System.out.println("Trying to load modelConfiguration" + modelConfiguration);
+                LOG.info("Trying to load modelConfiguration: "
+                        + modelConfiguration);
                 ShpToRdf shpConverter = new ShpToRdf(modelConfiguration);
                 Model model = shpConverter.getRdfModel();
-                System.out.println("Model created successfully");
+                LOG.info("RDF Model created successfully");
                 return ShapeFileProcessor.getGeoResourcesFromModel(model);
             } catch (IOException io) {
                 throw new DaoException(io);
