@@ -7,6 +7,7 @@ package es.upm.fi.dia.oeg.map4rdf.server.servlet;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -76,26 +77,57 @@ public class FileUploadServlet extends HttpServlet {
         directory.mkdirs();
         
         for (String key : filesToDownloadMap.keySet()) {
-            BufferedWriter bw;
             if (filesToDownloadMap.get(key).equals(SHAPE_FILE_CONFIGURATION_FILE)) {
                 configurationFound = true;
-                configurationPath = uploadDirectory + "/" + filesToDownloadMap.get(key);
-                bw = new BufferedWriter(new FileWriter(new File(configurationPath)));
-            } else {
-                 bw = new BufferedWriter(new FileWriter(new File(
-                    directory.getAbsolutePath() + "/" + filesToDownloadMap.get(key))));
-            }
-            
-            // Download the file from the repository.
-            String line;
-            BufferedReader br = new BufferedReader(
-                new InputStreamReader(new URL(key).openStream()));
+                configurationPath = uploadDirectory + "/"
+                        + filesToDownloadMap.get(key);
+                BufferedWriter bw = new BufferedWriter(
+                        new FileWriter(new File(configurationPath)));
+                // Download the file from the repository.
+                String line;
+                BufferedReader br = new BufferedReader(
+                        new InputStreamReader(new URL(key).openStream()));
         
-            while ((line = br.readLine()) != null) {
-                bw.write(line);
-                bw.newLine();
-            }
-            bw.close();
+                while ((line = br.readLine()) != null) {
+                    bw.write(line);
+                    bw.newLine();
+                }
+                bw.close();
+            } else {
+                // Download the shape files.
+                URL u = new URL(key);
+                URLConnection uc = u.openConnection();
+                String contentType = uc.getContentType();
+                int contentLength = uc.getContentLength();
+               
+                InputStream raw = uc.getInputStream();
+                InputStream in = new BufferedInputStream(raw);
+                byte[] data = new byte[contentLength];
+                int bytesRead = 0;
+                int offset = 0;
+                while (offset < contentLength) {
+                    bytesRead = in.read(data, offset, data.length - offset);
+                    if (bytesRead == -1) {
+                        break;
+                    }
+                    offset += bytesRead;
+                }
+                in.close();
+
+                if (offset != contentLength) {
+                    throw new IOException(
+                            "Only read " + offset + " bytes; Expected "
+                            + contentLength + " bytes");
+                }
+
+                FileOutputStream out = new FileOutputStream(
+                        directory.getAbsolutePath() + "/"
+                        + filesToDownloadMap.get(key));
+                out.write(data);
+                out.flush();
+                out.close();
+            }          
+            
         }
 
         resp.setStatus(HttpServletResponse.SC_CREATED);
