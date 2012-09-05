@@ -40,6 +40,7 @@ import com.hp.hpl.jena.query.QueryExecutionFactory;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Literal;
+import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.vocabulary.RDFS;
 
 import es.upm.fi.dia.oeg.map4rdf.share.conf.ParameterNames;
@@ -52,10 +53,12 @@ import es.upm.fi.dia.oeg.map4rdf.share.FacetConstraint;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResource;
 import es.upm.fi.dia.oeg.map4rdf.share.GeoResourceOverlay;
 import es.upm.fi.dia.oeg.map4rdf.share.PointBean;
-import es.upm.fi.dia.oeg.map4rdf.server.util.RDFModelProcessor;
+import es.upm.fi.dia.oeg.map4rdf.server.util.ShapeFileProcessor;
 import es.upm.fi.dia.oeg.map4rdf.share.Resource;
 import es.upm.fi.dia.oeg.map4rdf.share.StatisticDefinition;
 import es.upm.fi.dia.oeg.map4rdf.share.Year;
+import es.upm.fi.dia.oeg.geometry2rdf.shape.ShpToRdf;
+import java.io.IOException;
 
 /**
  * @author Alexander De Leon
@@ -121,10 +124,13 @@ public class DbPediaDaoImpl extends CommonDaoImpl implements Map4rdfDao {
         @Override
         public List<GeoResource> getGeoResources(String modelConfiguration)
                         throws DaoException {
-                // TODO(jonathangsc): Uncomment this once the repository is uploaded.
-                // ShpToRdf shpConverter = new ShpToRdf(configuration);
-                // return RDFModelProcessor.processRdfModel(shpConverter.getRdfModel());
-                return RDFModelProcessor.parseRdfFile(modelConfiguration);
+            try {
+                ShpToRdf shpConverter = new ShpToRdf(modelConfiguration);
+                Model model = shpConverter.getRdfModel();
+                return ShapeFileProcessor.getGeoResourcesFromModel(model);
+            } catch (IOException io) {
+                throw new DaoException(io);
+            }
         }
 
 	@Override
@@ -233,7 +239,6 @@ public class DbPediaDaoImpl extends CommonDaoImpl implements Map4rdfDao {
 	 * @param max
 	 * @return
 	 */
-	
 	private String createGetResourcesQuery(BoundingBox boundingBox, Set<FacetConstraint> constraints, Integer limit) {
 		StringBuilder query = new StringBuilder("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT distinct ?r ?label ?lat ?lng ");
 		query.append("WHERE { ");
@@ -269,4 +274,5 @@ public class DbPediaDaoImpl extends CommonDaoImpl implements Map4rdfDao {
 		query.append("}");
 		return query.toString();
 	}
+        
 }

@@ -58,6 +58,36 @@
 			<artifactId>gwt-blocks</artifactId>
 			<version>0.0.7</version>
 		</dependency>
+                 <dependency>
+                        <groupId>map4rdf_maven</groupId>
+                        <artifactId>geomentry2rdf</artifactId>
+                        <version>0.2</version>
+                </dependency>
+                <dependency>
+                        <groupId>org.geotools</groupId>
+                        <artifactId>gt-shapefile</artifactId>
+                        <version>2.7-M0</version>
+                </dependency>
+                <dependency>
+                        <groupId>org.geotools</groupId>
+                        <artifactId>gt-xml</artifactId>
+                        <version>2.7-M0</version>
+                </dependency>
+                <dependency>
+                        <groupId>org.geotools.xsd</groupId>
+                        <artifactId>gt-gml2</artifactId>
+                        <version>2.5-M2</version>
+                </dependency>
+                <dependency>
+                        <groupId>com.hp.hpl.jena</groupId>
+                        <artifactId>jena</artifactId>
+                        <version>2.6.3</version>
+                </dependency>
+                <dependency>
+                        <groupId>com.hp.hpl.jena</groupId>
+                        <artifactId>tdb</artifactId>
+                        <version>0.8.10</version>
+                </dependency>
 		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
@@ -76,7 +106,7 @@
 		<dependency>
 			<groupId>com.hp.hpl.jena</groupId>
 			<artifactId>arq</artifactId>
-			<version>2.8.3</version>
+			<version>2.8.7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.xerial</groupId>
@@ -211,6 +241,20 @@
 			<id>tmate</id>
 			<url>http://maven.tmatesoft.com/content/repositories/releases</url>
 		</repository>
+                <repository>
+                       <id>map4rdf_maven</id>
+                       <name>map4rdf maven</name>
+                       <url>http://138.100.15.185:8081/nexus/content/repositories/map4rdf_maven/</url>
+               </repository>
+               <repository>
+                       <id>maven2-repository.dev.java.net</id>
+                       <name>Java.net repository</name>
+                       <url>http://download.java.net/maven/2</url>
+               </repository>
+               <repository>
+                       <id>osgeo</id>
+                       <name>Open Source Geospatial Foundation Repository</name>
+                       <url>http://download.osgeo.org/webdav/geotools/</url>
+               </repository>
 	</repositories>
-
 </project>
