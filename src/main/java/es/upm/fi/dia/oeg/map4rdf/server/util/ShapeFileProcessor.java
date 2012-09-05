@@ -29,7 +29,6 @@ import es.upm.fi.dia.oeg.map4rdf.server.dao.DaoException;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Geo;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.GeoLinkedDataEsOwlVocabulary;
 import es.upm.fi.dia.oeg.map4rdf.share.*;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,8 +42,10 @@ import org.apache.log4j.Logger;
 public class ShapeFileProcessor {
 
     private static final Logger LOG = Logger.getLogger(ShapeFileProcessor.class);
+    
+    private static int MAX_GEO_RESOURCES = 1000;
 
-    public static List<GeoResource> getGeoResourcesFromModel(Model model) throws FileNotFoundException {
+    public static List<GeoResource> getGeoResourcesFromModel(Model model) {
         String queryString = createGetResourcesQuery(true);
         Query query = QueryFactory.create(queryString);
         // Execute the query and obtain results
@@ -59,7 +60,7 @@ public class ShapeFileProcessor {
         // TODO(jonbaraq): use location to restrict the query to the specifies geographic
         // area.
         HashMap<String, GeoResource> result = new HashMap<String, GeoResource>();
-        while (results.hasNext() && result.size() < 10000) {
+        while (results.hasNext() && result.size() < MAX_GEO_RESOURCES) {
             QuerySolution solution = results.next();
             try {
                 String geoUri = solution.getResource("geo").getURI();

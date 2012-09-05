@@ -75,7 +75,7 @@ public class FileUploadServlet extends HttpServlet {
         directory.mkdirs();
         
         for (String key : filesToDownloadMap.keySet()) {
-            if (filesToDownloadMap.get(key).equals(SHAPE_FILE_CONFIGURATION_FILE)) {
+            if (filesToDownloadMap.get(key).endsWith(SHAPE_FILE_CONFIGURATION_FILE)) {
                 configurationFound = true;
                 configurationPath = uploadDirectory + "/"
                         + filesToDownloadMap.get(key);
@@ -102,7 +102,7 @@ public class FileUploadServlet extends HttpServlet {
                     InputStream raw = uc.getInputStream();
                     InputStream in = new BufferedInputStream(raw);
                     byte[] data = new byte[contentLength];
-                    int bytesRead = 0;
+                    int bytesRead;
                     int offset = 0;
                     while (offset < contentLength) {
                         bytesRead = in.read(data, offset, data.length - offset);
@@ -282,8 +282,8 @@ public class FileUploadServlet extends HttpServlet {
         
         while ((line = br.readLine()) != null) {
             if (line.contains(HREF_SYNTAX)) {
-                line = line.substring(line.indexOf(HREF_SYNTAX));
-                String link = getLinkFromHref(url, line);
+                line = line.substring(line.indexOf(HREF_SYNTAX)).split("\"")[1];
+                String link = getLinkFromHref(new URL(url), line);
                 String filename = getFilenameFromLink(link);
                 // If the link ends with / we don't save the link as it will redirect
                 // to the parent directory.
@@ -297,10 +297,11 @@ public class FileUploadServlet extends HttpServlet {
         return filesToDownloadMap;       
     }
     
-    private String getLinkFromHref(String url, String line) {
-        String link = line.split(">")[1].split("<")[0];
+    private String getLinkFromHref(URL url, String line) throws MalformedURLException {
+        String link = line;
         if (!link.startsWith("http://")) {
-            link = url + link.split("/")[link.substring(1).split("/").length - 1];
+            URL newUrl = new URL(url, link);
+            link = newUrl.toString();
         }
         return link;
     }
