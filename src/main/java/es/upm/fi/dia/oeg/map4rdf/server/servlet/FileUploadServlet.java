@@ -93,37 +93,41 @@ public class FileUploadServlet extends HttpServlet {
                 bw.flush();
                 bw.close();
             } else {
-                // Download the shape files.
-                URL u = new URL(key);
-                URLConnection uc = u.openConnection();
-                int contentLength = uc.getContentLength();
-               
-                InputStream raw = uc.getInputStream();
-                InputStream in = new BufferedInputStream(raw);
-                byte[] data = new byte[contentLength];
-                int bytesRead = 0;
-                int offset = 0;
-                while (offset < contentLength) {
-                    bytesRead = in.read(data, offset, data.length - offset);
-                    if (bytesRead == -1) {
-                        break;
+                try {
+                    // Download the shape files.
+                    URL u = new URL(key);
+                    URLConnection uc = u.openConnection();
+                    int contentLength = uc.getContentLength();
+
+                    InputStream raw = uc.getInputStream();
+                    InputStream in = new BufferedInputStream(raw);
+                    byte[] data = new byte[contentLength];
+                    int bytesRead = 0;
+                    int offset = 0;
+                    while (offset < contentLength) {
+                        bytesRead = in.read(data, offset, data.length - offset);
+                        if (bytesRead == -1) {
+                            break;
+                        }
+                        offset += bytesRead;
                     }
-                    offset += bytesRead;
-                }
-                in.close();
+                    in.close();
 
-                if (offset != contentLength) {
-                    throw new IOException(
-                            "Only read " + offset + " bytes; Expected "
-                            + contentLength + " bytes");
-                }
+                    if (offset != contentLength) {
+                        throw new IOException(
+                                "Only read " + offset + " bytes; Expected "
+                                + contentLength + " bytes");
+                    }
 
-                FileOutputStream out = new FileOutputStream(
-                        directory.getAbsolutePath() + "/"
-                        + filesToDownloadMap.get(key));
-                out.write(data);
-                out.flush();
-                out.close();
+                    FileOutputStream out = new FileOutputStream(
+                            directory.getAbsolutePath() + "/"
+                            + filesToDownloadMap.get(key));
+                    out.write(data);
+                    out.flush();
+                    out.close();
+                } catch (FileNotFoundException e) {
+                    // Nothing to be done.
+                }
             }                
         }
 
