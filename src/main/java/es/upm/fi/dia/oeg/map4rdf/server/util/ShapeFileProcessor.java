@@ -29,6 +29,8 @@ import es.upm.fi.dia.oeg.map4rdf.server.dao.DaoException;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.Geo;
 import es.upm.fi.dia.oeg.map4rdf.server.vocabulary.GeoLinkedDataEsOwlVocabulary;
 import es.upm.fi.dia.oeg.map4rdf.share.*;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,23 +45,30 @@ public class ShapeFileProcessor {
 
     private static final Logger LOG = Logger.getLogger(ShapeFileProcessor.class);
 
-    public static List<GeoResource> getGeoResourcesFromModel(Model model) {
-        String queryString = createGetResourcesQuery();
+    public static List<GeoResource> getGeoResourcesFromModel(Model model) throws FileNotFoundException {
+        String queryString = createGetResourcesQuery(true);
         Query query = QueryFactory.create(queryString);
-
         // Execute the query and obtain results
         QueryExecution qe = QueryExecutionFactory.create(query, model);
         ResultSet results = qe.execSelect();
+        if (!results.hasNext()) {
+            query = QueryFactory.create(createGetResourcesQuery(false));
+            qe = QueryExecutionFactory.create(query, model);
+            results = qe.execSelect();
+        }
 
         // TODO(jonbaraq): use location to restrict the query to the specifies geographic
         // area.
         HashMap<String, GeoResource> result = new HashMap<String, GeoResource>();
-
         while (results.hasNext()) {
             QuerySolution solution = results.next();
             try {
-                String uri = solution.getResource("r").getURI();
                 String geoUri = solution.getResource("geo").getURI();
+                // By default uri will be the same as geoUri.
+                String uri = geoUri;
+                if (solution.getResource("r") != null) { 
+                    uri = solution.getResource("r").getURI();
+                }
                 String geoTypeUri = solution.getResource("geoType").getURI();
                 GeoResource resource = result.get(uri);
                 // Just resources with new URIs are inserted into the map.
@@ -78,13 +87,16 @@ public class ShapeFileProcessor {
                     } catch (DaoException ex) {
                         LOG.warn("DAO exception " + ex.getMessage());
                     }
+                    result.put(uri, resource);
                 }
                 if (solution.contains("label")) {
                     Literal labelLiteral = solution.getLiteral("label");
                     resource.addLabel(labelLiteral.getLanguage(),
                             labelLiteral.getString());
+                    result.put(uri, resource);
                 }
             } catch (Exception e) {
+                LOG.warn("Exception " + e.getMessage());
             }
         }
 
@@ -97,12 +109,17 @@ public class ShapeFileProcessor {
         return new ArrayList<GeoResource>(result.values());
     }
 
-    private static String createGetResourcesQuery() {
+    private static String createGetResourcesQuery(boolean withUri) {
         StringBuilder query = new StringBuilder(
-                "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT distinct"
-                + "?r ?label ?geo ?geoType ?lat ?lng ");
+                "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT distinct");
+        if (withUri) {
+            query.append("?r");
+        }
+        query.append(" ?label ?geo ?geoType ?lat ?lng ");
         query.append("WHERE { ");
-        query.append("?r <").append(Geo.geometry).append(">  ?geo. ");
+        if (withUri) {
+          query.append("?r <").append(Geo.geometry).append(">  ?geo. ");
+        }
         query.append("?geo <").append(RDF.type).append("> ?geoType . ");
         query.append("?geo" + "<").append(Geo.lat).append(
                 ">" + " ?lat;" + "<").append(

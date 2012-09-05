@@ -239,7 +239,6 @@ public class DbPediaDaoImpl extends CommonDaoImpl implements Map4rdfDao {
 	 * @param max
 	 * @return
 	 */
-	
 	private String createGetResourcesQuery(BoundingBox boundingBox, Set<FacetConstraint> constraints, Integer limit) {
 		StringBuilder query = new StringBuilder("PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> SELECT distinct ?r ?label ?lat ?lng ");
 		query.append("WHERE { ");
@@ -275,4 +274,5 @@ public class DbPediaDaoImpl extends CommonDaoImpl implements Map4rdfDao {
 		query.append("}");
 		return query.toString();
 	}
+        
 }
