@@ -28,11 +28,9 @@ import org.apache.commons.io.FilenameUtils;
 public class FileUploadServlet extends HttpServlet {
 
     private static final String UPLOAD_DIRECTORY = "/tmp/uploads/";
-    private static final String DEFAULT_TEMP_DIR = ".";
     private static final String HREF_SYNTAX = "<a href=\"";
     private static final String SHAPE_FILE_CONFIGURATION_FILE =
             "shpoptions.properties";
-    private static final String PATTERN_DOWNLOAD_START = "Parent Directory";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -98,7 +96,6 @@ public class FileUploadServlet extends HttpServlet {
                 // Download the shape files.
                 URL u = new URL(key);
                 URLConnection uc = u.openConnection();
-                String contentType = uc.getContentType();
                 int contentLength = uc.getContentLength();
                
                 InputStream raw = uc.getInputStream();
@@ -280,7 +277,7 @@ public class FileUploadServlet extends HttpServlet {
                 new InputStreamReader(new URL(url).openStream()));
         
         while ((line = br.readLine()) != null) {
-            if (line.contains(HREF_SYNTAX) && startToAddFiles) {
+            if (line.contains(HREF_SYNTAX)) {
                 line = line.substring(line.indexOf(HREF_SYNTAX));
                 String link = getLinkFromHref(url, line);
                 String filename = getFilenameFromLink(link);
@@ -290,9 +287,6 @@ public class FileUploadServlet extends HttpServlet {
                     continue;
                 }
                 filesToDownloadMap.put(link, filename);
-            }
-            if (line.contains(PATTERN_DOWNLOAD_START)) {
-                startToAddFiles = true;
             }
         }
         
