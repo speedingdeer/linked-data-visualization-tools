@@ -178,4 +178,5 @@ public class CommonDaoImpl {
 		query.append(").");
 		return query;
 	}
+        
 }
