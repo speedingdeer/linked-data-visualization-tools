@@ -60,7 +60,7 @@ public class ShapeFileProcessor {
         // TODO(jonbaraq): use location to restrict the query to the specifies geographic
         // area.
         HashMap<String, GeoResource> result = new HashMap<String, GeoResource>();
-        while (results.hasNext()) {
+        while (results.hasNext() && result.size() < 10000) {
             QuerySolution solution = results.next();
             try {
                 String geoUri = solution.getResource("geo").getURI();
@@ -236,4 +236,5 @@ public class ShapeFileProcessor {
         query.append("} ORDER BY ASC(?o)");
         return query.toString();
     }
+    
 }
