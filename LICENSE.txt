@@ -1,7 +1,7 @@
-Copyright (c) 2011 Ontology Engineering Group, 
+Copyright (c) 2011-2013 Ontology Engineering Group, 
 Departamento de Inteligencia Artificial,
-Facultad de Inform‡tica, Universidad 
-PolitŽcnica de Madrid, Spain
+Facultad de Informï¿½tica, Universidad 
+Politï¿½cnica de Madrid, Spain
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
